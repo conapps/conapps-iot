@@ -25,14 +25,27 @@ Git](https://github.com/conapps/conapps-iot/blob/master/20170124%20-%20Git.md)
 	- Autor: Guzmán Monné
 	- Fecha: 2017/01/24
 	- Actualizado: 2017/01/25
-- [Clase de HTML &
+
+### HTML & CSS
+
+	- [Clase de HTML &
 CSS](https://github.com/conapps/conapps-iot/blob/master/20170125%20-%20Javascript.md)
 	- Autor: Guzmán Monné
 	- Fecha: 2017/01/25
+
+### JavaScript	
+
 - [Clase de
 JavaScript](https://github.com/conapps/conapps-iot/blob/master/20170125%20-%20Javascript.md)
 	- Autor: Guzmán Monné
 	- Fecha: 2017/01/25
+
+### Otros
+
+- [Notas de
+Elixir](https://github.com/conapps-iot/master/20170302%20-%20Notas%20de%20Elixir.md)
+	- Autor: Guzmán Monné
+	- Fecha: 2017/03/02
 
 Contribuidores
 ---
