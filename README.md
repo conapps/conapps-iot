@@ -28,7 +28,7 @@ Git](https://github.com/conapps/conapps-iot/blob/master/20170124%20-%20Git.md)
 
 ### HTML & CSS
 
-	- [Clase de HTML & CSS](https://github.com/conapps/conapps-iot/blob/master/20170125%20-%20Javascript.md)
+- [Clase de HTML & CSS](https://github.com/conapps/conapps-iot/blob/master/20170125%20-%20Javascript.md)
 	- Autor: Guzmán Monné
 	- Fecha: 2017/01/25
 
