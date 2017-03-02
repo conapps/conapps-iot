@@ -42,7 +42,7 @@ JavaScript](https://github.com/conapps/conapps-iot/blob/master/20170125%20-%20Ja
 ### Otros
 
 - [Notas de
-Elixir](https://github.com/conapps-iot/master/20170302%20-%20Notas%20de%20Elixir.md)
+Elixir](https://github.com/conapps/conapps-iot/blob/master/20170302%20-%20Notas%20de%20Elixir.md)
 	- Autor: Guzmán Monné
 	- Fecha: 2017/03/02
 
