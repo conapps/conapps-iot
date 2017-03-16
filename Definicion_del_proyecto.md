@@ -20,7 +20,8 @@ En esta etapa el cliente definirá los requerimientos tecnológicos y funcionale
 Cada uno de los equipos de trabajo recibirá los requerimientos técnicos de bajo nivel que deben implementar y los llevará a cabo.
 
 
-# Metodología de trabajo:
+Metodología de trabajo:
+---
 
 El coordinador técnico elaborará un syllabus con todos los temas que cada equipo debe de aprender en la etapa 1.
 El coordinador técnico realiza reuniones con cada uno de los equipos y se elabora de común acuerdo un calendario de temas y expositores. Cada expositor tiene la responsabilidad de estudiar el tema que le corresponde, preparar la clase y darla en la fecha correspondiente. Es probable que las primeras dos o tres clases de cada equipo sean dictadas por personas ajenas al equipo que ya tengan experiencia previa en el tema a desarrollar.
@@ -35,18 +36,18 @@ Al finalizar la etapa de aprendizaje que estará marcada por la presentación de
 
 Una vez finalizada la etapa de definición de requerimientos se dará comienzo a la implementación del proyecto. Esta etapa tendrá una duración de 4 meses y contará con la siguiente modalidad de trabajo:
 
-*Reuniones de avance de proyecto - una vez cada 3 semanas*
-*15 minutos por equipo exponiendo avance.
-*Uno de los equipos contará con 40 minutos para además exponer un tema de interés para todos.
+**Reuniones de avance de proyecto - una vez cada 3 semanas**
+* 15 minutos por equipo exponiendo avance.
+* Uno de los equipos contará con 40 minutos para además exponer un tema de interés para todos.
 
-*Reuniones de grupo - una vez por semana*
-*Se trabajará sobre los requeriminetos planteados.
+**Reuniones de grupo - una vez por semana**
+* Se trabajará sobre los requeriminetos planteados.
 
-*Reuniones de líderes - una vez por semana*
-*No más de 20 minutos de conversación sobre el avance del proyecto.
+**Reuniones de líderes - una vez por semana**
+* No más de 20 minutos de conversación sobre el avance del proyecto.
 
-*Reuniones de presentación*
-*Presentación de avance de proyecto al cliente
+**Reuniones de presentación**
+* Presentación de avance de proyecto al cliente
 
 
 Antes de comenzar con la etapa 1 se designará a un gerente de proyecto; el gerente de proyecto dará seguimiento al mismo durante todas las etapas, incluyendo aprendizaje y definición de requerimientos.
@@ -55,40 +56,47 @@ El gerente de proyecto definirá, de acuerdo a su criterio, de que instancias pa
 # Asignación de roles.
 
 
-*Cliente (negocio):* Carlos.
-*Cliente (técnico):* Gastón.
+**Cliente (negocio):** Carlos.  
+**Cliente (técnico):** Gastón.
 
-*PM:* Priscilla.
-*Coordinardor Técnico:* Guzmán.
+**PM:** Priscilla.  
+**Coordinardor Técnico:** Guzmán.  
 
 De acuerdo al éxito obtenido en la convocatoria se manejan tres escenarios posibles:
 
 
-*Opción 1 (14 personas o más):*
+### Opción 1 (14 personas o más):
 
-*Front-End* (3 personas)
-	* Líder: Guzmán.
-*Back-end* (3 personas)
-	* Líder: Marcelo.
-*Cloud-infraestructura* (3 personas)
-	* Líder: Angel.
-*Networking* (2 personas)
-	* Líder: Federico.
-*Electrónica y control* (3 personas)
-	* Líder: Richard.
+**Front-End** (3 personas) 
+* Líder: Guzmán.
 
+**Back-end** (3 personas)
+* Líder: Marcelo.
 
-*Opción 2 (entre 10 y 13 personas):*
+**Cloud-infraestructura** (3 personas)
+* Líder: Angel.
 
-*Desarrollo* (4 personas)
-	* Líder: Guzmán.
-*Cloud-infraestructura* (3 personas)
-	* Líder: Federico.
-*Electrónica y control* (3 personas)
-	- Líder: Richard.
+**Networking** (2 personas)
+* Líder: Federico.
+
+**Electrónica y control** (3 personas)  
+* Líder: Richard.
 
 
-*Opción 3 (menos de 10 personas):*
+### Opción 2 (entre 10 y 13 personas):
+
+**Desarrollo** (4 personas)
+* Líder: Guzmán.
+
+**Cloud-infraestructura** (3 personas)
+* Líder: Federico.
+
+**Electrónica y control** (3 personas)
+* Líder: Richard. 
+
+
+### Opción 3 (menos de 10 personas):
+
 Se cancela el proyecto tal como está pensado y se piensa en otra dinámica.
 
 
