@@ -14,7 +14,7 @@ tecnologías fundamentales para atacar proyectos de IoT.
 caracteristica.
 - Desarrollar experiencia sobre tecnologías claves, que pueden volvarse a nuevas
 verticales de negocio. Especificamente, todas aquellas vinculadas a la nube.
-- Una descripción mas detallada de los objetivos del proyecto y la metodología de trabajo puede encontrarse [aquí]( conapps-iot/Definicion_del_proyecto.md )
+- Una descripción mas detallada de los objetivos del proyecto y la metodología de trabajo puede encontrarse [aquí]( https://github.com/conapps/conapps-iot/blob/master/Definicion_del_proyecto.md )
 
 Documentación
 ---
