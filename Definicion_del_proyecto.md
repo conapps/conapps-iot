@@ -5,7 +5,7 @@ Etapas del Proyecto:
 ---
 
 **Etapa 1 - Aprendizaje de base. - duración 4 meses**  
-	
+
 En esta etapa cada equipo parte con un temario definido, y tiene como objetivo aprender en profundidad todos los puntos de dicho temario. Se espera que promediando la etapa de aprendizaje cada equipo defina un mini-proyecto que sirva para demostar al resto de los participantes los conocimientos aprendidos. La etapa de aprendizaje finaliza con la muestra de los mini-proyectos por parte de cada equipo. 
 
 Durante esta etapa, el cliente aprenderá sobre la carga de autos eléctricos en general, y generará una comprensión amplia de las prácitcas aceptadas y el estado del arte de esta tecnología.
@@ -97,20 +97,3 @@ De acuerdo al éxito obtenido en la convocatoria se manejan tres escenarios posi
 ### Opción 3 (menos de 10 personas):
 
 Se cancela el proyecto tal como está pensado y se piensa en otra dinámica, por ejemplo charlas informativas de tematica variada, principalmente enfocado a tecnologías de la nube.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
