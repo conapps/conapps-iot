@@ -1,7 +1,7 @@
 Definición del proyecto
 ===
 
-Planteamos dividir el proyecto total en tres grandes etapas:
+Etapas del Proyecto:
 ---
 
 **Etapa 1 - Aprendizaje de base. - duración 4 meses**  
@@ -12,22 +12,25 @@ Se espera que promediando esta etapa de aprendizaje cada equipo defina un mini-p
 La etapa de aprendizaje finaliza con la muestra de los mini-proyectos por parte de cada equipo. 
 Por último, en esta etapa, el cliente aprenderá sobre la carga de autos eléctricos en general, y generará una comprensión amplia de las prácitcas aceptadas y el estado del arte de esta tecnología.
 
+
 **Etapa 2 - Definición de requerimientos. - duración 2 meses**  
 
-En esta etapa el cliente definirá los requerimientos tecnológicos y funcionales y un comité formado por los líderes técnicos de cada equipo los traducirán a requerimientos técnicos de bajo nivel.
+En esta etapa el cliente definirá los requerimientos tecnológicos y funcionales. Luego, un comité formado por los líderes técnicos de cada equipo los traducirán a requerimientos técnicos de bajo nivel.
 
 **Etepa 3 - Implementación del proyecto. - duración 4 meses**
 
 Cada uno de los equipos de trabajo recibirá los requerimientos técnicos de bajo nivel que deben implementar y los llevará a cabo.
-
 
 Metodología de trabajo:
 ---
 
 Para comenzar, el coordinador técnico elaborará un syllabus con todos los temas que cada equipo debe de aprender en la etapa 1.
 El coordinador técnico realizará reuniones con cada uno de los equipos y se elaborará de común acuerdo un calendario de temas y expositores. Cada expositor tiene la responsabilidad de estudiar el tema que le corresponde, preparar la clase y darla en la fecha correspondiente. Es probable que las primeras dos o tres clases de cada equipo sean dictadas por personas ajenas al equipo que ya tengan experiencia previa en el tema a desarrollar.
+
 Las clases serán desarrolladas al cabo de 4 horas y serán en modalidad taller. El calendario de clases será estructurado de forma tal que las clases de los distintos equipos no se solapen en el tiempo, permitiendo de esta forma que las mismas sean abiertas y que todos los participantes puedan aprender de los temas que les interese independientemente si esos temas corresponden a su grupo o no.
+
 Dado que hay un conjunto de tópicos que se repiten en equipos distintos, habrán algunas clases que serán compartidas para optimizar los tiempos.
+
 Promediando el período estipulado para clases, que será de aproximadamente 4 meses, el coordinador técnico solicitará a los líderes de cada grupo que presenten una propuesta de mini-proyecto. Una vez recibida la propuesta, el coordinador técnico evaluará si la propuesta cuenta con la complejidad adecuada.
 Al finalizar el período de aprendizaje, cada equipo presentará en sesiones abiertas su mini-proyecto.
 
@@ -58,12 +61,11 @@ Frecuencia: una vez cada 4 semanas
 Duración: 2 horas
 * Presentación de avance de proyecto al cliente
 
+Se designará antes de comenzar las tareas un gerente de proyecto; que dará seguimiento al mismo durante todas las etapas, incluyendo aprendizaje y definición de requerimientos.
 
-Antes de comenzar con la etapa 1 se designará a un gerente de proyecto; el gerente de proyecto dará seguimiento al mismo durante todas las etapas, incluyendo aprendizaje y definición de requerimientos.
 El gerente de proyecto definirá, de acuerdo a su criterio, de que instancias participará en cada una de las etapas. De forma adicional, tendrá la potestad de sugerir instancias adicionales o suprimir instancias existentes si lo entiende conveniente.
 
 # Asignación de roles.
-
 
 **Cliente (negocio):** Carlos.  
 **Cliente (técnico):** Gastón.
@@ -72,7 +74,6 @@ El gerente de proyecto definirá, de acuerdo a su criterio, de que instancias pa
 **Coordinardor Técnico:** Guzmán.  
 
 De acuerdo al éxito obtenido en la convocatoria se manejan tres escenarios posibles:
-
 
 ### Opción 1 (14 personas o más):
 
@@ -106,21 +107,4 @@ De acuerdo al éxito obtenido en la convocatoria se manejan tres escenarios posi
 
 ### Opción 3 (menos de 10 personas):
 
-Se cancela el proyecto tal como está pensado y se piensa en otra dinámica.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+Se cancela el proyecto tal como está pensado y se piensa en otra dinámica, por ejemplo charlas informativas de tematica variada, principalmente enfocado a tecnologías de la nube.
