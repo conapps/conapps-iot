@@ -55,7 +55,9 @@ Los equipos serán:
 - Infraestructura Cloud.
 - Electrónica y Control.
 
-Además de los equipos existirán dos roles adicionales que ayudarán a la comunicación entre equipos, y seguirán el progreso de los equipos. 
+![Organigrama](./images/organigrama.jpg)
+
+Además de los equipos existirán dos personas adicionales que ayudarán a la comunicación entre equipos, y seguirán el progreso de los equipos. 
 
 Estos roles son:
 
