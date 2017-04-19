@@ -8,49 +8,53 @@ donde se estará desarrollando el software involucrado.
 
 Algunos de los objetivos planteados en este proyecto son:
 
-- Identificar personas dentro de la empresa con deseso de aprender sobre
-tecnologías fundamentales para atacar proyectos de IoT.
-- Averiguar el alcance que cuenta la empresa para atacar proyectos de esta
-caracteristica.
-- Desarrollar experiencia sobre tecnologías claves, que pueden volvarse a nuevas
-verticales de negocio. Especificamente, todas aquellas vinculadas a la nube.
-- Una descripción mas detallada de los objetivos del proyecto y la metodología de trabajo puede encontrarse [aquí]( https://github.com/conapps/conapps-iot/blob/master/Definicion_del_proyecto.md )
+- Identificar personas dentro de la empresa con deseos de aprender sobre
+  nuevas tecnologías.
+- Desarrollar nuevas verticales de negocio para la empresa, con foco en tecnologías cloud.
+- Construir un ambiente dentro de la organización que fomente la capacitación continua de todos los empleados.
+- Generar instancias de trabajo para compartir conocimiento.
+
+En los siguientes documentos se puede encontrar más información sobre el alcance del proyecto:
+
+1. Detalles de la iniciativa.
+2. [Metodología de trabajo]( https://github.com/conapps/conapps-iot/blob/master/Definicion_del_proyecto.md ).
+3. Diagrama de comunicación (TODO).
+4. Iniciativa OpenBadges (TODO).
 
 Documentación
 ---
 
 ### Git
 
-- [Clase de
-Git](https://github.com/conapps/conapps-iot/blob/master/20170124%20-%20Git.md)
-	- Autor: Guzmán Monné
-	- Fecha: 2017/01/24
-	- Actualizado: 2017/01/25
+- [Clase de Git]((https://github.com/conapps/conapps-iot/blob/master/20170124%20-%20Git.md))
+  - Autor: Guzmán Monné
+  - Fecha: 2017/01/24
+  - Actualizado: 2017/01/25
 
 ### HTML & CSS
 
 - [Clase de HTML & CSS](https://github.com/conapps/conapps-iot/blob/master/20170125%20-%20Javascript.md)
-	- Autor: Guzmán Monné
-	- Fecha: 2017/01/25
+ - Autor: Guzmán Monné
+ - Fecha: 2017/01/25
 
-### JavaScript	
 
-- [Clase de
-JavaScript](https://github.com/conapps/conapps-iot/blob/master/20170125%20-%20Javascript.md)
-	- Autor: Guzmán Monné
-	- Fecha: 2017/01/25
+### JavaScript
+
+- [Clase de JavaScript](https://github.com/conapps/conapps-iot/blob/master/20170125%20-%20Javascript.md)
+  - Autor: Guzmán Monné
+  - Fecha: 2017/01/25
 
 ### Otros
 
-- [Notas de
-Elixir](https://github.com/conapps/conapps-iot/blob/master/20170302%20-%20Notas%20de%20Elixir.md)
-	- Autor: Guzmán Monné
-	- Fecha: 2017/03/02
+- [Notas de Elixir](https://github.com/conapps/conapps-iot/blob/master/20170302%20-%20Notas%20de%20Elixir.md)
+  - Autor: Guzmán Monné
+  - Fecha: 2017/03/02
 
 Contribuidores
 ---
 
-- Guzmán Monné <guzmonne@conatel.com.uy>.
+- Ismael Almandos [ialmandos@conatel.com.uy](mailto://ialmandos@conatel.com.uy).
+- Guzmán Monné [gmonne@conatel.com.uy](mailto://gmonne@conatel.com.uy).
 
 
 
