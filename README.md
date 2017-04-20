@@ -16,10 +16,10 @@ Algunos de los objetivos planteados en este proyecto son:
 
 En los siguientes documentos se puede encontrar más información sobre el alcance del proyecto:
 
-1. Detalles de la iniciativa.
+1. [Detalles de la iniciativa](https://github.com/conapps/conapps-iot/blob/master/Detalles_de_la_iniciativa.md).
 2. [Metodología de trabajo]( https://github.com/conapps/conapps-iot/blob/master/Definicion_del_proyecto.md ).
-3. Diagrama de comunicación (TODO).
-4. Iniciativa OpenBadges (TODO).
+3. [Diagrama de comunicación](./images/organigrama.jpg).
+4. [Iniciativa OpenBadges](https://openbadges.org/).
 
 Documentación
 ---
@@ -34,8 +34,8 @@ Documentación
 ### HTML & CSS
 
 - [Clase de HTML & CSS](https://github.com/conapps/conapps-iot/blob/master/20170125%20-%20Javascript.md)
- - Autor: Guzmán Monné
- - Fecha: 2017/01/25
+- Autor: Guzmán Monné
+- Fecha: 2017/01/25
 
 
 ### JavaScript
