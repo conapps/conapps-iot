@@ -70,39 +70,39 @@ El gerente de proyecto definirá, de acuerdo a su criterio, de que instancias pa
 **Cliente (negocio):** Carlos.  
 **Cliente (técnico):** Gastón.
 
-**PM:** Priscilla.  
-**Coordinardor Técnico:** Guzmán.  
+**PM:** *a definir*.  
+**Coordinardor Técnico:** a definir.  
 
 De acuerdo al éxito obtenido en la convocatoria se manejan tres escenarios posibles:
 
 ### Opción 1 (14 personas o más):
 
 **Front-End** (3 personas) 
-* Líder: Guzmán.
+* Líder: a definir.
 
 **Back-end** (3 personas)
-* Líder: Marcelo.
+* Líder: a definir.
 
 **Cloud-infraestructura** (3 personas)
-* Líder: Angel.
+* Líder: a definir.
 
 **Networking** (2 personas)
-* Líder: Federico.
+* Líder: a definir.
 
 **Electrónica y control** (3 personas)  
-* Líder: Richard.
+* Líder: a definir.
 
 
 ### Opción 2 (entre 10 y 13 personas):
 
 **Desarrollo** (4 personas)
-* Líder: Guzmán.
+* Líder: a definir.
 
 **Cloud-infraestructura** (3 personas)
-* Líder: Federico.
+* Líder: a definir.
 
 **Electrónica y control** (3 personas)
-* Líder: Richard. 
+* Líder: a definir. 
 
 
 ### Opción 3 (menos de 10 personas):
