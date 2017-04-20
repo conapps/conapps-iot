@@ -103,11 +103,7 @@ Cada participante contará con tiempo adicional durante su jornada laboral para 
 
 ## Metodología de Trabajo
 
-Se pueden encontrar los detalles en este [link](https://github.com/conapps/conapps-iot/blob/master/Definicion_del_proyecto.md), junto con algunos roles tentativos asignados.
-
-
-
-
+Se pueden encontrar los detalles en este [link](https://github.com/conapps/conapps-iot/blob/master/Definicion_del_proyecto.md).
 
 
 
