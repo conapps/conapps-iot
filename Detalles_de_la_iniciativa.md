@@ -2,24 +2,24 @@
 
 ## Introducción
 
-En Conatel desde hace unos años se están buscando oportunidades para trabajar en proyectos de IoT, los cuales son distintos a los que esta acostumbrado trabajar. Para la realización de esto proyectos, es necesario contar con conocimiento en ciertas áreas que Conatel no trabaja al día de hoy. El objetivo de esta iniciativa es cambiar esta situación.
+En Conatel desde hace tiempo se están buscando oportunidades para trabajar en proyectos de IoT, los cuales son distintos a los que se está acostumbrado trabajar habitualmente. Para la realización de estos proyectos, es necesario contar con conocimiento en ciertas áreas en las que Conatel no trabaja al día de hoy. El objetivo de esta iniciativa es cambiar esta situación.
 
-Para lograrlo se propone crear un grupo de trabajo dentro de la empresa creado por voluntarios, para estudiar y trabajar en las áreas de interés para el desarrollo de proyectos IoT. Este grupo de voluntarios podrá elegir formar parte de alguno de los equipos pre-determinados según su función. Conatel brindara a los participantes el espacio y tiempo dentro del horario laboral para dedicarle a esta nueva iniciativa.
+Para lograrlo se propone crear un grupo de trabajo dentro de la empresa creado por voluntarios, para estudiar y trabajar en las áreas de interés para el desarrollo de proyectos IoT. Este grupo de voluntarios podrá elegir formar parte de alguno de los varios equipos que se pre-determinaran según su preferencia. Conatel brindará a los participantes el espacio, la infraestructura y tiempo dentro del horario laboral para dedicarle a esta nueva iniciativa.
 
-Además de la capacitación del personal que forme parte del proceso, hay otro objetivo: el diseño y la construcción de una solución de cargadores de autos eléctricos tipo "totem", con ciertas funcionalidades que lo separen de la competencia.
+Como parte del proceso de capacitación, se trabajará en el desarrollo de un proyecto concreto de IoT: el diseño y la construcción de una solución de estaciones de carga para autos eléctricos con ciertas funcionalidades que permitan poner en práctica todos los conceptos aprendidos.
 
 Esta claro que para llegar al punto de poder desarrollar este proyecto, va a ser necesario obtener cierto conocimiento previamente. Es por esto que el proyecto se dividira en dos etapas macro:
 
-1. La primera etapa se enfocara en el aprendizaje de los participantes mediante una metodología de estudio en grupo (los instructores serán los propios participantes). Al finalizar la etapa de aprendisaje se realizara un breve proyecto por equipo, 
+1. La primera etapa se enfocara en el aprendizaje de los participantes mediante una metodología de estudio en grupo (los instructores serán los propios participantes). Al finalizar la etapa de aprendisaje se realizara un breve proyecto por equipo. 
 2. En la segunda etapa, se pondrán en practica los conocimientos adquiridos. Se realizará una presentación de los requerimientos del proyecto, tras la cual se pasara a la fase de implementación donde se diseñara y construira el primer prototipo de la solución.
 
-Dutante estas fases se coordinarán espacios dentro del horario laboral donde se realizarán las reuniones que forman parte del proceso. Se proporcionara dentro de la empresa el espacio, la infraestructura, y la comida para que todos los participantes puedan concentrarse en el proyecto. Como se requiere que cada participante cuente con una laptop, se le brindará una a todo aquel que lo requiera.
+Dutante estas fases se coordinarán espacios dentro del horario laboral donde se realizarán las reuniones que forman parte del proceso. Se proporcionara dentro de la empresa el espacio, la infraestructura y todo el apoyo necesario para que todos los participantes puedan concentrarse en el proyecto. Como se requiere que cada participante cuente con una laptop, se le brindará una a todo aquel que lo requiera.
 
 El modelo de capacitación es distinto al modelo tradicional, donde un instructor previamente capacitado expone un tema a los estudiates, los cuales son luego evaluados de alguna manera. En cambio, se propone un modelo de auto-aprendisaje en donde todos los participantes tendrán en algún momento que preparar y exponer un tema al resto de los participantes. Los temas de interes así como los temarios de cada uno de los temas ya están diseñados para definir el alcance de cada uno, pero el desarrollo y el diseño de la presentación recaerá exclusivamente en la persona encargada de dictarla.
 
-La iniciativa esta abierta a todos los empleados de la empresa, existiendo como único requisito, el tomar la responsabilidad de estudiar y exponer al menos un tema de interes al resto de los participantes. 
+La iniciativa esta abierta a todos los colaboradores de la empresa, existiendo como único requisito, el tomar la responsabilidad de estudiar y exponer al menos un tema de interes al resto de los participantes de su equipo. 
 
-Para medir y premiar los logros alcanzados por los participantes se utilizará la metodología diseñada por [Mozilla](https://www.mozilla.org), conocidad como [OpenBadges](https://openbadges.org/). Este sistema de premios funciona en base a la entrega de "badges" (medallas) digitales en reconocimiento de algún hito alcanzado por el participante. Los "badges" deben cumplir con determinadas caracteristicas que permiten se expuestos online de forma pública, y validan el trabajo realizado.
+Para medir y premiar los logros alcanzados por los participantes se utilizará la metodología diseñada por [Mozilla](https://www.mozilla.org), conocidad como [OpenBadges](https://openbadges.org/). Este sistema de premios funciona en base a la entrega de "badges" (medallas) digitales en reconocimiento de algún hito alcanzado por el participante. Los "badges" deben cumplir con determinadas caracteristicas que permiten ser expuestos online de forma pública, y validan el trabajo realizado.
 
 ## Proyectos IoT
 
