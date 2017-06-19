@@ -3,13 +3,13 @@ Conocimientos de base
 1. Git.
 	* ¿Qué y para que sirve es VCS? 
 	* ¿Qué es GIT?
-	* ** Continúa... **
+	* **Continúa...**
 2. Github.
-	* ** Continúa...**
+	* **Continúa...**
 3. Docker.
-	* ** Continúa... **
+	* **Continúa...**
 4. Dockerhub.
-	* ** Continúa... **
+	* **Continúa...**
 
 Cloud (Infraestructura)
 ---
@@ -32,7 +32,7 @@ Cloud (Infraestructura)
 
 Desarrollo frontend
 ---
-1. ** Completar... **
+1. **Completar...**
 
 Desarrollo Backend
 ---
@@ -87,9 +87,9 @@ Desarrollo Backend
 
 Networking
 ---
-1. ** Completar... **
+1. **Completar...**
 
 Electrónica y control
 ---
-1. ** Completar... **
+1. **Completar...**
 
