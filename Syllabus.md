@@ -1,15 +1,15 @@
 Conocimientos de base
 ---
 1. Git.
-a. ¿Qué y para que sirve es VCS? 
-b. ¿Qué es GIT?
-c. *** Continúa... ***
+	* ¿Qué y para que sirve es VCS? 
+	* ¿Qué es GIT?
+	* *** Continúa... ***
 2. Github.
-a. *** Continúa...***
+	* *** Continúa...***
 3. Docker.
-a. *** Continúa... ***
+	* *** Continúa... ***
 4. Dockerhub.
-a. *** Continúa... ***
+	* *** Continúa... ***
 
 Cloud (Infraestructura)
 ---
@@ -32,66 +32,64 @@ Cloud (Infraestructura)
 
 Desarrollo frontend
 ---
+1. *** Completar... ***
 
 Desarrollo Backend
 ---
 
 1. Introducción a Python, qué es y para que sirve.
 2. El intérprete de Python.
-a. Diferencias entre Python 2.7 y Python 3.X.
-b. Indentado.
+	* Diferencias entre Python 2.7 y Python 3.X.
+	* Indentado.
 3. Operaciones matemáticas con Python.
-a. Tipo de datos `int` y `float`.
-b. Orden de precedencia en las operaciones.
+	* Tipo de datos `int` y `float`.
+	* Orden de precedencia en las operaciones.
 4. Variables, qué son y como se usan.
-a. Convenciones sobre como nombrar las variables.
-b. Uso de variables en operaciones matemáticas.
+	* Convenciones sobre como nombrar las variables.
+	* Uso de variables en operaciones matemáticas.
 5. Strings.
-a. La función `print()`
-b. La función `input()`
-c. Concatenación de strings
-d. Cast de un número a string.
-e. La función `format()`
-f. Slicing.
+	* La función `print()`
+	* La función `input()`
+	* Concatenación de strings
+	* Cast de un número a string.
+	* La función `format()`
+	* Slicing.
 6. Condicionales.
-a. Comparadores `<, <=, ==, >=, >, !=`
-b. Booleanos.
-c. `if` statement.
-d. `else`statement.
-e. `elif` statement.
-f. `and` y `or` en `if` statements.
-g. Condicionales anidados.
+	* Comparadores `<, <=, ==, >=, >, !=`
+	* Booleanos.
+	* `if` statement.
+	* `else`statement.
+	* `elif` statement.
+	* `and` y `or` en `if` statements.
+	* Condicionales anidados.
 7. Listas.
-a. Funcionamiento general.
-b. Como crear una lista.
-c. Como agregar elementos a la lista.
-d. Como borrar elementos de la lista `remove` vs `del`.
-e. Slicing.
+	* Funcionamiento general.
+	* Como crear una lista.
+	* Como agregar elementos a la lista.
+	* Como borrar elementos de la lista `remove` vs `del`.
+	* Slicing.
 8. Diccionarios.
-a. Funcionamiento general.
-b. Como crear un diccionario.
-c. Como accesar un valor.
-d. Como agregar un item a un diccionario.
-e. Como borrar un item del diccionario.
-f. Método `get` para evitar excepciones cuando la key no existe.
-g. Tipo de datos `None`.
-h. Función `update()`.
+	* Funcionamiento general.
+	* Como crear un diccionario.
+	* Como accesar un valor.
+	* Como agregar un item a un diccionario.
+	* Como borrar un item del diccionario.
+	* Método `get` para evitar excepciones cuando la key no existe.
+	* Tipo de datos `None`.
+	* Función `update()`.
 9. Comparaciones.
-a. Como comparar listas.
-b. Como comparar dicionarios.
-c. Listas multidimensionales.
-d. Listas y diccionarios combinados.
+	* Como comparar listas.
+	* Como comparar dicionarios.
+	* Listas multidimensionales.
+	* Listas y diccionarios combinados.
 10. ***Continúa...***
-
-	
-	
-	
-
 
 
 Networking
 ---
+1. *** Completar... ***
 
 Electrónica y control
 ---
+1. *** Completar... ***
 
