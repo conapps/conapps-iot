@@ -242,15 +242,14 @@ Cloud (Infraestructura)
       2. Interface REST.
     6. Servicios.
       1. Disponibilidad y durabilidad.
-        1. Versionado.
-        2. Replicación entre regiones.
-      2. Control de acceso.
-      3. Hosting de páginas web.
-      4. Clases de almacenamiento.
-      5. Ciclo de vida de los objetos.
-      6. Encripción.
-      7. Logs.
-      8. Notificaciones.
+      2. Versionado.
+      3. Replicación entre regiones.
+      4. Control de acceso.
+      5. Hosting de páginas web.
+      6. Clases de almacenamiento.
+      7. Ciclo de vida de los objetos.
+      8. Encripción.Logs.
+      9. Notificaciones.
     7. S3 vs Glacier.
     8. Mejores practicas.
     9. Laboratorios.
