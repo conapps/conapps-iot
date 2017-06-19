@@ -14,7 +14,7 @@ Conocimientos de base
 Cloud (Infraestructura)
 ---
 
-###AWS
+### AWS
 
 - ¿Que es cloud computing?
   - Ventajas.
@@ -31,7 +31,7 @@ Cloud (Infraestructura)
   - Monitoreo y administración.
   - Servicios de aplicación.
 
-###EC2
+### EC2
 
 - Nociones básicas.
   - Tipos de instancias.
@@ -70,7 +70,7 @@ Cloud (Infraestructura)
     - Lanzar un volumen EBS encriptado.
     - Remover un volumen de boot para añadirlo a otra instancia.
 
-###VPC
+### VPC
 
 - Introducción.
 - Sub-redes.
@@ -91,7 +91,7 @@ Cloud (Infraestructura)
   - Conectar un VPC a Internet.
   - Lanzar una instancia dentro de un VPC.
 
-###ELB
+### ELB
 
 - Nociones generales.
 - Tipos de balanceadores.
@@ -106,14 +106,14 @@ Cloud (Infraestructura)
   - Proxy.Sticky sessions.
   - Health checks.
 
-###CloudWatch
+### CloudWatch
 
 - Nociones basicas.
 - Alertas.
 - Dashboards.
 - Lectura de logs.
 
-###Auto Scaling
+### Auto Scaling
 
 - Planes.
 - Instancias mínimas.
@@ -129,7 +129,7 @@ Cloud (Infraestructura)
   - Crear un politica de escalamiento.
   - Crear una aplicación web que escale.
 
-###IAM
+### IAM
 
 - Nociones básicas.
 - Principals.
@@ -159,7 +159,7 @@ Cloud (Infraestructura)
   - Configuración de MFA.
   - Resolver conflictos de permisos.
 
-###RDS
+### RDS
 
 - Introducción a bases de datos relacionales.
 - Introducción a bases de datos NoSQL.
@@ -195,7 +195,7 @@ Cloud (Infraestructura)
   - Crear una instancia RDS de MySQL.
   - Crear una replica de lectura
 
-###Redshift
+### Redshift
 
 - Nodos y clusters.
 - Diseño de tablas.
@@ -211,7 +211,7 @@ Cloud (Infraestructura)
    - Lanzar un cluster de RedShift.
 
 
-###DynamoDB
+### DynamoDB
 
 - Introducción.
 - Modelo de datos.
@@ -236,7 +236,7 @@ Cloud (Infraestructura)
 - Labs.
    - Lectura y escritura sobre una tabla de DynamoDB.
 
-###SQS
+### SQS
 
 - Introducción.
 - Ciclo de vida de los mensajes.
@@ -249,7 +249,7 @@ Cloud (Infraestructura)
 - Dead letter queues.
 - Control de acceso.
 
-###S3
+### S3
 
 - Nociones básicas.
 - Almacenamiento de objetos vs almacenamiento de archivos.
@@ -282,21 +282,21 @@ Cloud (Infraestructura)
    - [Configurar versionado de objetos](http://docs.aws.amazon.com/AmazonS3/latest/dev/Versioning.html).
    - [Configurar el ciclo de vida de un objeto](http://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html).
 
-###ECS
+### ECS
 
-###CloudFront
+### CloudFront
 
-###R53
+### R53
 
-###Cloud HSM
+### Cloud HSM
 
-###Workmail, Worspaces, Workdocs (Aplicaciones de oficina en la nube)
+### Workmail, Worspaces, Workdocs (Aplicaciones de oficina en la nube)
 
-###Elastic Beanstalk
+### Elastic Beanstalk
 
-###AWS IoT
+### AWS IoT
 
-###NGINX
+### NGINX
 
 Desarrollo frontend
 ---
