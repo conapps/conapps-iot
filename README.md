@@ -20,6 +20,7 @@ En los siguientes documentos se puede encontrar más información sobre el alcan
 2. [Metodología de trabajo]( https://github.com/conapps/conapps-iot/blob/master/Definicion_del_proyecto.md ).
 3. [Diagrama de comunicación](./images/organigrama.jpg).
 4. [Iniciativa OpenBadges](https://openbadges.org/).
+5. [Syllabus.](https://github.com/conapps/conapps-iot/blob/master/Syllabus.md)
 
 Documentación
 ---
