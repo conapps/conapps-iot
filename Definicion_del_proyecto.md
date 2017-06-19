@@ -67,8 +67,8 @@ El gerente de proyecto definirá, de acuerdo a su criterio, de que instancias pa
 
 # Asignación de roles.
 
-**Cliente (negocio):** Carlos.  
-**Cliente (técnico):** Gastón.
+**Cliente (negocio):**  
+**Cliente (técnico):**
 
 **PM:** *a definir*.  
 **Coordinardor Técnico:** a definir.  
