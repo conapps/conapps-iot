@@ -226,38 +226,38 @@ Cloud (Infraestructura)
     8. Long polling.
     9. Dead letter queues.
     10. Control de acceso.
-12. S3.
-   1. Nociones básicas.
-   2. Almacenamiento de objetos vs almacenamiento de archivos.
-   3. Amazon Glacier.
-   4. Elementos.
-     1. Buckets.
-     2. Vaults.
-     3. Archivos.
-     4. Objetos.
-     5. Llaves.
-     6. Prefijos y delimitadores.
-   5. Operaciones e interfaces.
-     1. Operaciones permitidas.
-     2. Interface REST.
-   6. Servicios.
-     1. Disponibilidad y durabilidad.
-       1. Versionado.
-       2. Replicación entre regiones.
-     2. Control de acceso.
-     3. Hosting de páginas web.
-     4. Clases de almacenamiento.
-     5. Ciclo de vida de los objetos.
-     6. Encripción.
-     7. Logs.
-     8. Notificaciones.
-   7. S3 vs Glacier.
-   8. Mejores practicas.
-   9. Laboratorios.
-     1. [Funcionamiento basico](https://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html).
-     2. [Configurar un sitio web estatico](http://docs.aws.amazon.com/AmazonS3/latest/dev/HostingWebsiteOnS3Setup.html).
-     3. [Configurar versionado de objetos](http://docs.aws.amazon.com/AmazonS3/latest/dev/Versioning.html).
-     4. [Configurar el ciclo de vida de un objeto](http://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html).
+12. S3
+    1. Nociones básicas.
+    2. Almacenamiento de objetos vs almacenamiento de archivos.
+    3. Amazon Glacier.
+    4. Elementos.
+      1. Buckets.
+      2. Vaults.
+      3. Archivos.
+      4. Objetos.
+      5. Llaves.
+      6. Prefijos y delimitadores.
+    5. Operaciones e interfaces.
+      1. Operaciones permitidas.
+      2. Interface REST.
+    6. Servicios.
+      1. Disponibilidad y durabilidad.
+        1. Versionado.
+        2. Replicación entre regiones.
+      2. Control de acceso.
+      3. Hosting de páginas web.
+      4. Clases de almacenamiento.
+      5. Ciclo de vida de los objetos.
+      6. Encripción.
+      7. Logs.
+      8. Notificaciones.
+    7. S3 vs Glacier.
+    8. Mejores practicas.
+    9. Laboratorios.
+      1. [Funcionamiento basico](https://docs.aws.amazon.com/AmazonS3/latest/gsg/GetStartedWithS3.html).
+      2. [Configurar un sitio web estatico](http://docs.aws.amazon.com/AmazonS3/latest/dev/HostingWebsiteOnS3Setup.html).
+      3. [Configurar versionado de objetos](http://docs.aws.amazon.com/AmazonS3/latest/dev/Versioning.html).
+      4. [Configurar el ciclo de vida de un objeto](http://docs.aws.amazon.com/AmazonS3/latest/dev/object-lifecycle-mgmt.html).
 13. ECS.
 14. CloudFront.
 15. R53.
