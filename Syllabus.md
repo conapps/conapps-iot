@@ -592,12 +592,7 @@ Desarrollo frontend
   - Arrays.
   - Duplicar objetos.
   - Iteraciones.
-- ¿Clases?
-  - Teoría.
-  - Clases de JavaScript.
-  - Mixins.
 - Object Prototypes.
-  - ​
 
 Desarrollo Backend
 ---
