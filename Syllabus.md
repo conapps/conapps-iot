@@ -1,7 +1,7 @@
-Conocimientos de base
+Conocimientos de base para frontend, backend y cloud.
 ---
 1. Git.
-* ¿Qué y para que sirve es VCS? 
+* ¿Qué y para que sirve es VCS?
 * ¿Qué es GIT?
 * **Continúa...**
 2. Github.
@@ -10,6 +10,7 @@ Conocimientos de base
 * **Continúa...**
 4. Dockerhub.
 * **Continúa...**
+
 
 Cloud (Infraestructura)
 ---
@@ -476,7 +477,7 @@ Cloud (Infraestructura)
 - Funcionamiento con Python.
   - Ambiente de desarrollo.
   - Utilizando Django.
-  - Utilizando Flask. 
+  - Utilizando Flask.
 - Labs.
 
 ### AWS IoT
@@ -607,7 +608,7 @@ Desarrollo Backend
 - El intérprete de Python.
   - Diferencias entre Python 2.7 y Python 3.X.
   - Indentado.
--  Operaciones matemáticas con Python.
+- Operaciones matemáticas con Python.
   - Tipo de datos `int` y `float`.
   - Orden de precedencia en las operaciones.
 - Variables, qué son y como se usan.
@@ -619,6 +620,7 @@ Desarrollo Backend
   - Concatenación de strings
   - Cast de un número a string.
   - La función `format()`
+  - La función `len()`
   - Slicing.
 - Condicionales.
   - Comparadores `<, <=, ==, >=, >, !=`
@@ -648,7 +650,58 @@ Desarrollo Backend
   - Como comparar dicionarios.
   - Listas multidimensionales.
   - Listas y diccionarios combinados.
-- **Continúa...**
+- Loops
+  - `for item in iterable:` loop.
+  - Función `range()`.
+  - `for key, value in iterable.items():` loop.
+  - `while conditional:` loop.
+  - `break` y `continue` statements.
+- Funciones
+  - Definición `def nombre(params):`
+  - `main()` best practice.
+  - Scope local vs global.
+- Archivos
+  - Función `open()`
+  - Función `write()`
+  - Modos `r`, `w` y `a` utilizados en `open()`.
+  - Funciones `read()` y `readline()`
+  - Construcción:
+  ```Python
+  archivo = open('mi_archivo', 'r')
+  for linea in archivo:
+      ...
+  ```
+- Excepciones
+  - Bloques `try:` y `except:`
+  - Excepciones nativas de python:
+    - `FileNotFoundError`
+    - `IndexError`
+    - `KeyError`
+    - `NameError`
+    - `ValueError`
+  - Interceptar excepciones específicas.
+- Módulos
+  - Instalación de módulos con `pip install`
+  - `import`
+  - `from modulo import funcion as nombre_facil`
+  - Módulo `requests`
+    - Introducción a el protocolo HTTP
+    - Introducción a JSON
+    - `requests.get()`
+    - `my_request.json()`
+  - Como crear módulos.
+
+### Django.
+  - Getting started tutorial.
+  - Continua ...
+
+### Bases de datos.
+  - Qué es una base de datos y para qué sirve.
+  - Continua ...
+
+
+
+
 
 
 Networking
