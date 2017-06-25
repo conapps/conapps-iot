@@ -699,6 +699,8 @@ Desarrollo Backend
   - Qué es una base de datos y para qué sirve.
   - Continua ...
 
+### NGINX
+  - Idem, grupo de cloud.
 
 
 
