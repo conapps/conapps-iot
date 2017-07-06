@@ -690,6 +690,23 @@ Desarrollo Backend
     - `requests.get()`
     - `my_request.json()`
   - Como crear módulos.
+- Clases
+  - Clase vs Instancia
+  - Métodos de instancia
+  - Atributos de clase vs Atributos de instancia
+  - `__init__` y `self`
+  - `__str__`
+  - Cómo acceder a los docstrings `__doc__`
+  - Métodos de clase `@classmethod`
+  - Atributos privados `__privateattr`
+- Herencia
+  - ```python
+    class Subclass(Superclass):
+      ...
+  ```
+  - Como crear un constructor en la subclase llamando al constructor de la superclase. `Superclass.__init__(self, attr1, attr2, .., attrN)`
+  - Como llamar a un método de la superclase desde dentro de la subclase. `Superclass.superclassmethod(self)`
+
 
 ### Django.
   - Getting started tutorial.
