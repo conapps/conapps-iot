@@ -702,10 +702,9 @@ Desarrollo Backend
 - Herencia
   - ```python
     class Subclass(Superclass):
-      ...
-  ```
-  
-  - Como crear un constructor en la subclase llamando al constructor de la superclase. `Superclass.__init__(self, attr1, attr2, .., attrN)`
+      ...```
+
+  - Como crear un constructor en la subclase llamando al constructor de la superclase. 
   - Como llamar a un método de la superclase desde dentro de la subclase. `Superclass.superclassmethod(self)`
 
 
