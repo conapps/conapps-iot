@@ -1,4 +1,4 @@
-Conocimientos de base para frontend, backend y cloud.
+﻿Conocimientos de base para frontend, backend y cloud.
 ---
 1. Git.
 * ¿Qué y para que sirve es VCS?
@@ -725,7 +725,7 @@ Desarrollo Backend
 
 Networking
 ---
-- **Completar...**
+- **primer entrada...**
 
 Electrónica y control
 ---
