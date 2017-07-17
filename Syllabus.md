@@ -660,6 +660,8 @@ Desarrollo Backend
   - Definición `def nombre(params):`
   - `main()` best practice.
   - Scope local vs global.
+  - Funciones Lambda.
+  - Decoradores.
 - Archivos
   - Función `open()`
   - Función `write()`
