@@ -46,7 +46,7 @@ Documentación
   - Fecha: 2017/01/25
 
 ### Docker
-- [Clase de Docker](https://github.com/conapps/conapps-iot/blob/master/#)
+- [Clase de Docker](https://github.com/conapps/conapps-iot/blob/master/20170801-Docker.md)
   - Autor: Ismael Almandos
   - Fecha: 2017/08/01
 
