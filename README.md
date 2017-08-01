@@ -45,6 +45,11 @@ Documentación
   - Autor: Guzmán Monné
   - Fecha: 2017/01/25
 
+### Docker
+- [Clase de Docker](https://github.com/conapps/conapps-iot/blob/master/#)
+  - Autor: Ismael Almandos
+  - Fecha: 2017/08/01
+
 ### Otros
 
 - [Notas de Elixir](https://github.com/conapps/conapps-iot/blob/master/20170302%20-%20Notas%20de%20Elixir.md)
@@ -56,14 +61,3 @@ Contribuidores
 
 - Ismael Almandos [ialmandos@conatel.com.uy](mailto://ialmandos@conatel.com.uy).
 - Guzmán Monné [gmonne@conatel.com.uy](mailto://gmonne@conatel.com.uy).
-
-
-
-
-
-
-
-
-
-
-
