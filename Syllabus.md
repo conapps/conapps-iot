@@ -1,7 +1,7 @@
-Conocimientos de base
+﻿Conocimientos de base para frontend, backend y cloud.
 ---
 1. Git.
-* ¿Qué y para que sirve es VCS? 
+* ¿Qué y para que sirve es VCS?
 * ¿Qué es GIT?
 * **Continúa...**
 2. Github.
@@ -10,6 +10,7 @@ Conocimientos de base
 * **Continúa...**
 4. Dockerhub.
 * **Continúa...**
+
 
 Cloud (Infraestructura)
 ---
@@ -430,6 +431,10 @@ Cloud (Infraestructura)
 - [Cloud HSM](#cloud-hsm)
 - [Workmail, Worspaces, Workdocs (Aplicaciones de oficina en la nube)](#workmail-worspaces-workdocs-aplicaciones-de-oficina-en-la-nube)
 - [JavaScript](#javascript)
+- [Python](#python)
+- [Django.](#django)
+- [Bases de datos.](#bases-de-datos)
+- [NGINX](#nginx)
 
 ### ElastiCache
 
@@ -499,7 +504,7 @@ Cloud (Infraestructura)
 - Funcionamiento con Python.
   - Ambiente de desarrollo.
   - Utilizando Django.
-  - Utilizando Flask. 
+  - Utilizando Flask.
 - Labs.
 
 ### AWS IoT
@@ -591,6 +596,47 @@ Basado en la serie de libros: 'You don't know JavaScript' de Kyle Simpson.
   - Prototypes.
   - Polyfilling & Transpiling.
   - DOM API.
+- Tipos.
+  - Incluidos en el lenguaje.
+  - Valores como tipos.
+  - `undefined`.
+  - `typeof`.
+- Valores
+  - Arrays.
+  - Arrays-like.
+  - Strings.
+  - Números.
+  - Valores especiales.
+    - `null`.
+    - `undefined`.
+    - `void`.
+  - Números especiales.
+    - `Nan`.
+    - Ceros.
+  - Valores vs Referencias.
+  - Funciones de valores nativos.
+    - Funciones de valores nativos como constructores.
+    - `Date()`.
+    - `Error()`.
+    - `Symbol()`.
+  - Coerción.
+    - Convirtiendo valores.
+    - Operaciones sobre valores abstractos.
+    - Coerción explicita.
+    - Coerción implicita.
+    - Operadores.
+    - Loose Equals vs. Strict Equals.
+    - Casos de borde.
+    - Comparaciónes "falsas".
+  - Gramatica.
+    - Statements & Expressions.
+    - Reglas de Contexto.
+    - Object destructuring.
+    - `else if`.
+    - Precedencia de operadores.
+    - `;`.
+    - `try...catch...finnaly`.
+    - `switch`.
 - Scopes & Closure.
   - ¿Que es un scope?
   - Global scope.
@@ -615,70 +661,152 @@ Basado en la serie de libros: 'You don't know JavaScript' de Kyle Simpson.
   - Objetos existentes.
   - Contenidos.
   - Acceso a propiedades.
-  - Propiedad vs Metodo.
+  - Propiedad vs. Metodo.
   - Arrays.
   - Duplicando objetos.
   - Iteraciones.
+- Async.
+  - Event Loop.
+  - Promises.
+  - Observables.
+  - Generators.
 - Mixins y Clases
   - Teoría de clases.
   - Mixins.
-  - 
+- `this` & Object prototypes.
+  - `Object.create`.
+- Behaviour delegation.
+  - Objects linked to Other Objects.
 
 Desarrollo Backend
 ---
+### Python
 
-1. Introducción a Python, qué es y para que sirve.
-2. El intérprete de Python.
-* Diferencias entre Python 2.7 y Python 3.X.
-* Indentado.
-3. Operaciones matemáticas con Python.
-* Tipo de datos `int` y `float`.
-* Orden de precedencia en las operaciones.
-4. Variables, qué son y como se usan.
-* Convenciones sobre como nombrar las variables.
-* Uso de variables en operaciones matemáticas.
-5. Strings.
-* La función `print()`
-* La función `input()`
-* Concatenación de strings
-* Cast de un número a string.
-* La función `format()`
-* Slicing.
-6. Condicionales.
-* Comparadores `<, <=, ==, >=, >, !=`
-* Booleanos.
-* `if` statement.
-* `else`statement.
-* `elif` statement.
-* `and` y `or` en `if` statements.
-* Condicionales anidados.
-7. Listas.
-* Funcionamiento general.
-* Como crear una lista.
-* Como agregar elementos a la lista.
-* Como borrar elementos de la lista `remove` vs `del`.
-* Slicing.
-8. Diccionarios.
-* Funcionamiento general.
-* Como crear un diccionario.
-* Como accesar un valor.
-* Como agregar un item a un diccionario.
-* Como borrar un item del diccionario.
-* Método `get` para evitar excepciones cuando la key no existe.
-* Tipo de datos `None`.
-* Función `update()`.
-9. Comparaciones.
-* Como comparar listas.
-* Como comparar dicionarios.
-* Listas multidimensionales.
-* Listas y diccionarios combinados.
-10. **Continúa...**
+- Introducción a Python, qué es y para que sirve.
+- El intérprete de Python.
+  - Diferencias entre Python 2.7 y Python 3.X.
+  - Indentado.
+- Operaciones matemáticas con Python.
+  - Tipo de datos `int` y `float`.
+  - Orden de precedencia en las operaciones.
+- Variables, qué son y como se usan.
+  - Convenciones sobre como nombrar las variables.
+  - Uso de variables en operaciones matemáticas.
+- Strings.
+  - La función `print()`
+  - La función `input()`
+  - Concatenación de strings
+  - Cast de un número a string.
+  - La función `format()`
+  - La función `len()`
+  - Slicing.
+- Condicionales.
+  - Comparadores `<, <=, ==, >=, >, !=`
+  - Booleanos.
+  - `if` statement.
+  - `else`statement.
+  - `elif` statement.
+  - `and` y `or` en `if` statements.
+  - Condicionales anidados.
+- Listas.
+  - Funcionamiento general.
+  - Como crear una lista.
+  - Como agregar elementos a la lista.
+  - Como borrar elementos de la lista `remove` vs `del`.
+  - Slicing.
+- Diccionarios.
+  - Funcionamiento general.
+  - Como crear un diccionario.
+  - Como accesar un valor.
+  - Como agregar un item a un diccionario.
+  - Como borrar un item del diccionario.
+  - Método `get` para evitar excepciones cuando la key no existe.
+  - Tipo de datos `None`.
+  - Función `update()`.
+- Comparaciones.
+  - Como comparar listas.
+  - Como comparar dicionarios.
+  - Listas multidimensionales.
+  - Listas y diccionarios combinados.
+- Loops
+  - `for item in iterable:` loop.
+  - Función `range()`.
+  - `for key, value in iterable.items():` loop.
+  - `while conditional:` loop.
+  - `break` y `continue` statements.
+- Funciones
+  - Definición `def nombre(params):`
+  - `main()` best practice.
+  - Scope local vs global.
+  - Funciones Lambda.
+  - Decoradores.
+- Archivos
+  - Función `open()`
+  - Función `write()`
+  - Modos `r`, `w` y `a` utilizados en `open()`.
+  - Funciones `read()` y `readline()`
+  - Construcción:
+  ```Python
+  archivo = open('mi_archivo', 'r')
+  for linea in archivo:
+      ...
+  ```
+- Excepciones
+  - Bloques `try:` y `except:`
+  - Excepciones nativas de python:
+    - `FileNotFoundError`
+    - `IndexError`
+    - `KeyError`
+    - `NameError`
+    - `ValueError`
+  - Interceptar excepciones específicas.
+- Módulos
+  - Instalación de módulos con `pip install`
+  - `import`
+  - `from modulo import funcion as nombre_facil`
+  - Módulo `requests`
+    - Introducción a el protocolo HTTP
+    - Introducción a JSON
+    - `requests.get()`
+    - `my_request.json()`
+  - Como crear módulos.
+- Clases
+  - Clase vs Instancia
+  - Métodos de instancia
+  - Atributos de clase vs Atributos de instancia
+  - `__init__` y `self`
+  - `__str__`
+  - Cómo acceder a los docstrings `__doc__`
+  - Métodos de clase `@classmethod`
+  - Atributos privados `__privateattr`
+- Herencia
+  - ```python
+    class Subclass(Superclass):
+      ...
+
+  - Como crear un constructor en la subclase llamando al constructor de la superclase. `Superclass.__init__(self, attr1, attr2, .., attrN)`
+  - Como llamar a un método de la superclase desde dentro de la subclase. `Superclass.superclassmethod(self)`
+
+
+### Django.
+  - Getting started tutorial.
+  - Continua ...
+
+### Bases de datos.
+  - Qué es una base de datos y para qué sirve.
+  - Continua ...
+
+### NGINX
+  - Idem, grupo de cloud.
+
+
+
 
 
 Networking
 ---
-1. **Completar...**
+- **primer entrada...**
 
 Electrónica y control
 ---
-1. **Completar...**
+- **Completar...**
