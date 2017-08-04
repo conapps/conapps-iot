@@ -27,7 +27,7 @@ Documentación
 
 ### Git
 
-- [Clase de Git]((https://github.com/conapps/conapps-iot/blob/master/20170124%20-%20Git.md))
+- [Clase de Git](https://github.com/conapps/conapps-iot/blob/master/20170124%20-%20Git.md)
   - Autor: Guzmán Monné
   - Fecha: 2017/01/24
   - Actualizado: 2017/01/25
