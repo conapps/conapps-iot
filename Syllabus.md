@@ -404,10 +404,37 @@ Cloud (Infraestructura)
 - Funciones y referencias.
 - Multiples deployments.
 - Limitaciones.
-- AWS SAM.
-- Labs.
-  - Levantar un VPC con CloudFormation.
-  - Levantar un servicio de API Gateway + Lambda con CloudFormation.
+- [AWS](#aws)
+- [EC2](#ec2)
+- [VPC](#vpc)
+- [ELB](#elb)
+- [CloudWatch](#cloudwatch)
+- [Auto Scaling](#auto-scaling)
+- [IAM](#iam)
+- [RDS](#rds)
+- [Redshift](#redshift)
+- [DynamoDB](#dynamodb)
+- [S3](#s3)
+- [SQS](#sqs)
+- [SNS](#sns)
+- [ECS](#ecs)
+- [CloudFront](#cloudfront)
+- [Route 53](#route-53)
+- [Lambda](#lambda)
+- [API Gateway](#api-gateway)
+- [CloudFormation](#cloudformation)
+- [ElastiCache](#elasticache)
+- [EMR](#emr)
+- [Elastic Beanstalk](#elastic-beanstalk)
+- [AWS IoT](#aws-iot)
+- [NGINX](#nginx)
+- [Cloud HSM](#cloud-hsm)
+- [Workmail, Worspaces, Workdocs (Aplicaciones de oficina en la nube)](#workmail-worspaces-workdocs-aplicaciones-de-oficina-en-la-nube)
+- [JavaScript](#javascript)
+- [Python](#python)
+- [Django.](#django)
+- [Bases de datos.](#bases-de-datos)
+- [NGINX](#nginx)
 
 ### ElastiCache
 
@@ -537,6 +564,10 @@ Desarrollo frontend
 ---
 ### JavaScript
 
+Basado en la serie de libros: 'You don't know JavaScript' de Kyle Simpson.
+
+[Leer online](https://github.com/getify/You-Dont-Know-JS)
+
 - Conceptos generales.
   - Statements.
   - Expressions.
@@ -565,6 +596,47 @@ Desarrollo frontend
   - Prototypes.
   - Polyfilling & Transpiling.
   - DOM API.
+- Tipos.
+  - Incluidos en el lenguaje.
+  - Valores como tipos.
+  - `undefined`.
+  - `typeof`.
+- Valores
+  - Arrays.
+  - Arrays-like.
+  - Strings.
+  - Números.
+  - Valores especiales.
+    - `null`.
+    - `undefined`.
+    - `void`.
+  - Números especiales.
+    - `Nan`.
+    - Ceros.
+  - Valores vs Referencias.
+  - Funciones de valores nativos.
+    - Funciones de valores nativos como constructores.
+    - `Date()`.
+    - `Error()`.
+    - `Symbol()`.
+  - Coerción.
+    - Convirtiendo valores.
+    - Operaciones sobre valores abstractos.
+    - Coerción explicita.
+    - Coerción implicita.
+    - Operadores.
+    - Loose Equals vs. Strict Equals.
+    - Casos de borde.
+    - Comparaciónes "falsas".
+  - Gramatica.
+    - Statements & Expressions.
+    - Reglas de Contexto.
+    - Object destructuring.
+    - `else if`.
+    - Precedencia de operadores.
+    - `;`.
+    - `try...catch...finnaly`.
+    - `switch`.
 - Scopes & Closure.
   - ¿Que es un scope?
   - Global scope.
@@ -589,16 +661,22 @@ Desarrollo frontend
   - Objetos existentes.
   - Contenidos.
   - Acceso a propiedades.
-  - Propiedad vs Metodo.
+  - Propiedad vs. Metodo.
   - Arrays.
-  - Duplicar objetos.
+  - Duplicando objetos.
   - Iteraciones.
-- ¿Clases?
-  - Teoría.
-  - Clases de JavaScript.
+- Async.
+  - Event Loop.
+  - Promises.
+  - Observables.
+  - Generators.
+- Mixins y Clases
+  - Teoría de clases.
   - Mixins.
-- Object Prototypes.
-  - ​
+- `this` & Object prototypes.
+  - `Object.create`.
+- Behaviour delegation.
+  - Objects linked to Other Objects.
 
 Desarrollo Backend
 ---

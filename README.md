@@ -21,6 +21,8 @@ En los siguientes documentos se puede encontrar más información sobre el alcan
 3. [Diagrama de comunicación](./images/organigrama.jpg).
 4. [Iniciativa OpenBadges](https://openbadges.org/).
 5. [Syllabus.](https://github.com/conapps/conapps-iot/blob/master/Syllabus.md)
+6. [Free programming books](https://github.com/EbookFoundation/free-programming-books/blob/master/free-programming-books.md)
+7. [Awesome JavaScript](https://github.com/sorrycc/awesome-javascript)
 
 Documentación
 ---
