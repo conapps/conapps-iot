@@ -63,3 +63,11 @@ Contribuidores
 
 - Ismael Almandos [ialmandos@conatel.com.uy](mailto://ialmandos@conatel.com.uy).
 - Guzmán Monné [gmonne@conatel.com.uy](mailto://gmonne@conatel.com.uy).
+- Fernando Agis [fagis@conatel.com.uy](mailto://fagis@conatel.com.uy).
+- Pablo Scanniello [pscanniello@conatel.com.uy](mailto://pscanniello@conatel.com.uy).
+- Marcelo Iriarte [miriarte@conatel.com.uy](mailto://miriarte@conatel.com.uy).
+- Andrés Foderé [afodere@conatel.com.uy](mailto://afodere@conatel.com.uy).
+- Guillermo Barboza [gbarboza@conatel.com.uy](mailto://gbarboza@conatel.com.uy).
+- Daniel Cetti [dcetti@conatel.com.uy](mailto://dcetti@conatel.com.uy).
+- Eduardo Paredes [eparedes@conatel.com.uy](mailto://eparedes@conatel.com.uy).
+
