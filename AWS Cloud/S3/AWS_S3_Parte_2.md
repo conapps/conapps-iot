@@ -1,3 +1,10 @@
+| [< Anterior](.\AWS_S3_Parte_1.md) | [Siguiente >](.\AWS_S3_Parte_3.md) |
+
+
+## Imágenes
+---
+
+
 Amazon Simple Storage Service (Amazon S3)
 ===
 
@@ -164,16 +171,15 @@ https://aws.amazon.com/es/getting-started/tutorials/backup-files-to-amazon-s3/)
 
 Ahora repitamos esto mismo, pero desde la línea de comando de Amazon S3 (CLI).
 
-Requisito: se debe contar con un usuario creado en el AWS IAM, para poder contar con las credenciales necesarias para acceder a S3 desde línea de comando. Estos es la clave de acceso (*Access Key ID*) y la clave secreta del usuario (*Secret Access Key*)
+Requisito: se debe contar con un usuario creado en el AWS IAM, para poder contar con las credenciales necesarias para acceder a S3 desde línea de comando (*Access Key ID* y *Secret Access Key*)
 
 ### Descargar e instalar la línea de comandos
 Es necesario descargar la línea de comandos desde la página de Amazon AWS.
 Está disponible para Windows, Mac y Linux.
-Siga el procedimiento de instalación dependiendo del sistema operativo.
 
 Link: [Interfaz de línea de comando de AWS](https://aws.amazon.com/es/cli/)
 
-En el caso de Windows, si ya se tiene Python instalado, recomiendo instalar la AWS CLI mediante el comando pip (esto evita recibir un mensaje de error luego de ciertos comandos):
+Tanto desde Linux como Windows, si ya se tiene Python instalado, se puede instalar la AWS CLI mediante el comando pip (recomiendo hacerlo de este modo):
 ```bash
 $ python --version
 Python 3.6.1
@@ -188,6 +194,7 @@ Successfully installed awscli-1.11.130
 $ aws --version
 aws-cli/1.11.130 Python/3.6.1 Windows/7 botocore/1.5.93
 ```
+
 
 ### Configuración inicial
 Abra una consola (terminal linux o cmd en Windows), y luego:
@@ -239,7 +246,7 @@ $ aws s3 ls
 
 **Trabajando con *objetos:***
 
-Para cargar el archivo *logo.png* del directorio local de nuestra máquina a un nuevo *bucket*, utilizamos el comando *cp*:
+Para cargar el archivo *logo.png* del directorio local de nuestra máquina a un nuevo *bucket*, utilizamos el comando *cp*.
 
 ```bash
 $ aws s3 mb s3://iot-cloud-bucket-nuevo
@@ -256,7 +263,7 @@ $ aws s3 ls s3://iot-cloud-bucket-nuevo
 2017-08-09 15:02:04       1753 logo.png
 ```
 
-Para descargar el objeto *logo.png* desde S3 a nuestro disco local, renombrandolo a *logo-2.png*:
+Para descargar el objeto *logo.png* desde S3 a nuestro disco local, utilizamos también el comando *cp* simplemente alternando origen/destino. En este caso lo bajamos a nuestra máquna local con otro nombre *logo-2.png* para no sobreescribir el existente (opcional):
 ```bash
 $ aws s3 cp s3://iot-cloud-bucket-nuevo/logo.png ./logo-2.png
 download: s3://iot-cloud-bucket-nuevo/logo.png to .\logo-2.png
@@ -265,13 +272,11 @@ $ ls
 logo.png  logo-2.png
 ```
 
-Para eliminar el objeto *logo.png* del bucket:
+Para eliminar un objeto del *bucket* utilizamos el comando *rm* :
 ```bash
 aws s3 rm s3://iot-cloud-bucket-nuevo/logo.png
 delete: s3://iot-cloud-bucket-nuevo/logo.png
 ```
-
-### Acceder a un objeto (acceso público)
 
 Refs:
 [Almacenamiento de varios archivos en Amazon S3 con la CLI de AWS (tutorial)](https://aws.amazon.com/es/getting-started/tutorials/backup-to-s3-cli/)
