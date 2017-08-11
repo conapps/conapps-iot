@@ -41,15 +41,18 @@ Mediante el uso de cloud computing, se puede reducir los costos variables que te
 No es necesario tener que “adivinar” las necesidades de capacidad de la infraestructura. Al tomar una decisión respecto a la capacidad antes de implementar una aplicación, a menudo se acaba por acumular recursos costosos y ociosos, o se descubre (luego de implementar) que se dispone de una capacidad limitada. Con una implementación del tipo cloud computing, estos problemas desaparecen, ya que se puede obtener acceso a los recursos necesarios y aumentar o reducir la capacidad en segundos.
 
 **4.	Aumente la velocidad y la agilidad**
+
 En un entorno cloud, la disponibilidad de nuevos recursos está en todo momento a un simple clic del mouse. Esto significa que se puede reducir el tiempo que dichos recursos tardan en estar disponibles para los desarrolladores, pasando de semanas a cuestión de minutos. 
 
 El resultado, es un aumento espectacular en la agilidad de la organización para poner en producción un sistema, ya que se reducen notablemente los tiempos y costos para hacer pruebas, investigación y deploy de aplicaciones.
 
 **5.	Reducción de costos**
+
 Mejorar e incrementar la capacidad de centrarse en proyectos que hagan destacar el negocio, en lugar de hacerlo en la infraestructura. Cloud computing nos permite centrarnos en los clientes, en lugar de la gigantesca tarea de instalar, ampliar y mantener servidores, sistemas de almacenamiento, networking, etc.
 
  
 **6.	Disponibilidad a nivel mundial**
+
 Podemos realizar el deploy de aplicaciones en cuestión de minutos, de forma sencilla, utilizando las regiones de AWS alrededor del mundo. De esta forma podremos ofrecer una menor latencia y una mejor experiencia a los clientes de forma sencilla y a un costo relativamente bajo.
 
 
@@ -355,10 +358,10 @@ Una forma fácil de entender el concepto es asociar una AZ con un Data Center, p
 Para muchos de los servicios de AWS, no solo hay que decirle en que Region queremos ejecutar el servicio, sino que también en qué AZ deseamos hacerlo (Ejemplo: EC2 Instance)
 Notemos que algunas regiones tienen más AZ que otras, con la salvedad que cada Región tiene al menos 2 AZ, a excepción de China (limited preview).
 
-| Region        | Availability Zone
-| ------------- |:-------------:| -----:|
-| us-west-1    | us-west-1a | us-east-1 |
-|   | us-west-1b | us-west-1 |
+| Region        | Availability Zone |
+| ------------- |:-------------:| 
+| us-west-1    | us-west-1a | 
+|              | us-west-1b | 
 
 
 La letra al final, indica en que AZ estoy.
