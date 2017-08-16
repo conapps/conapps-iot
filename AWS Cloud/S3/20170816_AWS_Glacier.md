@@ -212,43 +212,15 @@ Refs:
 
 
 ---
-## Access Control
-Por defecto Amazon S3 es seguro, cuando creamos un *bucket* o un objeto, solo el dueño (el usuario que lo creó) puede accederlo.
-El dueño puede opcionalmente brindar (o restringir) acceso de diversas formas:
-
-* **Access Control Lists (ACLs)**: permite aplicar permisos básicos de lectura/escritura/full-control a nivel de *bucket* y *object*. Las ACLs fueron la primer opción para brindar accesos, antes de que existiera IAM, y actualmente deberían utilizarse solo para ciertos casos puntuales, tales como habilitar el logging de un *bucket*, o permitir el acceso público a todos los usuarios. Las ACLs tienen ciertas limitantes, y permiten realizar controles a un nivel mas general, no tan detallado como las otras dos opciones.
-
-* **Bucket Policies**: permiten aplicar políticas de acceso a nivel de los buckets, sin utilizar IAM, y logrando políticas con un buen nivel de detalle y control. Por ejemplo, permitir acceso a público de tipo read-only a todos los objetos de determinado *bucket*, restringir o brindar accesos a determinados usuarios a determinados objetos, o incluso a nivel de direcciones IP (que una determinada IP no pueda acceder a determinados objetos). Permiten un control mucho mas detallado sobre nuestros objetos que las ACLs, y sin requerir el uso de IAM. Es recomendado el uso de *bucket policies* en lugar de *ACLs*.
-
-* **IAM Policies**: permiten especificar permisos específicos sobre S3, y aplicarlos a usuarios, grupos y/o roles. Permite lograr un control muy detallado sobre nuestros recursos de S3. Pero para poder utilizarlas, debemos tener acceso a IAM (vamos a tener una clase específica sobre IAM).
+## Static Web Pages
+---
 
 
-Un ejemplo de una Bucket Policy sería permitir el acceso read-only a los usuarios anónimos:
-```bash
-{
-  "Version":"2012-10-17",   
-  "Statement":[
-    {
-      "Sid":"AddPerm",                
-      "Effect":"Allow",                             // que le voy a aplicar: Allow o Deny
-      "Principal": "*",                             // a quien se lo voy a aplicar: *
-      "Action":["s3:GetObject"],                    // la acción que voy a aplicar: acceder a los objetos
-      "Resource":["arn:aws:s3:::examplebucket/*"]   // el recurso sobre el cual aplica: examplebucket
-    }                                               
-  ]
-}
-```
+---
+## Seguridad en Amazon S3
+---
 
-
-Refs:
-[Overview of Managing Access](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/access-control-overview.html)
-[Managing Access Permissions to Your Amazon S3 Resources](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/s3-access-control.html)
-[Bucket Policy Examples](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/example-bucket-policies.html)
-[Example Walkthroughs: Managing Access to Your Amazon S3 Resources](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/example-walkthroughs-managing-access.html)
-[AWS Policy Generator](http://awspolicygen.s3.amazonaws.com/policygen.html)
-[AWS Identity and Access Management (IAM)](https://aws.amazon.com/es/iam/)
-
-
+### Access Controls (ACLs)
 
 ---
 ### Encryption
@@ -265,11 +237,11 @@ Refs:
 
 
 ---
-## Static Web Pages
----
+### Throughput omptimisation
 
 ---
-### Throughput omptimisation
+## Amazon Glacier
+---
 
 
 
