@@ -38,7 +38,7 @@ Podemos darle acceso temporal a otro usuario (que ya tenga usuario en AWS) y que
 
 * **Información de auditoría**
 
-Si estamos utilizando [AWS CloudTrial](https://aws.amazon.com/es/cloudtrail/) recibiremos logs que incluyen registros de peticiones de acceso a recursos de nuestra cuenta basadas en información de IAM.
+Si estamos utilizando [AWS CloudTrail](https://aws.amazon.com/es/cloudtrail/) recibiremos logs que incluyen registros de peticiones de acceso a recursos de nuestra cuenta basadas en información de IAM.
 
 * **Payment Card Industry(PCI) & Data Security Standard (DSS)**
 
@@ -85,75 +85,10 @@ Cuando utilizamos la cuenta root, tenemos acceso completo a todos los servicios 
 Como vemos en la imágen anterior, es posible tener más de un usuario creados en una cuenta de AWS, incluso pueden ser para identificar usuarios físicos, así como también usuarios de aplicaciones que accederán a recursos de AWS de forma programática mediante la API Rest o los SDK.
 
 ---
-## Creando nuestro segundo usuario
+## Ejercicio #1: [Creación de usuarios y grupos](AWS_IAM_Users&Groups.md)
 ---
 
-Amazon IAM se accede desde la Consola de Administración de Amazon Web Services. Una vez que se ingresa a la consola, en la barra de búsqueda escribir "IAM" y seleccionar la consola de AWS IAM.
 
-![Acceso a IAM](images/IAM_access.png)
-
-* **Agregar nuevo usuario**
-
-Desde la consola de IAM haga clic en _Add user_
-
-![Crear usuario](images/IAM_user1.png)
-
-* Debe indicar un nombre de usuario (jperez, devApp1, etc).
-
-![Crear usuario](images/IAM_user2.png)
-
-
-* Indicar si se le otorgará acceso mediante API, CLI y SDK haciendo clic en **Programmatic access**
-
-* Indicar si se le otorgará acceso a la consola de management (se desplegarán opciones extras para generar una password)
-
-![Crear usuario](images/IAM_user3.png)
-
-A continaución se despliega la siguente pantalla en la cual debemos indicar que permisos le vamos a otorgar al nuevo usuario.
-
-![Crear usuario](images/IAM_user4.png)
-
-* Agregarlo  un grupo existente (o crear un nuevo grupo).
-
-* Copiar los permisos de un usuario existente.
-
-* Asignarle una política ya existente en AWS.
-
-![Crear usuario](images/IAM_user5.png)
-
-Confirmamos la creación del usuario haciendo clic en _Create user_.
-
-
-![Crear usuario](images/IAM_user6.png)
-
-Por último, nos despliega una pantalla con un resumen de lo que se hizo, incluyendo:
-
-1. URL de acceso.
-2. Nombre de usuario.
-3. _Access key ID_ y _Secret access key_
-4. _Password_
-
-Por otro lado nos da la opción de enviar el instructivo por mail o bajar los datos en formato .csv
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
----
 ## Federación de usuarios existentes
 ---
 Si los usuarios ya cuentan con un sistema de autenticación, Ej; login en la red empresarial. Es posible federar estos usuarios dentro de AWS.
@@ -173,8 +108,31 @@ Si contamos con una aplicación mobil o web que le permite al usuario loguearse 
 
 
 ---
-## Políticas & Permisos
+## Políticas & Usuarios
 ---
 
 Hasta el momento siempre estuvimos hablando de Identificación del usuario/aplicación _(Identity)_. Ahora bien, cuando hablamos de la administración de acceso _(Access Management)_ estamos hablando de que es lo que un usuario puede hacer dentro de AWS. Los permisos son otorgados mediante políticas las cuales son creadas y luego otorgadas a los usuarios, grupos o roles.
+
+Por defecto, los usuarios no tienen permisos para acceder a ningún recurso salvo que se indique lo contrario mediante políticas.
+
+---
+## Políticas & Grupos
+---
+
+Es posible organizar usuarios dentro de grupos IAM. Todos los usuarios dentro de un grupo tienen los permisos asignados al grupo. Es una forma fácil de agrupar usuarios y permisos.
+
+![IAM Groups](images/IAM_groups1.png)
+
+---
+## Características de seguridad fuera de IAM
+---
+
+Utilizaremos el servicios IAM para controlar el acceso a las tareas que son ejecutadas mediante AWS Management Console, Command Line Tools o los servicios API usados por los SDKs.
+
+Ahora bien, otros servicios y recursos de AWS tienen otros mecanismos de seguridad.
+
+* **Amazon EC2**: utiliza usuario y password para iniciar sesión dentro de una instancia.
+
+* **Amazon RDS**: utiliza usuario y clave para loguearse dentro del motor que estan atados a la base de datos (Ej; usuario y pass de SQL).
+
 
