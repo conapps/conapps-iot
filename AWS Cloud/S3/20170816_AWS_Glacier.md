@@ -1,249 +1,375 @@
-| [ Amazon S3](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/20170807_AWS_S3.md) |
+Amazon Glacier
+===
+
+*Fuentes:*
+- [Documentación oficial](https://aws.amazon.com/es/documentation/s3/)
+- [Página de AWS S3](https://aws.amazon.com/es/s3/)
+- [Precios de AWS S3](http://aws.amazon.com/s3/pricing/)
+- [AWS S3 Master Class](https://youtu.be/VC0k-noNwOU)
+- [AWS re:Invent 2016: Deep Dive on Amazon S3 (STG303)](https://youtu.be/bMhWWkhydFQ)
+
+
+## Indice.
+---
+- [Introducción](#introduccion)
+- [Conceptos Básicos](#conceptos-básicos)
+- [Primeros Pasos](#primeros-pasos)
+- [Linea de Comandos de Amazon S3](#línea-de-comandos-de-amazon-s3)
+- [Folders](#folders)
 
 ---
-# Amazon Glacier
-
-El versionado ayuda a proteger los datos contra el borrado de los mismos, manteniendo multiples versiones de cada objeto de un bucket, identificándolos mediante un *version ID* único. Permite preservar y recuperar cada una de las versiones del objeto en el *bucket*. Si un usuario modifica o elimina un objeto, puede recuperar la última versión del objeto, referenciando la *version ID*, *bucket* y *object key*.
-
-El versionado se realiza a nivel de *bucket*, y preserva en forma automática todas las copias de los objetos contenidos en el mismo. Incluso mantiene el historial de versiones de los objetos eliminados.
-Si borramos un objeto, en lugar de eliminarlo en forma permanente S3 le inserta una marca de borrado, de forma que podemos recuperarlo. Mientras que si sobreescribimos un objeto, se convierte en una nueva versión del objeto en el bucket. Siempre se puede restaurar una versión previa de un objeto.
-
-El versionado está apagado por defecto está apagado, y una vez habilitado no puede ser removido de ese *bucket*, solo puede ser suspendido.
-
-Se debe tener en cuenta que todas las versiones del objeto ocupan espacio en S3, por lo cual podemos incrementar nuestros costos de almacenamiento sensiblemente. Una buena práctica sería utilizar las *lifecycle policies* para eliminar versiones viejas, o moverlas viejas a capas de almacenamiento mas baratas o archivarlas a Glacier.
-
-El versionado se puede habilitar en el momento de crar un *bucket*, o sobre uno ya existente.
-Probemos de crear un nuevo bucket y habilitarle el versionado (puede hacerse al crearlo o luego desde las propiedades):
-
-![alt text](./images/S3_versionning_01.png)
+## Introducción ##
 ---
-![alt text](./images/S3_versionning_02.png)
+¿Qué es Amazon S3?      
 ---
-![alt text](./images/S3_versionning_03.png)
+Amazon S3 es un **almacenamiento de objetos** creado para almacenar y recuperar cualquier cantidad de datos desde cualquier ubicación: sitios web y aplicaciones móviles, aplicaciones corporativas y datos de sensores o dispositivos IoT.
+
+Permite recopilar, almacenar y analizar datos de forma cómoda y sencilla, independientemente de su formato y a escala masiva. Es durable, seguro, y altamente escalable. Puede ser accedido desde la interface web, desde la línea de comando (Amazon CLI) y/o desde APIs. Puede utilizarse en forma aislada como un repositorio de datos, o en forma integrada con otros servicios de AWS.
+
+### Características
+* Fácil de usar
+* Bajo costo
+* Disponible (cuatro 9s)
+* Durable (once 9s)
+* Seguro
+* Escalable
+* Integrado con otros servicios AWS
+
+### Casos de uso
+* Backup & Archive
+* Almacenar y distribuir contenido (fotos, videos, etc.)
+* Static Website Hosting
+* Big Data & Analytics
+* Almacenamiento de nube híbrida
+* Datos de aplicaciones Cloud-native
+* Distaster recovery
+
+Para soportar estos tipos de uso, Amazon S3 ofrece diferentes tipos de storages (*Storage Classes*), designados para diferentes modalidades de uso: *General purpose*, *Infrequent access*, y *Archive*.
+
+Para ayudar a gestionar los datos, cuenta con un gestor de políticas (*Lifecycle Policies*) que permite mover los datos en forma automática entre las diferentes clases de storage.
+
+También provee seguridad, control de acceso, y encriptación.
+
+### Object Storage vs Traditional Storage
+
+Existen varias diferencias entre las soluciones de almacenamiento tradicional (Block Storage, File Sotage) y las soluciones de almacenamiento de objetos (Object Storage).
+
+En el siguiente artículo se puede encontrar información adicional:
+
+   * [Introduction To Object Storage](https://blog.rackspace.com/introduction-to-object-storage)
+
 ---
-![alt text](./images/S3_versionning_04.png)
+## Conceptos Básicos ##
 ---
 
-Ahora bien, probemos de subir un objeto nuevo a este bucket, por ejemplo el *documento1.txt* que tenemos en nuestro equipo:
-```bash
-$ cat documento1.txt
-HOLA MUNDO!!  que original, no?
+### Buckets
+Son los depósitos donde se almacenan los objetos en S3. Representan el nivel mas alto de jerarquía dentro del almacenamiento. Cada objeto encuentra dentro de un *bucket*.
+Se pueden crear y utilizar hasta 100 *buckets* por cada cuenta por defecto, y cada *bucket* puede contener miles de objetos.
 
-$ aws s3 cp documento1.txt s3://iot-cloud-bucket-versionado
-upload: .\documento1.txt to s3://iot-cloud-bucket-versionado/documento1.txt
+El nombre del *bucket* debe ser único dentro de todos los existentes en Amazon S3 (no solo dentro de mi cuenta). Debe cumplir con una serie de reglas, debe tener entre 3 y 63 caracteres, no puede tener mayúsculas, ni espacios, ni caracteres especiales salvo guiones y puntos, entre otros.  
+
+El nombre del *bucket* será visible en la URL que remite a los objetos almacenados en él. Una vez creado, el nombre no puede ser modificado.
+
+Referencias:
+    [Working with Amazon S3 Buckets](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingBucket.html)
+    [Restricciones y limitaciones en los Buckets](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/BucketRestrictions.html)
+
+
+### Objects
+Son los objetos (archivos) almacenados en Amazon S3.
+Un objeto puede contener cualquier tipo de datos en cualquier formato.
+El tamaño máximo para un objeto es de 5TB, y un *bucket* puede contener una cantidad ilimitada de objetos.
+
+Cada objeto consiste de *datos* (el archivo propiamente dicho) y *metadatos* (una serie de información acerca del archivo). La porción de *datos* es opaca a S3, es decir, es tratada como un simple conjunto de bytes sin importar su contenido. Los *metadatos* son pares de valores nombrados, que describen el objeto.
+
+### Keys
+Cada objeto almacenado dentro de *bucket* es identificado en forma única por un clave (*Key*). Se podría pensar en la *key* como si fuera el *filename* del objeto.
+La *key* puede contener hasta 1024 caracteres, incluyendo barra (/), retrobarra (\\), punto, y guión.
+
+La clave debe ser única dentro de un *bucket*, pero diferentes *buckets* pueden contener objetos con la misma clave.
+La combinación de *bucket* + *key* + *version ID* (opcional) identifica en forma única a un objeto almacenados en S3.
+
+Ejemplo de clave: */datos/informes/2017/01/reporte-de-horas.doc*
+
+### URL del objeto
+Cada uno de los objetos almacenados en S3 puede ser accedido mediante una URL única, la cual se conforma del *Amazon web services endpoint*, el nombre del *bucket*, y la *key* del objeto.
+
+La URL puede tener estos dos formatos:
+http(s)://*\<bucket-name\>*.s3.amazonaws.com/*\<object-key\>*
+http(s)://s3.amazonaws.com\/*\<bucket-name\>*/*\<object-key\>*
+
+Esto puede cambiar sensiblemente, dado que el dominio de aws generalmente incluye también la region (ej. s3-us-west-2.amazonaws.com) y la *bucket-key* puede incluir una serie de carpetas dentro (*folders*).
+
+Por ej.:
+https://s3-us-west-2.amazonaws.com/my-bucket/document.doc
+https://bucket-auditoria.s3-us-west-2.amazonaws.com/datos/informes/2017/01/reporte-de-horas.doc
+
+
+### Regiones
+Es la región geográfica donde Amazon S3 almacenara el *bucket* que se está creando.
+Elegir una región permite minimizar los costos, optimizar la latencia, o cumplir con requisitos legales o regulatorios. Amazon S3 permite replicar objetos entre regiones, lo veremos más adelante.
+
+---
+## Primeros pasos ##
+Eso es todo lo que debemos saber (por ahora) para comenzar a utilizar las funciones básicas de S3.
+
+Amazon S3 se accede desde la Consola de Administración de Amazon Web Services.
+Una vez que se ingresa a la consola, en la barra de búsqueda escribir "S3" y seleccionar la consola de AWS S3.
+
+![alt text](./images/S3_Console.png)
+
+### Crear un *bucket*
+* En el panel de S3, haga click en *Create Bucket*
+
+![alt text](./images/S3_bucket_01.png)
+
+* Introduzca el nombre del *bucket* y seleccione la región.
+* Con esta información ya puede crear el *bucket* clickeando *Create*.
+* O puede clickear *Next* para configurar Propiedades adicionales (control de versiones, etiquetas, logging) y/o Permisos. Dejemos todas esas opciones por defecto por ahora y complete la creación del *bucket*.
+![alt text](./images/S3_bucket_02.png)
+
+
+* Listo, ya puede ver la lista de sus *buckets*
+
+![alt text](./images/S3_bucket_03.png)
+
+
+### Subir objetos
+* Seleccionar el *bucket* donde se quiere subir el objeto
+![alt text](./images/S3_upload_01.png)
+
+* Click en *Upload*
+![alt text](./images/S3_upload_02.png)
+
+* Seleccionar los archivos a subir (browse / drag&drop)
+![alt text](./images/S3_upload_03.png)
+
+* Clickear *Upload*.
+* La barra de estado en la parte baja de la pantalla muestra el progreso. Una vez terminado, el objeto queda almacenado en el *bucket*.
+![alt text](./images/S3_upload_04.png)
+
+En forma opcional, al momento de realizar el upload se pueden configurar otras opciones sobre el objeto tales como:
+* Permisos
+* Permitir el acceso público al objeto
+* Especificar la clase de storage donde se almacenará el objeto
+* Opciones de cifrado
+* Metadatos
+
+Veremos estas opciones mas adelante, por lo cual por ahora las dejaremos por defecto.
+
+
+### Descargar objetos
+* Seleccionar el objeto que se encuentra dentro del *bucket* (con el check-box a la izquierda del objeto).
+* Se abre sobre la derecha el panel de propiedades.
+* Click en *Download*
+![alt text](./images/S3_download_01.png)
+
+## Acceder a un objeto (acceso público)
+Podemos darle permisos a nuestros objetos para que los mismos puedan accederlos en forma pública, por ej. desde un navegador web. Esto puede resultar útil a la hora de compartir información con otras personas que no tengan cuentas es AWS.
+Para esto debemos habilitar los permisos necesarios, que por defecto están deshabilitados.
+
+Como vimos anteriormente, todo objeto que tenemos en un *bucket* es accesible mediante una *key*.
+* Seleccionar el objeto dentro del *bucket* (con el chek-box).
+* En el panel de propiedades copiar el *Link* y abrirlo en un browser.
+![alt text](./images/S3_public_01.png)
+
+* El navegador nos da error y no podemos acceder al objeto. Esto es porque el objeto por defecto no tiene el acceso público habilitado.
+![alt text](./images/S3_public_02.png)
+
+* Si queremos dar acceso público a este objeto, podemos hacerlo de varias formas. Una es seleccionando el objeto para ver sus propiedades (ahora dando click en el nombre, no en el check-box), y luego seleccionar *Make public*
+![alt text](./images/S3_public_03.png)
+
+Listo! ahora podemos volver a ingresar al link que habíamos copiado antes en el navegador y el objeto podrá ser accedido.
+![alt text](./images/S3_public_04.png)
+
+Es normal en la consola de AWS poder hacer lo mismo de varias formas, por ejemplo en este caso:
+![alt text](./images/S3_public_05.png)
+
+El acceso público también se puede dar al momento de subir el objeto al *bucket*.
+
+---
+## Línea de Comandos de Amazon S3 ##
+
+Ahora realizaremos operaciones básicas desde la línea de comando de Amazon S3 (CLI).
+
+Requisito: se debe contar con un usuario creado en el AWS IAM, para poder contar con las credenciales necesarias para acceder a S3 desde línea de comando (*Access Key ID* y *Secret Access Key*)
+
+### Descargar e instalar la línea de comandos
+Es necesario descargar la línea de comandos desde la página de Amazon AWS (disponible para Windows, Linux y Mac).
+
+Link: [Interfaz de línea de comando de AWS](https://aws.amazon.com/es/cli/)
+
+Tanto desde Linux como Windows, si ya se tiene Python instalado, se puede instalar la AWS CLI mediante el comando pip:
+```bash
+$ python --version
+Python 3.6.1
+
+$ pip install awscli
+Collecting awscli
+  Using cached awscli-1.11.130-py2.py3-none-any.whl
+(...)
+Installing collected packages: awscli
+Successfully installed awscli-1.11.130
+
+$ aws --version
+aws-cli/1.11.130 Python/3.6.1 Windows/7 botocore/1.5.93
 ```
 
-Modifiquemos en nuestro equipo el contenido del *documento1.txt* (puede hacerlo con un editor/notepad si lo prefiere):
-```bash
-$ echo "... agrego algo de información al documento 1" >> documento1.txt
 
-$ cat documento1.txt
-HOLA MUNDO!!  que original, no?
-... agrego algo de información al documento 1
-```
-
-Y volvamos a subir el *documento1.txt* al mismo bucket que antes, con lo cual vamos a sobrescribir nuestro objeto:
-```bash
-$ aws s3 cp documento1.txt s3://iot-cloud-bucket-versionado
-upload: .\documento1.txt to s3://iot-cloud-bucket-versionado/documento1.txt
-```
-
-Bien, ahora vayamos a la consola web de S3, y veamos el contenido del *iot-cloud-bucket-versionado*.
-
-Lo primero que podemos ver, es que en la parte superior se habilitan las opciones ***All | Deleted objects***, esto nos muestra que ese *bucket* tiene objetos con versiones.
-
-![alt text](./images/S3_versionning_05.png)
-
-Si seleccionamos el *documento1.txt*, podemos ver en sus propiedades las diferentes versiones del objeto, con sus fechas y la capa de almacenamiento donde se encuentra cada una. También podemos descargar y eliminar una versión del objeto.
-![alt text](./images/S3_versionning_06.png)
-
-
-Con la **CLI** podemos listar los objetos que se encuentran en nuestro bucket (*s3api list-objects*) y también poder ver las características de las diferentes versiones del archivo (*s3api list-object-vesions*):
+### Configuración inicial
+Abra una consola (terminal en Linux o cmd en Windows), y luego:
 
 ```bash
-$ aws s3api list-objects --bucket iot-cloud-bucket-versionado
-{
-    "Contents": [
-        {
-            "Key": "documento1.txt",
-            "LastModified": "2017-08-12T18:51:00.000Z",
-            "ETag": "\"17b60662b5e30ea4310aff30dbed84d4\"",
-            "Size": 80,
-            "StorageClass": "STANDARD",
-            "Owner": {
-                "DisplayName": "aws.develop",
-                "ID": "253b019b7f4fd45d661c9fdb0619b56bad91f8eb9fea1ef96d0aeab3e189cf2d"
-            }
-        }
-    ]
-}
-
-$ aws s3api list-object-versions --bucket iot-cloud-bucket-versionado
-{
-    "Versions": [
-        {
-            "ETag": "\"17b60662b5e30ea4310aff30dbed84d4\"",
-            "Size": 80,
-            "StorageClass": "STANDARD",
-            "Key": "documento1.txt",
-            "VersionId": "oNlqAiHtpUFJ2vK.ionRwJS1yanXVHmY",
-            "IsLatest": true,
-            "LastModified": "2017-08-12T18:51:00.000Z",
-            "Owner": {
-                "DisplayName": "aws.develop",
-                "ID": "253b019b7f4fd45d661c9fdb0619b56bad91f8eb9fea1ef96d0aeab3e189cf2d"
-            }
-        },
-        {
-            "ETag": "\"fb4794e7e7bfbffb4630114f236cc02d\"",
-            "Size": 34,
-            "StorageClass": "STANDARD",
-            "Key": "documento1.txt",
-            "VersionId": "lM.eixwBplCnnot.eM.hLMGw3aTwA5iW",
-            "IsLatest": false,
-            "LastModified": "2017-08-12T18:32:15.000Z",
-            "Owner": {
-                "DisplayName": "aws.develop",
-                "ID": "253b019b7f4fd45d661c9fdb0619b56bad91f8eb9fea1ef96d0aeab3e189cf2d"
-            }
-        }
-    ]
-}
+$ aws configure
+AWS Access Key ID [None]: AKIAWOINCOKAO3UZB4TN
+AWS Secret Access Key [None]: 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
+Default region name [None]: us-east-1
+Default output format [None]: json
 ```
 
-Probemos de bajar el archivo *documento1.txt"*. Si lo bajamos como siempre, vamos a obtener la última versión que tiene los cambios que habíamos realizado.
+Donde:
+- *AWS Access Key ID [None]:* clave de acceso de su usuario (generada por IAM)
+- *AWS Secret Access Key [None]:* clave secreta de su usuario (generada por IAM)
+- *Default region name [None]:* el nombre de la región, ej: us-east-1
+- *Default output format [None]:* introduzca json
+
+(las claves incluidas más arriba son ejemplos y no son válidas para el acceso)
+
+### Utilizando la AWS CLI
+
+**Trabajando con *buckets***
+Primero podemos listar la lista de *buckets* que tenemos actualmente:
+```bash
+$ aws s3 ls
+2017-08-08 16:33:33 iot-cloud-bucket-01
+```
+En este caso ya tenemos creado el *iot-cloud-bucket-1* que habíamos creado con la consola web.
+Vamos a crear el *iot-cloud-bucket-2* mediante el comando *mb (make_bucket)*
 
 ```bash
-$ aws s3 cp s3://iot-cloud-bucket-versionado/documento1.txt documento1-actual.txt
-download: s3://iot-cloud-bucket-versionado/documento1.txt to .\documento1-actual.txt
+$ aws s3 mb s3://iot-cloud-bucket-02
+make_bucket: iot-cloud-bucket-02
 
-$ cat documento1-actual.txt
-HOLA MUNDO!!  que original, no? :P
-... agrego algo de información al documento 1
+$ aws s3 ls
+2017-08-08 16:33:33 iot-cloud-bucket-01
+2017-08-08 16:34:27 iot-cloud-bucket-02
 ```
 
-Si queremos obtener la versión anterior, debemos referenciar al *VersionId* correspondiente. La podemos ver mas arriba, cuando listamos las versiones del objeto: *"VersionId": "lM.eixwBplCnnot.eM.hLMGw3aTwA5iW"*.
-Bajemos esta versión anterior, pero con otro nombre para poder ver su contenido.
+Y podemos eliminar un *bucket* mediante *rb (remove_bucket)*:
+```bash
+$ aws s3 rb s3://iot-cloud-bucket-02
+remove_bucket: iot-cloud-bucket-02
+
+$ aws s3 ls
+2017-08-08 16:33:33 iot-cloud-bucket-01
+```
+
+**Trabajando con *objetos***
+Para cargar el archivo *logo.png* del directorio local de nuestra máquina a un nuevo *bucket*, utilizamos el comando *cp*:
 
 ```bash
-$ aws s3api get-object --bucket iot-cloud-bucket-versionado --key documento1.txt --version-id lM.eixwBplCnnot.eM.hLMGw3aTwA5iW documento1-old.txt
-{
-    "AcceptRanges": "bytes",
-    "LastModified": "Sat, 12 Aug 2017 18:32:15 GMT",
-    "ContentLength": 34,
-    "ETag": "\"fb4794e7e7bfbffb4630114f236cc02d\"",
-    "VersionId": "lM.eixwBplCnnot.eM.hLMGw3aTwA5iW",
-    "ContentType": "text/plain",
-    "Metadata": {}
-}
+$ aws s3 mb s3://iot-cloud-bucket-02
+make_bucket: iot-cloud-bucket-02
 
-$ cat documento1-old.txt
-HOLA MUNDO!!  que original, no? :P
+$ aws s3 cp logo.png s3://iot-cloud-bucket-02
+upload: .\logo.png to s3://iot-cloud-bucket-02/logo.png
+
+$ aws s3 ls s3://iot-cloud-bucket-02
+2017-08-09 15:02:04       1753 logo.png
 ```
 
-Que pasa si borramos el objeto?
-Probemos de borrar el *documento1.txt* (ya debería saber como hacer esto).
+Para descargar el objeto *logo.png* desde S3 a nuestro disco local, utilizamos también el comando *cp* simplemente alternando origen/destino. En este caso lo bajamos a nuestra máquina local con otro nombre *logo-2.png* para no sobrescribir el existente (opcional):
 ```bash
-$ aws s3 rm s3://iot-cloud-bucket-versionado/documento1.txt
-delete: s3://iot-cloud-bucket-versionado/documento1.txt
+$ aws s3 cp s3://iot-cloud-bucket-02/logo.png ./logo-2.png
+download: s3://iot-cloud-bucket-02/logo.png to .\logo-2.png
+
+$ ls
+logo.png  logo-2.png
 ```
 
-Si vamos a la consola web y seleccionamos *Deleted objects* podemos ver la lista de objetos borrados incluyendo sus versiones:
-![alt text](./images/S3_versionning_07.png)
-
-Y podemos descargarlo, o bien hacer un *Undo delete*.
-![alt text](./images/S3_versionning_08.png)
-
+Para eliminar un objeto del *bucket* utilizamos el comando *rm* :
+```bash
+aws s3 rm s3://iot-cloud-bucket-02/logo.png
+delete: s3://iot-cloud-bucket-02/logo.png
+```
 
 Refs:
-[Using Versioning](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/Versioning.html)
-[Managing Objects in a Versioning-Enabled Bucket](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/manage-objects-versioned-bucket.html)
-[AWS CLI Command Reference: s3api](http://docs.aws.amazon.com/cli/latest/reference/s3api/index.html)
+[AWS CLI Command References S3](http://docs.aws.amazon.com/cli/latest/reference/s3/)
 
+---
+## Folders
+
+Amazon S3 es una solución de *object storage*, y tiene por tanto una estructura plana, sin la jerarquía de directorios que podemos encontrar en un típico filesystem.
+Los *buckets* y los *objects* son los recursos principales, donde los objetos se almacenan dentro de los buckets.
+Pero, con el objetivo de poder organizar mejor los datos, Amazon S3 soporta el concepto de *folders*, en el entendido que las mismas agrupan los objetos (pero sin crear una jerarquía como tal). Esto se realiza utilizando ***prefixes*** (prefijos) en las *keys* de los objetos.
+
+Por ejemplo, dentro de un *bucket* se puede crear una carpeta llamada "fotos", y almacenar un ella un objeto llamado "mifoto.jpg". El objeto es entonces almacenado con el *key name* "fotos/mifoto.jpg", donde "fotos/" es el prefijo.
+
+El concepto de prefijo es importante, dado que luego podremos utilizar diferentes funcionalidades / servicios realizando operaciones sobre ciertos objetos que contengan determinado prefijo (espero que mas adelante esto se entienda mejor).
+
+Se pueden crear carpetas dentro de carpetas, pero no *buckets* dentro de *buckets*. Se pueden subir o copiar objetos directo a una carpeta, y los objetos se pueden mover de una carpeta a otra. Las carpetas se pueden crear, borrar, y hacer públicas, pero no se pueden renombrar.
+
+Desde la consola web podemos crear un folder fácilmente, cuando estamos dentro de un *bucket*:
+![alt text](./images/S3_folders_01.png)
+
+Y podemos subir objetos de la misma forma que lo hicimos antes.
+![alt text](./images/S3_folders_02.png)
+
+También podemos subir objetos a carpetas utilizando la CLI, pero esta vez lo haremos de otra. Supongamos queremos subir una estructura de carpetas y archivos que ya tenemos en nuestro equipo. Subir los objetos uno a la vez podría resultar bastante tedioso.
+
+Vamos a crear una estructura de ejemplo local en nuestra máquina primero:
+```bash
+$ mkdir carpeta-01; cd carpeta-01
+$ mkdir docs
+$ touch docs/file1.txt docs/file2.txt docs/file3.txt
+
+```
+Ahora subamos esos archivos de una forma más fácil.
+Esto podemos hacerlo mediante el mismo comando *aws s3 cp* agregándole la opción *--recursive*
+```bash
+$ aws s3 cp . s3://iot-cloud-bucket-01/carpeta-01/ --recursive
+upload: docs\file1.txt to s3://iot-cloud-bucket-01/carpeta-01/docs/file1.txt
+upload: docs\file2.txt to s3://iot-cloud-bucket-01/carpeta-01/docs/file2.txt
+upload: docs\file3.txt to s3://iot-cloud-bucket-01/carpeta-01/docs/file3.txt
+```
+
+O podemos sincronizar una carpeta local con todo su contenido, con el comando *aws s3 sync*:
+```bash
+$ mkdir logs
+$ touch logs/log1.out logs/log2.out logs/log3.out
+
+$ aws s3 sync . s3://iot-cloud-bucket-01/carpeta-01/
+upload: logs\log3.out to s3://iot-cloud-bucket-01/carpeta-01/logs/log3.out
+upload: logs\log1.out to s3://iot-cloud-bucket-01/carpeta-01/logs/log1.out
+upload: logs\log2.out to s3://iot-cloud-bucket-01/carpeta-01/logs/log2.out
+
+$ aws s3 ls s3://iot-cloud-bucket-01 --recursive
+2017-08-15 21:20:24          0 carpeta-01/
+2017-08-15 21:25:05          0 carpeta-01/docs/file1.txt
+2017-08-15 21:25:05          0 carpeta-01/docs/file2.txt
+2017-08-15 21:25:06          0 carpeta-01/docs/file3.txt
+2017-08-15 21:28:31          0 carpeta-01/logs/log1.out
+2017-08-15 21:28:31          0 carpeta-01/logs/log2.out
+2017-08-15 21:28:30          0 carpeta-01/logs/log3.out
+2017-08-15 21:19:27       1753 logo.png
+```
+
+El comando *sync* solo actualiza los archivos actuales y sube los nuevos, pero no borra objetos salvo que le agreguemos *--delete*:
+```bash
+$ rm logs/log3.out
+
+$ aws s3 sync . s3://iot-cloud-bucket-01/carpeta-01/
+((no hace nada))
+
+$ $ aws s3 sync . s3://iot-cloud-bucket-01/carpeta-01/ --delete
+delete: s3://iot-cloud-bucket-01/carpeta-01/logs/log3.out
+```
+
+
+Refs.:
+[Working with Folders](http://docs.aws.amazon.com/es_es/AmazonS3/latest/UG/FolderOperations.html)
+[AWS CLI Command References S3](http://docs.aws.amazon.com/cli/latest/reference/s3/)
 
 
 ---
-## Cross-Region Replication
----
-La replicación entre regiones es una característica de Amazon S3 que permite copiar objetos en forma automática entre diferentes regiones de AWS. Cada objeto que subamos a un bucket de S3 se replicará en forma asincrónica en otro bucket situado en otra región de AWS que seleccionemos.
-
-Para activar esta característica, es necesario agregar la configuración de replicación al *bucket* de origen, indicando cierta información, particularmente hacia que región lo vamos a copiar. Podemos replicar un *bucket* completo, o seleccionar solo algunos objetos, filtrando que copiar (y/o que no) por medio de *prefixes* o *tags*. Para usar la replicación es requerido que tanto el *bucket* origen como destino tengan el versionado activado.
-
-Se debe tener en cuenta que cuando se habilita esta opción, se comienzan a replicar todos los objetos nuevos a partir de ese momento, pero los objetos anteriores que puedan existir en el bucket no son copiados. Los objetos de la copia destino son exactamente iguales a los originales, con la misma metadata (incluyendo la fecha de creación original), los mismos tags, permisos, etc. AWS S3 encripta el tráfico entre las regiones utilizando SSL.
-
-El uso de esta característica implica cargos adicionales. Debemos pagar los cargos de S3 por almacenamiento, solicitudes y transferencia de datos entre regiones de la copia replicada, además de los cargos de almacenamiento de la copia principal. El precio de la copia replicada se basa en la región de destino, mientras que los precios de las solicitudes y la transferencia de datos entre regiones se basan en la región de origen.
-
-Veamos como configurarlo.
-* Creamos el *bucket* de origen, en una determinada región de AWS, y con *versioning* habilitado.
-  ![alt text](./images/S3_replication_01.png)
-  .
-  ![alt text](./images/S3_replication_02.png)
-  .
-
-* Creamos el *bucket* de destino, en una región diferente de AWS, y con *versioning* habilitado.
-  ![alt text](./images/S3_replication_03.png)
-  .
-  ![alt text](./images/S3_replication_04.png)
-  .
-
-* Habilitamos la replicación en el *bucket* de origen.
-Podemos seleccionar a donde replicar, que objetos replicar, a que clase de storage destino vamos a replicar. Nuestro usuario debe contar con permisos para poder replicar, para lo cual podemos directamente crear un nuevo rol en IAM desde aquí mismo (necesitamos tener acceso a IAM para esto) o podemos seleccionar un rol de IAM existente (por ej. que haya sido creado por nuestro administrador de IAM).
-![alt text](./images/S3_replication_05.png)
-.
-![alt text](./images/S3_replication_06.png)
-.
-![alt text](./images/S3_replication_07.png)
-.
-![alt text](./images/S3_replication_08.png)
-.
-
-Para verificar que la replicación funciona, podemos simplemente subir un objeto al *bucket origen* y verificar que el mismo sea replicado al *bucket destino*. O podemos cambiar las propiedades de un objeto (metadata, tags, ACLs) y verificar que las mismas son modificadas en el objeto replicado.
-
-El tiempo que le toma a S3 replicar la información depende del tamaño de los objetos que estamos replicando.
-Puede llevar varias horas dependiendo de la cantidad de información.
-
-
-Refs:
-[Cross-Region Replication](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/crr.html)
-[Cross-Region Replication FAQs](https://aws.amazon.com/es/s3/faqs/#crr)
-[How to enable Cross-Region (AWS Console)](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/enable-crr.html)
-[Walkthrough 1: Configure Cross-Region Replication Replication for same AWS user account](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/crr-walkthrough1.html)
-[Amazon S3 Pricing](https://aws.amazon.com/es/s3/pricing/)
-
-
----
-## Static Web Pages
----
-
-
----
-## Seguridad en Amazon S3
----
-
-### Access Controls (ACLs)
-
----
-### Encryption
-* None
-* Amazon S3 Master Key
-* AWS KMS master-key
-34.50
-
----
-### Aditional Security Features
-* Audit Logs
-* MULTI-FACTOR AUTHENTICATION DELETE
-* TIME-LIMTED ACCESS TO OBJECTS
-
-
----
-### Throughput omptimisation
-
----
-## Amazon Glacier
----
-
-
-
----
-| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/20170810_AWS_S3_Parte_2.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/20170812_AWS_S3_Parte_4.md) |
+[Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/20170810_AWS_S3_Parte_2.md)
