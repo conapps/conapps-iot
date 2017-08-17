@@ -110,25 +110,11 @@ Sin embargo, toda otra interaccion con Glacier, por ejemplo para subir datos, re
 
 ---
 ## Primeros pasos ##
+Ya podemos ingresar a la Consola de Administración de Amazon Web Services, y acceder a Glacier.
+
+![alt text](./images/Glacier_Console_01.png)
 
 
-
-
-
-
-
-
-
-
-
-
-
-Eso es todo lo que debemos saber (por ahora) para comenzar a utilizar las funciones básicas de S3.
-
-Amazon S3 se accede desde la Consola de Administración de Amazon Web Services.
-Una vez que se ingresa a la consola, en la barra de búsqueda escribir "S3" y seleccionar la consola de AWS S3.
-
-![alt text](./images/S3_Console.png)
 
 ### Crear un *bucket*
 * En el panel de S3, haga click en *Create Bucket*
