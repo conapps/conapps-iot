@@ -2,11 +2,12 @@ Amazon Glacier
 ===
 
 *Fuentes:*
-- [Documentación oficial](https://aws.amazon.com/es/documentation/s3/)
-- [Página de AWS S3](https://aws.amazon.com/es/s3/)
-- [Precios de AWS S3](http://aws.amazon.com/s3/pricing/)
+- [Documentación oficial](https://aws.amazon.com/es/documentation/glacier/)
+- [Página de AWS Glacier](https://aws.amazon.com/es/glacier/)
+- [Precios de AWS Glacier](http://aws.amazon.com/es/glacier/pricing/)
+- [AWS re:Invent 2016: Deep Dive on Amazon Glacier (STG302)](https://youtu.be/dfr9mBcDJ-U)
 - [AWS S3 Master Class](https://youtu.be/VC0k-noNwOU)
-- [AWS re:Invent 2016: Deep Dive on Amazon S3 (STG303)](https://youtu.be/bMhWWkhydFQ)
+- Otras fuentes referenciadas a lo largo de los documentos (Ref:)
 
 
 ## Indice.
@@ -20,97 +21,108 @@ Amazon Glacier
 ---
 ## Introducción ##
 ---
-¿Qué es Amazon S3?      
+¿Qué es Amazon Glacier?      
 ---
-Amazon S3 es un **almacenamiento de objetos** creado para almacenar y recuperar cualquier cantidad de datos desde cualquier ubicación: sitios web y aplicaciones móviles, aplicaciones corporativas y datos de sensores o dispositivos IoT.
-
-Permite recopilar, almacenar y analizar datos de forma cómoda y sencilla, independientemente de su formato y a escala masiva. Es durable, seguro, y altamente escalable. Puede ser accedido desde la interface web, desde la línea de comando (Amazon CLI) y/o desde APIs. Puede utilizarse en forma aislada como un repositorio de datos, o en forma integrada con otros servicios de AWS.
+Amazon Glacier es un servicio de almacenamiento en la nube seguro, duradero y de muy bajo costo para archivar datos y realizar backups a largo plazo.
+Permite almacenar con seguridad cantidades pequeñas o grandes de datos a un costo muy bajo, lo que representa un ahorro significativo en comparación con una solución local.
+Amazon Glacier proporciona tres opciones para el acceso (recuperación) de los datos, que van desde unos pocos minutos a varias horas.
 
 ### Características
 * Fácil de usar
-* Bajo costo
-* Disponible (cuatro 9s)
-* Durable (once 9s)
-* Seguro
+* Muy bajo costo: desde 0,004 USD por GB por mes
+* Seguro: todos los datos son encriptados *at rest*
+* Durable: 99.999999999% (5-6 veces mayor que 2 copias de cintas)
 * Escalable
 * Integrado con otros servicios AWS
 
 ### Casos de uso
-* Backup & Archive
-* Almacenar y distribuir contenido (fotos, videos, etc.)
-* Static Website Hosting
-* Big Data & Analytics
-* Almacenamiento de nube híbrida
-* Datos de aplicaciones Cloud-native
-* Distaster recovery
+* Sustitución de cinta magnética (tape) para archivado de datos en ubicaciones remotas
+* Archivado de recursos multimedia (imágenes, videos, audio, etc.)
+* Archivado de información a largo plazo (historia clínica, etc.)
+* Archivado conforme a requisitos reglamentarios o legales (disponibles por 10 o 20 años)
+* Almacenamiento de datos científicos
+* Preservación de contenido digital (bibliotecas, agencias gubernamentales, etc.)
 
-Para soportar estos tipos de uso, Amazon S3 ofrece diferentes tipos de storages (*Storage Classes*), designados para diferentes modalidades de uso: *General purpose*, *Infrequent access*, y *Archive*.
+Amazon Glacier es un almancenamiento de tipo *object storage* y puede extender las capacidades de Amazon S3 para archivar datos a largo plazo reduciendo los costos.
 
-Para ayudar a gestionar los datos, cuenta con un gestor de políticas (*Lifecycle Policies*) que permite mover los datos en forma automática entre las diferentes clases de storage.
+Ref:
+[Amazon Glacier](https://aws.amazon.com/es/glacier/)
+[Detalles del producto Amazon Glacier](https://aws.amazon.com/es/glacier/details/)
 
-También provee seguridad, control de acceso, y encriptación.
+---
+### Formas de acceso a Glacier
+Al igual que el resto de los servicios de Amazon, puede accederse y utilizarse de diversas formas:
 
-### Object Storage vs Traditional Storage
+* API REST
+* AWS Management Console
+* AWS CLI
+* AWS SDK
 
-Existen varias diferencias entre las soluciones de almacenamiento tradicional (Block Storage, File Sotage) y las soluciones de almacenamiento de objetos (Object Storage).
 
-En el siguiente artículo se puede encontrar información adicional:
-
-   * [Introduction To Object Storage](https://blog.rackspace.com/introduction-to-object-storage)
+Ref.:
+[API Reference for Amazon Glacier](http://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/amazon-glacier-api.html)
+[Consola Web de AWS](https://console.aws.amazon.com/console/home)
+[AWS Command Line Interfce (CLI)](https://aws.amazon.com/es/cli/)
+[AWS SDK para Python (Boto3)](https://aws.amazon.com/es/sdk-for-python/)
+[AWS SDK para Java](https://aws.amazon.com/es/sdk-for-java/)
 
 ---
 ## Conceptos Básicos ##
 ---
+Ref:
+[Getting Started with Amazon Glacier](https://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/amazon-glacier-getting-started.html)
 
-### Buckets
-Son los depósitos donde se almacenan los objetos en S3. Representan el nivel mas alto de jerarquía dentro del almacenamiento. Cada objeto encuentra dentro de un *bucket*.
-Se pueden crear y utilizar hasta 100 *buckets* por cada cuenta por defecto, y cada *bucket* puede contener miles de objetos.
+### Vaults
+Son los contenedores donde se almacenan los datos en Glacier. Representan el nivel mas alto de "jerarquía" dentro del almacenamiento.
+Se pueden crear hasta 1000 *vaults* por cuenta, y cada *vault* puede crear un número ilimitado de *archives*.
 
-El nombre del *bucket* debe ser único dentro de todos los existentes en Amazon S3 (no solo dentro de mi cuenta). Debe cumplir con una serie de reglas, debe tener entre 3 y 63 caracteres, no puede tener mayúsculas, ni espacios, ni caracteres especiales salvo guiones y puntos, entre otros.  
+El nombre del *vault* debe ser único para una cuenta y dentro de cada región en la cual es creado. Una cuenta puede tener dos *vaults* con el mismo nombre pero en diferentes regions. El nombre debe tener entre 1 y 255 caracteres, puede tener mayúsculas, guión bajo (\_), guión (-) y puntos (.), no puede tener espacios ni otros caracteres especiales.  
 
-El nombre del *bucket* será visible en la URL que remite a los objetos almacenados en él. Una vez creado, el nombre no puede ser modificado.
-
-Referencias:
-    [Working with Amazon S3 Buckets](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingBucket.html)
-    [Restricciones y limitaciones en los Buckets](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/BucketRestrictions.html)
-
-
-### Objects
-Son los objetos (archivos) almacenados en Amazon S3.
-Un objeto puede contener cualquier tipo de datos en cualquier formato.
-El tamaño máximo para un objeto es de 5TB, y un *bucket* puede contener una cantidad ilimitada de objetos.
-
-Cada objeto consiste de *datos* (el archivo propiamente dicho) y *metadatos* (una serie de información acerca del archivo). La porción de *datos* es opaca a S3, es decir, es tratada como un simple conjunto de bytes sin importar su contenido. Los *metadatos* son pares de valores nombrados, que describen el objeto.
-
-### Keys
-Cada objeto almacenado dentro de *bucket* es identificado en forma única por un clave (*Key*). Se podría pensar en la *key* como si fuera el *filename* del objeto.
-La *key* puede contener hasta 1024 caracteres, incluyendo barra (/), retrobarra (\\), punto, y guión.
-
-La clave debe ser única dentro de un *bucket*, pero diferentes *buckets* pueden contener objetos con la misma clave.
-La combinación de *bucket* + *key* + *version ID* (opcional) identifica en forma única a un objeto almacenados en S3.
-
-Ejemplo de clave: */datos/informes/2017/01/reporte-de-horas.doc*
-
-### URL del objeto
-Cada uno de los objetos almacenados en S3 puede ser accedido mediante una URL única, la cual se conforma del *Amazon web services endpoint*, el nombre del *bucket*, y la *key* del objeto.
-
-La URL puede tener estos dos formatos:
-http(s)://*\<bucket-name\>*.s3.amazonaws.com/*\<object-key\>*
-http(s)://s3.amazonaws.com\/*\<bucket-name\>*/*\<object-key\>*
-
-Esto puede cambiar sensiblemente, dado que el dominio de aws generalmente incluye también la region (ej. s3-us-west-2.amazonaws.com) y la *bucket-key* puede incluir una serie de carpetas dentro (*folders*).
-
-Por ej.:
-https://s3-us-west-2.amazonaws.com/my-bucket/document.doc
-https://bucket-auditoria.s3-us-west-2.amazonaws.com/datos/informes/2017/01/reporte-de-horas.doc
+Ref.:
+[Working with Vaults in Amazon Glacier](http://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/working-with-vaults.html)
 
 
-### Regiones
-Es la región geográfica donde Amazon S3 almacenara el *bucket* que se está creando.
-Elegir una región permite minimizar los costos, optimizar la latencia, o cumplir con requisitos legales o regulatorios. Amazon S3 permite replicar objetos entre regiones, lo veremos más adelante.
+### Archives
+Son los datos que almacenamos en Amazon Glacier, es la información que nosotros subimos y accedemos.
+
+Un *archive* puede contener cualquier tipo de datos en cualquier formato.
+Solo pueden escribirse una vez (*write-once*), el tamaño máximo para un *archive* es de 40TB, y un *vault* puede contener una cantidad ilimitada de *archives*.
+
+Los datos almacenados en Amazon Glacier son inmutables, lo que significa que, una vez creado un archivo, no se puede actualizar (*write once*). Eso garantiza que datos como los registros de conformidad y normativos no se puedan modificar una vez archivados.
+
+Ref.:
+[Working with Archives in Amazon Glacier](http://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/working-with-archives.html)
+
+
+### Inventory
+Es un índice que contiene la lista de *archives* que tenemos almacenados. Este índice se refresca cada 24hrs.
+
+
+### Como acceder a los datos
+La consola web de AWS se puede utilizar para crear y eliminar *vaults* en Amazon Glacier.
+Sin embargo, toda otra interaccion con Glacier, por ejemplo para subir datos, requiere el uso de otros métodos por fuera de la consola.
+
+* Acceso directo a Amazon Glacier mediante la API de Glacier, ya sea desde línea de comando mediante la **AWS CLI** (Command Line Interface) o desde nuestro propio código utilizando el **AWS SDK** (Software Development Kit).
+* Integrándolo con **AWS S3 Lifecycle Policies**, que permite mover en forma automatizada datos desde S3 hacia Glacier, en base a ciertas políticas y criterios configurables.
+* Mediante **herramientas y/o gateways de terceros**, por ej. Veeam, Synology, Veritas, NetApp, FastGlacier, Commvault, Cloudberry, etc.
+
+
 
 ---
 ## Primeros pasos ##
+
+
+
+
+
+
+
+
+
+
+
+
+
 Eso es todo lo que debemos saber (por ahora) para comenzar a utilizar las funciones básicas de S3.
 
 Amazon S3 se accede desde la Consola de Administración de Amazon Web Services.
