@@ -191,12 +191,94 @@ Sin embargo, si no se puede pausar todas las escrituras de archivos en el volume
 Se puede volver a montar y utilizar su volumen mientras el estado del snapshot está pendiente.
 
 
+***Nota:*** 
+            
+Para desmontar un volúmen en Linux, ejecutar el siguiente comando:
+    
+    umount -d device_name
+
+
+### Crear un snapshot desde la consola
+
+* Abrir la consola de Amazon EC2 https://console.aws.amazon.com/ec2/
+
+* Dentro del panel de navegación - elegir la opción Snapshots.
+
+* Luego se deberá hacer clic en el botón Create Snapshot
+
+* Se desplegará la siguiente ventana, donde le indicaremos el ID o tag asociado al volumen,         Nombre, Descripción, y si el volúmen se encuentra o no encriptado.
+
+    ![alt text](./images/EC2_Create_Snapshot.png)
+
+
+
+### Recuperar el sistema partiendo desde un snapshot
+
+* Una vez que tenemos el Snapshot realizado, debemos crear un nuevo volumen a partir de ese snapshot.
+
+* Para ello Dentro del panel de navegación - elegir la opción Volumes.
+
+* Luego presionamos sobre la opción Create Volume.
+
+![alt text](./images/EC2_Create_Volume.png)
+
+
+### lgunas consideraciones a tener en cuenta:
+•	
+
+* Tipo: 
+Seleccione de Propósito General (SSD), Provisto IOPS (SSD), o Volúmenes Magnéticos.
+
+* Tamaño: 
+Establece el tamaño del volumen que se va a crear. No puede hacer un tamaño de volumen menor que el volumen original que se tomó la instantánea, pero es posible aumentarlo.
+
+* Zona de disponibilidad:
+Seleccione la zona de disponibilidad en la que desea crear el volumen. Debe coincidir la zona de disponibilidad con la instancia de EC2 en ejecución que desea restaurar.
+
+* Snapshot ID:
+
+    Ahí se deberá colocar el ID, nombre, del snapshot que fue creado anteriormente.
+    Finalmente presionamos sobre el botón Create.
+
+    A continuación, debemos asegurarnos de que el volumen se haya creado seleccionando la Consola EC2 "Volúmenes". 
+    
+    El volumen de "en uso" en "Estado" se adjunta a una instancia, el volumen de "Disponible" se crea pero no se adjunta a ninguna instancia.Una vez que haya verificado que el volumen se ha creado, es necesario detener la instancia en "Instancias" de la consola EC2.
+
+    Una vez detenida la instancia, debemos hacer un detach del volumen que deseamos sobreecribir con este nuevo volumen creado.
+
+    ![alt text](./images/EC2_volume_detach.png)
+
+    Una vez finalizado esto, procederemos a hacer un attach del volumen que deseamos recuperar.
+
+    ![alt text](./images/EC2_volume_attach.png)
+        
+    Donde indicaremos lo siguiente:
+    * Instance:
+        En este caso, ingresaremos el nombre de nuestra instancia.
+        Sólo se muestran las instancias en la misma zona de disponibilidad que el volumen seleccionado.
+
+
+    * Device:
+        Ahí seleccionamos el Device ID del volumen que vamos a atachear.
+        
+         Para ver el Device ID:
+            
+        * buscamos la AMI que utilizamos (pej: ami-3dcbd744), y en los Detalles, se nos mostrará cual es el Device ID
+        ![alt text](./images/EC2_device_details.png)
+        Siendo en este caso el Device ID buscado: /dev/sda1
+
+        * Una vez que completamos ambos campos, presionamos sobre el botón Attach, luego vamos la la parte de Instancias, y la iniciamos nuevamente.
+
+
+
 
 Refs:
-[Object Lifecycle Management](
-http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/object-lifecycle-mgmt.html)
-[Setting Lifecycle Configuration On a Bucket](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/how-to-set-lifecycle-configuration-intro.html)
-[Set Lifecycle Configuration Using the AWS CLI](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/set-lifecycle-cli.html)
+
+http://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/concepts.html
+https://www.youtube.com/watch?v=AKqRoy3TxVw
+http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-creating-snapshot.html
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html?icmpid=docs_ec2_console
+https://amimoto-ami.com/2014/10/03/create-snapshot-restore/
 
 ---
 | [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/20170807_AWS_S3.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/20170812_AWS_S3_Parte_3.md)|

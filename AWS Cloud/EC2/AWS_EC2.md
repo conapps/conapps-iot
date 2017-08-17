@@ -2,10 +2,9 @@ Amazon Elastic Cloud Computing (Amazon EC2)
 ===
 
 *Fuentes:*
-- [Documentación oficial](https://aws.amazon.com/es/documentation/s3/)
-- [Página de AWS S3](https://aws.amazon.com/es/s3/)
-- [Precios de AWS S3](http://aws.amazon.com/s3/pricing/)
-- [AWS S3 Master Class](https://www.youtube.com/watch?v=VC0k-noNwOU)
+- [Documentación oficial](https://aws.amazon.com/es/documentation/ec2/)
+
+
 
 
 ## Indice.
@@ -547,4 +546,4 @@ Refs:
 
 
 ---
-[Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/20170810_AWS_EC2_Parte_2.md)
+[Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2_Parte_2.md)
