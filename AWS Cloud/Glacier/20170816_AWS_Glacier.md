@@ -97,277 +97,242 @@ Ref.:
 ### Inventory
 Es un índice que contiene la lista de *archives* que tenemos almacenados. Este índice se refresca cada 24hrs.
 
+---
+## Primeros pasos ##
+---
 
 ### Como acceder a los datos
-La consola web de AWS se puede utilizar para crear y eliminar *vaults* en Amazon Glacier.
-Sin embargo, toda otra interaccion con Glacier, por ejemplo para subir datos, requiere el uso de otros métodos por fuera de la consola.
+La consola web de AWS se puede utilizar para crear y eliminar *vaults* en Amazon Glacier. Sin embargo, toda otra interacción con Glacier, por ejemplo para subir datos, requiere el uso de otros métodos por fuera de la consola.
 
 * Acceso directo a Amazon Glacier mediante la API de Glacier, ya sea desde línea de comando mediante la **AWS CLI** (Command Line Interface) o desde nuestro propio código utilizando el **AWS SDK** (Software Development Kit).
+
 * Integrándolo con **AWS S3 Lifecycle Policies**, que permite mover en forma automatizada datos desde S3 hacia Glacier, en base a ciertas políticas y criterios configurables.
+
 * Mediante **herramientas y/o gateways de terceros**, por ej. Veeam, Synology, Veritas, NetApp, FastGlacier, Commvault, Cloudberry, etc.
 
 
+Para trabajar con Glacier vamos a usar principalmente la línea de comandos AWS CLI.
+Si no tiene instalada y configurada la CLI puede revisar [aquí](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/20170810_AWS_S3_Parte_2.md#línea-de-comandos-de-amazon-s3)  la primer clase de S3 donde se explica como hacerlo.
 
 ---
-## Primeros pasos ##
-Ya podemos ingresar a la Consola de Administración de Amazon Web Services, y acceder a Glacier.
+### Crear un *Vault*
 
-![alt text](./images/Glacier_Console_01.png)
+Ingrese a la Consola de Administración de Amazon Web Services, y acceda a Glacier.
+![alt text](./images/Glacier_console_01.png)
+.
 
+Si es la primera vez que entramos debemos seleccionar *Get started* para comenzar:
+![alt text](./images/Glacier_console_02.png)
 
+* Podemos seleccionar la región donde almacenar nuestros datos, en la parte superior derecha de la consola. Recuerde que el servicio de Glacier no está disponible en todas las regiones, y los precios suelen variar de acuerdo a la región seleccionada.
+  ![alt text](./images/Glacier_vault_01.png)
 
-### Crear un *bucket*
-* En el panel de S3, haga click en *Create Bucket*
+.
+* Ingrese el nombre del *vault* (recuerde que el nombre debe cumplir ciertos requisitos):
+  ![alt text](./images/Glacier_vault_02.png)
 
-![alt text](./images/S3_bucket_01.png)
+.
+* Por el momento no es necesario configurar notificaciones de eventos.
+  Si quisiéramos, podríamos configurar notificaciones para que Glacier nos notifique cuando una operación sea completada. Las notificaciones se realizan mediante Amazon SNS (un tema que abordaremos en otra clase).
+  ![alt text](./images/Glacier_vault_03.png)
+.
 
-* Introduzca el nombre del *bucket* y seleccione la región.
-* Con esta información ya puede crear el *bucket* clickeando *Create*.
-* O puede clickear *Next* para configurar Propiedades adicionales (control de versiones, etiquetas, logging) y/o Permisos. Dejemos todas esas opciones por defecto por ahora y complete la creación del *bucket*.
-![alt text](./images/S3_bucket_02.png)
+* Repase la configuración y complete la creación del *vault*
+  ![alt text](./images/Glacier_vault_04.png)
+.
 
-
-* Listo, ya puede ver la lista de sus *buckets*
-
-![alt text](./images/S3_bucket_03.png)
-
-
-### Subir objetos
-* Seleccionar el *bucket* donde se quiere subir el objeto
-![alt text](./images/S3_upload_01.png)
-
-* Click en *Upload*
-![alt text](./images/S3_upload_02.png)
-
-* Seleccionar los archivos a subir (browse / drag&drop)
-![alt text](./images/S3_upload_03.png)
-
-* Clickear *Upload*.
-* La barra de estado en la parte baja de la pantalla muestra el progreso. Una vez terminado, el objeto queda almacenado en el *bucket*.
-![alt text](./images/S3_upload_04.png)
-
-En forma opcional, al momento de realizar el upload se pueden configurar otras opciones sobre el objeto tales como:
-* Permisos
-* Permitir el acceso público al objeto
-* Especificar la clase de storage donde se almacenará el objeto
-* Opciones de cifrado
-* Metadatos
-
-Veremos estas opciones mas adelante, por lo cual por ahora las dejaremos por defecto.
+Listo! El *vault* ahora aparece listado dentro de la consola de Glacier.
+![alt text](./images/Glacier_vault_05.png)
 
 
-### Descargar objetos
-* Seleccionar el objeto que se encuentra dentro del *bucket* (con el check-box a la izquierda del objeto).
-* Se abre sobre la derecha el panel de propiedades.
-* Click en *Download*
-![alt text](./images/S3_download_01.png)
+### Utilizando la CLI con Glacier
 
-## Acceder a un objeto (acceso público)
-Podemos darle permisos a nuestros objetos para que los mismos puedan accederlos en forma pública, por ej. desde un navegador web. Esto puede resultar útil a la hora de compartir información con otras personas que no tengan cuentas es AWS.
-Para esto debemos habilitar los permisos necesarios, que por defecto están deshabilitados.
-
-Como vimos anteriormente, todo objeto que tenemos en un *bucket* es accesible mediante una *key*.
-* Seleccionar el objeto dentro del *bucket* (con el chek-box).
-* En el panel de propiedades copiar el *Link* y abrirlo en un browser.
-![alt text](./images/S3_public_01.png)
-
-* El navegador nos da error y no podemos acceder al objeto. Esto es porque el objeto por defecto no tiene el acceso público habilitado.
-![alt text](./images/S3_public_02.png)
-
-* Si queremos dar acceso público a este objeto, podemos hacerlo de varias formas. Una es seleccionando el objeto para ver sus propiedades (ahora dando click en el nombre, no en el check-box), y luego seleccionar *Make public*
-![alt text](./images/S3_public_03.png)
-
-Listo! ahora podemos volver a ingresar al link que habíamos copiado antes en el navegador y el objeto podrá ser accedido.
-![alt text](./images/S3_public_04.png)
-
-Es normal en la consola de AWS poder hacer lo mismo de varias formas, por ejemplo en este caso:
-![alt text](./images/S3_public_05.png)
-
-El acceso público también se puede dar al momento de subir el objeto al *bucket*.
-
----
-## Línea de Comandos de Amazon S3 ##
-
-Ahora realizaremos operaciones básicas desde la línea de comando de Amazon S3 (CLI).
-
-Requisito: se debe contar con un usuario creado en el AWS IAM, para poder contar con las credenciales necesarias para acceder a S3 desde línea de comando (*Access Key ID* y *Secret Access Key*)
-
-### Descargar e instalar la línea de comandos
-Es necesario descargar la línea de comandos desde la página de Amazon AWS (disponible para Windows, Linux y Mac).
-
-Link: [Interfaz de línea de comando de AWS](https://aws.amazon.com/es/cli/)
-
-Tanto desde Linux como Windows, si ya se tiene Python instalado, se puede instalar la AWS CLI mediante el comando pip:
+Probemos primero de listar el *vault* que creamos anteriormente:
 ```bash
-$ python --version
-Python 3.6.1
-
-$ pip install awscli
-Collecting awscli
-  Using cached awscli-1.11.130-py2.py3-none-any.whl
-(...)
-Installing collected packages: awscli
-Successfully installed awscli-1.11.130
-
-$ aws --version
-aws-cli/1.11.130 Python/3.6.1 Windows/7 botocore/1.5.93
+$ aws glacier list-vaults --account-id -
+{
+    "VaultList": []
+}
 ```
+Como podemos ver, recibimos una lista vacía, y no nos muestra el *iot-cloud-vault-01* que creamos antes.
+Pero tengamos en cuenta que los *vaults* son específicos de las regiones de AWS. Lo que está pasando en este caso, es que creamos este *vault* en Oregon (us-west-2) pero nuestra CLI estaba configurada en N. Virginia (us-east-1).
 
-
-### Configuración inicial
-Abra una consola (terminal en Linux o cmd en Windows), y luego:
+Cambiemos la configuración de la CLI para apuntar a la región correcta, mediante *aws configure* e ingresando *us-west-2* en la región (los otros campos no los cambiamos):
 
 ```bash
 $ aws configure
-AWS Access Key ID [None]: AKIAWOINCOKAO3UZB4TN
-AWS Secret Access Key [None]: 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
-Default region name [None]: us-east-1
-Default output format [None]: json
+AWS Access Key ID [****************B4TN]:
+AWS Secret Access Key [****************BfX3]:
+Default region name [us-east-1]: us-west-2
+Default output format [json]:
 ```
 
-Donde:
-- *AWS Access Key ID [None]:* clave de acceso de su usuario (generada por IAM)
-- *AWS Secret Access Key [None]:* clave secreta de su usuario (generada por IAM)
-- *Default region name [None]:* el nombre de la región, ej: us-east-1
-- *Default output format [None]:* introduzca json
-
-(las claves incluidas más arriba son ejemplos y no son válidas para el acceso)
-
-### Utilizando la AWS CLI
-
-**Trabajando con *buckets***
-Primero podemos listar la lista de *buckets* que tenemos actualmente:
+Probemos nuevamente de listar, ahora si, obtenemos el *vault* que habíamos creado:
 ```bash
-$ aws s3 ls
-2017-08-08 16:33:33 iot-cloud-bucket-01
+$ aws glacier list-vaults --account-id -
+{
+    "VaultList": [
+        {
+            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
+            "VaultName": "iot-cloud-vault-01",
+            "CreationDate": "2017-08-17T17:53:40.893Z",
+            "NumberOfArchives": 0,
+            "SizeInBytes": 0
+        }
+    ]
+}
 ```
-En este caso ya tenemos creado el *iot-cloud-bucket-1* que habíamos creado con la consola web.
-Vamos a crear el *iot-cloud-bucket-2* mediante el comando *mb (make_bucket)*
 
+Ahora ya podemos crear un segundo *vault* desde la CLI (y luego listarlos):
 ```bash
-$ aws s3 mb s3://iot-cloud-bucket-02
-make_bucket: iot-cloud-bucket-02
+$ aws glacier create-vault --account-id - --vault-name iot-cloud-vault-02
+{
+    "location": "/805750336955/vaults/iot-cloud-vault-02"
+}
 
-$ aws s3 ls
-2017-08-08 16:33:33 iot-cloud-bucket-01
-2017-08-08 16:34:27 iot-cloud-bucket-02
+
+$ aws glacier list-vaults --account-id -
+{
+    "VaultList": [
+        {
+            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
+            "VaultName": "iot-cloud-vault-01",
+            "CreationDate": "2017-08-17T17:53:40.893Z",
+            "NumberOfArchives": 0,
+            "SizeInBytes": 0
+        },
+        {
+            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-02",
+            "VaultName": "iot-cloud-vault-02",
+            "CreationDate": "2017-08-17T18:47:42.244Z",
+            "NumberOfArchives": 0,
+            "SizeInBytes": 0
+        }
+    ]
+}
 ```
 
-Y podemos eliminar un *bucket* mediante *rb (remove_bucket)*:
-```bash
-$ aws s3 rb s3://iot-cloud-bucket-02
-remove_bucket: iot-cloud-bucket-02
+Y obviamente, ambos *vaults* aparecen listados en la consola web:
 
-$ aws s3 ls
-2017-08-08 16:33:33 iot-cloud-bucket-01
-```
-
-**Trabajando con *objetos***
-Para cargar el archivo *logo.png* del directorio local de nuestra máquina a un nuevo *bucket*, utilizamos el comando *cp*:
-
-```bash
-$ aws s3 mb s3://iot-cloud-bucket-02
-make_bucket: iot-cloud-bucket-02
-
-$ aws s3 cp logo.png s3://iot-cloud-bucket-02
-upload: .\logo.png to s3://iot-cloud-bucket-02/logo.png
-
-$ aws s3 ls s3://iot-cloud-bucket-02
-2017-08-09 15:02:04       1753 logo.png
-```
-
-Para descargar el objeto *logo.png* desde S3 a nuestro disco local, utilizamos también el comando *cp* simplemente alternando origen/destino. En este caso lo bajamos a nuestra máquina local con otro nombre *logo-2.png* para no sobrescribir el existente (opcional):
-```bash
-$ aws s3 cp s3://iot-cloud-bucket-02/logo.png ./logo-2.png
-download: s3://iot-cloud-bucket-02/logo.png to .\logo-2.png
-
-$ ls
-logo.png  logo-2.png
-```
-
-Para eliminar un objeto del *bucket* utilizamos el comando *rm* :
-```bash
-aws s3 rm s3://iot-cloud-bucket-02/logo.png
-delete: s3://iot-cloud-bucket-02/logo.png
-```
-
-Refs:
-[AWS CLI Command References S3](http://docs.aws.amazon.com/cli/latest/reference/s3/)
+![alt text](./images/Glacier_vault_06.png)
 
 ---
-## Folders
+### Subir Datos
+Los archivos en Glacier no pueden ser subidos desde la consola Web, lo haremos mediante la CLI.
 
-Amazon S3 es una solución de *object storage*, y tiene por tanto una estructura plana, sin la jerarquía de directorios que podemos encontrar en un típico filesystem.
-Los *buckets* y los *objects* son los recursos principales, donde los objetos se almacenan dentro de los buckets.
-Pero, con el objetivo de poder organizar mejor los datos, Amazon S3 soporta el concepto de *folders*, en el entendido que las mismas agrupan los objetos (pero sin crear una jerarquía como tal). Esto se realiza utilizando ***prefixes*** (prefijos) en las *keys* de los objetos.
+Primero vamos a crear un archivo llamado *mi_archivo_01.zip* para subir a Glacier.
 
-Por ejemplo, dentro de un *bucket* se puede crear una carpeta llamada "fotos", y almacenar un ella un objeto llamado "mifoto.jpg". El objeto es entonces almacenado con el *key name* "fotos/mifoto.jpg", donde "fotos/" es el prefijo.
-
-El concepto de prefijo es importante, dado que luego podremos utilizar diferentes funcionalidades / servicios realizando operaciones sobre ciertos objetos que contengan determinado prefijo (espero que mas adelante esto se entienda mejor).
-
-Se pueden crear carpetas dentro de carpetas, pero no *buckets* dentro de *buckets*. Se pueden subir o copiar objetos directo a una carpeta, y los objetos se pueden mover de una carpeta a otra. Las carpetas se pueden crear, borrar, y hacer públicas, pero no se pueden renombrar.
-
-Desde la consola web podemos crear un folder fácilmente, cuando estamos dentro de un *bucket*:
-![alt text](./images/S3_folders_01.png)
-
-Y podemos subir objetos de la misma forma que lo hicimos antes.
-![alt text](./images/S3_folders_02.png)
-
-También podemos subir objetos a carpetas utilizando la CLI, pero esta vez lo haremos de otra. Supongamos queremos subir una estructura de carpetas y archivos que ya tenemos en nuestro equipo. Subir los objetos uno a la vez podría resultar bastante tedioso.
-
-Vamos a crear una estructura de ejemplo local en nuestra máquina primero:
+**En Linux:**
 ```bash
-$ mkdir carpeta-01; cd carpeta-01
-$ mkdir docs
-$ touch docs/file1.txt docs/file2.txt docs/file3.txt
-
-```
-Ahora subamos esos archivos de una forma más fácil.
-Esto podemos hacerlo mediante el mismo comando *aws s3 cp* agregándole la opción *--recursive*
-```bash
-$ aws s3 cp . s3://iot-cloud-bucket-01/carpeta-01/ --recursive
-upload: docs\file1.txt to s3://iot-cloud-bucket-01/carpeta-01/docs/file1.txt
-upload: docs\file2.txt to s3://iot-cloud-bucket-01/carpeta-01/docs/file2.txt
-upload: docs\file3.txt to s3://iot-cloud-bucket-01/carpeta-01/docs/file3.txt
+$ dd if=/dev/urandom of=mi_archivo_01.zip bs=3145728 count=1
+1+0 records in
+1+0 records out
+3145728 bytes (3,1 MB, 3,0 MiB) copied, 0,0697288 s, 45,1 MB/s
 ```
 
-O podemos sincronizar una carpeta local con todo su contenido, con el comando *aws s3 sync*:
+**En Windows:**
 ```bash
-$ mkdir logs
-$ touch logs/log1.out logs/log2.out logs/log3.out
-
-$ aws s3 sync . s3://iot-cloud-bucket-01/carpeta-01/
-upload: logs\log3.out to s3://iot-cloud-bucket-01/carpeta-01/logs/log3.out
-upload: logs\log1.out to s3://iot-cloud-bucket-01/carpeta-01/logs/log1.out
-upload: logs\log2.out to s3://iot-cloud-bucket-01/carpeta-01/logs/log2.out
-
-$ aws s3 ls s3://iot-cloud-bucket-01 --recursive
-2017-08-15 21:20:24          0 carpeta-01/
-2017-08-15 21:25:05          0 carpeta-01/docs/file1.txt
-2017-08-15 21:25:05          0 carpeta-01/docs/file2.txt
-2017-08-15 21:25:06          0 carpeta-01/docs/file3.txt
-2017-08-15 21:28:31          0 carpeta-01/logs/log1.out
-2017-08-15 21:28:31          0 carpeta-01/logs/log2.out
-2017-08-15 21:28:30          0 carpeta-01/logs/log3.out
-2017-08-15 21:19:27       1753 logo.png
+C:\temp>fsutil file createnew mi_archivo_01.zip 3145728
+File C:\temp\mi_archivo_01.zip is created
 ```
 
-El comando *sync* solo actualiza los archivos actuales y sube los nuevos, pero no borra objetos salvo que le agreguemos *--delete*:
+Veamos como subir un archivo con la CLI.
+Podemos utilizar el comando *upload_archive* para subirlo.
 ```bash
-$ rm logs/log3.out
-
-$ aws s3 sync . s3://iot-cloud-bucket-01/carpeta-01/
-((no hace nada))
-
-$ $ aws s3 sync . s3://iot-cloud-bucket-01/carpeta-01/ --delete
-delete: s3://iot-cloud-bucket-01/carpeta-01/logs/log3.out
+$ aws glacier upload-archive --account-id - --vault-name iot-cloud-vault-01 --body mi_archivo.zip
+{
+    "location": "/805750336955/vaults/iot-cloud-vault-01/archives/2VijuHqLP8HZR-BG9FH4nm-13nZa7iPXYvBaXEVWPMcMIWEkc1nd69xBvM5iAroNaR8FPGTeqQXuz5h6FjorUEPNQwH5LfLsaHDodRv5TKUYgmM59IdzLGbAOqKl8llRi5X5t6nv5w",
+    "checksum": "f58e64a2381d9a68934b7ce8db45450654c6af977f6c40ca23b263ba994d9b27",
+    "archiveId": "2VijuHqLP8HZR-BG9FH4nm-13nZa7iPXYvBaXEVWPMcMIWEkc1nd69xBvM5iAroNaR8FPGTeqQXuz5h6FjorUEPNQwH5LfLsaHDodRv5TKUYgmM59IdzLGbAOqKl8llRi5X5t6nv5w"
+}
 ```
+Si fuera un archivo muy grande podríamos dividirlo en partes y utilizar el comando *initiate-multipart-upload* (puede revisar este comando en la documentación de referencia).
+
+Si vamos a la consola web, no vamos a notar ningún cambio. Esto es porque las columnas *Size* y *# of Archives* muestran la información en base al *Inventary* que todavía no se actualizó, y se actualiza una vez por día. Tendremos que esperar hasta mañana para ver alguna diferencia aquí.
+![alt text](./images/Glacier_vault_06.png)
 
 
-Refs.:
-[Working with Folders](http://docs.aws.amazon.com/es_es/AmazonS3/latest/UG/FolderOperations.html)
-[AWS CLI Command References S3](http://docs.aws.amazon.com/cli/latest/reference/s3/)
+También podemos listar los detalles del *vault* mediante:
+```bash
+$ aws glacier describe-vault --account-id - --vault-name iot-cloud-vault-01
+{
+    "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
+    "VaultName": "iot-cloud-vault-01",
+    "CreationDate": "2017-08-17T17:53:40.893Z",
+    "NumberOfArchives": 0,
+    "SizeInBytes": 0
+}
+```
+Ref:
+[Using Amazon Glacier with the AWS Command Line Interface](http://docs.aws.amazon.com/cli/latest/userguide/cli-using-glacier.html)
+[AWS CLI Command Reference - Glacier](http://docs.aws.amazon.com/cli/latest/reference/glacier/index.html)
 
+
+
+### Recuperar Datos
+Los datos en Glacier no pueden ser recuperados en forma directa.
+
+Lo que debemos hacer es:
+1) Iniciar un Job indicando que datos queremos recuperar
+2) Esperar a que el Job sea procesado por Glacier y finalice. Esto puede demorar de 3 a 5 horas normalmente, aunque hay opciones de recuperar datos en minutos con un costo mayor.
+3) Recibir la notificación de que el Job terminó (si configuramos notificaciones).
+4) Descargar la "salida del job".
+
+[Download an Archive from a Vault in Amazon Glacier](https://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/getting-started-download-archive.html)
+[How do I use the AWS CLI to view the contents of my Amazon Glacier vault?](https://aws.amazon.com/es/premiumsupport/knowledge-center/cli-glacier-vault/)
 
 ---
-[Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/20170810_AWS_S3_Parte_2.md)
+### Trabajando con Amazon S3 & Lifecycle Policies a Glacier
+Una de las formas mas fáciles de trabajar con Glacier es haciéndolo desde S3, mediante *Lifecycle Policies*.
+
+En la clase de S3 ya vimos como crear una policy para mover datos a diferentes capas de almacenamiento, o incluso a Glacier. Puede ver esto [aquí](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/20170812_AWS_S3_Parte_3.md#lifecycle-policies).
+
+Para esto podemos usar la CLI y/o la consola web de S3.
+Comencemos por crear un *bucket* para almacenar mi respaldos que moveré luego a Glacier, y subamos un archivo a este bucket (utilizo el mismo archivo de 3MB que habíamos creado anteriormente, pero con otro nombre).
+
+```bash
+$ aws s3 mb s3://iot-cloud-bucket-glacier
+make_bucket: iot-cloud-bucket-glacier
+
+$ aws s3 cp mi_backup.zip s3://iot-cloud-bucket-glacier/
+upload: .\mi_backup.zip to s3://iot-cloud-bucket-glacier/mi_backup.zip
+```
+
+Ahora definamos una regla de *lifecycle* sobre este bucket, para mover todos los archivos del mismo que tengan más de 1 día de antiguedad a Glacier (es el mínimo período de tiempo que podemos especificar).
+
+Ya debería saber hacer esto, pero igual repasemos la configuración:
+
+![alt text](./images/Glacier_lifecycle_01.png)
+
+![alt text](./images/Glacier_lifecycle_02.png)
+
+![alt text](./images/Glacier_lifecycle_03.png)
+
+![alt text](./images/Glacier_lifecycle_04.png)
+
+![alt text](./images/Glacier_lifecycle_05.png)
+
+
+Podemos ver los detalles de la regla que acabamos de crear, desde la CLI:
+```bash
+$ aws s3api get-bucket-lifecycle-configuration --bucket iot-cloud-bucket-glacier
+{
+    "Rules": [
+        {
+            "ID": "archivado-a-glacier",
+            "Filter": {
+                "Prefix": ""
+            },
+            "Status": "Enabled",
+            "Transitions": [
+                {
+                    "Days": 1,
+                    "StorageClass": "GLACIER"
+                }
+            ]
+        }
+    ]
+}
+```
+
+Bien ahora debemos esperar hasta mañana, y si todo funciona como debe, nuestro objeto *mi_backup.zip* debería ser archivado a Glacier.
