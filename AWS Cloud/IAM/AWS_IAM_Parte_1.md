@@ -85,7 +85,7 @@ Cuando utilizamos la cuenta root, tenemos acceso completo a todos los servicios 
 Como vemos en la imágen anterior, es posible tener más de un usuario creados en una cuenta de AWS, incluso pueden ser para identificar usuarios físicos, así como también usuarios de aplicaciones que accederán a recursos de AWS de forma programática mediante la API Rest o los SDK.
 
 ---
-## Ejercicio #1: [Creación de usuarios y grupos](AWS_IAM_Users&Groups.md)
+## Ejercicio #1: [Creación de usuarios y grupos](ejercicios/AWS_IAM_1_Users&Groups.md)
 ---
 
 
