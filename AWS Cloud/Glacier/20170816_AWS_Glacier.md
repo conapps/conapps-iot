@@ -268,7 +268,7 @@ Ref:
 [AWS CLI Command Reference - Glacier](http://docs.aws.amazon.com/cli/latest/reference/glacier/index.html)
 
 
-
+---
 ### Recuperar Datos
 Los datos en Glacier no pueden ser recuperados en forma directa.
 
@@ -281,15 +281,16 @@ Lo que debemos hacer es:
 [Download an Archive from a Vault in Amazon Glacier](https://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/getting-started-download-archive.html)
 [How do I use the AWS CLI to view the contents of my Amazon Glacier vault?](https://aws.amazon.com/es/premiumsupport/knowledge-center/cli-glacier-vault/)
 
+
 ---
-### Trabajando con Amazon S3 & Lifecycle Policies a Glacier
+### Trabajando con Amazon S3 Lifecycle Policies y Glacier
 Una de las formas mas fáciles de trabajar con Glacier es haciéndolo desde S3, mediante *Lifecycle Policies*.
 
-En la clase de S3 ya vimos como crear una policy para mover datos a diferentes capas de almacenamiento, o incluso a Glacier. Puede ver esto [aquí](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/20170812_AWS_S3_Parte_3.md#lifecycle-policies).
+En la clase de S3 ya vimos como crear una policy para mover datos a diferentes capas de almacenamiento, o incluso a Glacier. Puede ver esto [aquí](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/20170812_AWS_S3_Parte_3.md#lifecycle-policies). Revisemos nuevamente como hacerlo.
 
-Para esto podemos usar la CLI y/o la consola web de S3.
-Comencemos por crear un *bucket* para almacenar mi respaldos que moveré luego a Glacier, y subamos un archivo a este bucket (utilizo el mismo archivo de 3MB que habíamos creado anteriormente, pero con otro nombre).
+Comencemos por crear un *bucket* donde almacenar los archivos que enviaremos a Glacier, y subamos un archivo a este bucket (utilizo el mismo archivo de 3MB que habíamos creado anteriormente, pero ahora lo llamo *mi_backup.zip*).
 
+Recuerde que esto lo estamos haciendo en S3, por lo cual podemos o bien usar la consola web de AWS o la CLI mediante comandos de s3.
 ```bash
 $ aws s3 mb s3://iot-cloud-bucket-glacier
 make_bucket: iot-cloud-bucket-glacier
@@ -298,9 +299,9 @@ $ aws s3 cp mi_backup.zip s3://iot-cloud-bucket-glacier/
 upload: .\mi_backup.zip to s3://iot-cloud-bucket-glacier/mi_backup.zip
 ```
 
-Ahora definamos una regla de *lifecycle* sobre este bucket, para mover todos los archivos del mismo que tengan más de 1 día de antiguedad a Glacier (es el mínimo período de tiempo que podemos especificar).
+Ahora definamos una regla de *lifecycle* sobre este bucket, para mover todos los archivos del bucket que tengan más de 1 día de antiguedad a Glacier (este es el mínimo período de tiempo que podemos especificar). Recuerde que si lo desea puede filtrar a que objetos aplica esta regla, utilizando *prefixes* y/o *tags* (ya vimos esto antes).
 
-Ya debería saber hacer esto, pero igual repasemos la configuración:
+Ya debería saber como hacer esto, pero repasemos como crear la regla:
 
 ![alt text](./images/Glacier_lifecycle_01.png)
 
@@ -335,4 +336,28 @@ $ aws s3api get-bucket-lifecycle-configuration --bucket iot-cloud-bucket-glacier
 }
 ```
 
-Bien ahora debemos esperar hasta mañana, y si todo funciona como debe, nuestro objeto *mi_backup.zip* debería ser archivado a Glacier.
+Podemos ver que nuestro objeto *"mi_backup.zip"* se encuentra en la *Storage Class: Standard* de Amazon S3. Esto es porque cuando hicimos el upload no especificamos una clase de storage específica y por lo tanto S3 lo almacena por defecto en esta clase.
+
+Esto podemos verlo con la CLI:
+```bash
+$ aws s3api list-objects --bucket iot-cloud-bucket-glacier
+{
+    "Contents": [
+        {
+            "Key": "mi_backup.zip",
+            "LastModified": "2017-08-17T19:48:57.000Z",
+            "ETag": "\"b944a8c500fe92d9e3af3ab9f0c53f0b\"",
+            "Size": 3145728,
+            "StorageClass": "STANDARD",
+            "Owner": {
+                "DisplayName": "aws.develop",
+                "ID": "e6dd2e564aeb8d6e8c0e9fad1cb10c86902822b4e2b12bb0508a032825603031"
+            }
+        }
+    ]
+}
+```
+O bien con la consola web:
+![alt text](./images/Glacier_lifecycle_06.png)
+
+Bien ahora solo debemos esperar hasta mañana, y si todo funciona como debe, nuestro objeto *mi_backup.zip* debería ser archivado, pasando a la *storage class: glacier*.
