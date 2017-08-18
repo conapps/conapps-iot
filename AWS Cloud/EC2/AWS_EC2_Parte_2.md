@@ -1,4 +1,4 @@
-| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/20170814_AWS_EC2.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/20170812_AWS_S3_Parte_3.md) |
+| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2_Parte_3.md) |
 
 ---
 ### Opciones de Pago
@@ -116,7 +116,7 @@ Los tipos de volúmenes se dividen en dos categorías:
         * Procesamiento de registros. 
         * No puede ser un volumen de arranque.
 
-        ![alt text](./images/EC2_ST1.png)
+    ![alt text](./images/EC2_ST1.png)
 
 
     * <u>HDD frío (sc1)</u>
@@ -127,7 +127,7 @@ Los tipos de volúmenes se dividen en dos categorías:
         * Almacenamiento orientado al rendimiento para grandes volúmenes de datos a los que se accede con poca frecuencia. 
         * Escenarios donde el menor costo de almacenamiento es importante No puede ser un volumen de arranque.
 
-        ![alt text](./images/EC2_SC1.png)
+ ![alt text](./images/EC2_SC1.png)
 
 
 ---
@@ -220,7 +220,7 @@ Para desmontar un volúmen en Linux, ejecutar el siguiente comando:
 
 * Luego presionamos sobre la opción Create Volume.
 
-![alt text](./images/EC2_Create_Volume.png)
+    ![alt text](./images/EC2_Create_Volume.png)
 
 
 ### lgunas consideraciones a tener en cuenta:
@@ -246,13 +246,18 @@ Seleccione la zona de disponibilidad en la que desea crear el volumen. Debe coin
 
     Una vez detenida la instancia, debemos hacer un detach del volumen que deseamos sobreecribir con este nuevo volumen creado.
 
+
     ![alt text](./images/EC2_volume_detach.png)
+
 
     Una vez finalizado esto, procederemos a hacer un attach del volumen que deseamos recuperar.
 
-    ![alt text](./images/EC2_volume_attach.png)
         
+        ![alt text](./images/EC2_volume_attach.png)
+        
+
     Donde indicaremos lo siguiente:
+
     * Instance:
         En este caso, ingresaremos el nombre de nuestra instancia.
         Sólo se muestran las instancias en la misma zona de disponibilidad que el volumen seleccionado.
@@ -281,4 +286,4 @@ https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concept
 https://amimoto-ami.com/2014/10/03/create-snapshot-restore/
 
 ---
-| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/20170807_AWS_S3.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/20170812_AWS_S3_Parte_3.md)|
+| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_EC2.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_EC2_Parte_3.md)|
