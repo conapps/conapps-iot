@@ -5,11 +5,22 @@ Amazon Identity & Access Management (Amazon IAM)
 - [Documentación oficial](https://aws.amazon.com/iam)
 - [Cloud academy](https://cloudacademy.com/amazon-web-services/overview-of-aws-identity-and-access-management-iam-course/)
 
+
+---
+## Indice
+
+
+Insertar indice
+
+
+
+
 ---
 ## Introducción
----
+
+
 ¿Qué es Amazon IAM?      
----
+
 Amazon Identity and Access Management (IAM) es un servicio que nos ayuda a controlar de forma segura el acceso a los servicios y recursos de AWS. 
 
 ### Características
@@ -42,7 +53,7 @@ Si estamos utilizando [AWS CloudTrail](https://aws.amazon.com/es/cloudtrail/) re
 
 * **Payment Card Industry(PCI) & Data Security Standard (DSS)**
 
-IAM soporta el manejo de información de tarjetas de crédito. Para más información consultar [PCI DSS](https://aws.amazon.com/es/compliance/pci-dss-level-1-faqs/).
+IAM soporta el manejo de información y transacciones asociadas a las tarjetas de crédito. Para más información consultar.
 
 * **Integración con otros servicios de AWS**
 
@@ -52,87 +63,72 @@ Es posible integrar IAM con otros servicios de AWS.
 
 IAM es un servicio que se ofrece sin cargo.
 
+
+Ref: Más información sobre el standard de seguridad de los datos [PCI DSS](https://aws.amazon.com/es/compliance/pci-dss-level-1-faqs/).
+
 ---
-## Acceso a IAM
+## Identity vs Access Management
+
+Es importante entender la diferencia entre el concepto de Identity y el de Access Management.
+
+* **Identity**
+
+Cuando nos referimos a Identity, estamos hablando de como vamos a identificar unívocamente a una persona/aplicación.
+
+ * **Access Management**
+ 
+ Cuando hablamos de Access Management estamos hablando de que es lo que un usuario/aplicación va a poderhacer dentro de AWS. 
+
+**Por defecto, los usuarios no tienen permisos para acceder a ningún recurso** salvo que se indique lo contrario mediante políticas.
+
 ---
+## Tipos de acceso
 
 Podemos utilizar AWS Identity and Access Management en cualquera de las siguientes formas.
 
-* **AWS Management Console**
+* **Usuario + Password**
+    * AWS Management Console
 
-* **AWS Command Line Tools**
-
-* **AWS SDKs**
-
-* **IAM HTTPS API**
+* **Access Key ID + Secret Access Key**
+    * AWS Command Line Tools
+    * AWS SDKs
+    * HTTPS API REST
 
 
 ---
-## Primer acceso como Root
----
+## El usuario root
 
 Cuando crearmos por primera vez una cuenta en AWS, por defecto estamos creando una cuenta root. Con estas credenciales, podemos acceder a la Consola de administración.
 
 Cuando utilizamos la cuenta root, tenemos acceso completo a todos los servicios y recursos de AWS, incluyendo la facturación. AWS recomienda **NO UTILIZAR LA CUENTA ROOT** para el trabajo diario y crear otros usuarios con los permisos necesarios.
 
-
----
-## Usuarios IAM
 ---
 
-![Tipos de cuentas](images/IAM_users.png)
+## Usuarios
 
-Como vemos en la imágen anterior, es posible tener más de un usuario creados en una cuenta de AWS, incluso pueden ser para identificar usuarios físicos, así como también usuarios de aplicaciones que accederán a recursos de AWS de forma programática mediante la API Rest o los SDK.
+Como vimos anteriormente, el concepto de _Identity_
+nos permite contestr la pregunta ¿quien es ese usuario?. En lugar de compartir la clave de root, podemos crear otras cuentas IAM que corresponderán a personas físicas en nuestra empresa, y que tendrán sus propias credenciales para acceder a la consola de administración.
 
----
-## Ejercicio #1: [Creación de usuarios y grupos](ejercicios/AWS_IAM_1_Users&Groups.md)
----
+**Vale aclarar que los usuarios IAM no son cuentas separadas de AWS**.
 
+Incluso se pueden generar _access keys_ para que puedan acceder de manera programática.
 
-## Federación de usuarios existentes
----
-Si los usuarios ya cuentan con un sistema de autenticación, Ej; login en la red empresarial. Es posible federar estos usuarios dentro de AWS.
+En la figura siguiente, Brad, Jim, DevApp1, DevApp2, TestApp1, y TestApp2 son usuarios IAM que fueron creados dentro de una sola cuenta de AWS, y cada usuario tiene sus propias credenciales.
 
-La federación de usuarios es útil en los siguientes casos:
-
-* **Usuarios existentes en una red empresarial**
-
-1. Se puede configurar single-sign on (SSO) si el directorio corporativo es compatible con _Securitiy Assertion Markup Language 2.0 (SAML 2.0)_. En caso contrario, se puede crear una aplicación para proveer SSO a la consola de AWS.
-2. Si se utiliza Microsoft Active Directory, se puede establecer una relación de confianza entre AD y las cuentas de AWS.
-
-* **Usuarios con acceso OIDC** 
-
-Si contamos con una aplicación mobil o web que le permite al usuario loguearse utilizando su cuenta de Facebook, Google o cualquier aplicación que utilice _OpenId Connect (OIDC)_ es posible federarlo para que pueda acceder a AWS. En este caso, Amazon recomienda utilizar [AmazonCognito](https://aws.amazon.com/es/cognito/).
-
-![usuarios federados](images/IAM_federation.png)
+![IAM Users](images/IAM_users.png)
 
 
 ---
-## Políticas & Usuarios
+## A continuación realizaremos el ejercicio # 1 haciendo clic en el siguiente [link](ejercicios/AWS_IAM_1_Users.md)
 ---
 
-Hasta el momento siempre estuvimos hablando de Identificación del usuario/aplicación _(Identity)_. Ahora bien, cuando hablamos de la administración de acceso _(Access Management)_ estamos hablando de que es lo que un usuario puede hacer dentro de AWS. Los permisos son otorgados mediante políticas las cuales son creadas y luego otorgadas a los usuarios, grupos o roles.
 
-Por defecto, los usuarios no tienen permisos para acceder a ningún recurso salvo que se indique lo contrario mediante políticas.
-
----
-## Políticas & Grupos
+## Grupos
 ---
 
 Es posible organizar usuarios dentro de grupos IAM. Todos los usuarios dentro de un grupo tienen los permisos asignados al grupo. Es una forma fácil de agrupar usuarios y permisos.
 
 ![IAM Groups](images/IAM_groups1.png)
 
----
-## Características de seguridad fuera de IAM
----
-
-Utilizaremos el servicios IAM para controlar el acceso a las tareas que son ejecutadas mediante AWS Management Console, Command Line Tools o los servicios API usados por los SDKs.
-
-Ahora bien, otros servicios y recursos de AWS tienen otros mecanismos de seguridad.
-
-* **Amazon EC2**: utiliza usuario y password para iniciar sesión dentro de una instancia.
-
-* **Amazon RDS**: utiliza usuario y clave para loguearse dentro del motor que estan atados a la base de datos (Ej; usuario y pass de SQL).
-
+VER DE AGREGAR MAS TEÓRICO DE MANEJO DE PERMISOS, Y POLICIES EN GRUPOS.
 
