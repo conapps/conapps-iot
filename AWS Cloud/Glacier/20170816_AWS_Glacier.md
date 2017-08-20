@@ -361,3 +361,47 @@ O bien con la consola web:
 ![alt text](./images/Glacier_lifecycle_06.png)
 
 Bien ahora solo debemos esperar hasta mañana, y si todo funciona como debe, nuestro objeto *mi_backup.zip* debería ser archivado, pasando a la *storage class: glacier*.
+
+ **--- 24hrs mas tarde ---**
+
+Luego que pasó el intervalo de tiempo que especificamos en la regla anterior (en nuestro caso era 1 día), podemos ver que la regla funcionó como esperabamos, y ahora el objeto *mi_backup.zip* se encuentra en la clase de storage *Glacier*
+
+```bash
+$ aws s3api list-objects --bucket iot-cloud-bucket-glacier
+{
+    "Contents": [
+        {
+            "Key": "mi_backup.zip",
+            "LastModified": "2017-08-17T19:48:57.000Z",
+            "ETag": "\"b944a8c500fe92d9e3af3ab9f0c53f0b\"",
+            "Size": 3145728,
+            "StorageClass": "GLACIER",
+            "Owner": {
+                "DisplayName": "aws.develop",
+                "ID": "e6dd2e564aeb8d6e8c0e9fad1cb10c86902822b4e2b12bb0508a032825603031"
+            }
+        }
+    ]
+}
+```
+
+Ahora ya no podemos acceder en forma directa al objeto, no podemos cambiarle sus propiedades, ni tampoco descargar el objeto.
+
+
+ 
+
+``` bash
+$ aws s3api head-object --bucket iot-cloud-bucket-glacier --key mi_backup.zip
+{
+    "AcceptRanges": "bytes",
+    "Restore": "ongoing-request=\"true\"",
+    "LastModified": "Thu, 17 Aug 2017 19:48:57 GMT",
+    "ContentLength": 3145728,
+    "ETag": "\"b944a8c500fe92d9e3af3ab9f0c53f0b\"",
+    "ContentType": "application/zip",
+    "Metadata": {},
+    "StorageClass": "GLACIER"
+}
+```
+
+[How Do I Restore an S3 Object That Has Been Archived to Amazon Glacier?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/restore-archived-objects.html)
