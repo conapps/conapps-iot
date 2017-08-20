@@ -2,24 +2,20 @@ Amazon Identity & Access Management (Amazon IAM)
 ===
 
 *Fuentes:*
+
 - [Documentación oficial](https://aws.amazon.com/iam)
 - [Cloud academy](https://cloudacademy.com/amazon-web-services/overview-of-aws-identity-and-access-management-iam-course/)
 
-
 ---
+
 ## Indice
 
-
 Insertar indice
-
-
-
 
 ---
 ## Introducción
 
-
-¿Qué es Amazon IAM?      
+¿Qué es Amazon IAM?
 
 Amazon Identity and Access Management (IAM) es un servicio que nos ayuda a controlar de forma segura el acceso a los servicios y recursos de AWS. 
 
@@ -27,42 +23,41 @@ Amazon Identity and Access Management (IAM) es un servicio que nos ayuda a contr
 
 IAM nos otorga las siguientes características:
 
-* **Acceso compartido**
+- **Acceso compartido**
 
 Podemos conceder permisos a otro usuarios para administrar y utilizar recursos de AWS sin tener que compartir nuestra clave de acceso.
 
-* **Permisos granulares**
+- **Permisos granulares**
 
 Podemos otorgarles distintos tipos de permisos a diferentes usuarios sobre diferentes recursos. Ej; A algunos usuarios podemos darle full access sobre EC2 y S3, y a otros usuaros de AWS podemos darle read-only sobre algunos buckets de S3, o permisos para administrar algunas instancias de EC2.
 
-* **Acceso seguro para aplicaciones sobre EC2**
+- **Acceso seguro para aplicaciones sobre EC2**
 
 Podemos utilizar las funciones de IAM para otorgar credenciales de acceso a aplicaciones que se ejecutan sobre EC2 y que necesitan acceder a otros recursos de AWS, por ejemplo; buckets de S3, una base RDS o DynamoDB.
 
-* **Multi-factor authentication (MFA)**
+- **Multi-factor authentication (MFA)**
 
 Podemos agregar autenticación en 2 pasos para mayor seguridad. Los usuarios deberán no solo la clave de acceso, sino que también, un código de acceso de algún dispositivo pre-configurado.
 
-* **Federación de identidad**
+- **Federación de identidad**
 
 Podemos darle acceso temporal a otro usuario (que ya tenga usuario en AWS) y que no pertenezca a nuestra organización.
 
-* **Información de auditoría**
+- **Información de auditoría**
 
 Si estamos utilizando [AWS CloudTrail](https://aws.amazon.com/es/cloudtrail/) recibiremos logs que incluyen registros de peticiones de acceso a recursos de nuestra cuenta basadas en información de IAM.
 
-* **Payment Card Industry(PCI) & Data Security Standard (DSS)**
+- **Payment Card Industry(PCI) & Data Security Standard (DSS)**
 
 IAM soporta el manejo de información y transacciones asociadas a las tarjetas de crédito. Para más información consultar.
 
-* **Integración con otros servicios de AWS**
+- **Integración con otros servicios de AWS**
 
 Es posible integrar IAM con otros servicios de AWS.
 
-* **Sin cargos extra**
+- **Sin cargos extra**
 
 IAM es un servicio que se ofrece sin cargo.
-
 
 Ref: Más información sobre el standard de seguridad de los datos [PCI DSS](https://aws.amazon.com/es/compliance/pci-dss-level-1-faqs/).
 
@@ -71,13 +66,13 @@ Ref: Más información sobre el standard de seguridad de los datos [PCI DSS](htt
 
 Es importante entender la diferencia entre el concepto de Identity y el de Access Management.
 
-* **Identity**
+- **Identity**
 
 Cuando nos referimos a Identity, estamos hablando de como vamos a identificar unívocamente a una persona/aplicación.
 
- * **Access Management**
- 
- Cuando hablamos de Access Management estamos hablando de que es lo que un usuario/aplicación va a poderhacer dentro de AWS. 
+- **Access Management**
+
+ Cuando hablamos de Access Management estamos hablando de que es lo que un usuario/aplicación va a poderhacer dentro de AWS.
 
 **Por defecto, los usuarios no tienen permisos para acceder a ningún recurso** salvo que se indique lo contrario mediante políticas.
 
@@ -86,16 +81,16 @@ Cuando nos referimos a Identity, estamos hablando de como vamos a identificar un
 
 Podemos utilizar AWS Identity and Access Management en cualquera de las siguientes formas.
 
-* **Usuario + Password**
-    * AWS Management Console
+- **Usuario + Password**
+    - AWS Management Console
 
-* **Access Key ID + Secret Access Key**
-    * AWS Command Line Tools
-    * AWS SDKs
-    * HTTPS API REST
-
+- **Access Key ID + Secret Access Key**
+    - AWS Command Line Tools
+    - AWS SDKs
+    - HTTPS API REST
 
 ---
+
 ## El usuario root
 
 Cuando crearmos por primera vez una cuenta en AWS, por defecto estamos creando una cuenta root. Con estas credenciales, podemos acceder a la Consola de administración.
@@ -117,18 +112,31 @@ En la figura siguiente, Brad, Jim, DevApp1, DevApp2, TestApp1, y TestApp2 son us
 
 ![IAM Users](images/IAM_users.png)
 
-
----
-## A continuación realizaremos el ejercicio # 1 haciendo clic en el siguiente [link](ejercicios/AWS_IAM_1_Users.md)
 ---
 
+## Ejercicio # 1 haciendo clic en el siguiente [link](ejercicios/AWS_IAM_1_Users.md)
+
+---
 
 ## Grupos
 ---
 
-Es posible organizar usuarios dentro de grupos IAM. Todos los usuarios dentro de un grupo tienen los permisos asignados al grupo. Es una forma fácil de agrupar usuarios y permisos.
+Es posible organizar usuarios dentro de grupos IAM. Básicamente, un grupo es una colección de usuarios.
+
+Todos los usuarios dentro de un grupo tienen los permisos asignados al grupo. Es una forma fácil de agrupar usuarios y permisos.
 
 ![IAM Groups](images/IAM_groups1.png)
 
-VER DE AGREGAR MAS TEÓRICO DE MANEJO DE PERMISOS, Y POLICIES EN GRUPOS.
+## Roles
+
+Un rol es muy parecido a un usuario, en el sentido de que sirve para asignarle permisos y luego el rol atachearlo a un usuario. Generalmente a un usuario para servicios (DevApp1) en combinación con usuarios federados que no tienen cuenta de AWS.
+
+## Credenciales Temporales
+
+HABLAR ALGO DE CREDENCIALES TEMPORALES
+
+## ¿Cuando usar qué?
+
+
+P59
 
