@@ -364,7 +364,7 @@ Bien ahora solo debemos esperar hasta mañana, y si todo funciona como debe, nue
 
  **--- 24hrs mas tarde ---**
 
-Luego que pasó el intervalo de tiempo que especificamos en la regla anterior (en nuestro caso era 1 día), podemos ver que la regla funcionó como esperabamos, y ahora el objeto *mi_backup.zip* se encuentra en la clase de storage *Glacier*
+Luego que pasó el intervalo de tiempo que especificamos en la regla anterior (en nuestro caso era 1 día), podemos ver que la regla funcionó como esperábamos, y ahora el objeto *mi_backup.zip* se encuentra en la clase de storage *Glacier*
 
 ```bash
 $ aws s3api list-objects --bucket iot-cloud-bucket-glacier
@@ -385,10 +385,29 @@ $ aws s3api list-objects --bucket iot-cloud-bucket-glacier
 }
 ```
 
-Ahora ya no podemos acceder en forma directa al objeto, no podemos cambiarle sus propiedades, ni tampoco descargar el objeto.
+![alt text](./images/Glacier_lifecycle_07.png)
+
+Ahora ya no podemos acceder en forma directa al objeto, no podemos cambiarle sus propiedades, y tampoco tenemos la opción de descargarlo. Incluso la consola web nos muestra un mensaje advirtiendo esto mismo:
+
+![alt text](./images/Glacier_lifecycle_09.png)
+
+Para acceder al objeto, debemos primero iniciar un **restore**.
+
+![alt text](./images/Glacier_lifecycle_10.png)
+
+Indicamos por cuantos días queremos tener disponible el objeto una vez restaurado, y que tipo de restore queremos hacer.
+
+![alt text](./images/Glacier_lifecycle_11.png)
+
+Debemos tener en cuenta dos cosas:
+- El objeto será recuperado a la capa de storage Standard de S3, y permanecerá disponible por la cantidad de días que especifiquemos. Por lo cual vamos a pagar el costo correspondiente por el almacenamiento de dicho objeto por ese plazo de tiempo.
+- El restore no es una operación inmediata. El tiempo que demora Glacier en dejarnos el objeto disponible dependerá del tipo de restore que realicemos. Y cada operación de restore tiene costo, el cual depende también del tipo de restore que realicemos. A menor tiempo de restore mayor es el costo, y viceversa.
+
+A modo de ejemplo podes ver el precio del restore para la región de Oregon:
+![alt text](./images/Glacier_price_01.png)
 
 
- 
+Una vez solicitado el restore, podemos ver el estado del mismo en las propiedades del objeto: *ongoing-request="true"*
 
 ``` bash
 $ aws s3api head-object --bucket iot-cloud-bucket-glacier --key mi_backup.zip
@@ -403,5 +422,14 @@ $ aws s3api head-object --bucket iot-cloud-bucket-glacier --key mi_backup.zip
     "StorageClass": "GLACIER"
 }
 ```
+
+O también en la consola web:
+![alt text](./images/Glacier_lifecycle_12.png)
+
+Una vez finalizado el restore, podremos contar con el objeto disponible por el tiempo que lo hayamos indicado. Luego de transcurrido ese tiempo, el objeto se borrará de la capa Standard, pero siempre permanecerá en Glacier hasta que nosotros lo eliminemos. La recuperación hace una copia del objeto a la capa Standard para que podamos accederlo, pero el objeto original sigue quedando archivado en Glacier hasta que nosotros decidamos eliminarlo.
+
+
+
+
 
 [How Do I Restore an S3 Object That Has Been Archived to Amazon Glacier?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/restore-archived-objects.html)
