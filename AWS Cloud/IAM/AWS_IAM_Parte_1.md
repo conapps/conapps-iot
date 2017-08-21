@@ -17,11 +17,11 @@ Insertar indice
 
 ¿Qué es Amazon IAM?
 
-Amazon Identity and Access Management (IAM) es un servicio que nos ayuda a controlar de forma segura el acceso a los servicios y recursos de AWS. 
+Amazon Identity and Access Management (IAM) es un servicio que nos ayuda a controlar de forma segura el acceso a los servicios y recursos de AWS.
 
 ### Características
 
-IAM nos otorga las siguientes características:
+IAM otorga las siguientes características:
 
 - **Acceso compartido**
 
@@ -72,9 +72,9 @@ Cuando nos referimos a Identity, estamos hablando de como vamos a identificar un
 
 - **Access Management**
 
- Cuando hablamos de Access Management estamos hablando de que es lo que un usuario/aplicación va a poderhacer dentro de AWS.
+ Cuando hablamos de Access Management estamos hablando de qué es lo que un usuario/aplicación va a poder hacer dentro de AWS.
 
-**Por defecto, los usuarios no tienen permisos para acceder a ningún recurso** salvo que se indique lo contrario mediante políticas.
+**Por defecto, los usuarios (salvo root) no tienen permisos para acceder a ningún recurso** salvo que se indique lo contrario mediante políticas.
 
 ---
 ## Tipos de acceso
@@ -99,6 +99,11 @@ Cuando utilizamos la cuenta root, tenemos acceso completo a todos los servicios 
 
 ---
 
+## Responsabilidades
+
+![IAM Responsability](images/IAM_responsibility.png)
+
+---
 ## Usuarios
 
 Como vimos anteriormente, el concepto de _Identity_
@@ -125,18 +130,22 @@ Es posible organizar usuarios dentro de grupos IAM. Básicamente, un grupo es un
 
 Todos los usuarios dentro de un grupo tienen los permisos asignados al grupo. Es una forma fácil de agrupar usuarios y permisos.
 
-![IAM Groups](images/IAM_groups1.png)
+Por ejemplo: En la figura siguiente tenemos un grupo llamado **Admins**, otro **Developers** y otro **Test**. Los usuarios que estan dentro del grupo Admin, tienen los permisos que se hayan definido para los Administradores. Si un nuevo usuario administrador ingresa a la empresa, bastará con agregarlo al grupo para que tenga los mismos permisos que los otros administradores.
 
+Otro caso puede ser un usuario Test que sea ascendido a developer. En este caso, agregaremos a Cathy al grupo Developers y la borraremos del grupo Test.
+
+![IAM Groups](images/IAM_groups1.PNG)
+
+---
 ## Roles
 
-Un rol es muy parecido a un usuario, en el sentido de que sirve para asignarle permisos y luego el rol atachearlo a un usuario. Generalmente a un usuario para servicios (DevApp1) en combinación con usuarios federados que no tienen cuenta de AWS.
+
+
+Un rol es muy parecido a un usuario, en el sentido de que se puede asignar permisos a un rol y luego el rol, atachearlo a un usuario. Sin embargo, **un rol no tienen ningun tipo de credencial (password o access keys**. Y también puede ser asociado a cualquiera que necesite dichos accesos temporalmente, por ejemplo: un usuario federado.
 
 ## Credenciales Temporales
 
-HABLAR ALGO DE CREDENCIALES TEMPORALES
+Las credenciales temporales son utilizadas principalmente para los roles. Se pueden generar credenciales temporales con permisos más restrictivos que los usuarios estandard y previene que se ejecuten tareas de forma accidental. Otro beneficio de las credenciales temporales es que expiran automáticamente despues de un tiempo determinado.
 
 ## ¿Cuando usar qué?
-
-
-P59
 
