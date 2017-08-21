@@ -301,7 +301,7 @@ Pensada para satisfacer aquellos requerimientos, donde es importante un desempe�
     
     Las instancias de esta familia utilizan almacenamiento de instancia con respaldo SSD para baja latencia y un rendimiento de entrada / salida muy alto, incluyendo IOPS muy alto, que significa operaciones de salida de entrada por segundo. 
   
-    Estos son ideales para cargas de trabajo analíticas y no bases de datos SQL, sistemas de archivos de datos y aplicaciones de procesamiento de bloqueo. Puede comprar instancias de EC2 a través de una variedad de diferentes planes de pago. Estos han sido diseñados para ayudarle a ahorrar costes seleccionando la opción más apropiada para su despliegue. 
+    Estos son ideales para cargas de trabajo analíticas y no bases de datos SQL, sistemas de archivos de datos y aplicaciones de procesamiento en bloque. Puede comprar instancias de EC2 a través de una variedad de diferentes planes de pago. Estos han sido diseñados para ayudarle a ahorrar costes seleccionando la opción más apropiada para su despliegue. 
   
     Las instancias X1 están optimizadas para aplicaciones en la memoria a larga escala de clase empresarial y ofrecen el costo más bajo por GiB de RAM entre los tipos de instancias de Amazon EC2.
 
@@ -391,8 +391,7 @@ Pensada para satisfacer aquellos requerimientos, donde es importante un desempe�
 
   Características:
   
-  * Las instancias bajo demanda permiten pagar por la capacidad de cómputo por horas sin       
-    compromisos a largo plazo. Así se eliminan los costos y las complejidades de la planificación,la compra y el mantenimiento del hardware y se transforma lo que normalmente son grandes costos fijos en costos variables mucho más reducidos.
+  * Las instancias bajo demanda permiten pagar por la capacidad de cómputo por horas sin compromisos a largo plazo. Así se eliminan los costos y las complejidades de la planificación,la compra y el mantenimiento del hardware y se transforma lo que normalmente son grandes costos fijos en costos variables mucho más reducidos.
 
   * Los precios se calculan por hora de instancia consumida para cada instancia, desde el momento   en el que se lanza hasta que se finaliza o detiene. Cada porción de hora de instancia           consumida se facturará como hora completa.
 
@@ -432,7 +431,7 @@ Pensada para satisfacer aquellos requerimientos, donde es importante un desempe�
 
   Las Instancias Reservadas Programadas (Instancias Programadas) permiten comprar reservas de capacidad que se repiten diariamente, semanalmente o mensualmente, con una hora y duración de inicio especificadas, por un período de un año. 
 
-  Se realizar la reserva de la capacidad por adelantado, de modo de saber que está disponible cuando se necesita. 
+  Se debe realizar la reserva de la capacidad por adelantado, de modo de saber que está disponible cuando se necesita. 
 
   Se paga por el tiempo que las instancias están programadas, incluso si no son usadas.
 
