@@ -3,6 +3,8 @@
 
 ## Networking
 
+### Introducción
+
 Cuando instalamos Docker, se crean por defecto 3 redes:
 
 ```bash
