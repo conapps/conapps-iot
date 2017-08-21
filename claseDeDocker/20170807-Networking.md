@@ -40,10 +40,10 @@ La red se llama ```bridge``` debido a que técnicamente es eso, un bridge, que i
 
 #### none
 La red tipo ```none``` básicamente deja al contenedor aislado del mundo.
-Veamos esto con un ejercicio:
+Veamos esto con un ejemplo, pero antes un breve ejercicio para preparar el ambiente de pruebas:
 
 > Ejercicio:
-> Crear una imagen llamada ```netubuntu``` basada en la imagen ubuntu, pero que tenga instalado el paquete ```net-tools```.
+> Crear una imagen llamada ```netubuntu``` basada en la imagen ubuntu, que tenga instalado el paquete ```net-tools```.
 
 Ahora que contamos con la imagen ```netubuntu``` podemos verificar el funcionamiento de la red ```none``` con driver ```null```.
 
@@ -70,7 +70,13 @@ root@68965d657e5d:/# ifconfig
 ---> AQUÍ DEBERÍA VERSE EXACTAMENTE LO MISMO QUE EN EL HOST <---
 ```
 
+Las redes ```none``` y ```host``` son bastante simples de comprender, no tanto así la red tipo ```bridge``` por lo que a continuación profundizaremos sobre esta última.
 
+### Red tipo ```bridge```
+
+La figura a continuación muestra gráficamente como sería la conexión de varios containers a la red ```bridge```.
+
+![alt text](network-type-brige.png "Conexión de tres contenedores a una red bridgeada.)
 
 
 
