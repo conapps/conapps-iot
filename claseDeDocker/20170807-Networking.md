@@ -76,7 +76,7 @@ Las redes ```none``` y ```host``` son bastante simples de comprender, no tanto a
 
 La figura a continuación muestra gráficamente como sería la conexión de varios containers a la red ```bridge```.
 
-![alt text](network-type-brige.png "Conexión de tres contenedores a una red bridgeada.)
+![alt text](network-type-brige.png "Conexión de tres contenedores a una red bridgeada.")
 
 
 
