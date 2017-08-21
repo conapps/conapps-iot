@@ -10,26 +10,26 @@ Las tareas a realizar son las siguientes:
 
 * En el panel de IAM, haga click en *Add User*
 
-![IAM Users](../images/IAM_user1.png)
+![IAM Users](../images/IAM_user1.PNG)
 
-* Indique el nombre de usuario. 
+* Indique el nombre de usuario.
 
 Puede contener, letras, numeros, y los siguientes caracteres: mas (+), igual (=), coma (,), punto (.), arroba (@), guion bajo (_), y guion medio (-). El nombre no es _case sensitive_ y puede contener un máximo de 64 caracteres. 
 
 * Indique el tipo de acceso a otorgar
 * Indique si la clave inicial es autogenerada y si se va a forzar el cambio en el primer logon.
 
-![IAM Users](../images/IAM_user3.png)
+![IAM Users](../images/IAM_user3.PNG)
 
 * Por el momento no lo vamos a asignar a ningún grupo, hacemos clic en _next review_.
 
-![IAM Users](../images/IAM_user4.png)
+![IAM Users](../images/IAM_user4.PNG)
 
 *Realizamos el review de las ociones.
 
-![IAM Users](../images/IAM_user5.png)
+![IAM Users](../images/IAM_user5.PNG)
 
-![IAM Users](../images/IAM_user6.png)
+![IAM Users](../images/IAM_user6.PNG)
 
 
 ---
