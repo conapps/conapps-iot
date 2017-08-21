@@ -109,7 +109,10 @@ Cuando utilizamos la cuenta root, tenemos acceso completo a todos los servicios 
 Como vimos anteriormente, el concepto de _Identity_
 nos permite contestr la pregunta ¿quien es ese usuario?. En lugar de compartir la clave de root, podemos crear otras cuentas IAM que corresponderán a personas físicas en nuestra empresa, y que tendrán sus propias credenciales para acceder a la consola de administración.
 
-**Vale aclarar que los usuarios IAM no son cuentas separadas de AWS**.
+**Puntos importantes a recordar:**
+
+- Los usuarios IAM no son cuentas separadas de AWS.
+- El usuario administrador con los permisos de administrator, no es el mismo que el usuario root.
 
 Incluso se pueden generar _access keys_ para que puedan acceder de manera programática.
 
@@ -149,3 +152,14 @@ Las credenciales temporales son utilizadas principalmente para los roles. Se pue
 
 ## ¿Cuando usar qué?
 
+- Usuario
+    - Cuando se crea una cuenta en AWS y solo existe un usuario que va a trabajar en AWS.
+    - Cuando otras personas de la companía necesitan trabajar sobre AWS.
+    - Cuando se desea utilizar CLI para trabajar en AWS.
+
+- Rol
+    - Cuando tenemos aplicaciones corriendo sobre una instancia de EC2 y la aplicación necesita acceder a otros servicios de AWS.
+    - Cuando tenemos una app para celulares y la app necesita acceder a otros servicios de AWS.
+    - Cuando los usuarios ya estan autenticados en la red empresarial y necesita utilizar AWS sin la necesidad de tener que loguearse nuevamente (SSO).
+
+    PAG 61
