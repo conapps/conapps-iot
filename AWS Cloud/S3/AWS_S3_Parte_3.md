@@ -1,4 +1,4 @@
-| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/20170810_AWS_S3_Parte_2.md) |
+| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_2.md) |
 
 ---
 ## Gestión de los datos
@@ -393,4 +393,4 @@ Y también podemos acceder a las herramientas de línea de comando, algunas de l
 
 
 ---
-| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/20170810_AWS_S3_Parte_2.md) |
+| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_2.md) |
