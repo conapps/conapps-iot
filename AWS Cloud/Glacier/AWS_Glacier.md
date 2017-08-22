@@ -747,7 +747,7 @@ Debemos tener en cuenta dos cosas:
 - El objeto será recuperado a la capa de storage Standard de S3, y permanecerá disponible por la cantidad de días que especifiquemos. Por lo cual vamos a pagar el costo correspondiente por el almacenamiento de dicho objeto por ese plazo de tiempo.
 - El restore no es una operación inmediata. El tiempo que demora Glacier en dejarnos el objeto disponible dependerá del tipo de restore que realicemos. Y cada operación de restore tiene costo, el cual depende también del tipo de restore que realicemos. A menor tiempo de restore mayor es el costo, y viceversa.
 
-A modo de ejemplo podes ver el precio del restore para la región de Oregon:
+A modo de ejemplo podemos ver el precio del restore para la región de Oregon:
 ![alt text](./images/Glacier_price_01.png)
 
 
