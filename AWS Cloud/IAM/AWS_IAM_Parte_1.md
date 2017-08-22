@@ -120,12 +120,6 @@ En la figura siguiente, Brad, Jim, DevApp1, DevApp2, TestApp1, y TestApp2 son us
 
 ![IAM Users](images/IAM_users.png)
 
----
-
-## Ejercicio # 1 haciendo clic en el siguiente [link](ejercicios/AWS_IAM_1_Users.md)
-
----
-
 ## Grupos
 ---
 
@@ -140,9 +134,14 @@ Otro caso puede ser un usuario Test que sea ascendido a developer. En este caso,
 ![IAM Groups](images/IAM_groups1.PNG)
 
 ---
+
+## Ejercicio # 1 haciendo clic en el siguiente [link](ejercicios/AWS_IAM_1_Users.md)
+
+## Ejercicio # 2 haciendo clic en el siguiente [link](ejercicios/AWS_IAM_2_Groups.md)
+
+---
+
 ## Roles
-
-
 
 Un rol es muy parecido a un usuario, en el sentido de que se puede asignar permisos a un rol y luego el rol, atachearlo a un usuario. Sin embargo, **un rol no tienen ningun tipo de credencial (password o access keys**. Y también puede ser asociado a cualquiera que necesite dichos accesos temporalmente, por ejemplo: un usuario federado.
 
@@ -162,4 +161,4 @@ Las credenciales temporales son utilizadas principalmente para los roles. Se pue
     - Cuando tenemos una app para celulares y la app necesita acceder a otros servicios de AWS.
     - Cuando los usuarios ya estan autenticados en la red empresarial y necesita utilizar AWS sin la necesidad de tener que loguearse nuevamente (SSO).
 
-    PAG 61
+    PAG 71
