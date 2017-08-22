@@ -42,7 +42,8 @@ La red se llama ```bridge``` debido a que técnicamente es eso, un bridge, que i
 La red tipo ```none``` básicamente deja al contenedor aislado del mundo.
 Veamos esto con un ejemplo, pero antes un breve ejercicio para preparar el ambiente de pruebas:
 
-> Ejercicio:
+> **Ejercicio:**
+>
 > Crear una imagen llamada ```netubuntu``` basada en la imagen ubuntu, que tenga instalado el paquete ```net-tools```.
 
 Ahora que contamos con la imagen ```netubuntu``` podemos verificar el funcionamiento de la red ```none``` con driver ```null```.
@@ -81,6 +82,7 @@ La figura a continuación muestra gráficamente como sería la conexión de vari
 Veamos como se vería la figura anterior en la consola, pero antes un breve ejercicio para preparar el ambiente de pruebas:
 
 > **Ejercicio:**
+>
 > Actualizar la imagen ```netubuntu``` creada en el ejercicio anterior para que además incluya el paquete ```iputils-ping```.
 
 Ahora que tenemos la imagen necesaria, armemos una topología y aprendamos como obtener la información de la misma en formato JSON.
