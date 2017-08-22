@@ -13,6 +13,7 @@ Estas políticas permiten automatizar acciones sobre los objetos de un *bucket*,
 ***Transition***: mueve los objetos a otra *storage class*. Por ejemplo, podríamos transferir los objetos desde la clase STANDARD a la clase STANDARD_IA (acceso infrecuente) a los 30 días que se crea el objeto, y luego archivarlos en GLACIER al año.
 
 ***Expiration:*** elimina los objetos. Por ejemplo, podríamos eliminar en forma automática los objetos cuando lleguen a 5 años de antiguedad.
+
 ![alt text](./images/S3_lifecycle_01.png)
 
 Las acciones se realizan sobre los *buckets*, por lo cual estas aplicarían a todos los objetos que se encuentren en el mismo. Pero si en un mismo bucket tenemos diferentes tipos de objetos para los cuales queremos especificar diferentes reglas?
@@ -82,20 +83,77 @@ Ref.:
 
 ---
 ### Analytics
+Por medio de *Amazon S3 Analytics - Storage Class Analysis*, se pueden analizar los patrones de acceso sobre nuestros datos. Esto nos ayuda a decidir cuando y que datos podemos mover (*transition*), a otra *storage-class* para aprovechar las diferentes clases de almacenamiento y reducir nuestros costos.
 
-By using Amazon S3 Analytics Storage Class Analysis you can analyze storage access patterns to help you decide when to transition the right data to the right storage class. This new Amazon S3 analytics feature observes data access patterns to help you determine when to transition less frequently accessed STANDARD storage to the STANDARD_IA (IA, for infrequent access) storage class.
+Esta herramienta analiza en forma continua (desde que la activamos) los patrones de acceso a nuestros datos, incluyendo cuanta cantidad de storage estamos utilizando y cuanto de ese storage hemos accedido recientemente. Esto nos permite determinar cuando podemos mover los datos que son poco accedidos desde la capa Standard donde se encuentran,  a la capa Standard_IA (acceso poco frecuente) o incluso a Glacier.
 
-After storage class analysis observes the infrequent access patterns of a filtered set of data over a period of time, you can use the analysis results to help you improve your lifecycle policies. You can configure storage class analysis to analyze all the objects in a bucket. Or, you can configure filters to group objects together for analysis by common prefix (that is, objects that have names that begin with a common string), by object tags, or by both prefix and tags. You'll most likely find that filtering by object groups is the best way to benefit from storage class analysis.
+Podemos usar esta información para mejorar nuestras políticas de ciclo de vida (*lifecycle policies*) y aprovechar mejor los diferentes tipos de storage, reduciendo los costos.
 
-Export S3 Analytics to the tool of your choice: Amazon QuickSight, Amazon Redshift, MS Excel, etc.
+Esta herramienta se habilita sobre un *bucket*, y cuanto más tiempo esté habilitada (analizando los patrones de acceso) mejor información nos proveerá. Se puede analizar el acceso a todos los objetos del *bucket*, o se pueden configurar para analizar solo determinados objetos dentro del *bucket*, filtrando mediante el uso de *prefixes*, *tags*, o ambos.
+Esto permite entender ahún mas el comportamiento de nuestros datos, por ej., podríamos analizar el acceso a todos los objetos que sean de tipo *"logs"* y analizar en forma separada a todos los objetos de tipo *"imagenes"* y luego tomar diferentes acciones sobre ellos (ya deberíamos tener claro que para que esto sea posible debemos tener categorizados nuestros objetos de alguna forma, ya sea utilizando tags o prefijos con ciertos patrones en los nombres de los objetos, ej., log_*).
 
+Adicionalmente a la información de análisis que nos muestra la consola web, podemos exportar los resultados de S3 Analytics a la herramienta que elijamos, por ej. Amazon QuickSight, Amazon Redshift, MS Excel, etc., generando incluso la salida directamente a un bucket en formato .csv para nuestro posterior análisis.
+
+S3 Analytics tiene costo adicional, en base a la cantidad de objetos analizados mensualmente.
+
+  ![alt text](./images/S3_analytics_price_01.png)
+  ![alt text](./images/S3_analytics_price_02.png)
+
+
+
+S3 Anaytics se configura dentro de las herramientas de *Management* del *bucket*:
 ![alt text](./images/S3_analytics_01.png)
 
+Luego debemos agregar un filtro indicando que objetos queremos analizar, y si queremos exportar la salida a otro *bucket* (creado anteriormente), en este caso exportamos los resultados a *iot-cloud-bucket-analytics-results*:
 ![alt text](./images/S3_analytics_02.png)
+
+Si decidimos exporta la salida, automáticamente nos va a crear una policy que le permita accesso de escritura sobre el *bucket* destino:
+![alt text](./images/S3_analytics_03.png)
+
+
+Podemos ver las características de la regla que creamos, mediante la CLI s3api [*s3api list-bucket-analytics-configurations*](http://docs.aws.amazon.com/cli/latest/reference/s3api/list-bucket-analytics-configurations.html), o podríamos incluso crear la regla mediante [*put-bucket-analytics-configuration*](http://docs.aws.amazon.com/cli/latest/reference/s3api/put-bucket-analytics-configuration.html), o elminarla mediante [*delete-bucket-analytics-configuration*](http://docs.aws.amazon.com/cli/latest/reference/s3api/delete-bucket-analytics-configuration.html).
+```bash
+$ aws s3api list-bucket-analytics-configurations --bucket iot-cloud-bucket-analytics
+{
+    "IsTruncated": false,
+    "AnalyticsConfigurationList": [
+        {
+            "Id": "analytics-01",
+            "StorageClassAnalysis": {
+                "DataExport": {
+                    "OutputSchemaVersion": "V_1",
+                    "Destination": {
+                        "S3BucketDestination": {
+                            "Format": "CSV",
+                            "Bucket": "arn:aws:s3:::iot-cloud-bucket-analytics-results"
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}
+```
+Y listo, el *bucket* ya está siendo analizado. Obviamente la herramienta necesita correr durante cierto tiempo para poder recabar la información de acceso, y por tanto al principio no va a mostrar información:
+![alt text](./images/S3_analytics_04.png)
+
+Luego de cierto tiempo comenzaremos a ver la información generada aquí mismo, donde nos mostraría información similar a la siguiente.
+
+Podemos ver desde cuando está habilitada la regla (115 días) y cuando fueron actualizados los datos por última vez (11/29/2016), cuanta información total tenemos almacenada en este bucket (3PB) y cuanta se ha accedido (2PB), así como las estadísticas de los últimos días (gráfica):
+![alt text](./images/S3_analytics_05.png)
+
+
+Mas abajo podemos ver las estadísticas diferenciadas por diferentes períodos de tiempo.
+![alt text](./images/S3_analytics_06.png)
+Con esta información podemos ver, por ej., que de los 982TB que tenemos almacenados con mas de 180 días de antiguedad en nuestro *bucket*, solo hemos accedido a 79TB, por lo cual nos recomienda que movamos esa información a la capa de *Infrequently accessed*, y lo mismo para el período de entre 90-180 días, donde solo hemos accedido a 32TB de los 399TB de datos almacenados.
+
+Esto nos permite entender mejor el uso de nuestros datos, y poder mejorar nuestra políticas de ciclo de vida. Por ej, podríamos crear una regla que mueva los objetos con mas de 90 días a la capa *Standard_IA* para ahorrar costos de almacenamiento.
+
 
 Ref.:
 * [Amazon S3 Analytics – Storage Class Analysis](http://docs.aws.amazon.com/AmazonS3/latest/dev/analytics-storage-class.html)
 * [How Do I Configure Storage Class Analysis?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/configure-analytics-storage-class.html)
+* [Precios de Amazon S3](https://aws.amazon.com/es/s3/pricing/)
 
 ---
 ### Metrics
