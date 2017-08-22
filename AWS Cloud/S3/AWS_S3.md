@@ -69,9 +69,9 @@ Para soportar estos tipos de uso, Amazon S3 ofrece diferentes tipos de clases de
 También provee seguridad, control de acceso, y encriptación.
 
 Ref:
-[Que es cloud storage?](https://aws.amazon.com/es/what-is-cloud-storage/)
-[Amazon S3](https://aws.amazon.com/es/s3/)
-[Detalles del producto Amazon S3](https://aws.amazon.com/es/s3/details/)
+* [Que es cloud storage?](https://aws.amazon.com/es/what-is-cloud-storage/)
+* [Amazon S3](https://aws.amazon.com/es/s3/)
+* [Detalles del producto Amazon S3](https://aws.amazon.com/es/s3/details/)
 
 ---
 ### Object Storage vs Traditional Storage
@@ -85,8 +85,8 @@ Existen varias diferencias entre las soluciones de almacenamiento tradicional (B
 * **Object Storage**: almacena objetos con una serie de metadatos que se guardan junto con el objeto (la metadata vive con el propio objeto, no por separado). Son estructuras planas sin la jerarquía utilizada por un filesystem. El sistema operativo no accede directamente a los datos, sino que se interactúa a nivel de aplicación, mediante una API. Son sistemas distribuidos con muy alta resiliencia y muy alta escalabilidad, y bajo costo. Brindan una muy alta durabilidad para los datos. Están diseñados para soportar una capacidad muy grande (del orden de PetaBytes o superior), y el costo por GB es muy bajo (a dicha escala). Se accede a los objetos como una unidad total, es decir, se lee o escribe todo el objeto como una unidad. Son apropiados para accesos del tipo *write once - read many*, donde se almancena diverso tipo de contenido como ser multimedia (fotos, video, audio), respaldos/archives, datos de aplicaciones cloud nativas, contenido web, documentos, etc. No son apropiadas para operaciones de baja latencia o acceso randómico, como ser por ej. base de datos relacionales tradicionales.   
 
 Ref:
-[Introduction To Object Storage](https://blog.rackspace.com/introduction-to-object-storage)
-[Object Storage](https://en.wikipedia.org/wiki/Object_storage)
+* [Introduction To Object Storage](https://blog.rackspace.com/introduction-to-object-storage)
+* [Object Storage](https://en.wikipedia.org/wiki/Object_storage)
 
 ---
 ### Formas de acceso a S3
@@ -141,7 +141,7 @@ El tamaño máximo para un objeto es de 5TB, y un *bucket* puede contener una ca
 Cada objeto consiste de *datos* (el archivo propiamente dicho) y *metadatos* (una serie de información acerca del archivo). La porción de *datos* es opaca a S3, es decir, es tratada como un simple conjunto de bytes sin importar su contenido. Los *metadatos* son pares de valores nombrados, que describen el objeto.
 
 Ref.:
-[Working with Amazon S3 Objects](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingObjects.html)
+* [Working with Amazon S3 Objects](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingObjects.html)
 
 ### Keys
 Cada objeto almacenado dentro de *bucket* es identificado en forma única por un clave (*Key*). Se podría pensar en la *key* como si fuera el *filename* del objeto.
@@ -153,7 +153,7 @@ La combinación de *bucket* + *key* + *version ID* (opcional) identifica en form
 Ejemplo: */datos/informes/2017/01/reporte-de-horas.doc*
 
 Ref.:
-[Object Keys](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingMetadata.html#object-keys)
+* [Object Keys](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingMetadata.html#object-keys)
 
 
 ### URL del objeto
@@ -175,7 +175,7 @@ Es la región geográfica donde Amazon S3 almacenara el *bucket* que se está cr
 Elegir una región permite minimizar los costos, optimizar la latencia, o cumplir con requisitos legales o regulatorios. Amazon S3 permite replicar objetos entre regiones, lo veremos más adelante.
 
 Ref:
-[Regiones y puntos de conexión de AWS](http://docs.aws.amazon.com/es_es/general/latest/gr/rande.html)
+* [Regiones y puntos de conexión de AWS](http://docs.aws.amazon.com/es_es/general/latest/gr/rande.html)
 
 ---
 ## Primeros pasos ##
@@ -364,9 +364,9 @@ delete: s3://iot-cloud-bucket-02/logo.png
 ```
 
 Refs:
-[AWS CLI Command References s3](http://docs.aws.amazon.com/cli/latest/reference/s3/)
-[AWS CLI Command Reference: s3api](http://docs.aws.amazon.com/cli/latest/reference/s3api/index.html)
-[Leveraging the s3 and s3api Commands](https://aws.amazon.com/es/blogs/developer/leveraging-the-s3-and-s3api-commands/)
+* [AWS CLI Command References s3](http://docs.aws.amazon.com/cli/latest/reference/s3/)
+* [AWS CLI Command Reference: s3api](http://docs.aws.amazon.com/cli/latest/reference/s3api/index.html)
+* [Leveraging the s3 and s3api Commands](https://aws.amazon.com/es/blogs/developer/leveraging-the-s3-and-s3api-commands/)
 
 ---
 ## Folders
@@ -437,9 +437,8 @@ $ $ aws s3 sync . s3://iot-cloud-bucket-01/carpeta-01/ --delete
 delete: s3://iot-cloud-bucket-01/carpeta-01/logs/log3.out
 ```
 
-
 Refs.:
-[Working with Folders](http://docs.aws.amazon.com/es_es/AmazonS3/latest/UG/FolderOperations.html)
+* [Working with Folders](http://docs.aws.amazon.com/es_es/AmazonS3/latest/UG/FolderOperations.html)
 
 
 

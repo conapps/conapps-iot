@@ -74,10 +74,10 @@ $ aws s3api get-bucket-lifecycle-configuration --bucket iot-cloud-bucket-01
 
 ```
 
-Refs:
-[Object Lifecycle Management](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/object-lifecycle-mgmt.html)
-[Setting Lifecycle Configuration On a Bucket](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/how-to-set-lifecycle-configuration-intro.html)
-[Set Lifecycle Configuration Using the AWS CLI](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/set-lifecycle-cli.html)
+Ref.:
+* [Object Lifecycle Management](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/object-lifecycle-mgmt.html)
+* [Setting Lifecycle Configuration On a Bucket](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/how-to-set-lifecycle-configuration-intro.html)
+* [Set Lifecycle Configuration Using the AWS CLI](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/set-lifecycle-cli.html)
 
 
 ---
@@ -93,9 +93,9 @@ Export S3 Analytics to the tool of your choice: Amazon QuickSight, Amazon Redshi
 
 ![alt text](./images/S3_analytics_02.png)
 
-Ref:
-[Amazon S3 Analytics – Storage Class Analysis](http://docs.aws.amazon.com/AmazonS3/latest/dev/analytics-storage-class.html)
-[How Do I Configure Storage Class Analysis?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/configure-analytics-storage-class.html)
+Ref.:
+* [Amazon S3 Analytics – Storage Class Analysis](http://docs.aws.amazon.com/AmazonS3/latest/dev/analytics-storage-class.html)
+* [How Do I Configure Storage Class Analysis?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/configure-analytics-storage-class.html)
 
 ---
 ### Metrics
@@ -113,9 +113,9 @@ All CloudWatch statistics are retained for a period of fifteen months, so that y
 ![alt text](./images/S3_metrics_02.png)
 
 
-Ref:
-[Monitoring Metrics with Amazon CloudWatch](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/cloudwatch-monitoring.html)
-[Metrics Configurations for Buckets](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/metrics-configurations.html)
+Ref.:
+* [Monitoring Metrics with Amazon CloudWatch](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/cloudwatch-monitoring.html)
+* [Metrics Configurations for Buckets](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/metrics-configurations.html)
 
 ---
 ### S3 Inventory
@@ -128,9 +128,9 @@ You can configure what object metadata to include in the inventory, whether to l
 
 ![alt text](./images/S3_inventory_list.png)
 
-Ref:
-[Amazon S3 Inventory](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/storage-inventory.html)
-[How Do I Configure Amazon S3 Inventory?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/configure-inventory.html)
+Ref.:
+* [Amazon S3 Inventory](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/storage-inventory.html)
+* [How Do I Configure Amazon S3 Inventory?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/configure-inventory.html)
 
 
 
@@ -205,11 +205,11 @@ Y si vamos a una dirección que no existe, nos dirige a *error.html*
 
 Podemos combinar esta funcionalidad de AWS S3 Static Website Hosting con AWS Route 53 para poder usar nuestros propios nombres de dominio para nuestro sitio, en lugar de usar la dirección de *endpoint* provisto por Amazon (puede ver la documentación de referencia mas abajo).
 
-Refs.:
-[How Do I Configure an S3 Bucket for Static Website Hosting?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/static-website-hosting.html)
-[Configuring a Bucket for Website Hosting](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/HowDoIWebsiteConfiguration.html)
-[Configuring a Webpage Redirect](https://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/how-to-page-redirect.html)
-[Setting up a Static Website Using a Custom Domain](https://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/website-hosting-custom-domain-walkthrough.html)
+Ref.:
+* [How Do I Configure an S3 Bucket for Static Website Hosting?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/static-website-hosting.html)
+* [Configuring a Bucket for Website Hosting](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/HowDoIWebsiteConfiguration.html)
+* [Configuring a Webpage Redirect](https://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/how-to-page-redirect.html)
+* [Setting up a Static Website Using a Custom Domain](https://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/website-hosting-custom-domain-walkthrough.html)
 
 
 ---
@@ -253,12 +253,12 @@ El tiempo que le toma a S3 replicar la información depende del tamaño de los o
 Puede llevar varias horas dependiendo de la cantidad de información.
 
 
-Refs:
-[Cross-Region Replication](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/crr.html)
-[Cross-Region Replication FAQs](https://aws.amazon.com/es/s3/faqs/#crr)
-[How to enable Cross-Region (AWS Console)](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/enable-crr.html)
-[Walkthrough 1: Configure Cross-Region Replication Replication for same AWS user account](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/crr-walkthrough1.html)
-[Amazon S3 Pricing](https://aws.amazon.com/es/s3/pricing/)
+Ref.:
+* [Cross-Region Replication](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/crr.html)
+* [Cross-Region Replication FAQs](https://aws.amazon.com/es/s3/faqs/#crr)
+* [How to enable Cross-Region (AWS Console)](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/enable-crr.html)
+* [Walkthrough 1: Configure Cross-Region Replication Replication for same AWS user account](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/crr-walkthrough1.html)
+* [Amazon S3 Pricing](https://aws.amazon.com/es/s3/pricing/)
 
 
 ---
@@ -310,12 +310,12 @@ Y si luego volvemos a intentar acceder al objeto desde el browser, ahora podemos
 ![alt text](./images/S3_bucket_policy_04.png)
 
 
-Refs:
-[Overview of Managing Access](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/access-control-overview.html)
-[Managing Access Permissions to Your Amazon S3 Resources](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/s3-access-control.html)
-[Bucket Policy Examples](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/example-bucket-policies.html)
-[Example Walkthroughs: Managing Access to Your Amazon S3 Resources](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/example-walkthroughs-managing-access.html)
-[AWS Policy Generator](http://awspolicygen.s3.amazonaws.com/policygen.html)
+Ref.:
+* [Overview of Managing Access](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/access-control-overview.html)
+* [Managing Access Permissions to Your Amazon S3 Resources](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/s3-access-control.html)
+* [Bucket Policy Examples](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/example-bucket-policies.html)
+* [Example Walkthroughs: Managing Access to Your Amazon S3 Resources](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/example-walkthroughs-managing-access.html)
+* [AWS Policy Generator](http://awspolicygen.s3.amazonaws.com/policygen.html)
 
 
 ---
@@ -327,8 +327,8 @@ Each access log record provides details about a single access request, such as t
 There is no extra charge for enabling server access logging on an Amazon S3 bucket; however, any log files the system delivers to you will accrue the usual charges for storage. (You can delete the log files at any time.) No data transfer charges will be assessed for log file delivery, but access to the delivered log files is charged the same as any other data transfer.
 
 Ref:
-[Server Access Logging](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/ServerLogs.html)
-[How Do I Enable Server Access Logging for an S3 Bucket?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/server-access-logging.html)
+* [Server Access Logging](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/ServerLogs.html)
+* [How Do I Enable Server Access Logging for an S3 Bucket?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/server-access-logging.html)
 
 ---
 ## Seguridad en los Datos
@@ -353,10 +353,10 @@ Tenemos tres opciones para administrar las claves de encriptación:
 Podemos encriptar los datos nosotros localmente, previo al envío de los mismos a AWS S3.
 
 Refs:
-[Protecting Data Using Encryption](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingEncryption.html)
-[Protecting Data Using Server-Side Encryption](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/serv-side-encryption.html)
-[Protecting Data Using Client-Side Encryption](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingClientSideEncryption.html)
-[AWS Key Management Service (KMS)](https://aws.amazon.com/es/kms/)
+* [Protecting Data Using Encryption](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingEncryption.html)
+* [Protecting Data Using Server-Side Encryption](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/serv-side-encryption.html)
+* [Protecting Data Using Client-Side Encryption](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingClientSideEncryption.html)
+* [AWS Key Management Service (KMS)](https://aws.amazon.com/es/kms/)
 
 
 
@@ -380,7 +380,7 @@ Algunos (de los tantos) otros servicios de AWS que interactúan con S3:
 ---
 
 Amazon cuenta con una variedad de herramientas para AWS, incluyendo SDK, IDE, línea de comandos, etc. Puede acceder al conjunto de herramientas desde aquí:
-* [Indice de Herramientas para Amazon Web Services](https://aws.amazon.com/es/tools/)
+* [Herramientas para Amazon Web Services](https://aws.amazon.com/es/tools/)
 
 
 Las herramientas de desarrollo (SDK) están disponibles para varios lenguajes:
