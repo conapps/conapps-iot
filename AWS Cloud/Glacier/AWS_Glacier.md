@@ -175,7 +175,7 @@ $ aws glacier list-vaults --account-id - --region us-west-2
 }
 ```
 
-O, para que sea mas fácil trabajar, podemso cambiar la configuración de la CLI para apuntar a la región correcta, mediante *aws configure* e ingresando *us-west-2* en la región (los otros campos no los cambiamos):
+O, para que sea mas fácil trabajar, podemos cambiar la configuración de la CLI para apuntar a la región correcta, mediante *aws configure* e ingresando *us-west-2* en la región (los otros campos no los cambiamos):
 
 ```bash
 $ aws configure
@@ -350,15 +350,37 @@ $ aws glacier list-jobs --account-id - --vault-name iot-cloud-vault-01
 
 *-- algunas horas mas tarde --*
 
+```bash
+$ aws glacier list-jobs --account-id - --vault-name iot-cloud-vault-01
+{
+    "JobList": [
+        {
+            "JobId": "49KitZMjk3WO-PoOUOgKBA2lH_fBR7NBUyyKM56_e5fDW7R3y8MM0pCowoCHaioqhBTZWwvkI6BroHv-7Lt3MhSiX8xo",
+            "Action": "InventoryRetrieval",
+            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
+            "CreationDate": "2017-08-21T18:50:16.130Z",
+            "Completed": true,
+            "StatusCode": "Succeeded",
+            "StatusMessage": "Succeeded",
+            "InventorySizeInBytes": 450,
+            "CompletionDate": "2017-08-21T22:35:36.412Z",
+            "InventoryRetrievalParameters": {
+                "Format": "JSON"
+            }
+        }
+    ]
+}
+```
+
 Ahora que el job finalizó, debemos grabar la salida del job a un archivo (por ejemplo *lista.txt*), necesitamos el *JobID* para esto:
 ```bash
 $ aws glacier get-job-output --account-id - --job-id 49KitZMjk3WO-PoOUOgKBA2lH_fBR7NBUyyKM56_e5fDW7R3y8MM0pCowoCHaioqhBTZWwvkI6BroHv-7Lt3MhSiX8xo --vault-name iot-cloud-vault-01 lista.txt
 {
-
-
-
-
+    "status": 200,
+    "acceptRanges": "bytes",
+    "contentType": "application/json"
 }
+
 ```
 
 Y por último, podemos abrir este archivo para ver el inventario del contenido de nuestro *vault*.
@@ -380,6 +402,164 @@ $ aws glacier describe-vault --account-id - --vault-name iot-cloud-vault-01
 }
 ```
 
+---
+
+$ aws glacier initiate-job --account-id - --region us-west-2 --vault-name iot-cloud-vault-01 --job-parameters "{\"Type\": \"inventory-retrieval\"}"
+{
+    "location": "/805750336955/vaults/iot-cloud-vault-01/jobs/E6SAfaZGuebIrrdu13h58FBoDPS8dJCB6pJWbqny92gIkhqtPHq0l2ikcgg_bQiDkS9eDCn1UHJ7ThcpWK7PEI6B6rLi",
+    "jobId": "E6SAfaZGuebIrrdu13h58FBoDPS8dJCB6pJWbqny92gIkhqtPHq0l2ikcgg_bQiDkS9eDCn1UHJ7ThcpWK7PEI6B6rLi"
+}
+
+$ aws glacier list-jobs --account-id - --vault-name iot-cloud-vault-01                                                             {
+    "JobList": [
+        {
+            "JobId": "E6SAfaZGuebIrrdu13h58FBoDPS8dJCB6pJWbqny92gIkhqtPHq0l2ikcgg_bQiDkS9eDCn1UHJ7ThcpWK7PEI6B6rLi",
+            "Action": "InventoryRetrieval",
+            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
+            "CreationDate": "2017-08-22T01:42:57.026Z",
+            "Completed": false,
+            "StatusCode": "InProgress",
+            "InventoryRetrievalParameters": {
+                "Format": "JSON"
+            }
+        },
+        {
+            "JobId": "49KitZMjk3WO-PoOUOgKBA2lH_fBR7NBUyyKM56_e5fDW7R3y8MM0pCowoCHaioqhBTZWwvkI6BroHv-7Lt3MhSiX8xo",
+            "Action": "InventoryRetrieval",
+            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
+            "CreationDate": "2017-08-21T18:50:16.130Z",
+            "Completed": true,
+            "StatusCode": "Succeeded",
+            "StatusMessage": "Succeeded",
+            "InventorySizeInBytes": 450,
+            "CompletionDate": "2017-08-21T22:35:36.412Z",
+            "InventoryRetrievalParameters": {
+                "Format": "JSON"
+            }
+        }
+    ]
+}
+
+
+
+
+
+
+
+
+
+--- prueba en iot-cloud-vault-02
+$ aws glacier upload-archive --vault-name iot-cloud-vault-02 --account-id - --archive-description "20170821-respaldo-mi_archivo" --body ./bkp-glacier/mi_archivo.zip
+{
+    "location": "/805750336955/vaults/iot-cloud-vault-02/archives/6KN-lDSBEUb-MUXR_XgQ6knZtsEdJ6jPruDO6HQFnti0hyPccOaKmiByCltHgcH931KsF9FOSyutpwqKYP6BKJV_IuiMvdozbXijiB1Cg3GwOhk_pDlYqRb0DXNiYGsVgsnmKY6Kdg",
+    "checksum": "f58e64a2381d9a68934b7ce8db45450654c6af977f6c40ca23b263ba994d9b27",
+    "archiveId": "6KN-lDSBEUb-MUXR_XgQ6knZtsEdJ6jPruDO6HQFnti0hyPccOaKmiByCltHgcH931KsF9FOSyutpwqKYP6BKJV_IuiMvdozbXijiB1Cg3GwOhk_pDlYqRb0DXNiYGsVgsnmKY6Kdg"
+}
+
+$ aws glacier upload-archive --vault-name iot-cloud-vault-02 --account-id - --archive-description "20170821-respaldo-mi_backup" --body ./bkp-glacier/mi_backup.zip
+{
+    "location": "/805750336955/vaults/iot-cloud-vault-02/archives/zufjzdsJEHK32ZcYc_ZHUfox5ftWFdrc71CAPdXdmi0qlpADQ4rovzngU2Pr9Ys-KQd76LH-6MgcfSyVRWRyDmkj_QVctTiSrfhrvi7yxa4Z3hUIUSeNMqdpgQQKMYrrM3RIoUJpbQ",
+    "checksum": "f58e64a2381d9a68934b7ce8db45450654c6af977f6c40ca23b263ba994d9b27",
+    "archiveId": "zufjzdsJEHK32ZcYc_ZHUfox5ftWFdrc71CAPdXdmi0qlpADQ4rovzngU2Pr9Ys-KQd76LH-6MgcfSyVRWRyDmkj_QVctTiSrfhrvi7yxa4Z3hUIUSeNMqdpgQQKMYrrM3RIoUJpbQ"
+}
+
+$ aws glacier upload-archive --vault-name iot-cloud-vault-02 --account-id - --archive-description "20170821-respaldo-otro_backup" --body ./bkp-glacier/otro_backup.zip
+{
+    "location": "/805750336955/vaults/iot-cloud-vault-02/archives/Gd0NTap3nbJDJ9RMNsVN_TbofytFmDMVxLJ4vZ7D5n-q0p1dXELg5Yi3BAPARd_MZulhW_FeVL4leYOU8Pcg8wqKhgyZw9arsFWVKgCUkmL6VNTXcqcD27V7coqBu4dAVwfsQFUaUQ",
+    "checksum": "f58e64a2381d9a68934b7ce8db45450654c6af977f6c40ca23b263ba994d9b27",
+    "archiveId": "Gd0NTap3nbJDJ9RMNsVN_TbofytFmDMVxLJ4vZ7D5n-q0p1dXELg5Yi3BAPARd_MZulhW_FeVL4leYOU8Pcg8wqKhgyZw9arsFWVKgCUkmL6VNTXcqcD27V7coqBu4dAVwfsQFUaUQ"
+}
+
+
+
+
+
+$ aws glacier upload-archive --vault-name iot-cloud-vault-01 --account-id - --archive-description "20170821-respaldo-otro_backup" --body ./bkp-glacier/otro_backup.zip
+{
+    "location": "/805750336955/vaults/iot-cloud-vault-01/archives/wes8Hmsw1boV0bkCVJWu5bY3RAbvUhOEeuY8iiq3Z33ZqIga-Gb00UnS0NtMiJ2Z5-ApQ5pEKN1MXmWIhl8aMPMmjd00iY4N40IoBfPZzU-p90mDczMtg7m-2uC3AUQ7lrJo45bbNw",
+    "checksum": "f58e64a2381d9a68934b7ce8db45450654c6af977f6c40ca23b263ba994d9b27",
+    "archiveId": "wes8Hmsw1boV0bkCVJWu5bY3RAbvUhOEeuY8iiq3Z33ZqIga-Gb00UnS0NtMiJ2Z5-ApQ5pEKN1MXmWIhl8aMPMmjd00iY4N40IoBfPZzU-p90mDczMtg7m-2uC3AUQ7lrJo45bbNw"
+}
+
+
+
+$ aws glacier initiate-job --account-id - --vault iot-cloud-vault-01 --job-parameters '{ "Type": "inventory-retrieval" }'
+{
+    "location": "/805750336955/vaults/iot-cloud-vault-01/jobs/CNUvbYZZkS0jTav4rrb_n3kQmqwSOj4YN8Ya_DRxwNF-8T0Rgmar44jsSOAnalTVhTeCPnpoSDnSRUPN7tCtgfeJeWLx",
+    "jobId": "CNUvbYZZkS0jTav4rrb_n3kQmqwSOj4YN8Ya_DRxwNF-8T0Rgmar44jsSOAnalTVhTeCPnpoSDnSRUPN7tCtgfeJeWLx"
+}
+
+$ aws glacier list-jobs --account-id - --vault-name iot-cloud-vault-01                                                             {
+    "JobList": [
+        {
+            "JobId": "CNUvbYZZkS0jTav4rrb_n3kQmqwSOj4YN8Ya_DRxwNF-8T0Rgmar44jsSOAnalTVhTeCPnpoSDnSRUPN7tCtgfeJeWLx",
+            "Action": "InventoryRetrieval",
+            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
+            "CreationDate": "2017-08-22T02:27:43.977Z",
+            "Completed": false,
+            "StatusCode": "InProgress",
+            "InventoryRetrievalParameters": {
+                "Format": "JSON"
+            }
+        },
+        {
+            "JobId": "SyalPqzhm_95QKr91PjsI5lPIx01Lr-MHUf1d17JUaZyYi41pzFmVyh9vml8ws7cEMFKf2m2fXHcaDMNjUelvLbWvyY5",
+            "JobDescription": "Prueba de recuperacion 2017-08-21",
+            "Action": "ArchiveRetrieval",
+            "ArchiveId": "2VijuHqLP8HZR-BG9FH4nm-13nZa7iPXYvBaXEVWPMcMIWEkc1nd69xBvM5iAroNaR8FPGTeqQXuz5h6FjorUEPNQwH5LfLsaHDodRv5TKUYgmM59IdzLGbAOqKl8llRi5X5t6nv5w",
+            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
+            "CreationDate": "2017-08-22T02:02:46.515Z",
+            "Completed": false,
+            "StatusCode": "InProgress",
+            "ArchiveSizeInBytes": 3145728,
+            "SHA256TreeHash": "f58e64a2381d9a68934b7ce8db45450654c6af977f6c40ca23b263ba994d9b27",
+            "ArchiveSHA256TreeHash": "f58e64a2381d9a68934b7ce8db45450654c6af977f6c40ca23b263ba994d9b27",
+            "RetrievalByteRange": "0-3145727",
+            "Tier": "Standard"
+        },
+        {
+            "JobId": "E6SAfaZGuebIrrdu13h58FBoDPS8dJCB6pJWbqny92gIkhqtPHq0l2ikcgg_bQiDkS9eDCn1UHJ7ThcpWK7PEI6B6rLi",
+            "Action": "InventoryRetrieval",
+            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
+            "CreationDate": "2017-08-22T01:42:57.026Z",
+            "Completed": false,
+            "StatusCode": "InProgress",
+            "InventoryRetrievalParameters": {
+                "Format": "JSON"
+            }
+        },
+        {
+            "JobId": "49KitZMjk3WO-PoOUOgKBA2lH_fBR7NBUyyKM56_e5fDW7R3y8MM0pCowoCHaioqhBTZWwvkI6BroHv-7Lt3MhSiX8xo",
+            "Action": "InventoryRetrieval",
+            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
+            "CreationDate": "2017-08-21T18:50:16.130Z",
+            "Completed": true,
+            "StatusCode": "Succeeded",
+            "StatusMessage": "Succeeded",
+            "InventorySizeInBytes": 450,
+            "CompletionDate": "2017-08-21T22:35:36.412Z",
+            "InventoryRetrievalParameters": {
+                "Format": "JSON"
+            }
+        }
+    ]
+}
+
+
+$ aws glacier get-job-output --account-id - --job-id CNUvbYZZkS0jTav4rrb_n3kQmqwSOj4YN8Ya_DRxwNF-8T0Rgmar44jsSOAnalTVhTeCPnpoSDnSRUPN7tCtgfeJeWLx --vault-name iot-cloud-vault-01 lista2.out
+{
+    "status": 200,
+    "acceptRanges": "bytes",
+    "contentType": "application/json"
+}
+
+
+$ cat lista2.out
+{"VaultARN":"arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01","InventoryDate":"2017-08-18T08:16:34Z",
+"ArchiveList":[{"ArchiveId":"2VijuHqLP8HZR-BG9FH4nm-13nZa7iPXYvBaXEVWPMcMIWEkc1nd69xBvM5iAroNaR8FPGTeqQXuz5h6FjorUEPNQwH5LfLsaHDodRv5TKUYgmM59IdzLGbAOqKl8llRi5X5t6nv5w","ArchiveDescription":"","CreationDate":"2017-08-17T19:10:10Z","Size":3145728,"SHA256TreeHash":"f58e64a2381d9a68934b7ce8db45450654c6af977f6c40ca23b263ba994d9b27"}]}
+
+
+
 
 
 ---
@@ -391,6 +571,51 @@ Lo que debemos hacer es:
 2) Esperar a que el Job sea procesado por Glacier y finalice. Esto puede demorar de 3 a 5 horas normalmente, aunque hay opciones de recuperar datos en minutos con un costo mayor.
 3) Recibir la notificación de que el Job terminó (si configuramos notificaciones).
 4) Descargar la "salida del job".
+
+
+
+$ aws glacier initiate-job --account-id - --vault-name iot-cloud-vault-01 --region us-west-2 --job-parameters file://job-archive-retrieval.json
+{
+    "location": "/805750336955/vaults/iot-cloud-vault-01/jobs/SyalPqzhm_95QKr91PjsI5lPIx01Lr-MHUf1d17JUaZyYi41pzFmVyh9vml8ws7cEMFKf2m2fXHcaDMNjUelvLbWvyY5",
+    "jobId": "SyalPqzhm_95QKr91PjsI5lPIx01Lr-MHUf1d17JUaZyYi41pzFmVyh9vml8ws7cEMFKf2m2fXHcaDMNjUelvLbWvyY5"
+}
+
+
+$ aws glacier list-jobs --account-id - --vault-name iot-cloud-vault-01                                                             {
+    "JobList": [
+        {
+            "JobId": "SyalPqzhm_95QKr91PjsI5lPIx01Lr-MHUf1d17JUaZyYi41pzFmVyh9vml8ws7cEMFKf2m2fXHcaDMNjUelvLbWvyY5",
+            "JobDescription": "Prueba de recuperacion 2017-08-21",
+            "Action": "ArchiveRetrieval",
+            "ArchiveId": "2VijuHqLP8HZR-BG9FH4nm-13nZa7iPXYvBaXEVWPMcMIWEkc1nd69xBvM5iAroNaR8FPGTeqQXuz5h6FjorUEPNQwH5LfLsaHDodRv5TKUYgmM59IdzLGbAOqKl8llRi5X5t6nv5w",
+            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
+            "CreationDate": "2017-08-22T02:02:46.515Z",
+            "Completed": false,
+            "StatusCode": "InProgress",
+            "ArchiveSizeInBytes": 3145728,
+            "SHA256TreeHash": "f58e64a2381d9a68934b7ce8db45450654c6af977f6c40ca23b263ba994d9b27",
+            "ArchiveSHA256TreeHash": "f58e64a2381d9a68934b7ce8db45450654c6af977f6c40ca23b263ba994d9b27",
+            "RetrievalByteRange": "0-3145727",
+            "Tier": "Standard"
+        },
+    ]
+}
+
+$ aws glacier get-job-output --account-id - --vault-name iot-cloud-vault-01 --job-id SyalPqzhm_95QKr91PjsI5lPIx01Lr-MHUf1d17JUaZyYi41pzFmVyh9vml8ws7cEMFKf2m2fXHcaDMNjUelvLbWvyY5 archivo_recuperado.zip
+{
+    "checksum": "f58e64a2381d9a68934b7ce8db45450654c6af977f6c40ca23b263ba994d9b27",
+    "status": 200,
+    "acceptRanges": "bytes",
+    "contentType": "application/octet-stream"
+}
+
+$ ls -la
+total 3076
+drwxr-xr-x 1 VM 197121       0 ago 22 13:48 ./
+drwxr-xr-x 1 VM 197121       0 ago 22 13:46 ../
+-rw-r--r-- 1 VM 197121 3145728 ago 22 13:49 archivo_recuperado.zip
+
+
 
 
 
