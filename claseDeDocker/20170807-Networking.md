@@ -159,9 +159,10 @@ $ docker network inspect bridge
 
 Notemos dentro de los campos del JSON retornado por el comando ```docker network inspect bridge``` la dirección de red ```172.17.0.0/16```, la dirección IP (```172.17.0.1```) correspondiente a la interface ```docker0``` y las direcciones MAC y direcciones IP de cada uno de los contenedores.
 
-Comprobaremos ahora que los contenedores tienen conectividad IP entre si y con la interface ```docker0``` del host.
+Comprobaremos ahora que los contenedores tienen conectividad IP entre si, con la interface ```docker0``` del host y con el mundo exterior.
 
-> Nota: se puede salir de la consola de un contenedor sin apagarlo con la secuencia de comandos ```ctl+p,ctl+q```
+> **Nota-1:** se puede salir de la consola de un contenedor sin apagarlo con la secuencia de comandos ```ctl+p,ctl+q```
+> **Nota-2:** verficar además que no se puede resolver mediante DNS el nombre de los contenedores, en este caso ```c1```, ```c2``` y ```c3```
 
 
 ```bash
@@ -194,6 +195,15 @@ PING 172.17.0.1 (172.17.0.1) 56(84) bytes of data.
 --- 172.17.0.1 ping statistics ---
 3 packets transmitted, 3 received, 0% packet loss, time 2052ms
 rtt min/avg/max/mdev = 0.116/0.169/0.257/0.062 ms
+root@0d1697247d1d:/# ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=51 time=36.6 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=51 time=32.9 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=51 time=33.5 ms
+^C
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 32.989/34.370/36.613/1.600 ms
 ```
 
 ```bash
@@ -225,6 +235,15 @@ PING 172.17.0.1 (172.17.0.1) 56(84) bytes of data.
 --- 172.17.0.1 ping statistics ---
 2 packets transmitted, 2 received, 0% packet loss, time 1031ms
 rtt min/avg/max/mdev = 0.132/0.176/0.220/0.044 ms
+root@3fd032d1d648:/# ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=51 time=36.6 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=51 time=32.9 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=51 time=33.5 ms
+^C
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 32.989/34.370/36.613/1.600 ms
 ```
 
 ```bash
@@ -256,6 +275,200 @@ PING 172.17.0.1 (172.17.0.1) 56(84) bytes of data.
 --- 172.17.0.1 ping statistics ---
 3 packets transmitted, 3 received, 0% packet loss, time 2030ms
 rtt min/avg/max/mdev = 0.118/0.163/0.251/0.062 ms
+root@75cfce7d09c6:/# ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=51 time=36.6 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=51 time=32.9 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=51 time=33.5 ms
+^C
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2003ms
+rtt min/avg/max/mdev = 32.989/34.370/36.613/1.600 ms
+```
+
+### Redes definidas por el usuario.
+
+Adicional a las redes por defecto, ```bridge```, ```none``` y ```host```, que utilizan los drivers ```bridge```, ```null``` y ```host``` respectivamente, el usuario puede definir redes personalizadas utilizando no solo estos drivers sino otros que también están disponibles.
+Con esta funcionalidad se pueden armar topologías de red complejas y controlar de forma granular la conectividad entre containers.
+Veamos por ejemplo como podemos crear una un par de redes del tipo ```bridge``` y aislar los containers.
+
+
+```bash
+$ docker network create --driver bridge red1
+9daf91cc58503d6b2f0594cacbb90691a8ac420593491f28940154bf1d703542
+~
+$ docker network create --driver bridge red2
+4d37ca443e8a7e5d56d0410f65b8b6222f93555ddd8c4ec5e7df7c63b5f1711b
+~
+$ docker run -it -d --rm --name c1 --network red1 netubuntu bash
+af8e9429257fb816009c8cc13d9f6b785b28c520999a970def24bcd90564de35
+~
+$ docker run -it -d --rm --name c2 --network red1 netubuntu bash
+eb8df73513feb229e8c083e09773ed0329a98a7f362e8b1d46cca07348362a48
+~
+$ docker run -it -d --rm --name c3 --network red2 netubuntu bash
+0677541e82a77736f3722a30703e934c6ee766fb0f4a576340fb316ac8511d52
+~
+$ docker run -it -d --rm --name c4 --network red2 netubuntu bash
+7bdcda94ebf8284e855b2a150900721ac97c7dc54ec0c72f14a0d4a9b32a7014
+
+
+$ docker network inspect red1
+[
+    {
+        "Name": "red1",
+        "Id": "9daf91cc58503d6b2f0594cacbb90691a8ac420593491f28940154bf1d703542",
+        "Created": "2017-08-22T18:23:32.295424787-03:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.19.0.0/16",
+                    "Gateway": "172.19.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "af8e9429257fb816009c8cc13d9f6b785b28c520999a970def24bcd90564de35": {
+                "Name": "c1",
+                "EndpointID": "a79b8ed77ccb2d5b0547b38f0dffd29fb2d831f2d29548ee444ae4a6b358b2a3",
+                "MacAddress": "02:42:ac:13:00:02",
+                "IPv4Address": "172.19.0.2/16",
+                "IPv6Address": ""
+            },
+            "eb8df73513feb229e8c083e09773ed0329a98a7f362e8b1d46cca07348362a48": {
+                "Name": "c2",
+                "EndpointID": "5ff04fbc75e093eaddf49857e3d4e563d9026e1aa067f7e934b7ceb23189b641",
+                "MacAddress": "02:42:ac:13:00:03",
+                "IPv4Address": "172.19.0.3/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {},
+        "Labels": {}
+    }
+]
+~
+$ docker network inspect red2
+[
+    {
+        "Name": "red2",
+        "Id": "4d37ca443e8a7e5d56d0410f65b8b6222f93555ddd8c4ec5e7df7c63b5f1711b",
+        "Created": "2017-08-22T18:23:36.539037996-03:00",
+        "Scope": "local",
+        "Driver": "bridge",
+        "EnableIPv6": false,
+        "IPAM": {
+            "Driver": "default",
+            "Options": {},
+            "Config": [
+                {
+                    "Subnet": "172.20.0.0/16",
+                    "Gateway": "172.20.0.1"
+                }
+            ]
+        },
+        "Internal": false,
+        "Attachable": false,
+        "Ingress": false,
+        "ConfigFrom": {
+            "Network": ""
+        },
+        "ConfigOnly": false,
+        "Containers": {
+            "0677541e82a77736f3722a30703e934c6ee766fb0f4a576340fb316ac8511d52": {
+                "Name": "c3",
+                "EndpointID": "77c16d0fff05951a2a6ce9d15f088e0535a21b30552cb9a15dcaeb0c245e972f",
+                "MacAddress": "02:42:ac:14:00:02",
+                "IPv4Address": "172.20.0.2/16",
+                "IPv6Address": ""
+            },
+            "7bdcda94ebf8284e855b2a150900721ac97c7dc54ec0c72f14a0d4a9b32a7014": {
+                "Name": "c4",
+                "EndpointID": "ee5745061ff21e420c6805621372bc49b92576021fed8b928bcb22e7472097e4",
+                "MacAddress": "02:42:ac:14:00:03",
+                "IPv4Address": "172.20.0.3/16",
+                "IPv6Address": ""
+            }
+        },
+        "Options": {},
+        "Labels": {}
+    }
+]
+
+```
+
+Probemos ahora la conectividad entre containers.
+
+> **Nota:** verificar nuevamente si funciona la resolución DNS de los nombres de los containers.
+
+```bash
+$ docker attach c1
+root@af8e9429257f:/#
+root@af8e9429257f:/# ping c2
+PING c2 (172.19.0.3) 56(84) bytes of data.
+64 bytes from c2.red1 (172.19.0.3): icmp_seq=1 ttl=64 time=0.264 ms
+64 bytes from c2.red1 (172.19.0.3): icmp_seq=2 ttl=64 time=0.190 ms
+^C
+--- c2 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 0.190/0.227/0.264/0.037 ms
+root@af8e9429257f:/# ping c3
+ping: unknown host c3
+root@af8e9429257f:/# ping 172.20.0.3
+PING 172.20.0.3 (172.20.0.3) 56(84) bytes of data.
+^C
+--- 172.20.0.3 ping statistics ---
+3 packets transmitted, 0 received, 100% packet loss, time 2030ms
+root@af8e9429257f:/# ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=51 time=258 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=51 time=32.6 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=51 time=37.6 ms
+^C
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2002ms
+rtt min/avg/max/mdev = 32.603/109.604/258.530/105.326 ms
+```
+
+```bash
+$ docker attach c3
+root@0677541e82a7:/#
+root@0677541e82a7:/# ping c4
+PING c4 (172.20.0.3) 56(84) bytes of data.
+64 bytes from c4.red2 (172.20.0.3): icmp_seq=1 ttl=64 time=0.183 ms
+64 bytes from c4.red2 (172.20.0.3): icmp_seq=2 ttl=64 time=0.142 ms
+^C
+--- c4 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1005ms
+rtt min/avg/max/mdev = 0.142/0.162/0.183/0.024 ms
+root@0677541e82a7:/# ping c1
+ping: unknown host c1
+root@0677541e82a7:/# ping 172.19.0.2
+PING 172.19.0.2 (172.19.0.2) 56(84) bytes of data.
+^C
+--- 172.19.0.2 ping statistics ---
+6 packets transmitted, 0 received, 100% packet loss, time 5114ms
+root@0677541e82a7:/# ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
+64 bytes from 8.8.8.8: icmp_seq=1 ttl=51 time=59.4 ms
+64 bytes from 8.8.8.8: icmp_seq=2 ttl=51 time=841 ms
+64 bytes from 8.8.8.8: icmp_seq=3 ttl=51 time=50.3 ms
+^C
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2000ms
+rtt min/avg/max/mdev = 50.395/317.235/841.885/371.001 ms
 ```
 
 
