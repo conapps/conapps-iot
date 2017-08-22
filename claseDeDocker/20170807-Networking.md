@@ -80,7 +80,7 @@ La figura a continuación muestra gráficamente como sería la conexión de vari
 
 Veamos como se vería la figura anterior en la consola, pero antes un breve ejercicio para preparar el ambiente de pruebas:
 
-> Ejercicio:
+> **Ejercicio:**
 > Actualizar la imagen ```netubuntu``` creada en el ejercicio anterior para que además incluya el paquete ```iputils-ping```.
 
 Ahora que tenemos la imagen necesaria, armemos una topología y aprendamos como obtener la información de la misma en formato JSON.
