@@ -1,4 +1,4 @@
-| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/20170807_AWS_S3.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/20170812_AWS_S3_Parte_3.md) |
+| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_3.md) |
 
 ---
 ## Acerca de los Datos
@@ -12,7 +12,8 @@ Sin embargo, para PUTs a objetos existentes (si sobrescribimos un objeto sobre u
 
 En todos los casos las operaciones son atómicas, es decir, se obtiene el dato o no se obtiene, pero nunca obtendremos datos inconsistentes.
 
-Ref: [Amazon S3 Data Consistency Model](http://docs.aws.amazon.com/AmazonS3/latest/dev/Introduction.html#ConsistencyModel)
+Ref.:
+* [Amazon S3 Data Consistency Model](http://docs.aws.amazon.com/AmazonS3/latest/dev/Introduction.html#ConsistencyModel)
 
 ---
 ### S3 Storage Classes
@@ -30,7 +31,7 @@ Casos de uso: distribución o el uso compartido de contenido que está almacenad
 Tiene costos asociados con la recuperación de datos por GB. Proporciona tres opciones de acceso a los archivos, que van desde unos pocos minutos a varias horas, y diferentes costos.
 Casos de uso: archivado (*archive*) de datos a largo plazo.
 
-Refs:
+Ref.:
 * [Tipos de Almacenamiento de Amazon S3](https://aws.amazon.com/es/s3/storage-classes/)
 * [Almacenamiento de redundancia reducida](https://aws.amazon.com/es/s3/reduced-redundancy/)
 
@@ -61,7 +62,8 @@ Algunas regiones pueden no tener ciertas capas de storage, por ej. en el caso de
 
 ![alt text](./images/S3_price_02.png)
 
-Ref: [Precios de AWS S3](https://aws.amazon.com/es/s3/pricing/)
+Ref.:
+* [Precios de AWS S3](https://aws.amazon.com/es/s3/pricing/)
 
 ---
 
@@ -88,7 +90,8 @@ $ aws s3 ls iot-cloud-bucket-02
 En el ejemplo anterior subimos el objeto *documento1.txt* de nuesto equipo local hacia S3, y al tipo de storage *Reduced Redundancy Storage (RRS)*.
 Podemos elegir donde subirlo utilizando las opciones *STANDARD*, *STANDARD_IA*, o *REDUCED_REDUNDANCY*.
 
-Ref: [Sintaxis del comando *aws s3 cp*](http://docs.aws.amazon.com/cli/latest/reference/s3/cp.html)
+Ref.:
+* [Sintaxis del comando *aws s3 cp*](http://docs.aws.amazon.com/cli/latest/reference/s3/cp.html)
 
 Pero como sabemos en que clase de storage se encuentra este objeto??
 La línea de comando *aws s3 ls* no muestra esta información.
@@ -185,10 +188,10 @@ $ aws s3api head-object --bucket iot-cloud-bucket-01 --key logo.png
 
 ```
 
-Refs:
-[Amazon S3 Object Metadata]( http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingMetadata.html#object-metadata)
-[AWS CLI Command Reference: s3api](http://docs.aws.amazon.com/cli/latest/reference/s3api/index.html)
-[Leveraging the s3 and s3api Commands](https://aws.amazon.com/es/blogs/developer/leveraging-the-s3-and-s3api-commands/)
+Ref.:
+* [Amazon S3 Object Metadata]( http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingMetadata.html#object-metadata)
+* [AWS CLI Command Reference: s3api](http://docs.aws.amazon.com/cli/latest/reference/s3api/index.html)
+* [Leveraging the s3 and s3api Commands](https://aws.amazon.com/es/blogs/developer/leveraging-the-s3-and-s3api-commands/)
 
 ---
 ### Tags
@@ -267,10 +270,10 @@ Obviamente, también se pueden configurar los tags mediante la CLI *aws s3api pu
 
 Nota: Puede utilizar *aws s3api help* para ver la lista de comandos disponibles, y también conocer la sintaxis de cada uno *aws s3api get-bucket-tagging help*, *aws s3api get-object-tagging help* (o también ver la documentación de Amazon).
 
-Refs:
-[How do I add Tags to an S3 Object?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/add-object-tags.html)
-[Amazon S3 Object Tagging](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-tagging.html)
-[AWS CLI Command Reference: s3api](http://docs.aws.amazon.com/cli/latest/reference/s3api/index.html)
+Ref.:
+* [How do I add Tags to an S3 Object?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/add-object-tags.html)
+* [Amazon S3 Object Tagging](https://docs.aws.amazon.com/AmazonS3/latest/dev/object-tagging.html)
+* [AWS CLI Command Reference: s3api](http://docs.aws.amazon.com/cli/latest/reference/s3api/index.html)
 
 
 ---
@@ -428,14 +431,12 @@ Y podemos descargarlo, o bien hacer un *Undo delete*.
 ![alt text](./images/S3_versionning_08.png)
 
 
-Refs:
-[Using Versioning](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/Versioning.html)
-[Managing Objects in a Versioning-Enabled Bucket](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/manage-objects-versioned-bucket.html)
-[AWS CLI Command Reference: s3api](http://docs.aws.amazon.com/cli/latest/reference/s3api/index.html)
-
-
+Ref.:
+* [Using Versioning](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/Versioning.html)
+* [Managing Objects in a Versioning-Enabled Bucket](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/manage-objects-versioned-bucket.html)
+* [AWS CLI Command Reference: s3api](http://docs.aws.amazon.com/cli/latest/reference/s3api/index.html)
 
 
 
 ---
-| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/20170807_AWS_S3.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/20170812_AWS_S3_Parte_3.md)|
+| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_3.md)|
