@@ -120,8 +120,8 @@ En la figura siguiente, Brad, Jim, DevApp1, DevApp2, TestApp1, y TestApp2 son us
 
 ![IAM Users](images/IAM_users.png)
 
-## Grupos
 ---
+## Grupos
 
 Es posible organizar usuarios dentro de grupos IAM. Básicamente, un grupo es una colección de usuarios.
 
@@ -133,7 +133,15 @@ Otro caso puede ser un usuario Test que sea ascendido a developer. En este caso,
 
 ![IAM Groups](images/IAM_groups1.PNG)
 
----
+Los permisos son atacheados a los grupos mediante políticas, ya sean predefinidas por AWS o creadas por nosotros.
+
+De esta froma, los usuarios dentro del grupo, heredan dichos permisos. Solo basta con modificar la política del grupo para cambiar los permisos sobre todos los usuarios.
+
+- **Máximo de 100 grupos por cuenta de AWS**. En caso de necesitar más, es necesario generar un ticket en AWS.
+- **Un usuario puede ser asociado a un máximo de 10 grupos**.
+
+![IAM Groups](images/IAM_groups_permissions.PNG)
+--
 
 ## Ejercicio # 1 haciendo clic en el siguiente [link](ejercicios/AWS_IAM_1_Users.md)
 
@@ -143,7 +151,14 @@ Otro caso puede ser un usuario Test que sea ascendido a developer. En este caso,
 
 ## Roles
 
-Un rol es muy parecido a un usuario, en el sentido de que se puede asignar permisos a un rol y luego el rol, atachearlo a un usuario. Sin embargo, **un rol no tienen ningun tipo de credencial (password o access keys**. Y también puede ser asociado a cualquiera que necesite dichos accesos temporalmente, por ejemplo: un usuario federado.
+Un rol es muy parecido a un usuario, en el sentido de que se puede asignar permisos a un rol y luego el rol, atachearlo a un servicio. Sin embargo, **un rol no tienen ningun tipo de credencial (password o access keys**.
+
+### Tipos de roles
+
+- AWS Service Role
+- AWS Service-Linked Role
+- Rol for Cross-Account Access
+- Rol for identify Provider Access.
 
 ## Credenciales Temporales
 
@@ -161,4 +176,27 @@ Las credenciales temporales son utilizadas principalmente para los roles. Se pue
     - Cuando tenemos una app para celulares y la app necesita acceder a otros servicios de AWS.
     - Cuando los usuarios ya estan autenticados en la red empresarial y necesita utilizar AWS sin la necesidad de tener que loguearse nuevamente (SSO).
 
-    PAG 71
+---
+
+## Policies
+
+Las IAM Policies son utilziadas para asignar permisos. Esta en formato json y la estructura base es la siguiente:
+
+```bash
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "Stmt245245254535",
+      "Action": "s3:*",
+      "Effect": "Allow",
+      "Resource": "*",
+      "Condition": {
+          "IpAddress": {
+              "aws:SourceIp": "10.10.0.0/16"
+          }
+      }
+    }
+  ]
+}
+```
