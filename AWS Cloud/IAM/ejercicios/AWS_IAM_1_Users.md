@@ -69,22 +69,87 @@ aws iam list-users
 aws iam update-user --user-name miriarte2 --new-user-name miriarte3
 ```
 
-* Borrar usuario
+* Listar access keys
 
 ```bash
-aws iam delete-user --user-name miriarte3
+aws iam list-access-keys --user-name miriarte3
+```
+
+```bash
+{
+    "AccessKeyMetadata": [
+        {
+            "UserName": "miriarte3",
+            "AccessKeyId": "ASDF0897ASDF087ASDF",
+            "Status": "Active",
+            "CreateDate": "2017-08-19T12:18:10Z"
+        }
+    ]
+}
+```
+
+* Listar certificados
+
+```bash
+aws iam list-signing-certificates --user-name miriarte3
+```
+
+* Listamos las políticas asociadas al usuario
+
+```bash
+aws iam list-attached-user-policies --user-name miriarte3
+```
+
+* Listamos los grupos a los que pretenece el usuario
+
+```bash
+$ aws iam list-groups-for-user --user-name miriarte3
 ```
 
 
 
 
+* Borrar usuario (6 pasos)
+
+1. Borramos la access key (si tiene)
+
+```bash
+aws iam delete-access-key --access-key ASDF0897ASDF087ASDF --user-name miriarte3
+```
+
+2. Borramos el certificado (si tiene)
+
+```bash
+aws iam delete-signing-certificate --user-name miriarte3 --certificate-id ADSFASDF987AD8S9F79ASDF
+```
+
+3. Desactiamos el dispositivo MFA (si tiene)
+
+```bash
+aws iam deactivate-mfa-device --user-name miriarte3 --serial-number arn:aws:iam::210987654321:mfa/BobsMFADevice
+```
+
+4. Desatachamos las políticas asociadas al usuario (si tiene)
+
+```bash
+aws iam detach-user-policy --user-name miriarte3 --policy-arn arn:aws:iam::123456789012:policy/PoliticaTest
+```
+
+5. Removemos el usuario de los grupos a los cuales pertenece (si pertenece)
+
+```bash
+aws iam remove-user-from-group --user-name miriarte3 --group-name admin
+```
+
+6. Borramos el usuario
+
+```bash
+aws iam delete-user --user-name miriarte3
+```
+
 ---
 Refs:
 [AWS CLI IAM](http://docs.aws.amazon.com/cli/latest/reference/iam/)
 
-
-
-
 ---
 [< Volver al teorico](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/IAM/AWS_IAM_Parte_1.md#Grupos)
-

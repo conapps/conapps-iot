@@ -34,12 +34,16 @@ Puede contener, letras, numeros, y los siguientes caracteres: mas (+), igual (=)
 
 
 
-* Ejecutar el siguiente comando para crear un par de grupos.
+* Ejecutar los siguientes comando para crear 3 grupos.
 
 ```bash
 aws iam create-group --group-name admin1
 
-aws iam create-group --group-name admin2
+aws iam create-group --group-name dev1
+
+aws iam create-group --group-name test1
+
+aws iam create-group --group-name borrar1
 ```
 
 ```bash
@@ -54,8 +58,7 @@ aws iam create-group --group-name admin2
 }
 ```
 
-
-* Ejecutar el siguiente comando para listar los grupos 
+* Ejecutar el siguiente comando para listar los grupos
 
 ```bash
 aws iam list-groups
@@ -76,7 +79,7 @@ aws iam add-user-to-group --user-name miriarte1 --group-name admin1
 * Borrar un grupo.
 
 ```bash
-aws iam delete-group --group-name admin3
+aws iam delete-group --group-name borrar1
 ```
 
 ---
