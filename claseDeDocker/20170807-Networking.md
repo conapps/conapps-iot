@@ -473,7 +473,7 @@ rtt min/avg/max/mdev = 50.395/317.235/841.885/371.001 ms
 
 ### Publicación de puertos
 
-Si bien por defecto los contenedores tienen conectividad con el mundo exterior, cuando las conexiones se inician desde afuera, estas son filtradas por la máquina host utilizando ```iptables```. Por otro lado, en general se busca que las redes generadas por el usuario no sean visibles directamente desde afuera de la máquina host; por tal motivo los contenedores que publican servicios lo hacen utilizando la IP exterior de esta.
+Si bien por defecto los contenedores tienen conectividad con el mundo exterior, cuando las conexiones se inician desde afuera, estas son filtradas por la máquina host utilizando ```iptables```. Por otro lado, en general se busca que las redes generadas por el usuario no sean visibles directamente desde afuera de la máquina host; por tal motivo, los contenedores que publican servicios, lo hacen utilizando la IP exterior de dicho host.
 Dicho esto, si nuestro contenedor corriera por ejemplo un Web server, por defecto este no sería accesible desde el exterior. Para comprobarlo hagamos lo siguiente:
 
 ```bash
@@ -482,7 +482,7 @@ $ docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
 bf393d45a5b3        ghost               "docker-entrypoint..."   29 seconds ago      Up 28 seconds       2368/tcp            prueba-web-server
 ```
-Como podemos ver en la salida del comando ```docker ps```, el servidor Web está escuchando en el puerto 2368. Obtengamos ahora la IP del contenedor en la red ```bridge````:
+Como podemos ver en la salida del comando ```docker ps```, el servidor Web está escuchando en el puerto 2368. Obtengamos ahora la IP del contenedor en la red ```bridge```:
 
 ```bash
 $ docker inspect prueba-web-server
