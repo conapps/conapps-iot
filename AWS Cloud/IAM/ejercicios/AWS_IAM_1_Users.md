@@ -149,7 +149,9 @@ aws iam delete-user --user-name miriarte3
 
 ---
 Refs:
-[AWS CLI IAM](http://docs.aws.amazon.com/cli/latest/reference/iam/)
+
+- [AWS CLI IAM](http://docs.aws.amazon.com/cli/latest/reference/iam/)
+- [AWS IAM User Guide](http://docs.aws.amazon.com/IAM/latest/UserGuide/iam-ug.pdf)
 
 ---
-[< Volver al teorico](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/IAM/AWS_IAM_Parte_1.md#Grupos)
+[< Volver al teorico](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/IAM/AWS_IAM_Parte_1.md)

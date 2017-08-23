@@ -178,9 +178,9 @@ Las credenciales temporales son utilizadas principalmente para los roles. Se pue
 
 ---
 
-## Policies
+## Políticas (Policies)
 
-Las IAM Policies son utilziadas para asignar permisos. Esta en formato json y la estructura base es la siguiente:
+Las IAM Policies son utilziadas para asignar permisos. El formato json y la estructura base es la siguiente:
 
 ```bash
 {
@@ -200,3 +200,25 @@ Las IAM Policies son utilziadas para asignar permisos. Esta en formato json y la
   ]
 }
 ```
+
+## Tipos de Políticas (Type of policies)
+
+- **AWS Managed Policies** 
+
+Son políticas pre-creadas por AWS y pueden ser asociadas a Grupos, Roles y Usuarios (no recomendado)
+
+- **Customer Managed Policies**
+
+Son políticas creadas por el propio usuario y existen 3 formas de hacerlo:
+
+    1. Copiar una _Managed Policy_ y editarla.
+    2. Utilizar el generador de _policies._
+    3. Escribir el json con la nueva política
+
+## Resolución de conflictos de permisos.
+
+- Por defecto el acceso a todos los recursos esta prohibido.
+- Solo se otorgará acceso a un recurso si existe un "Allow".
+- Si existe un "Deny", sobreescribirá cualquier "Allow" que exista anteriormente.
+
+![IAM Policy](images/IAM_policy3.png)

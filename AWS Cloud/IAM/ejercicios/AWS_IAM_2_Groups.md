@@ -43,7 +43,6 @@ aws iam create-group --group-name dev1
 
 aws iam create-group --group-name test1
 
-aws iam create-group --group-name borrar1
 ```
 
 ```bash
@@ -84,8 +83,9 @@ aws iam delete-group --group-name borrar1
 
 ---
 Refs:
-[AWS CLI IAM](http://docs.aws.amazon.com/cli/latest/reference/iam/)
 
+- [AWS CLI IAM](http://docs.aws.amazon.com/cli/latest/reference/iam/)
+- [AWS IAM User Guide](http://docs.aws.amazon.com/IAM/latest/UserGuide/iam-ug.pdf)
 
 ---
-[< Volver al teorico](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/IAM/AWS_IAM_Parte_1.md#Grupos)
+[< Volver al teorico](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/IAM/AWS_IAM_Parte_1.md)
