@@ -471,6 +471,87 @@ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 rtt min/avg/max/mdev = 50.395/317.235/841.885/371.001 ms
 ```
 
+### Publicación de puertos
+
+Si bien por defecto los contenedores tienen conectividad con el mundo exterior, cuando las conexiones se inician desde afuera, estas son filtradas por la máquina host utilizando ```iptables```. Por otro lado, en general se busca que las redes generadas por el usuario no sean visibles directamente desde afuera de la máquina host; por tal motivo los contenedores que publican servicios lo hacen utilizando la IP exterior de esta.
+Dicho esto, si nuestro contenedor corriera por ejemplo un Web server, por defecto este no sería accesible desde el exterior. Para comprobarlo hagamos lo siguiente:
+
+```bash
+$ docker run -d --rm --name prueba-web-server ghost
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS               NAMES
+bf393d45a5b3        ghost               "docker-entrypoint..."   29 seconds ago      Up 28 seconds       2368/tcp            prueba-web-server
+```
+Como podemos ver en la salida del comando ```docker ps```, el servidor Web está escuchando en el puerto 2368. Obtengamos ahora la IP del contenedor en la red ```bridge````:
+
+```bash
+$ docker inspect prueba-web-server
+---> SALIDA OMITIDA PARA MAYOR CLARIDAD <---
+  "Networks": {
+      "bridge": {
+          "IPAMConfig": null,
+          "Links": null,
+          "Aliases": null,
+          "NetworkID": "feabe1d9ddd3a49d483dda5faf70ad4fe6e56fa225a47426e8363f32e08b6e53",
+          "EndpointID": "cb27d16da1a9aa0064ed88869dcd0847056811dc3997713f40d7e7387032b36d",
+          "Gateway": "172.17.0.1",
+          "IPAddress": "172.17.0.2",
+          "IPPrefixLen": 16,
+          "IPv6Gateway": "",
+          "GlobalIPv6Address": "",
+          "GlobalIPv6PrefixLen": 0,
+          "MacAddress": "02:42:ac:11:00:02",
+          "DriverOpts": null
+      }
+  }
+---> SALIDA OMITIDA PARA MAYOR CLARIDAD <---
+````
+Si ahora abrimos un explorador y navegamos a la url ```http://172.17.0.2:2368``` podemos comprobar que accedemos sin problemas. ¿Pero que sucede si utilizando el mismo navegador intentamos acceder a la url ```http://localhost:2368```?. Esto no funciona debido a que ```localhost``` está mapeado a una IP "exterior" del host y por defecto los contenedores no son accesibles dede afuera.
+Para hacer que un contenedor pueda ser accesible desde afuera es necesario publicar dicho puerto al momento de la creación del contenedor; esto se hace utilizando la opción ```-p```. De esta forma, si ahora ejecutamos el siguiete comando:
+
+```bash
+$ docker run -d --rm --name prueba-web-server -p 2368 ghost
+```
+
+Docker publicará el puerto ```2368``` en un puerto alto (>30.000) **en todas las IPs** de la máquina host. Entre otros, se pueden utilizar estos comandos para identificar dicho puerto:
+
+```bash
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                     NAMES
+a1238d6842fa        ghost               "docker-entrypoint..."   2 minutes ago       Up 2 minutes        0.0.0.0:32768->2368/tcp   prueba-web-server
+```
+
+```bash
+$ docker inspect prueba-web-server
+---> SALIDA OMITIDA PARA MAYOR CLARIDAD <---
+    "Ports": {
+            "2368/tcp": [
+                {
+                    "HostIp": "0.0.0.0",
+                    "HostPort": "32768"
+                }
+            ]
+        },
+---> SALIDA OMITIDA PARA MAYOR CLARIDAD <---
+```
+
+Para comprobar que esto funciona intente nuevamente navegar a la url ```http://localhost:2368```.
+Si quisieramos tener mas control sobre el puerto elegido para publicar servicios en la máquina host podríamos correr:
+
+```bash
+$ docker run -d --rm --name prueba-web-server -p 80:2368 ghost
+```
+Para comprobar que esto funciona intente navegar a la url ```http://localhost```.
+Si quisieramos además del puerto, poder controlar sobre que IP de la máquina host publicamos el servicio podríamos ejecutar:
+
+```bash
+$ docker run -d --rm --name prueba-web-server -p <ip-a-publicar>:80:2368 ghost
+```
+
+Para comprobar que funciona puede intentar navegar a ```http://<ip-a-publicar>``` y luego ver que si intenta acceder a ```http://localhost``` dicha url no responde.
+
+
+
 
 | [<-- Volver](https://github.com/conapps/conapps-iot/blob/master/claseDeDocker/20170815-Storage.md) |
 [Siguiente -->](#) |
