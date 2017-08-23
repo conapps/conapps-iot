@@ -134,46 +134,64 @@ $ aws s3api list-bucket-analytics-configurations --bucket iot-cloud-bucket-analy
     ]
 }
 ```
-Y listo, el *bucket* ya está siendo analizado. Obviamente la herramienta necesita correr durante cierto tiempo para poder recabar la información de acceso, y por tanto al principio no va a mostrar información:
+Ahora el *bucket* ya está siendo analizado. Obviamente la herramienta necesita correr durante cierto tiempo para poder recabar la información de acceso, y por tanto al principio no va a mostrar información:
 ![alt text](./images/S3_analytics_04.png)
 
-Luego de cierto tiempo comenzaremos a ver la información generada aquí mismo, donde nos mostraría información similar a la siguiente.
-
-Podemos ver desde cuando está habilitada la regla (115 días) y cuando fueron actualizados los datos por última vez (11/29/2016), cuanta información total tenemos almacenada en este bucket (3PB) y cuanta se ha accedido (2PB), así como las estadísticas de los últimos días (gráfica):
+Luego de cierto tiempo comenzaremos a ver la información generada aquí mismo, donde nos mostraría información similar al siguiente ejemplo:
 ![alt text](./images/S3_analytics_05.png)
 
+Podemos ver desde cuando está habilitada la regla (127 días) y cuando fueron actualizados los datos por última vez (3/2/2017), cuanta información total tenemos almacenada en este bucket en la capa Standard (6.39 PB) y cuanto se ha accedido (1.74 PB), y de igual forma para la capa Standard_IA (3.24GB almacenados, y 51.5MB accedidos).
+
+También podemos ver un par de gráficas con las estadísticas de datos de un determinado tiempo, y que porcentaje de nuestros datos hemos accedido.
+![alt text](./images/S3_analytics_05.png)
 
 Mas abajo podemos ver las estadísticas diferenciadas por diferentes períodos de tiempo.
-![alt text](./images/S3_analytics_06.png)
-Con esta información podemos ver, por ej., que de los 982TB que tenemos almacenados con mas de 180 días de antiguedad en nuestro *bucket*, solo hemos accedido a 79TB, por lo cual nos recomienda que movamos esa información a la capa de *Infrequently accessed*, y lo mismo para el período de entre 90-180 días, donde solo hemos accedido a 32TB de los 399TB de datos almacenados.
 
-Esto nos permite entender mejor el uso de nuestros datos, y poder mejorar nuestra políticas de ciclo de vida. Por ej, podríamos crear una regla que mueva los objetos con mas de 90 días a la capa *Standard_IA* para ahorrar costos de almacenamiento.
+Con esta información podemos ver, por ej., que en los últimos 127 días (desde que estoy analizando los datos) la mayoría de los objetos con mas de 30 días de antiguedad son muy poco accedidos. Por ej. de los 2.25 PB que hay almacenados con mas de 180 días de antiguedad en este *bucket*, solo hemos accedido a 222.8 TB, y de forma similar para el resto de los períodos de tiempo, a excepción de los primeros 30 días.
 
+Esta herramienta nos permite entender mejor como utilizamos/accedemos a nuestros datos, y poder mejorar nuestra políticas de ciclo de vida. Por ej, podríamos crear una *lifecycle policy* sobre este *bucket* que mueva todos los objetos con mas de 30 días a la capa de acceso infrecuente *Standard_IA* para ahorrar costos de almacenamiento.
 
 Ref.:
+* [S3 Storage Management Update – Analytics, Object Tagging, Inventory, and Metrics](https://aws.amazon.com/es/blogs/aws/s3-storage-management-update-analytics-object-tagging-inventory-and-metrics/)
 * [Amazon S3 Analytics – Storage Class Analysis](http://docs.aws.amazon.com/AmazonS3/latest/dev/analytics-storage-class.html)
 * [How Do I Configure Storage Class Analysis?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/configure-analytics-storage-class.html)
 * [Precios de Amazon S3](https://aws.amazon.com/es/s3/pricing/)
 
 ---
 ### Metrics
-Amazon CloudWatch metrics for Amazon S3 can help you understand and improve the performance of applications that use Amazon S3.
 
-There are two ways that you can use CloudWatch with Amazon S3.
+Mediante *Amazon CloudWatch metrics* para S3, podemos obtener información que nos permita entender y mejorar la performance de las aplicaciones que usan S3 como almacenamiento. Nos brinda visibilidad sobre la performance del storage, que nos permite identificar y actuar sobre posibles problemas.
 
-* Daily Storage Metrics for Buckets ‐ You can monitor bucket storage using CloudWatch, which collects and processes storage data from Amazon S3 into readable, daily metrics. These storage metrics for Amazon S3 are reported once per day and are provided to all customers at no additional cost.
-* Request metrics ‐ You can choose to monitor Amazon S3 requests to quickly identify and act on operational issues. The metrics are available at 1 minute intervals after some latency to process. These CloudWatch metrics are billed at the same rate as the Amazon CloudWatch Custom Metrics. For information on CloudWatch pricing, see Amazon CloudWatch Pricing. To learn more about how to opt-in to getting these metrics, see Metrics Configurations for Buckets.
-  When enabled, request metrics are reported for all object operations. By default, these 1-minute metrics are available at the Amazon S3 bucket level. You can also define a filter for the metrics collected –using a shared prefix or object tag– allowing you to align metrics filters to specific business applications, workflows, or internal organizations.
+Todos los datos recolectados por las métricas de CloudWatch son almacenados por un período de 15 meses, de forma de poder contar con información histórica y tener una mejor perspectiva sobre como se comportan nuestras aplicaciones o servicios web que acceden a S3.
 
-All CloudWatch statistics are retained for a period of fifteen months, so that you can access historical information and gain a better perspective on how your web application or service is performing.
+Hay dos tipos de métricas disponibles dentro de CloudWatch en S3
 
+* **Daily Storage Metrics for Buckets:** provee información básica sobre el uso del storage de nuestro *bucket*.
+Muestran la cantidad de datos (bytes) y la cantidad de objetos del *bucket* y su evolución durante cierto período de tiempo.
+Estas métricas se encuentran habilitadas por defecto para todos los *buckets*, se actualizan una vez por día, y no tienen costo.
+Por defecto aplican para todo el contenido del *bucket*, o pueden aplicarse filtros (mediante *prefixes* y/o *tags*) para que apliquen sobre determinados objetos.
+
+Podemos acceder a las métricas dentro de las herramientas de *Management* del *bucket*.
 ![alt text](./images/S3_metrics_01.png)
 ![alt text](./images/S3_metrics_02.png)
 
 
+* **Request metrics:** permiten monitorear las solicitudes (*request*) que se realizan a S3, para poder identificar y actuar ante problemas de operativa (por ej. que una solicitud de un error). Estas métricas se actualizan en intervalos de 1 minuto (hay un período incial de unos 15min necesario para recabar la información la primera vez que se configura la métrica). Se configuran a nivel de *bucket* y se pueden aplicar sobre todos los objetos del mismo, o pueden aplicarse filtros (mediante *prefixes* y/o *tags*) para que apliquen sobre los objetos de nuestro interés.
+Tienen costo adicional, en base a los costos asociados a Amazon CloudWatch.
+
+Nuevamente, la configuración la realizamos dentro de las herramientas de *Management* del *bucket*, donde podemos configurar las métricas con costo correspondientes a *Request* y *Data transfer*:
+.
+![alt text](./images/S3_metrics_03.png)
+
+Luego de unos 15 minutos iniciales, podemos ver la información recolectada por la métrica que definimos, por ej:
+![alt text](./images/S3_metrics_04.png)
+
+
 Ref.:
+* [S3 Storage Management Update – Analytics, Object Tagging, Inventory, and Metrics](https://aws.amazon.com/es/blogs/aws/s3-storage-management-update-analytics-object-tagging-inventory-and-metrics/)
 * [Monitoring Metrics with Amazon CloudWatch](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/cloudwatch-monitoring.html)
 * [Metrics Configurations for Buckets](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/metrics-configurations.html)
+* [How Do I Configure Request Metrics for an S3 Bucket?](http://docs.aws.amazon.com/AmazonS3/latest/user-guide/configure-metrics.html)
 
 ---
 ### S3 Inventory
@@ -389,7 +407,7 @@ Ref:
 * [How Do I Enable Server Access Logging for an S3 Bucket?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/server-access-logging.html)
 
 ---
-## Seguridad en los Datos
+## Encriptación de los Datos
 ---
 
 ### Datos en transito
@@ -408,7 +426,7 @@ Tenemos tres opciones para administrar las claves de encriptación:
 * SSE con AWS KMS (SSE-KMS): encripta los datos utilizando claves que nosotros administramos utilizando el servicio de claves de Amazon: AWS Key Management Service (KMS).
 
 ### Client Side Encryption
-Podemos encriptar los datos nosotros localmente, previo al envío de los mismos a AWS S3.
+También podemos encriptar los datos nosotros localmente, previo al envío de los mismos a AWS S3.
 
 Refs:
 * [Protecting Data Using Encryption](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingEncryption.html)
