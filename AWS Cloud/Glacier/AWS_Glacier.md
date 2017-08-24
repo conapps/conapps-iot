@@ -12,11 +12,19 @@ Amazon Glacier
 
 ## Indice.
 ---
-- [Introducción](#introduccion)
+- [Introducción](#introducción)
 - [Conceptos Básicos](#conceptos-básicos)
-- [Primeros Pasos](#primeros-pasos)
-- [Linea de Comandos de Amazon S3](#línea-de-comandos-de-amazon-s3)
-- [Folders](#folders)
+- [Trabajando con Glacier en la Consola Web de AWS](#trabajando-en-glacier-con-la-consola-web-de-aws)
+- [Trabajando con Glacier desde Amazon S3](#trabajando-con-glacier-desde-amazon-s3)
+- [Trabajando con Glacier desde AWS CLI](./AWS_Glacier_Parte2.md#trabajando-con-glacier-desde-aws-cli)
+  - [Crear un Vault](./AWS_Glacier_Parte2.md#crear-un-vault)
+  - [Subir un Archive a un Vault](./AWS_Glacier_Parte2.md#subir-un-archive-a-un-vault)
+  - [Listar el contenido de un Vault](./AWS_Glacier_Parte2.md#listar-el-contenido-de-un-vault)
+  - [Recuperar un Archive de un Vault](./AWS_Glacier_Parte2.md#recuperar-un-archive-de-un-vault)
+  - [Eliminar un Archive de un Vault](./AWS_Glacier_Parte2.md#eliminar-un-archive-de-un-vault)
+  - [Eliminar un Archive de un Vault](./AWS_Glacier_Parte2.md#eliminar-un-archive-de-un-vault)
+  - [Eliminar un Vault](./AWS_Glacier_Parte2.md#eliminar-un-vault)
+
 
 ---
 ## Introducción ##
@@ -46,10 +54,10 @@ Amazon Glacier proporciona tres opciones para el acceso (recuperación) de los d
 Amazon Glacier es un almancenamiento de tipo *object storage* y puede extender las capacidades de Amazon S3 para archivar datos a largo plazo reduciendo los costos.
 
 Ref:
-[Amazon Glacier](https://aws.amazon.com/es/glacier/)
-[Detalles del producto Amazon Glacier](https://aws.amazon.com/es/glacier/details/)
+> [Amazon Glacier](https://aws.amazon.com/es/glacier/)
+> [Detalles del producto Amazon Glacier](https://aws.amazon.com/es/glacier/details/)
 
----
+
 ### Formas de acceso a Glacier
 Al igual que el resto de los servicios de Amazon, puede accederse y utilizarse de diversas formas:
 
@@ -60,26 +68,21 @@ Al igual que el resto de los servicios de Amazon, puede accederse y utilizarse d
 
 
 Ref.:
-[API Reference for Amazon Glacier](http://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/amazon-glacier-api.html)
-[Consola Web de AWS](https://console.aws.amazon.com/console/home)
-[AWS Command Line Interfce (CLI)](https://aws.amazon.com/es/cli/)
-[AWS SDK para Python (Boto3)](https://aws.amazon.com/es/sdk-for-python/)
-[AWS SDK para Java](https://aws.amazon.com/es/sdk-for-java/)
+> [API Reference for Amazon Glacier](http://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/amazon-glacier-api.html)
+> [Consola Web de AWS](https://console.aws.amazon.com/console/home)
+> [AWS Command Line Interfce (CLI)](https://aws.amazon.com/es/cli/)
+> [AWS SDK para Python (Boto3)](https://aws.amazon.com/es/sdk-for-python/)
+> [AWS SDK para Java](https://aws.amazon.com/es/sdk-for-java/)
 
 ---
 ## Conceptos Básicos ##
 ---
-Ref:
-[Getting Started with Amazon Glacier](https://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/amazon-glacier-getting-started.html)
 
 ### Vaults
 Son los contenedores donde se almacenan los datos en Glacier. Representan el nivel mas alto de "jerarquía" dentro del almacenamiento.
 Se pueden crear hasta 1000 *vaults* por cuenta, y cada *vault* puede crear un número ilimitado de *archives*.
 
 El nombre del *vault* debe ser único para una cuenta y dentro de cada región en la cual es creado. Una cuenta puede tener dos *vaults* con el mismo nombre pero en diferentes regions. El nombre debe tener entre 1 y 255 caracteres, puede tener mayúsculas, guión bajo (\_), guión (-) y puntos (.), no puede tener espacios ni otros caracteres especiales.  
-
-Ref.:
-[Working with Vaults in Amazon Glacier](http://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/working-with-vaults.html)
 
 
 ### Archives
@@ -89,9 +92,6 @@ Un *archive* puede contener cualquier tipo de datos en cualquier formato.
 Solo pueden escribirse una vez (*write-once*), el tamaño máximo para un *archive* es de 40TB, y un *vault* puede contener una cantidad ilimitada de *archives*.
 
 Los datos almacenados en Amazon Glacier son inmutables, lo que significa que, una vez creado un archivo, no se puede actualizar (*write once*). Eso garantiza que datos como los registros de conformidad y normativos no se puedan modificar una vez archivados.
-
-Ref.:
-[Working with Archives in Amazon Glacier](http://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/working-with-archives.html)
 
 
 ### Inventory
@@ -108,8 +108,14 @@ La consola web de AWS se puede utilizar para crear y eliminar *vaults* en Amazon
 * Mediante **herramientas y/o gateways de terceros**, por ej. Veeam, Synology, Veritas, NetApp, FastGlacier, Commvault, Cloudberry, etc.
 
 
+Ref:
+> [Getting Started with Amazon Glacier](https://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/amazon-glacier-getting-started.html)
+> [Working with Vaults in Amazon Glacier](http://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/working-with-vaults.html)
+> [Working with Archives in Amazon Glacier](http://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/working-with-archives.html)
+
+
 ---
-## Trabajando en Glacier con la consola web
+## Trabajando en Glacier con la Consola Web de AWS
 ---
 Son pocas las operaciones que podemos realizar con la consola web.
 
@@ -146,7 +152,7 @@ La información de espacio ocupado y cantidad de archivos se mostrará en base a
 Por el momento esto es todo lo que veremos respecto a la consola web.
 
 ---
-## Trabajando con Glacier desde Amazon S3 y Lifecycle Policies
+## Trabajando con Glacier desde Amazon S3
 ---
 Una de las formas mas fáciles de trabajar con Glacier es haciéndolo desde S3, mediante *Lifecycle Policies*.
 
@@ -334,7 +340,7 @@ $ aws s3 ls s3://iot-cloud-bucket-glacier/
 ![alt text](./images/Glacier_lifecycle_14.png)
 
 Ref:
-* [How Do I Restore an S3 Object That Has Been Archived to Amazon Glacier?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/restore-archived-objects.html)
+> [How Do I Restore an S3 Object That Has Been Archived to Amazon Glacier?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/restore-archived-objects.html)
 
 ---
-| [Siguiente >](./AWS_Glacier_Parte_2.md) |
+| [Siguiente >](./AWS_Glacier_Parte2.md) |

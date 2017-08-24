@@ -532,7 +532,7 @@ Ref:
 * [CLI Command Reference: aws glacier delete-archive](http://docs.aws.amazon.com/cli/latest/reference/glacier/delete-archive.html)
 
 ---
-### Eliminar un *vault*
+### Eliminar un Vault
 Podemos eliminar un *vault* desde la CLI, o también desde la consola web (o SDK).
 Para eliminar un *vault* este debe encontrarse vacío, con el inventario actualizado, y sin ninguna operación de escritura realizada sobre el *vault* desde el último inventario.
 
