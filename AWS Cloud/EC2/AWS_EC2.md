@@ -539,8 +539,7 @@ Pensada para satisfacer aquellos requerimientos, donde es importante un desempe√
 
 
 Refs:
-[Working with Folders](http://docs.aws.amazon.com/es_es/AmazonS3/latest/UG/FolderOperations.html)
-[AWS CLI Command References S3](http://docs.aws.amazon.com/cli/latest/reference/s3/)
+[AWS CLI Command References EC2](http://docs.aws.amazon.com/cli/latest/reference/ec2/)
 
 
 ---
