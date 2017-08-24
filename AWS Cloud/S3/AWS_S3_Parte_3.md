@@ -16,11 +16,11 @@ Estas políticas permiten automatizar acciones sobre los objetos de un *bucket*,
 
 ![alt text](./images/S3_lifecycle_01.png)
 
-Las acciones se realizan sobre los *buckets*, por lo cual estas aplicarían a todos los objetos que se encuentren en el mismo. Pero si en un mismo bucket tenemos diferentes tipos de objetos para los cuales queremos especificar diferentes reglas?
+Las acciones se realizan sobre los *buckets*, por lo cual estas aplicaran, por defecto, a todos los objetos que se encuentren en el mismo.
+Podemos utilizar ***prefix*** y/o ***tags*** para aplicar filtros de forma que una regla solo aplique sobre determinados objetos.
+Tengamos en cuenta que no se pueden usar *tags* para la expiración de los objetos.
 
-Podemos especificar el ***prefix*** sobre el cual aplicar la regla. Por ejemplo, transferir todos los objetos cuyo nombre comiencen con la palabra *"log_"*, o todos los objetos que se encuentren dentro de la carpeta *"application_logs/"*.
-
-En conjunto con el uso de ***Tags*** sobre los buckets/objetos, podemos crear reglas mas específicas, por ejemplo, transferir los objetos que tengan 30 días de antiguedad a la clase STANDARD_IA si tienen un tag *type=log_errores* pero en cambio archivarlos directamente a GLACIER a los 30 días si el tag indica *type=log_mensajes*. No se pueden usar *tags* para la eliminación (expiración) de los objetos.
+Con el uso de *prefixes* y/o *tags* podríamos crear reglas mas específicas, por ejemplo, transferir todos los objetos con mas de 30 días de antiguedad, cuyo nombre (prefijo) comience con *"logs_"*, moviéndolos a la clase STANDARD_IA si tienen un tag *type=errores*, y archivándolos a GLACIER si el tag indica *type=mensajes*.
 
 En conjunto con el uso de ***Versions*** también podemos aplicar acciones sobre las versiones anteriores de los objetos, por ejemplo, archivar todas las versiones de un objeto que tengan mas de 90 días, excepto la versión actual.
 
@@ -45,7 +45,7 @@ Ahora podemos ver la regla creada sobre el bucket:
 ![alt text](./images/S3_lifecycle_08.png)
 
 
-También podemos usar la **CLI**, por ejemplo, para ver la configuración de las *lifecycle policies* creadas para un *bucket*:
+También podemos usar la **CLI**, por ejemplo, para ver la configuración de las *lifecycle policies* creadas para un *bucket*, mediante el comando `aws s3api get-bucket-lifecycle-configuration`:
 ```bash
 $ aws s3api get-bucket-lifecycle-configuration --bucket iot-cloud-bucket-01
 {
@@ -72,6 +72,9 @@ $ aws s3api get-bucket-lifecycle-configuration --bucket iot-cloud-bucket-01
         }
     ]
 }
+
+También podríamos usar el comando `aws s3api put-lifecycle-configuration` para establecer una regla sobre un *bucket*. Puede ver un ejemplo de esto [aquí](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/set-lifecycle-cli.html).
+
 
 ```
 
@@ -111,7 +114,7 @@ Si decidimos exporta la salida, automáticamente nos va a crear una policy que l
 ![alt text](./images/S3_analytics_03.png)
 
 
-Podemos ver las características de la regla que creamos, mediante la CLI s3api [*s3api list-bucket-analytics-configurations*](http://docs.aws.amazon.com/cli/latest/reference/s3api/list-bucket-analytics-configurations.html), o podríamos incluso crear la regla mediante [*put-bucket-analytics-configuration*](http://docs.aws.amazon.com/cli/latest/reference/s3api/put-bucket-analytics-configuration.html), o elminarla mediante [*delete-bucket-analytics-configuration*](http://docs.aws.amazon.com/cli/latest/reference/s3api/delete-bucket-analytics-configuration.html).
+Podemos ver las características de la regla que creamos, mediante la CLI `s3api` con las opción [*list-bucket-analytics-configurations*](http://docs.aws.amazon.com/cli/latest/reference/s3api/list-bucket-analytics-configurations.html), o podríamos incluso crear la regla mediante [*put-bucket-analytics-configuration*](http://docs.aws.amazon.com/cli/latest/reference/s3api/put-bucket-analytics-configuration.html), o elminarla mediante [*delete-bucket-analytics-configuration*](http://docs.aws.amazon.com/cli/latest/reference/s3api/delete-bucket-analytics-configuration.html).
 ```bash
 $ aws s3api list-bucket-analytics-configurations --bucket iot-cloud-bucket-analytics
 {
@@ -134,18 +137,46 @@ $ aws s3api list-bucket-analytics-configurations --bucket iot-cloud-bucket-analy
     ]
 }
 ```
+
+Si tuviéramos varias reglas y solo quisiéramos ver una, podemos referenciarla mediante su Id con el comando `aws s3 api get-bucket-analytics-configuration`:
+
+```bash
+$ aws s3api get-bucket-analytics-configuration --bucket iot-cloud-bucket-analytics --id analytics-01
+{
+    "AnalyticsConfiguration": {
+        "Id": "analytics-01",
+        "StorageClassAnalysis": {
+            "DataExport": {
+                "OutputSchemaVersion": "V_1",
+                "Destination": {
+                    "S3BucketDestination": {
+                        "Format": "CSV",
+                        "Bucket": "arn:aws:s3:::iot-cloud-bucket-analytics-results"
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
 Ahora el *bucket* ya está siendo analizado. Obviamente la herramienta necesita correr durante cierto tiempo para poder recabar la información de acceso, y por tanto al principio no va a mostrar información:
 ![alt text](./images/S3_analytics_04.png)
 
-Luego de cierto tiempo comenzaremos a ver la información generada aquí mismo, donde nos mostraría información similar al siguiente ejemplo:
+Luego de cierto tiempo comenzaremos a ver la información generada aquí mismo:
 ![alt text](./images/S3_analytics_05.png)
+
+Dado que todavía no tenemos muchos datos ni requerimientos sobre nuestro *bucket* de prueba, y habilitamos el análisis hace poco, las estadísticas iniciales que podemos ver son básicas. La idea es dejar corriendo la herramienta algunos meses, para que pueda analizar los patrones de uso de nuestros (cientos de) objetos almacenados.
+
+Pero para entender un poco mejor, veamos estos datos de un ejemplo de uso obtenido de [aquí](https://aws.amazon.com/es/blogs/aws/s3-storage-management-update-analytics-object-tagging-inventory-and-metrics/).
+
+![alt text](./images/S3_analytics_06.png)
 
 Podemos ver desde cuando está habilitada la regla (127 días) y cuando fueron actualizados los datos por última vez (3/2/2017), cuanta información total tenemos almacenada en este bucket en la capa Standard (6.39 PB) y cuanto se ha accedido (1.74 PB), y de igual forma para la capa Standard_IA (3.24GB almacenados, y 51.5MB accedidos).
 
-También podemos ver un par de gráficas con las estadísticas de datos de un determinado tiempo, y que porcentaje de nuestros datos hemos accedido.
-![alt text](./images/S3_analytics_05.png)
+Luego podemos ver un par de gráficas con las estadísticas de cantidad de datos almacenados y recuperados durante un determinado tiempo, y cual es el porcentaje de nuestros datos que hemos accedido.
 
-Mas abajo podemos ver las estadísticas diferenciadas por diferentes períodos de tiempo.
+Mas abajo podemos ver las estadísticas diferenciadas por diferentes períodos de tiempo: datos con menos de 30 días de antiguedad, 30-45, 45-60, 60-90, 90-180 y mas de 180 días.
 
 Con esta información podemos ver, por ej., que en los últimos 127 días (desde que estoy analizando los datos) la mayoría de los objetos con mas de 30 días de antiguedad son muy poco accedidos. Por ej. de los 2.25 PB que hay almacenados con mas de 180 días de antiguedad en este *bucket*, solo hemos accedido a 222.8 TB, y de forma similar para el resto de los períodos de tiempo, a excepción de los primeros 30 días.
 
