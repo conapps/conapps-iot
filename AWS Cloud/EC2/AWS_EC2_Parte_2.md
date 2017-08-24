@@ -70,10 +70,11 @@ Los tipos de volúmenes se dividen en dos categorías:
     Aquí se encuentran los siguientes tipos de volúmenes:
 
     * SSD de Propósito General (gp2)
+    
+    ![alt text](./images/EC2_GP2.PNG)
 
-        ![alt text](./images/EC2_GP2.png)
-
-        Volumen SSD de uso general que equilibra el precio y el rendimiento para una amplia variedad de cargas de trabajo transaccionales
+        Volumen SSD de uso general que equilibra el precio y el rendimiento para una amplia variedad 
+        de cargas de trabajo transaccionales
 
         Caso de uso:
         
@@ -93,7 +94,10 @@ Los tipos de volúmenes se dividen en dos categorías:
         
         Casos de uso:
         
-        * Aplicaciones empresariales críticas que requieren un rendimiento IOPS sostenido, o más    de 10.000 IOPS o 160 MiB / s de rendimiento por volumen. Pensado para grandes cargas de   trabajo de bases de datos, tales como: 
+        * Aplicaciones empresariales críticas que requieren un rendimiento IOPS sostenido, o más 
+        de 10.000 IOPS o 160 MiB / s de rendimiento por volumen. 
+        
+        Pensado para grandes cargas de   trabajo de bases de datos, tales como: 
         * MongoDB
         * Cassandra 
         * Microsoft SQL Server 
@@ -107,7 +111,8 @@ Los tipos de volúmenes se dividen en dos categorías:
 
 * <u>Volúmenes respaldados por HDD</u>.
 
-    Optimizados para grandes cargas de trabajo de flujo continuo donde el rendimiento (medido en MiB / s) es una mejor medida de rendimiento que IOPS
+    Optimizados para grandes cargas de trabajo de flujo continuo donde el rendimiento (medido en MiB / s) 
+    es una mejor medida de rendimiento que IOPS
 
     Apunta a procesamiento de grandes cargas de datos.
 
@@ -138,7 +143,8 @@ Los tipos de volúmenes se dividen en dos categorías:
         Volumen de HDD de menor costo diseñado para cargas de trabajo de acceso menos frecuente
 
         Casos de uso:
-        * Almacenamiento orientado al rendimiento para grandes volúmenes de datos a los que se  accede con poca frecuencia.
+        * Almacenamiento orientado al rendimiento para grandes volúmenes de datos 
+          a los que se  accede con poca frecuencia.
 
         * Escenarios donde el menor costo de almacenamiento es importante No puede ser un volumen de arranque.
 
@@ -244,7 +250,7 @@ Para desmontar un volúmen en Linux, ejecutar el siguiente comando:
     ![alt text](./images/EC2_Create_Volume.PNG)
 
 
-### lgunas consideraciones a tener en cuenta:
+### Algunas consideraciones a tener en cuenta:
 
 
 * Tipo: 
