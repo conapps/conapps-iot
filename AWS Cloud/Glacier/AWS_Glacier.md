@@ -337,4 +337,4 @@ Ref:
 * [How Do I Restore an S3 Object That Has Been Archived to Amazon Glacier?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/restore-archived-objects.html)
 
 ---
-| [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_Glacier_Parte_2.md) |
+| [Siguiente >](./AWS_Glacier_Parte_2.md) |

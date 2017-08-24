@@ -1,4 +1,4 @@
-| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_Glacier.md) |
+| [< Anterior](./AWS_Glacier.md) |
 
 ---
 ## Trabajando con Glacier mediante AWS CLI
@@ -54,145 +54,183 @@ $ aws glacier list-vaults --account-id -
     ]
 }
 ```
----
-### Crear un *vault*
 
-Para crear un nuevo *vault* desde la CLI, utilizamos el comando `aws glacier create-vault`
+---
+### Crear un Vault
+
+Para **crear** un nuevo *vault* desde la CLI utilizamos el comando `aws glacier create-vault`.
 ```bash
-$ aws glacier create-vault --account-id - --vault-name iot-cloud-vault-02
+$ aws glacier create-vault --account-id - --vault-name iot-cloud-mis-respaldos
 {
-    "location": "/805750336955/vaults/iot-cloud-vault-02"
+    "location": "/805750336955/vaults/iot-cloud-mis-respaldos"
 }
 ```
-Ahora si listamos, podemos ver ambos:
+
+Podemos **listar** los *vaults* con `aws glacier list-vaults` para verificar que haya sido creado:
 ```bash
 $ aws glacier list-vaults --account-id -
 {
     "VaultList": [
+        {
+            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-mis-respaldos",
+            "VaultName": "iot-cloud-mis-respaldos",
+            "CreationDate": "2017-08-22T17:15:01.608Z",
+            "NumberOfArchives": 0,
+            "SizeInBytes": 0
+        },
         {
             "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
             "VaultName": "iot-cloud-vault-01",
             "CreationDate": "2017-08-17T17:53:40.893Z",
             "NumberOfArchives": 0,
             "SizeInBytes": 0
-        },
-        {
-            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-02",
-            "VaultName": "iot-cloud-vault-02",
-            "CreationDate": "2017-08-17T18:47:42.244Z",
-            "NumberOfArchives": 0,
-            "SizeInBytes": 0
         }
     ]
 }
 ```
-Refs:
-[Creating a Vault in Amazon Glacier](http://docs.aws.amazon.com/amazonglacier/latest/dev/creating-vaults.html)
 
 
-
----
-### Subir Datos
-Los archivos en Glacier no pueden ser subidos desde la consola Web, lo haremos mediante la CLI (también podemos hacerlo con el SDK desde nuestro código).
-
-Primero vamos a crear un archivo llamado *mi_archivo_01.zip* para subir a Glacier.
-
-**En Linux:**
+Podemos también **listar información** de un *vault* específico, mediante `aws glacier describe-vault`:
 ```bash
-$ dd if=/dev/urandom of=mi_archivo_01.zip bs=3145728 count=1
-1+0 records in
-1+0 records out
-3145728 bytes (3,1 MB, 3,0 MiB) copied, 0,0697288 s, 45,1 MB/s
-```
-
-**En Windows:**
-```bash
-C:\temp>fsutil file createnew mi_archivo_01.zip 3145728
-File C:\temp\mi_archivo_01.zip is created
-```
-
-Veamos como subir un archivo con la CLI.
-Podemos utilizar el comando *upload_archive* para subirlo.
-```bash
-$ aws glacier upload-archive --account-id - --vault-name iot-cloud-vault-01 --body mi_archivo.zip
+$ aws glacier describe-vault --account-id - --vault-name iot-cloud-mis-respaldos
 {
-    "location": "/805750336955/vaults/iot-cloud-vault-01/archives/2VijuHqLP8HZR-BG9FH4nm-13nZa7iPXYvBaXEVWPMcMIWEkc1nd69xBvM5iAroNaR8FPGTeqQXuz5h6FjorUEPNQwH5LfLsaHDodRv5TKUYgmM59IdzLGbAOqKl8llRi5X5t6nv5w",
-    "checksum": "f58e64a2381d9a68934b7ce8db45450654c6af977f6c40ca23b263ba994d9b27",
-    "archiveId": "2VijuHqLP8HZR-BG9FH4nm-13nZa7iPXYvBaXEVWPMcMIWEkc1nd69xBvM5iAroNaR8FPGTeqQXuz5h6FjorUEPNQwH5LfLsaHDodRv5TKUYgmM59IdzLGbAOqKl8llRi5X5t6nv5w"
-}
-```
-Si fuera un archivo muy grande podríamos dividirlo en partes y utilizar el comando *initiate-multipart-upload* (puede revisar este comando en la documentación de referencia).
-
-Si vamos a la consola web, no vamos a notar ningún cambio. Esto es porque las columnas *Size* y *# of Archives* muestran la información en base al *Inventary* que todavía no se actualizó, y se actualiza una vez por día. Tendremos que esperar 24 horas  para ver alguna diferencia.
-
-
-También podemos listar los detalles del *vault* mediante:
-```bash
-$ aws glacier describe-vault --account-id - --vault-name iot-cloud-vault-01
-{
-    "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
-    "VaultName": "iot-cloud-vault-01",
-    "CreationDate": "2017-08-17T17:53:40.893Z",
+    "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-mis-respaldos",
+    "VaultName": "iot-cloud-mis-respaldos",
+    "CreationDate": "2017-08-22T17:15:01.608Z",
     "NumberOfArchives": 0,
     "SizeInBytes": 0
 }
 ```
 
-Ahora una vez transcurridas las primeras 24hrs, la información de inventario se actualiza, y podemos ver que el *vault* tiene 1 archivo y algo así como 3MB de datos (que fue lo que subimos):
+Ref.:
+> [Creating a Vault in Amazon Glacier](http://docs.aws.amazon.com/amazonglacier/latest/dev/creating-vaults.html)
+
+
+
+---
+
+### Subir un Archive a un Vault
+Para subir un archivo a Glacier desde nuestro equipo local, no podemos usar consola Web, por lo cuál lo haremos mediante la CLI (también podemos hacerlo usando REST o un SDK desde nuestro código).
+
+Supongamos que tenemos estos dos archivos que tienen ciertos respaldos de datos que queremos archivar en Glacier:
 ```bash
-$ aws glacier describe-vault --account-id - --vault-name iot-cloud-vault-01
+$ ls -la ./work/respaldos/
+total 5668
+drwxr-xr-x 1 VM 197121       0 ago 22 14:21 ./
+drwxr-xr-x 1 VM 197121       0 ago 22 14:21 ../
+-rw-r--r-- 1 VM 197121 5798098 ago 22 14:03 respaldo01.tar.gz
+-rw-r--r-- 1 VM 197121    2803 ago 22 14:04 respaldo02.tar.gz
+```
+
+Para subirlos, debemos hacerlos de a uno, utilizando el comando `aws galcier upload-archive`
+```bash
+$ aws glacier upload-archive --vault-name iot-cloud-mis-respaldos --account-id - --archive-description "20170822-respaldo01.tar.gz" --body ./work/respaldos/respaldo01.tar.gz
 {
-    "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
-    "VaultName": "iot-cloud-vault-01",
-    "CreationDate": "2017-08-17T17:53:40.893Z",
-    "LastInventoryDate": "2017-08-18T13:25:55.144Z",
-    "NumberOfArchives": 1,
-    "SizeInBytes": 3178496
+    "location": "/805750336955/vaults/iot-cloud-mis-respaldos/archives/grHW86f7glvFFhFgMCDNDYehZcfTg_h9yMRkrSeroT1iaUzIki8S0hIu1TG2W3Tr0yl1EIGWqoz1gnk5LFLEF-y-RmwQlwN19Zd-dPSivzB3ohRgozkPfBGL6s9Ji1r0tRI4dzfafA",
+    "checksum": "ca6d26f5487ba41e5e10a06502e1ea96efcea8f35624cc9c6ec3920653cc3c0e",
+    "archiveId": "grHW86f7glvFFhFgMCDNDYehZcfTg_h9yMRkrSeroT1iaUzIki8S0hIu1TG2W3Tr0yl1EIGWqoz1gnk5LFLEF-y-RmwQlwN19Zd-dPSivzB3ohRgozkPfBGL6s9Ji1r0tRI4dzfafA"
+}
+```
+Una vez en Glacier, todos nuestros *archives* se identificarán únicamente por el *archiveID* el cual es generado automáticamente. Este dato es fundamental para poder luego identificar nuestro archivo, por ej., si lo queremos recuperar, por lo cual resulta conveniente poder guardar dicho id asociándolo con nuestro nombre de archivo y/o fecha en la cual lo subimos.
+La opción `--archive-description "descripción"` es opcional. Pero resulta muy conveniente poder usar este campo para poner información específica sobre el archivo que estamos subiendo, de forma de poder identificarlo.
+
+Imaginemos que tenemos varias decenas (cientos/miles) de *archives* en nuestro *vault*. Poder identificar cuál es el archive que quiero bajar en determinado, únicamente con el Id, puede ser una tarea bastante difícil. Por lo cual en lo personal recomiendo utilizar este campo para poner una descripción sobre el *archive* definiendo algún estándar de nomenclatura para todos nuestros *archives*.
+
+Subamos ahora el segundo archivo:
+```bash
+$ aws glacier upload-archive --vault-name iot-cloud-mis-respaldos --account-id - --archive-description "20170822-respaldo02.tar.gz" --body ./work/respaldos/respaldo02.tar.gz
+{
+    "location": "/805750336955/vaults/iot-cloud-mis-respaldos/archives/gP0DzSjjWYTOEWffBN16bbRW8aVnIjjZQURb2g5cisi57KjOgkBHyVKdVW-jYJRhK0ADPiJIznaL-vFJRnu319J_ZTvqfv4FyeGWTR1zUnXc0b6QtWhK3fDSoJZwFn2DjmV5B7cUXw",
+    "checksum": "b90737ab33703c878fa3ff5b15ca7f5ca93a62fe4a10e4ca4d07408777696b9e",
+    "archiveId": "gP0DzSjjWYTOEWffBN16bbRW8aVnIjjZQURb2g5cisi57KjOgkBHyVKdVW-jYJRhK0ADPiJIznaL-vFJRnu319J_ZTvqfv4FyeGWTR1zUnXc0b6QtWhK3fDSoJZwFn2DjmV5B7cUXw"
 }
 ```
 
-### Listar el contenido de un *Vault*
-Pero como obtenemos el contenido de un *vault*?
-Esto no podemos verlo en la consola web, y debemos recurrir una vez mas a la CLI.
+Si quisiéramos subir un archivo muy grande podríamos dividirlo en partes y utilizar el comando `aws glacier initiate-multipart-upload`. Puede revisar este comando en la documentación de referencia o [aquí](http://docs.aws.amazon.com/cli/latest/userguide/cli-using-glacier.html#cli-using-glacier-prep).
 
-Veamos primero de subir un par de archivos adicionales al *vault* para tener algunos datos mas.
-Recuerden que la información sobre estos nuevos archivos que vamos a subir no se actualizará en el inventario hasta mañana.
+
+Podemos listar los detalles del *vault* mediante `aws glacier describe-vault`:
 ```bash
-$ aws glacier upload-archive --account-id - --vault-name iot-cloud-vault-01 --body lab-glacier.zip
+$ aws glacier describe-vault --account-id - --vault-name iot-cloud-mis-respaldos
 {
-    "location": "/805750336955/vaults/iot-cloud-vault-01/archives/Z0v2TFdYeLINlOBkKa6vjXAwrdjyzPDJmH2kaTRbx7rS79sWwwGSIDkoTOeiizKmIY1_rmfO9DPCDlF7iXY4I6Dzaj8VSbN32OfihLLb7YBl3kENlbRv9i8s4C4sIyRFDs3UVUtTFg",
-    "checksum": "657a715f87baa9d89b651d185d8bc73147e686ee91252edcd57bae3c310b7490",
-    "archiveId": "Z0v2TFdYeLINlOBkKa6vjXAwrdjyzPDJmH2kaTRbx7rS79sWwwGSIDkoTOeiizKmIY1_rmfO9DPCDlF7iXY4I6Dzaj8VSbN32OfihLLb7YBl3kENlbRv9i8s4C4sIyRFDs3UVUtTFg"
-}
-
-$ aws glacier upload-archive --account-id - --vault-name iot-cloud-vault-01 --body lab-s3.zip
-{
-    "location": "/805750336955/vaults/iot-cloud-vault-01/archives/zNBKFYgdEvi34i5l2zth0gECNUX1bMe0otS1f56paBTAdTiG8kt8CuUycQgnQ2o-J52v_KcDGd3w5aSMVXT3DIHgpQ0ix00ohqwc3H2bG08FieHs83tAIqtby_Y0x0qLhqP_ZSwagQ",
-    "checksum": "cbc2c6b93acf2bc11971c22a0ffa6fdb9592d36513a31245c391685e4cf70103",
-    "archiveId": "zNBKFYgdEvi34i5l2zth0gECNUX1bMe0otS1f56paBTAdTiG8kt8CuUycQgnQ2o-J52v_KcDGd3w5aSMVXT3DIHgpQ0ix00ohqwc3H2bG08FieHs83tAIqtby_Y0x0qLhqP_ZSwagQ"
+    "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-mis-respaldos",
+    "VaultName": "iot-cloud-mis-respaldos",
+    "CreationDate": "2017-08-22T17:15:01.608Z",
+    "NumberOfArchives": 0,
+    "SizeInBytes": 0
 }
 ```
 
-Para ver el contenido de un *vault* debemos iniciar un *job* de la siguiente forma:
+Si revisamos el detalle, vamos a ver que en la cantidad de archivos y el espacio ocupado del *vault* siguen en "0" (también podemos verlo en la consola web). Esto se debe a que dicha información no se actualiza en tiempo real, sino que está basada en el último inventariado que se realizó sobre el *vault*. Como el inventariado se realiza cada 24hrs, hasta transcurrido este tiempo no vamos a ver esta información actualizada.
+
+*-- al otro día --*
+Una vez actualizado el inventario (*LastInventoryDate*), podemos ver la información del *vault* actualizada:
+
 ```bash
-$ aws glacier initiate-job --account-id - --vault-name iot-cloud-vault-01 --job-parameters "{\"Type\": \"inventory-retrieval\"}"
+$ aws glacier describe-vault --account-id - --vault-name iot-cloud-mis-respaldos
 {
-    "location": "/805750336955/vaults/iot-cloud-vault-01/jobs/49KitZMjk3WO-PoOUOgKBA2lH_fBR7NBUyyKM56_e5fDW7R3y8MM0pCowoCHaioqhBTZWwvkI6BroHv-7Lt3MhSiX8xo",
-    "jobId": "49KitZMjk3WO-PoOUOgKBA2lH_fBR7NBUyyKM56_e5fDW7R3y8MM0pCowoCHaioqhBTZWwvkI6BroHv-7Lt3MhSiX8xo"
+    "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-mis-respaldos",
+    "VaultName": "iot-cloud-mis-respaldos",
+    "CreationDate": "2017-08-22T17:15:01.608Z",
+    "LastInventoryDate": "2017-08-23T06:01:23.241Z",
+    "NumberOfArchives": 2,
+    "SizeInBytes": 5866437
 }
 ```
 
-Ahora, el job que iniciamos antes queda corriendo y puede demorar unas horas. Tenga en cuenta el valor del *jobId* dado que lo necesitaremos más adelante.
-Podemos ver el estado del *job* mediante el siguiente comando, el estado *"StatusCode"* indicará *"InProgress"* o *"Succeeded"*
+
+Refs:
+
+> [Uploading an Archive in Amazon Glacier](http://docs.aws.amazon.com/amazonglacier/latest/dev/uploading-an-archive.html)
+> [AWS CLI Command Reference Glacier:  upload-archive](http://docs.aws.amazon.com/cli/latest/reference/glacier/upload-archive.html)
+> [Glacier Multipart Upload](http://docs.aws.amazon.com/cli/latest/userguide/cli-using-glacier.html#cli-using-glacier-prep)
+
+
+
+---
+### Listar el contenido de un Vault
+El contenido de un *vault*, es decir, la lista de *archives* que tiene dentro, no podemos verlo desde la consola web.
+Nuevamente debemos recurrir a la CLI (o SDK).
+
+El contenido del *vault* está determinado por el último inventariado. Por lo cual, si subimos *archives* no los veremos hasta que el inventario se actualice al otro día.
+
+Veamos cuando corrió el último inventario y cuantos archivos tenemos en el *vault*.
 ```bash
-$ aws glacier list-jobs --account-id - --vault-name iot-cloud-vault-01
+$ aws glacier describe-vault --account-id - --vault-name iot-cloud-mis-respaldos
+{
+    "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-mis-respaldos",
+    "VaultName": "iot-cloud-mis-respaldos",
+    "CreationDate": "2017-08-22T17:15:01.608Z",
+    "LastInventoryDate": "2017-08-23T06:01:23.241Z",
+    "NumberOfArchives": 2,
+    "SizeInBytes": 5866437
+}
+```
+
+Si el inventario todavía no se ejecutó al menos una vez (*LastInventoryDate*), no podremos seguir adelante dado que recibiremos un error en el siguiente comando.
+
+Para poder listar el contenido del *vault*, debemos iniciar un Job, mediante el comando `aws glacier initiate-job`. Tenga en cuenta el *jobID* generado dado que lo necesitaremos mas adelante.
+
+```bash
+$ aws glacier initiate-job --account-id - --vault iot-cloud-mis-respaldos --job-parameters '{ "Type": "inventory-retrieval" }'
+{
+    "location": "/805750336955/vaults/iot-cloud-mis-respaldos/jobs/GlIniFul_WwdJn7Q_ip4LFydsT0_ufeXuXfC1q7TAMcycHMLZg9wV-7nxB0XR9BV3yqKlwRGuaKdGeFPsY3ouoGiPEmU",
+    "jobId": "GlIniFul_WwdJn7Q_ip4LFydsT0_ufeXuXfC1q7TAMcycHMLZg9wV-7nxB0XR9BV3yqKlwRGuaKdGeFPsY3ouoGiPEmU"
+}
+```
+
+En general los Jobs pueden demorar de 3 a 5 horas para finalizar su ejecución, para luego poder obtener el resultado.
+Podemos ver el estado del Job mediante `aws glacier list-jobs`, sobre el *vault* que lo iniciamos, y ver que todavía se sigue ejecutando *Completed: false* y *StatusCode: InProgress*.
+
+```bash
+$ aws glacier list-jobs --account-id - --vault-name iot-cloud-mis-respaldos
 {
     "JobList": [
         {
-            "JobId": "49KitZMjk3WO-PoOUOgKBA2lH_fBR7NBUyyKM56_e5fDW7R3y8MM0pCowoCHaioqhBTZWwvkI6BroHv-7Lt3MhSiX8xo",
+            "JobId": "GlIniFul_WwdJn7Q_ip4LFydsT0_ufeXuXfC1q7TAMcycHMLZg9wV-7nxB0XR9BV3yqKlwRGuaKdGeFPsY3ouoGiPEmU",
             "Action": "InventoryRetrieval",
-            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
-            "CreationDate": "2017-08-21T18:50:16.130Z",
+            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-mis-respaldos",
+            "CreationDate": "2017-08-23T13:43:19.352Z",
             "Completed": false,
             "StatusCode": "InProgress",
             "InventoryRetrievalParameters": {
@@ -203,22 +241,22 @@ $ aws glacier list-jobs --account-id - --vault-name iot-cloud-vault-01
 }
 ```
 
-*-- algunas horas mas tarde --*
-
+*--- varias horas mas tarde ---*
+Ahora podemos ver que el Job terminó su ejecución *Completed: true* y *StatusCode: Succeeded*:
 ```bash
-$ aws glacier list-jobs --account-id - --vault-name iot-cloud-vault-01
+$ aws glacier list-jobs --account-id - --vault-name iot-cloud-mis-respaldos
 {
     "JobList": [
         {
-            "JobId": "49KitZMjk3WO-PoOUOgKBA2lH_fBR7NBUyyKM56_e5fDW7R3y8MM0pCowoCHaioqhBTZWwvkI6BroHv-7Lt3MhSiX8xo",
+            "JobId": "GlIniFul_WwdJn7Q_ip4LFydsT0_ufeXuXfC1q7TAMcycHMLZg9wV-7nxB0XR9BV3yqKlwRGuaKdGeFPsY3ouoGiPEmU",
             "Action": "InventoryRetrieval",
-            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
-            "CreationDate": "2017-08-21T18:50:16.130Z",
+            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-mis-respaldos",
+            "CreationDate": "2017-08-23T13:43:19.352Z",
             "Completed": true,
             "StatusCode": "Succeeded",
             "StatusMessage": "Succeeded",
-            "InventorySizeInBytes": 450,
-            "CompletionDate": "2017-08-21T22:35:36.412Z",
+            "InventorySizeInBytes": 806,
+            "CompletionDate": "2017-08-23T17:38:08.047Z",
             "InventoryRetrievalParameters": {
                 "Format": "JSON"
             }
@@ -227,32 +265,58 @@ $ aws glacier list-jobs --account-id - --vault-name iot-cloud-vault-01
 }
 ```
 
-Ahora que el job finalizó, debemos grabar la salida del job a un archivo (por ejemplo *lista.txt*), necesitamos el *JobID* para esto:
+Una vez finalizado el job, debemos obtener el resultado del mismo mediante el comando `aws glacier get-job-output`. Esto nos permite grabar la salida del Job a un archivo, en este caso *iot-cloud-mis-respaldos.out* (puede elegir el nombre que quiera).
+Tenga en cuenta que necesitamos el *jobID* para esto.
+
 ```bash
-$ aws glacier get-job-output --account-id - --job-id 49KitZMjk3WO-PoOUOgKBA2lH_fBR7NBUyyKM56_e5fDW7R3y8MM0pCowoCHaioqhBTZWwvkI6BroHv-7Lt3MhSiX8xo --vault-name iot-cloud-vault-01 lista.txt
+$ aws glacier get-job-output --account-id - --vault-name iot-cloud-mis-respaldos \
+    --job-id GlIniFul_WwdJn7Q_ip4LFydsT0_ufeXuXfC1q7TAMcycHMLZg9wV-7nxB0XR9BV3yqKlwRGuaKdGeFPsY3ouoGiPEmU \ iot-cloud-mis-respaldos.out
 {
     "status": 200,
     "acceptRanges": "bytes",
     "contentType": "application/json"
 }
-
 ```
 
-Y por último, podemos abrir este archivo para ver el inventario del contenido de nuestro *vault*.
-La salida es en formato JSON, y podemos ver que los objetos almacenados en nuestro *iot-cloud-vault-01* son xxxx
+Y por último, solo resta abrir el archivo *iot-cloud-mis-respaldos.out* para ver todos los *archives* que tenemos dentro del *vault*. La salida es en formato JSON (puede que requiera formatearla para verla mejor):
+
 ```bash
-$ cat lista.txt
-
+$ cat inventario-iot-cloud-mis-respaldos.out
+{
+  "VaultARN":"arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-mis-respaldos",
+  "InventoryDate":"2017-08-23T01:56:27Z",
+  "ArchiveList":[
+    {
+      "ArchiveId":"grHW86f7glvFFhFgMCDNDYehZcfTg_h9yMRkrSeroT1iaUzIki8S0hIu1TG2W3Tr0yl1EIGWqoz1gnk5LFLEF-y-RmwQlwN19Zd-dPSivzB3ohRgozkPfBGL6s9Ji1r0tRI4dzfafA",
+      "ArchiveDescription":"20170822-respaldo01.tar.gz",
+      "CreationDate":"2017-08-22T17:24:07Z",
+      "Size":5798098,
+      "SHA256TreeHash":"ca6d26f5487ba41e5e10a06502e1ea96efcea8f35624cc9c6ec3920653cc3c0e"
+    },
+    {
+      "ArchiveId":"gP0DzSjjWYTOEWffBN16bbRW8aVnIjjZQURb2g5cisi57KjOgkBHyVKdVW-jYJRhK0ADPiJIznaL-vFJRnu319J_ZTvqfv4FyeGWTR1zUnXc0b6QtWhK3fDSoJZwFn2DjmV5B7cUXw",
+      "ArchiveDescription":"20170822-respaldo02.tar.gz",
+      "CreationDate":"2017-08-22T17:25:15Z",
+      "Size":2803,
+      "SHA256TreeHash":"b90737ab33703c878fa3ff5b15ca7f5ca93a62fe4a10e4ca4d07408777696b9e"
+    }
+  ]
+}
 ```
+Como podemos ver, los *archives* se identifican únicamente por el *ArchiveID*, el nombre original del archivo que nosotros subimos (ej. *respaldo01.tar.gz*) no aparece en ninguna parte. Por esto es fundamental guardar el *ArchiveID* cuando subimos el archivo por primera vez, sino sería prácticamente imposible saber cual de estos *ArchiveID* corresponde al archivo *respaldo01.tar.gz* original (imagine tener cientos de *archives* en el *vault* subidos a los largo de varios años).
+
+Lo que si aparece listado es la descripción que pusimos al subir el archivo originalmente *"ArchiveDescription":"20170822-respaldo02.tar.gz"*, pero recuerde que este campo es opcional, podemos no ponerlo, o incluso podemos poner dentro cualquier información. Por eso puede ser útil definir desde un inicio que información voy a poner aquí, de forma que me resulta útil a futuro.
 
 
-
-
+Ref.:
+> [How do I use the AWS CLI to view the contents of my Amazon Glacier vault?](https://aws.amazon.com/es/premiumsupport/knowledge-center/cli-glacier-vault/)
+> [AWS CLI Command Reference Glacier](http://docs.aws.amazon.com/cli/latest/reference/glacier/index.html)
+> [Basic Command-line AWS Glacier Workflow](https://www.madboa.com/blog/2016/09/23/glacier-cli-intro/)
 
 
 
 ---
-### Recuperar un archive desde Glacier
+### Recuperar un Archive de un Vault
 Los datos en Glacier no pueden ser recuperados en forma directa, ni tampoco utilizando la consola web.
 
 Los pasos que debemos realizar para recuperar un *archive* son los siguientes:
@@ -356,7 +420,6 @@ $ aws glacier list-jobs --account-id - --vault-name iot-cloud-mis-respaldos
 ```
 Note que en la salida del comando anterior pueden aparecer varios Jobs que corresponden a solicitudes anteriores que hemos ejecutado. En este caso podemos identificar nuestro Job o bien revisando la *CreationDate* y/o el tipo de acción que realizamos *"Action": "ArchiveRetrieval"*, o quizá mejor, mediante la descripción que le pusimos cuando iniciamos el trabajo *"JobDescription": "2017-08-23 Recuperacion respaldo01.tar.gz"*.
 
-
 Solo solo nos resta recuperar la salida de dicho job, que contiene ni mas ni menos, el archivo que queremos descargar.
 
 Una vez más, para esto utilizamos el comando `aws glacier get-job-output`, con el ID del *job*, y guardamos la salida (que es nuestro archivo a descargar) en nuestro disco local.
@@ -385,233 +448,71 @@ drwxr-xr-x 1 VM 197121       0 ago 23 21:22 ../
 Ref:
 > [Basic Command-line AWS Glacier Workflow](https://www.madboa.com/blog/2016/09/23/glacier-cli-intro/)
 > [Downloading an Archive in Amazon Glacier](http://docs.aws.amazon.com/amazonglacier/latest/dev/downloading-an-archive.html)
-> [AWS CLI Command Line - Glacier](http://docs.aws.amazon.com/cli/latest/reference/glacier/index.html)
+> [AWS CLI Command Reference: Glacier](http://docs.aws.amazon.com/cli/latest/reference/glacier/index.html)
 
 
 
+---
+### Eliminar un Archive de un Vault
+No podemos elminar un *vault* que tenga *archives* dentro. Por lo tanto, veamos primero como eliminar un *archive* utilizando la CLI.
 
+Para eliminar el *archive* necesitamos conocer su *archiveID*.
+Ya vimos que el *archiveID* se asigna cuando subimos el *archive*, y ya vimos como listar todo el contenido de un *vault* incluyendo los *archiveID* correspondientes.
 
-
-
-Ref:
-* [Using Amazon Glacier with the AWS Command Line Interface](http://docs.aws.amazon.com/cli/latest/userguide/cli-using-glacier.html)
-* [AWS CLI Command Reference - Glacier](http://docs.aws.amazon.com/cli/latest/reference/glacier/index.html)
-* [How do I use the AWS CLI to view the contents of my Amazon Glacier vault?](https://aws.amazon.com/es/premiumsupport/knowledge-center/cli-glacier-vault/)
-* [Download an Archive from a Vault in Amazon Glacier](https://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/getting-started-download-archive.html)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-## Trabajando con Glacier mediante AWS CLI
-
-### Crear un Vault
-
+Por ejemplo, luego de listar el contenido del *vault: iot-cloud-vault-01* vemos que tenemos 4 *archives*:
 ```bash
-$ aws glacier create-vault --account-id - --vault-name iot-cloud-mis-respaldos
+$ cat iot-cloud-vault-01.out
 {
-    "location": "/805750336955/vaults/iot-cloud-mis-respaldos"
-}
-```
-
-Podemos ver los detalles del vault creado:
-```bash
-$ aws glacier describe-vault --account-id - --vault-name iot-cloud-mis-respaldos
-{
-    "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-mis-respaldos",
-    "VaultName": "iot-cloud-mis-respaldos",
-    "CreationDate": "2017-08-22T17:15:01.608Z",
-    "NumberOfArchives": 0,
-    "SizeInBytes": 0
-}
-```
-
-O podemos listar todos nuestros vaults:
-```bash
-$ aws glacier list-vaults --account-id -
-{
-    "VaultList": [
-        {
-            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-mis-respaldos",
-            "VaultName": "iot-cloud-mis-respaldos",
-            "CreationDate": "2017-08-22T17:15:01.608Z",
-            "NumberOfArchives": 0,
-            "SizeInBytes": 0
-        },
-        {
-            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
-            "VaultName": "iot-cloud-vault-01",
-            "CreationDate": "2017-08-17T17:53:40.893Z",
-            "LastInventoryDate": "2017-08-22T14:27:25.122Z",
-            "NumberOfArchives": 3,
-            "SizeInBytes": 9541428
-        },
-        {
-            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-02",
-            "VaultName": "iot-cloud-vault-02",
-            "CreationDate": "2017-08-17T18:47:42.244Z",
-            "LastInventoryDate": "2017-08-22T14:27:21.078Z",
-            "NumberOfArchives": 2,
-            "SizeInBytes": 12651336
-        }
-    ]
-}
-```
-
-### Subiendo archivos
-Archivos a subir:
-
-```bash
-$ ls -la ./work/respaldos/
-total 5668
-drwxr-xr-x 1 VM 197121       0 ago 22 14:21 ./
-drwxr-xr-x 1 VM 197121       0 ago 22 14:21 ../
--rw-r--r-- 1 VM 197121 5798098 ago 22 14:03 respaldo01.tar.gz
--rw-r--r-- 1 VM 197121    2803 ago 22 14:04 respaldo02.tar.gz
-```
-
-Subo el primer archivo:
-```bash
-$ aws glacier upload-archive --vault-name iot-cloud-mis-respaldos --account-id - --archive-description "20170822-respaldo01.tar.gz" --body ./work/respaldos/respaldo01.tar.gz
-{
-    "location": "/805750336955/vaults/iot-cloud-mis-respaldos/archives/grHW86f7glvFFhFgMCDNDYehZcfTg_h9yMRkrSeroT1iaUzIki8S0hIu1TG2W3Tr0yl1EIGWqoz1gnk5LFLEF-y-RmwQlwN19Zd-dPSivzB3ohRgozkPfBGL6s9Ji1r0tRI4dzfafA",
-    "checksum": "ca6d26f5487ba41e5e10a06502e1ea96efcea8f35624cc9c6ec3920653cc3c0e",
-    "archiveId": "grHW86f7glvFFhFgMCDNDYehZcfTg_h9yMRkrSeroT1iaUzIki8S0hIu1TG2W3Tr0yl1EIGWqoz1gnk5LFLEF-y-RmwQlwN19Zd-dPSivzB3ohRgozkPfBGL6s9Ji1r0tRI4dzfafA"
-}
-```
-
-Subo el segundo archivo:
-```bash
-$ aws glacier upload-archive --vault-name iot-cloud-mis-respaldos --account-id - --archive-description "20170822-respaldo02.tar.gz" --body ./work/respaldos/respaldo02.tar.gz
-{
-    "location": "/805750336955/vaults/iot-cloud-mis-respaldos/archives/gP0DzSjjWYTOEWffBN16bbRW8aVnIjjZQURb2g5cisi57KjOgkBHyVKdVW-jYJRhK0ADPiJIznaL-vFJRnu319J_ZTvqfv4FyeGWTR1zUnXc0b6QtWhK3fDSoJZwFn2DjmV5B7cUXw",
-    "checksum": "b90737ab33703c878fa3ff5b15ca7f5ca93a62fe4a10e4ca4d07408777696b9e",
-    "archiveId": "gP0DzSjjWYTOEWffBN16bbRW8aVnIjjZQURb2g5cisi57KjOgkBHyVKdVW-jYJRhK0ADPiJIznaL-vFJRnu319J_ZTvqfv4FyeGWTR1zUnXc0b6QtWhK3fDSoJZwFn2DjmV5B7cUXw"
-}
-```
-
-### Listar contenido del Vault
-
-Dado que el inventario de Glacier se realiza una vez por día, no veremos los objetos que subimos hasta el otro día.
-
-Luego que el inventario se actualice, podemos ver que el *vault* tiene 2 archivos y que ocupan un total de 5866437 bytes:
-```bash
-$ aws glacier describe-vault --account-id - --vault-name iot-cloud-mis-respaldos
-{
-    "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-mis-respaldos",
-    "VaultName": "iot-cloud-mis-respaldos",
-    "CreationDate": "2017-08-22T17:15:01.608Z",
-    "LastInventoryDate": "2017-08-23T06:01:23.241Z",
-    "NumberOfArchives": 2,
-    "SizeInBytes": 5866437
-}
-```
-
-```bash
-$ aws glacier initiate-job --account-id - --vault iot-cloud-mis-respaldos --job-parameters '{ "Type": "inventory-retrieval" }'
-
-An error occurred (ResourceNotFoundException) when calling the InitiateJob operation: Inventory retrieval jobs for vault arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-mis-respaldos cannot be initiated yet, as Amazon Glacier has not yet generated an initial inventory for this vault.
-```
-
-```bash
-$ aws glacier initiate-job --account-id - --vault iot-cloud-mis-respaldos --job-parameters '{ "Type": "inventory-retrieval" }'
-{
-    "location": "/805750336955/vaults/iot-cloud-mis-respaldos/jobs/GlIniFul_WwdJn7Q_ip4LFydsT0_ufeXuXfC1q7TAMcycHMLZg9wV-7nxB0XR9BV3yqKlwRGuaKdGeFPsY3ouoGiPEmU",
-    "jobId": "GlIniFul_WwdJn7Q_ip4LFydsT0_ufeXuXfC1q7TAMcycHMLZg9wV-7nxB0XR9BV3yqKlwRGuaKdGeFPsY3ouoGiPEmU"
-}
-```
-
-```bash
-$ aws glacier list-jobs --account-id - --vault-name iot-cloud-mis-respaldos
-{
-    "JobList": [
-        {
-            "JobId": "GlIniFul_WwdJn7Q_ip4LFydsT0_ufeXuXfC1q7TAMcycHMLZg9wV-7nxB0XR9BV3yqKlwRGuaKdGeFPsY3ouoGiPEmU",
-            "Action": "InventoryRetrieval",
-            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-mis-respaldos",
-            "CreationDate": "2017-08-23T13:43:19.352Z",
-            "Completed": false,
-            "StatusCode": "InProgress",
-            "InventoryRetrievalParameters": {
-                "Format": "JSON"
-            }
-        }
-    ]
-}
-```
-
-```bash
-$ aws glacier list-jobs --account-id - --vault-name iot-cloud-mis-respaldos
-{
-    "JobList": [
-        {
-            "JobId": "GlIniFul_WwdJn7Q_ip4LFydsT0_ufeXuXfC1q7TAMcycHMLZg9wV-7nxB0XR9BV3yqKlwRGuaKdGeFPsY3ouoGiPEmU",
-            "Action": "InventoryRetrieval",
-            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-mis-respaldos",
-            "CreationDate": "2017-08-23T13:43:19.352Z",
-            "Completed": true,
-            "StatusCode": "Succeeded",
-            "StatusMessage": "Succeeded",
-            "InventorySizeInBytes": 806,
-            "CompletionDate": "2017-08-23T17:38:08.047Z",
-            "InventoryRetrievalParameters": {
-                "Format": "JSON"
-            }
-        }
-    ]
-}
-```
-```bash
-$ aws glacier get-job-output --account-id - --vault-name iot-cloud-mis-respaldos --job-id GlIniFul_WwdJn7Q_ip4LFydsT0_ufeXuXfC1q7TAMcycHMLZg9wV-7nxB0XR9BV3yqKlwRGuaKdGeFPsY3ouoGiPEmU inventario-iot-cloud-mis-respaldos.out
-{
-    "status": 200,
-    "acceptRanges": "bytes",
-    "contentType": "application/json"
-}
-```
-
-```bash
-$ cat inventario-iot-cloud-mis-respaldos.out
-{
-  "VaultARN":"arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-mis-respaldos",
-  "InventoryDate":"2017-08-23T01:56:27Z",
+  "VaultARN":"arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
+  "InventoryDate":"2017-08-22T14:46:23Z",
   "ArchiveList":[
-    {
-      "ArchiveId":"grHW86f7glvFFhFgMCDNDYehZcfTg_h9yMRkrSeroT1iaUzIki8S0hIu1TG2W3Tr0yl1EIGWqoz1gnk5LFLEF-y-RmwQlwN19Zd-dPSivzB3ohRgozkPfBGL6s9Ji1r0tRI4dzfafA",
-      "ArchiveDescription":"20170822-respaldo01.tar.gz",
-      "CreationDate":"2017-08-22T17:24:07Z",
-      "Size":5798098,
-      "SHA256TreeHash":"ca6d26f5487ba41e5e10a06502e1ea96efcea8f35624cc9c6ec3920653cc3c0e"
-    },
-    {
-      "ArchiveId":"gP0DzSjjWYTOEWffBN16bbRW8aVnIjjZQURb2g5cisi57KjOgkBHyVKdVW-jYJRhK0ADPiJIznaL-vFJRnu319J_ZTvqfv4FyeGWTR1zUnXc0b6QtWhK3fDSoJZwFn2DjmV5B7cUXw",
-      "ArchiveDescription":"20170822-respaldo02.tar.gz",
-      "CreationDate":"2017-08-22T17:25:15Z",
-      "Size":2803,
-      "SHA256TreeHash":"b90737ab33703c878fa3ff5b15ca7f5ca93a62fe4a10e4ca4d07408777696b9e"
+        {
+          "ArchiveId":"2VijuHqLP8HZR-BG9FH4nm-13nZa7iPXYvBaXEVWPMcMIWEkc1nd69xBvM5iAroNaR8FPGTeqQXuz5h6FjorUEPNQwH5LfLsaHDodRv5TKUYgmM59IdzLGbAOqKl8llRi5X5t6nv5w",
+          "ArchiveDescription":"",
+          "CreationDate":"2017-08-17T19:10:10Z",
+          "Size":3145728,
+          "SHA256TreeHash":"f58e64a2381d9a68934b7ce8db45450654c6af977f6c40ca23b263ba994d9b27"
+        },
+        {
+          "ArchiveId":"Z0v2TFdYeLINlOBkKa6vjXAwrdjyzPDJmH2kaTRbx7rS79sWwwGSIDkoTOeiizKmIY1_rmfO9DPCDlF7iXY4I6Dzaj8VSbN32OfihLLb7YBl3kENlbRv9i8s4C4sIyRFDs3UVUtTFg",
+          "ArchiveDescription":"",
+          "CreationDate":"2017-08-21T18:44:13Z",
+          "Size":6292900,
+          "SHA256TreeHash":"657a715f87baa9d89b651d185d8bc73147e686ee91252edcd57bae3c310b7490"
+        },
+        {
+          "ArchiveId":"zNBKFYgdEvi34i5l2zth0gECNUX1bMe0otS1f56paBTAdTiG8kt8CuUycQgnQ2o-J52v_KcDGd3w5aSMVXT3DIHgpQ0ix00ohqwc3H2bG08FieHs83tAIqtby_Y0x0qLhqP_ZSwagQ",
+          "ArchiveDescription":"",
+          "CreationDate":"2017-08-21T18:47:38Z",
+          "Size":4496,
+          "SHA256TreeHash":"cbc2c6b93acf2bc11971c22a0ffa6fdb9592d36513a31245c391685e4cf70103"
+        },
+        {
+          "ArchiveId":"wes8Hmsw1boV0bkCVJWu5bY3RAbvUhOEeuY8iiq3Z33ZqIga-Gb00UnS0NtMiJ2Z5-ApQ5pEKN1MXmWIhl8aMPMmjd00iY4N40IoBfPZzU-p90mDczMtg7m-2uC3AUQ7lrJo45bbNw",
+          "ArchiveDescription":"20170821-respaldo-otro_backup",
+          "CreationDate":"2017-08-22T02:25:21Z",
+          "Size":3145728,
+          "SHA256TreeHash":"f58e64a2381d9a68934b7ce8db45450654c6af977f6c40ca23b263ba994d9b27"
     }
   ]
 }
 ```
 
-
----
-### Eliminar un *archive*
-
-Primero debemos saber (o encontrar) el ID del archive que queremos elminar.
-Esto podemos obtenerlo mediante el siguiente job
+Para borrarlos, utilizamos el comando `aws glacier delete-archive`, referenciando a cada uno de los *ArchiveId* que quiero borrar.
+En este caso voy a borrarlos todos, para luego poder borrar el *vault*.
 
 ```bash
+$ aws glacier delete-archive --account-id - --vault-name iot-cloud-vault-01 --archive-id 2VijuHqLP8HZR-BG9FH4nm-13nZa7iPXYvBaXEVWPMcMIWEkc1nd69xBvM5iAroNaR8FPGTeqQXuz5h6FjorUEPNQwH5LfLsaHDodRv5TKUYgmM59IdzLGbAOqKl8llRi5X5t6nv5w
+
+$ aws glacier delete-archive --account-id - --vault-name iot-cloud-vault-01 --archive-id Z0v2TFdYeLINlOBkKa6vjXAwrdjyzPDJmH2kaTRbx7rS79sWwwGSIDkoTOeiizKmIY1_rmfO9DPCDlF7iXY4I6Dzaj8VSbN32OfihLLb7YBl3kENlbRv9i8s4C4sIyRFDs3UVUtTFg
+
+$ aws glacier delete-archive --account-id - --vault-name iot-cloud-vault-01 --archive-id zNBKFYgdEvi34i5l2zth0gECNUX1bMe0otS1f56paBTAdTiG8kt8CuUycQgnQ2o-J52v_KcDGd3w5aSMVXT3DIHgpQ0ix00ohqwc3H2bG08FieHs83tAIqtby_Y0x0qLhqP_ZSwagQ
+
+$ aws glacier delete-archive --account-id - --vault-name iot-cloud-vault-01 --archive-id wes8Hmsw1boV0bkCVJWu5bY3RAbvUhOEeuY8iiq3Z33ZqIga-Gb00UnS0NtMiJ2Z5-ApQ5pEKN1MXmWIhl8aMPMmjd00iY4N40IoBfPZzU-p90mDczMtg7m-2uC3AUQ7lrJo45bbNw
+```
+
+Como ya deberíamos saber, si listamos el detalle del *vault* todavía vamos a ver que tiene 4 archivos dentro, y esto se debe a que el inventariado todavía no corrió:
+```
 $ aws glacier describe-vault --account-id - --vault-name iot-cloud-vault-01
 {
     "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
@@ -621,62 +522,9 @@ $ aws glacier describe-vault --account-id - --vault-name iot-cloud-vault-01
     "NumberOfArchives": 4,
     "SizeInBytes": 12719924
 }
-
-$ aws glacier initiate-job --account-id - --vault iot-cloud-vault-01 --job-parameters '{ "Type": "inventory-retrieval" }'
-{
-    "location": "/805750336955/vaults/iot-cloud-vault-01/jobs/C1GhafeRgMRzjb-3TPxkVzN-Jkesh9u4IxWgRpa-OdoHaik5Q33BJ5103XznPk6p16TpSRwhcEEDaWrT1hj4vmoaJh98",
-    "jobId": "C1GhafeRgMRzjb-3TPxkVzN-Jkesh9u4IxWgRpa-OdoHaik5Q33BJ5103XznPk6p16TpSRwhcEEDaWrT1hj4vmoaJh98"
-}
-
-$ aws glacier list-jobs --account-id - --vault-name iot-cloud-vault-01
-{
-    "JobList": [
-        {
-            "JobId": "C1GhafeRgMRzjb-3TPxkVzN-Jkesh9u4IxWgRpa-OdoHaik5Q33BJ5103XznPk6p16TpSRwhcEEDaWrT1hj4vmoaJh98",
-            "Action": "InventoryRetrieval",
-            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
-            "CreationDate": "2017-08-24T01:55:08.685Z",
-            "Completed": false,
-            "StatusCode": "InProgress",
-            "InventoryRetrievalParameters": {
-                "Format": "JSON"
-            }
-        }
-    ]
-}
-
-$ aws glacier list-jobs --account-id - --vault-name iot-cloud-vault-01
-
-
-$ aws glacier get-job-output --account-id - --vault-name iot-cloud-vault-02 --job-id vk-GKPNNmjrinm5A6gDh3UF3hdN6f80R2yJ-PJvzw7ne6BDrZLJhDvsdOK_pxTO5uyqufgwp4Jtxi2iMe90Fn7-qq113 inventario-iot-cloud-vault-01.out
-
-$ cat inventario-iot-cloud-vault-01.out
-{
-  "VaultARN":"arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-02",
-  "InventoryDate":"2017-08-22T07:32:12Z",
-  "ArchiveList":[
-    {
-      "ArchiveId":"SZIARej9QQzpLDM7mJStkAoA3RnY-WpNJ8Fz46ay1bYYTG5VSzCnsyHVEY4jn7lne9-943LSwt1xE1N8fRt0iCgsreAytNWYwpYih7_HW3DEcDSN0HRIKjwozCPLjxHmVnWy72W1YQ",
-      "ArchiveDescription":"",
-      "CreationDate":"2017-08-21T18:38:59Z",
-      "Size":6292900,
-      "SHA256TreeHash":"657a715f87baa9d89b651d185d8bc73147e686ee91252edcd57bae3c310b7490"
-    },
-    {
-      "ArchiveId":"Soqd_sa_vc88Q0uMkTDqGgq0hywCo-djEaD4Z3c5se09vg1TAucV_tIHVTx1WNdcI32smfV4evMeH4QK24QHX2ybR32MxUvu2fMhNku-xVzHu4GZcsAT0_iEdRLKFgvCE6hOYe27rQ",
-      "ArchiveDescription":"",
-      "CreationDate":"2017-08-21T18:42:22Z",
-      "Size":6292900,
-      "SHA256TreeHash":"657a715f87baa9d89b651d185d8bc73147e686ee91252edcd57bae3c310b7490"
-    }
-  ]
-}
 ```
 
-$ aws glacier delete-archive --account-id - --vault-name iot-cloud-vault-01 --archive-id "skjfskfslfhsjfh"
-
-
-
+Por lo cual deberemos esperar hasta que el inventariado actualice esta información, para poder luego borrar el *vault*.
 
 
 Ref:
@@ -685,10 +533,30 @@ Ref:
 
 ---
 ### Eliminar un *vault*
-Para eliminar un vault desde la CLI:
-```bash
+Podemos eliminar un *vault* desde la CLI, o también desde la consola web (o SDK).
+Para eliminar un *vault* este debe encontrarse vacío, con el inventario actualizado, y sin ninguna operación de escritura realizada sobre el *vault* desde el último inventario.
 
+Anteriormente eliminamos todos los *archives* del *vault: iot-cloud-vault-01*, pero el inventariado todavía no volvió a correr.
+Por lo cual si listamos el detalle del *vault* vemos que todavía aparece con *archives* dentro.
+
+Si probamos de eliminar el *vault* en estas condiciones, vamos a recibir un error:
+```bash
+$ aws glacier delete-vault --account-id - --vault-name iot-cloud-vault-01
+
+An error occurred (InvalidParameterValueException) when calling the DeleteVault operation: Vault not empty or recently written to: arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01
 
 ```
 
-[Deleting a Vault in Amazon Glacier](http://docs.aws.amazon.com/amazonglacier/latest/dev/deleting-vaults.html)
+Por lo cual, nuevamente, debemos esperar varias horas hasta que el *vault* sea nuevamente inventariado y refleje el borrado de los *archives*.
+
+
+
+
+
+
+Ref:
+> [Deleting a Vault in Amazon Glacier](http://docs.aws.amazon.com/amazonglacier/latest/dev/deleting-vaults.html)
+
+
+---
+| [< Anterior](./AWS_Glacier.md) |
