@@ -115,8 +115,8 @@ Los tipos de volúmenes se dividen en dos categorías:
         * Almacenes de datos. 
         * Procesamiento de registros. 
         * No puede ser un volumen de arranque.
-
-        ![alt text](./images/EC2_ST1.png)
+        
+![alt text](./images/EC2_ST1.png)
 
 
     * <u>HDD frío (sc1)</u>
@@ -127,7 +127,8 @@ Los tipos de volúmenes se dividen en dos categorías:
         * Almacenamiento orientado al rendimiento para grandes volúmenes de datos a los que se accede con poca frecuencia. 
         * Escenarios donde el menor costo de almacenamiento es importante No puede ser un volumen de arranque.
 
-        ![alt text](./images/EC2_SC1.png)
+   
+ ![alt text](./images/EC2_SC1.png)
 
 
 ---
