@@ -11,9 +11,10 @@ Amazon Elastic Cloud Computing (Amazon EC2)
 ---
 - [Introducción](#introduccion)
 - [AMIs](#AMIs)
-- [Tipos de Instancias](#tipos de instancias)
-- [Linea de Comandos de Amazon S3](#línea-de-comandos-de-amazon-s3)
-- [Folders](#folders)
+- [Tipos de Instancias](#tipos-de-instancias)
+- [Formas de Adquisición](#formas-de-adquisición)
+- [Opciones de Tenencia](#opciones-de-tenencia)
+- [Ciclo de Vida de las Instancias](#ciclo-de-vida-de-las-instancias)
 
 ---
 ## Introducción ##
@@ -223,7 +224,7 @@ Pensada para satisfacer aquellos requerimientos, donde es importante un desempe�
 
 
 ---
-### Formas de Adquisición:
+## Formas de Adquisición:
 
 * Reservadas
   
@@ -336,7 +337,7 @@ Pensada para satisfacer aquellos requerimientos, donde es importante un desempe�
   Por mas información consulte:   http://docs.aws.amazon.com/es_es/AWSEC2/latest/UserGuide/ec2-scheduled-instances.html
 ---
 
-### Opciones de Tenencia
+## Opciones de Tenencia
 
 * Compartida
 
@@ -409,7 +410,7 @@ Pensada para satisfacer aquellos requerimientos, donde es importante un desempe�
 
 
 **************************************************
-### Ciclo de Vida de las Instancias
+## Ciclo de Vida de las Instancias
 ![alt text](./images/EC2_Instance_Life_Cycle.PNG)
 
 * ***Lanzamiento de Instancia***
