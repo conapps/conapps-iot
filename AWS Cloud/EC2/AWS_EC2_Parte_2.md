@@ -79,7 +79,7 @@ Los tipos de volúmenes se dividen en dos categorías:
         * Aplicaciones interactivas de baja latencia
         * Entornos de desarrollo y prueba
 
-        ![alt text](./images/EC2_GP2.png)
+![alt text](./images/EC2_GP2.png)
 
     * <u>SSD con IOPS Provisionados (io1)</u>
     
