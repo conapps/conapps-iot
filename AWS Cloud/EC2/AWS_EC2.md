@@ -10,8 +10,8 @@ Amazon Elastic Cloud Computing (Amazon EC2)
 ## Indice.
 ---
 - [Introducción](#introduccion)
-- [Conceptos Básicos](#conceptos-básicos)
-- [Primeros Pasos](#primeros-pasos)
+- [AMIs](#AMIs)
+- [Tipos de Instancias](#tipos de instancias)
 - [Linea de Comandos de Amazon S3](#línea-de-comandos-de-amazon-s3)
 - [Folders](#folders)
 
@@ -54,7 +54,7 @@ http://docs.aws.amazon.com/es_es/AWSEC2/latest/UserGuide/ec2-scheduled-instances
 *	seguridad
 
 
-### AMIs
+## AMIs
 
 Son esencialmente plantillas de instancias EC2 preconfiguradas que permiten iniciar rápidamente una nueva instancia EC2 basada en la configuración dentro del AMI. 
 
@@ -73,7 +73,7 @@ Además de AWS-manejado y de su propio AMIs personalizado, también será posibl
 Estos AMI de proveedores pueden tener aplicaciones y configuraciones específicas ya hechas, como las instancias optimizadas con seguridad incorporada Y herramientas de monitoreo o contengan sistemas de migración de bases de datos. Por último, también existen AMI de la comunidad, que son un repositorio de AMIs que han sido creados y compartidos por otros miembros de AWS.
 
 
-### Tipos de Instancia
+## Tipos de Instancia
 ```bash
 Un tipo de instancia simplemente define el tamaño de la instancia desde una CPU, memoria, almacenamiento y perspectiva de red. Tener esta flexibilidad de instancias variadas le permite seleccionar el tamaño o la potencia más apropiada de un servidor virtual que necesita para un rendimiento óptimo con sus aplicaciones.
 ```
