@@ -68,24 +68,30 @@ Los tipos de volúmenes se dividen en dos categorías:
     Apunta a rendimiento-performance, por sobre procesamiento de grandes cargas de trabajo.
 
     Aquí se encuentran los siguientes tipos de volúmenes:
-    * <u>SSD de Propósito General (gp2)</u>
-        
+
+    * SSD de Propósito General (gp2)
+
+        ![alt text](./images/EC2_GP2.png)
+
         Volumen SSD de uso general que equilibra el precio y el rendimiento para una amplia variedad de cargas de trabajo transaccionales
 
         Caso de uso:
+        
         * Recomendado para la mayoría de las cargas de trabajo.
         * Volúmenes de arranque del sistema
         * Escritorios virtuales
         * Aplicaciones interactivas de baja latencia
         * Entornos de desarrollo y prueba
 
-![alt text](./images/EC2_GP2.png)
 
-    * <u>SSD con IOPS Provisionados (io1)</u>
+
+
+    * SSD con IOPS Provisionados (io1)
     
         Volumen SSD de mayor rendimiento diseñado para aplicaciones de misión crítica
-
-        Caso de uso:
+    ![alt text](./images/EC2_GP1.png)
+        
+        Casos de uso:
         
         * Aplicaciones empresariales críticas que requieren un rendimiento IOPS sostenido, o más    de 10.000 IOPS o 160 MiB / s de rendimiento por volumen. Pensado para grandes cargas de   trabajo de bases de datos, tales como: 
         * MongoDB
@@ -95,40 +101,49 @@ Los tipos de volúmenes se dividen en dos categorías:
         * PostgreSQL 
         * Oracle
 
-        ![alt text](./images/EC2_GP1.png)
+        
 
 
 
-* Volúmenes respaldados por HDD.
+* <u>Volúmenes respaldados por HDD</u>.
 
     Optimizados para grandes cargas de trabajo de flujo continuo donde el rendimiento (medido en MiB / s) es una mejor medida de rendimiento que IOPS
 
     Apunta a procesamiento de grandes cargas de datos.
 
-    * <u>HDD con Rendimiento Optimizado (st1)</u>
+
+
+    * HDD con Rendimiento Optimizado (st1)
         
+        ![alt text](./images/EC2_ST1.png)
+
         Volumen de disco duro de bajo costo diseñado para cargas de trabajo de uso frecuente
 
         Casos de uso:
-        * Transmisión de cargas de trabajo que requieren un rendimiento constante y rápido a un     precio bajo. 
+        
+        * Transmisión de cargas de trabajo que requieren un rendimiento constante y rápido a un precio bajo. 
+        
         * Pensado para Gran cantidad de datos. 
         * Almacenes de datos. 
         * Procesamiento de registros. 
         * No puede ser un volumen de arranque.
         
-![alt text](./images/EC2_ST1.png)
 
 
-    * <u>HDD frío (sc1)</u>
+
+    * HDD frío (sc1)
     
+        ![alt text](./images/EC2_SC1.png)
+
         Volumen de HDD de menor costo diseñado para cargas de trabajo de acceso menos frecuente
 
         Casos de uso:
-        * Almacenamiento orientado al rendimiento para grandes volúmenes de datos a los que se accede con poca frecuencia. 
+        * Almacenamiento orientado al rendimiento para grandes volúmenes de datos a los que se  accede con poca frecuencia.
+
         * Escenarios donde el menor costo de almacenamiento es importante No puede ser un volumen de arranque.
 
    
- ![alt text](./images/EC2_SC1.png)
+
 
 
 ---
