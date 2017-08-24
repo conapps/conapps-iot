@@ -10,7 +10,7 @@ Amazon Elastic Cloud Computing (Amazon EC2)
 ## Indice.
 ---
 - [Introducción](#introduccion)
-- [AMIs](#AMIs)
+- [AMIs](#amis)
 - [Tipos de Instancias](#tipos-de-instancias)
 - [Formas de Adquisición](#formas-de-adquisición)
 - [Opciones de Tenencia](#opciones-de-tenencia)
