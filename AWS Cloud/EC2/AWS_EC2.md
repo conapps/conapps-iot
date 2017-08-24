@@ -41,7 +41,7 @@ Amazon EC2 cambia el modelo económico de la informática, ya que solo tendrá q
 ### Caso práctico de AWS: Netflix
 AWS permite a Netflix desplegar rápidamente miles de servidores y terabytes de almacenamiento en cuestión de minutos. Los usuarios pueden ver programas y películas de Netflix desde cualquier parte del mundo, incluso en la web, en tabletas o en dispositivos móviles como el iPhone.
 
-<div style="position:relative;height:0;padding-bottom:56.21%"><iframe src="https://www.youtube.com/embed/lQGHsBOZJBw?ecver=2" style="position:absolute;width:100%;height:100%;left:0" width="641" height="360" frameborder="0" allowfullscreen></iframe></div>
+http://docs.aws.amazon.com/es_es/AWSEC2/latest/UserGuide/ec2-scheduled-instances.html
 
 
 ### El servicio EC2 puede dividirse en las siguientes secciones:
@@ -62,145 +62,15 @@ Esto evita tener que instalar un sistema operativo o cualquier otra aplicación 
 
 Desde una perspectiva de alto nivel, un AMI incluirá un sistema operativo y aplicaciones, junto con cualquier configuración personalizada.
 AWS proporciona un gran número de AMIs que cubren diferentes sistemas operativos, desde Linux a Red Hat a Microsoft Windows, entre otros. 
-Al configurar su instancia de EC2, seleccionar su AMI es la primera opción de configuración que debe realizar. También puede crear sus propias imágenes AMI para ayudarle a acelerar sus propias implementaciones.
+Al configurar una nueva instancia de EC2, seleccionar su AMI es la primera opción de configuración que se debe realizar. También es posible crear propias imágenes AMI como forma acelerar los procesos de implementación.
 
-Por ejemplo, empezaría con la selección de un AMI de AWS, digamos un servidor Linux. Una vez que esté funcionando, puede que necesite instalar varias de sus propias aplicaciones personalizadas y realizar cambios de configuración específicos. Ahora, si necesita otro servidor para realizar la misma funcionalidad, puede pasar por el mismo proceso de selección de un AMI de Linux AWS y, de nuevo, instalar manualmente sus aplicaciones y realizar sus configuraciones. 
+Por ejemplo, empezaría con la selección de un AMI de AWS, digamos un servidor Linux. Una vez que esté funcionando, puede que sea necesario instalar varias de sus propias aplicaciones personalizadas y realizar cambios de configuración específicos. Ahora, si se necesita otro servidor para realizar la misma funcionalidad, es posible pasar por el mismo proceso de selección de un AMI de Linux AWS y, de nuevo, instalar manualmente sus aplicaciones y realizar sus configuraciones. 
 
 Una vez que haya realizado esos cambios en el primer servidor, simplemente basta con crear un nuevo AMI de esa instancia con todas las aplicaciones instaladas y configuraciones ya realizadas. 
 Entonces, si se necesita otro servidor de la misma configuración, todo lo que necesitará hacer es seleccionar su AMI personalizado como la imagen base de su instancia y lanzará el servidor Linux, sus aplicaciones personalizadas ya instaladas y cualquier configuración ya realizada.
 
 Además de AWS-manejado y de su propio AMIs personalizado, también será posible seleccionar un AMI del mercado de AWS. El mercado de AWS es básicamente una tienda en línea que permite comprar AMIs de proveedores de confianza como Cisco, Citrix, Alert Logic, etc. 
 Estos AMI de proveedores pueden tener aplicaciones y configuraciones específicas ya hechas, como las instancias optimizadas con seguridad incorporada Y herramientas de monitoreo o contengan sistemas de migración de bases de datos. Por último, también existen AMI de la comunidad, que son un repositorio de AMIs que han sido creados y compartidos por otros miembros de AWS.
-
-
-**************************************************
-### Ciclo de Vida de las Instancias
-![alt text](./images/EC2_Instance_Life_Cycle.PNG)
-
-* ***Lanzamiento de Instancia***
-
-    Cuando inicia una instancia, ingresa el estado ***pendiente***. 
-  
-    Para ver el estado de una instancia desde línea de comandos, se deberá utilizar el siguiente comando:
-
-          PS C:\>Get-EC2Instance
-
-    El tipo de instancia que especificó al iniciar determina el hardware del equipo host de su instancia. 
-
-    También se utilizará la Amazon Machine Image (AMI) que especificó al iniciar para iniciar la instancia. 
-  
-    Después de que la instancia esté lista, entrará en el estado de ***ejecución***. Puede conectarse a su instancia de ejecución y utilizarla de la misma manera que utilizará una computadora que se encuentre frente a usted.
-
-    ***Tan pronto como su instancia pasa al estado de ejecución, se le facturará por cada hora o hora parcial que mantenga la instancia en ejecución; Incluso si la instancia permanece inactiva y no se conecta a ella.***
-
-  
-
-
-
-* ***Start & Stop de Instancias (Solo para aquellas con respaldo en EBS)***
-
-  * Stop de una Instancia.
-
-    Cuando se detiene una instancia, entra en el estado de detención y, a continuación, en el estado detenido. 
-
-    * Amazon no cobra tarifas por hora ni por transferencia de datos por esa instancia después de detenerla, pero sí se cobra por el almacenamiento de los volúmenes de Amazon EBS. 
-  
-    * Mientras la instancia esté en estado detenido, es posible modificar ciertos atributos de la   instancia, incluido el tipo de instancia.
-
-      Desde línea de comandos se deberá ejecutar el siguiente comando:
-
-      
-          PS> Stop-EC2Instance -InstanceId IDInstancia
-
-  * Start de una una Instancia
-
-      Cuando inicia la instancia, ingresa el estado pendiente y, en la mayoría de los casos, la instancia es trasladada a una nueva computadora host.
-      
-      Desde línea de comandos se deberá ejecutar el siguiente comando:
-          
-          PS> Start-EC2Instance -InstanceId IDInstancia
-
-      Cuando detiene e inicia su instancia, perderá cualquier dato sobre los volúmenes de almacén de instancia en el equipo host anterior.
-
-
-
-
-  ***Cada vez que transita una instancia de detenida a ejecutándose, se carga una hora de instancia completa, incluso si estas transiciones se producen varias veces en una sola hora.***   
-
-* ***Reinicio de una Instancia***
-
-    Reiniciar una instancia equivale a reiniciar un sistema operativo.
-  
-    La instancia permanece en el mismo equipo host y mantiene su nombre DNS público, su dirección IP privada y cualquier dato de sus volúmenes de almacén de instancias. 
-  
-    Tarda normalmente unos minutos para que se complete el reinicio, pero el tiempo que tarda en reiniciarse depende de la configuración de la instancia.
-
-    Al reiniciar una instancia no se inicia una hora de facturación de una nueva instancia.
-
-    Desde línea de comandos se deberá ejecutar el siguiente comando:
-      
-      PS C:\> Restart-EC2Instance -InstanceId i-12345678
-
-* ***Retiro de una Instancia***
-    Una instancia está programada para ser retirada cuando AWS detecta un fallo irreparable del hardware subyacente que aloja la instancia. 
-    
-    Cuando una instancia alcanza su fecha de retiro programada, AWS la interrumpe o termina. 
-    
-    <u>Si el dispositivo raíz de instancia es un volumen de Amazon EBS, la instancia se detiene y se puede iniciar de nuevo en cualquier momento.</u> 
-    
-    <u>Si el dispositivo raíz de instancia es un volumen de almacén de instancia, la instancia se termina y no se puede volver a usar.</u>
-
-    Para obtener información desde la línea de comando, se mostrará el siguiente ejemplo con las sentencias a ejecutar:
-    
-      PS C:\> Get-EC2InstanceStatus -InstanceId i-12345678
-    
-      AvailabilityZone : us-west-2a
-      Events           : {}
-      InstanceId       : i-12345678
-      InstanceState    : Amazon.EC2.Model.InstanceState
-      Status           : Amazon.EC2.Model.InstanceStatusSummary
-      SystemStatus     : Amazon.EC2.Model.InstanceStatusSummary
-
-      PS C:\> $status = Get-EC2InstanceStatus -InstanceId i-12345678
-      PS C:\> $status.InstanceState
-
-      Code    Name
-      ----    ----
-      16      running
-
-      PS C:\> $status.Status
-
-      Details           Status
-      -------           ------
-      {reachability}    ok
-
-      PS C:\> $status.SystemStatus
-
-      Details           Status
-      -------           ------
-      {reachability}    ok
-
-
-* ***Terminación de instancia***
-
-  Tan pronto como el estado de una instancia cambie a apagar o finalizar, deje de incurrir cargos por esa instancia.
-
-  En caso de que se encuentre habilitada la protección de terminación, no es posible finalizar la instancia utilizando la consola, la CLI o la API.
-
-  Después de finalizar una instancia, permanece visible en la consola durante un breve período y, a continuación, la entrada se elimina automáticamente.
-
-  No puede conectar o recuperar una instancia terminada.
-
-  Cada instancia respaldada por EBS respalda el atributo ***InstanceInitiatedShutdownBehavior***, que controla si la instancia se detiene o termina cuando inicia un apagado desde la propia instancia (por ejemplo, utilizando el comando shutdown en Linux). 
-
-  Cada volumen de Amazon EBS admite el atributo ***DeleteOnTermination***, que controla si el volumen se elimina o se conserva al finalizar la instancia a la que está conectado. El valor predeterminado es eliminar el volumen del dispositivo raíz y conservar cualquier otro volumen EBS.
-
-  
-  Desde línea de comandos se deberá ejecutar el siguiente comando:
-
-      
-      PS> Stop-EC2Instance -InstanceId IDInstancia -Terminate
-
 
 
 ### Tipos de Instancia
@@ -538,10 +408,138 @@ Pensada para satisfacer aquellos requerimientos, donde es importante un desempe�
     Por mas información consulte:   http://docs.aws.amazon.com/es_es/AWSEC2/latest/UserGuide/placement-groups.html
 
 
+**************************************************
+### Ciclo de Vida de las Instancias
+![alt text](./images/EC2_Instance_Life_Cycle.PNG)
+
+* ***Lanzamiento de Instancia***
+
+    Cuando se inicia una instancia, ingresa el estado ***pendiente***. 
+  
+    Para ver el estado de una instancia desde línea de comandos, se deberá utilizar el siguiente comando:
+
+          PS C:\>aws ec2 describe-instances
+
+    El tipo de instancia que especificó al iniciar determina el hardware del equipo host de su instancia. 
+
+    También se utilizará la Amazon Machine Image (AMI) que especificó al iniciar para iniciar la instancia. 
+  
+    Después de que la instancia esté lista, entrará en el estado de ***ejecución***. Puede conectarse a su instancia de ejecución y utilizarla de la misma manera que utilizará una computadora que se encuentre frente a usted.
+
+    ***Tan pronto como su instancia pasa al estado de ejecución, se le facturará por cada hora o hora parcial que mantenga la instancia en ejecución; Incluso si la instancia permanece inactiva y no se conecta a ella.***
+
+  
+
+
+
+* ***Start & Stop de Instancias (Solo para aquellas con respaldo en EBS)***
+
+  * Stop de una Instancia.
+
+    Cuando se detiene una instancia, entra en el estado de detención y, a continuación, en el estado detenido. 
+
+    * Amazon no cobra tarifas por hora ni por transferencia de datos por esa instancia después de detenerla, pero sí se cobra por el almacenamiento de los volúmenes de Amazon EBS. 
+  
+    * Mientras la instancia esté en estado detenido, es posible modificar ciertos atributos de la   instancia, incluido el tipo de instancia.
+
+      Desde línea de comandos se deberá ejecutar el siguiente comando:
+
+      
+          PS> aws ec2 stop-instances --instance-ids IDInstancia
+
+  * Start de una una Instancia
+
+      Cuando inicia la instancia, ingresa el estado pendiente y, en la mayoría de los casos, la instancia es trasladada a una nueva computadora host.
+      
+      Desde línea de comandos se deberá ejecutar el siguiente comando:
+          
+          PS> aws ec2 start-instances --instance-ids IDInstancia
+
+      Cuando detiene e inicia su instancia, perderá cualquier dato sobre los volúmenes de almacén de instancia en el equipo host anterior.
+
+
+
+
+  ***Cada vez que transita una instancia de detenida a ejecutándose, se carga una hora de instancia completa, incluso si estas transiciones se producen varias veces en una sola hora.***   
+
+* ***Reinicio de una Instancia***
+
+    Reiniciar una instancia equivale a reiniciar un sistema operativo.
+  
+    La instancia permanece en el mismo equipo host y mantiene su nombre DNS público, su dirección IP privada y cualquier dato de sus volúmenes de almacén de instancias. 
+  
+    Tarda normalmente unos minutos para que se complete el reinicio, pero el tiempo que tarda en reiniciarse depende de la configuración de la instancia.
+
+    Al reiniciar una instancia no se inicia una hora de facturación de una nueva instancia.
+
+    Desde línea de comandos se deberá ejecutar el siguiente comando:
+      
+      PS C:\> aws ec2 reboot-instances --instance-ids IDInstancia
+
+* ***Retiro de una Instancia***
+    Una instancia está programada para ser retirada cuando AWS detecta un fallo irreparable del hardware subyacente que aloja la instancia. 
+    
+    Cuando una instancia alcanza su fecha de retiro programada, AWS la interrumpe o termina. 
+    
+    <u>Si el dispositivo raíz de instancia es un volumen de Amazon EBS, la instancia se detiene y se puede iniciar de nuevo en cualquier momento.</u> 
+    
+    <u>Si el dispositivo raíz de instancia es un volumen de almacén de instancia, la instancia se termina y no se puede volver a usar.</u>
+
+    Para obtener información desde la línea de comando, se mostrará el siguiente ejemplo con las sentencias a ejecutar:
+    
+      PS C:\> PS C:\>aws ec2 describe-instances i-12345678
+    
+      AvailabilityZone : us-west-2a
+      Events           : {}
+      InstanceId       : i-12345678
+      InstanceState    : Amazon.EC2.Model.InstanceState
+      Status           : Amazon.EC2.Model.InstanceStatusSummary
+      SystemStatus     : Amazon.EC2.Model.InstanceStatusSummary
+
+      PS C:\> $status = aws ec2 describe-instances -InstanceId i-12345678
+      PS C:\> $status.InstanceState
+
+      Code    Name
+      ----    ----
+      16      running
+
+      PS C:\> $status.Status
+
+      Details           Status
+      -------           ------
+      {reachability}    ok
+
+      PS C:\> $status.SystemStatus
+
+      Details           Status
+      -------           ------
+      {reachability}    ok
+
+
+* ***Terminación de instancia***
+
+  Tan pronto como el estado de una instancia cambie a apagar o finalizar, deje de incurrir cargos por esa instancia.
+
+  En caso de que se encuentre habilitada la protección de terminación, no es posible finalizar la instancia utilizando la consola, la CLI o la API.
+
+  Después de finalizar una instancia, permanece visible en la consola durante un breve período y, a continuación, la entrada se elimina automáticamente.
+
+  No puede conectar o recuperar una instancia terminada.
+
+  Cada instancia respaldada por EBS respalda el atributo ***InstanceInitiatedShutdownBehavior***, que controla si la instancia se detiene o termina cuando inicia un apagado desde la propia instancia (por ejemplo, utilizando el comando shutdown en Linux). 
+
+  Cada volumen de Amazon EBS admite el atributo ***DeleteOnTermination***, que controla si el volumen se elimina o se conserva al finalizar la instancia a la que está conectado. El valor predeterminado es eliminar el volumen del dispositivo raíz y conservar cualquier otro volumen EBS.
+
+  
+  Desde línea de comandos se deberá ejecutar el siguiente comando:
+
+      
+      PS> aws ec2 terminate-instances --instance-ids IDInstancia -Terminate
+
+
 
 Refs:
-[Working with Folders](http://docs.aws.amazon.com/es_es/AmazonS3/latest/UG/FolderOperations.html)
-[AWS CLI Command References S3](http://docs.aws.amazon.com/cli/latest/reference/s3/)
+[AWS CLI Command References EC2](http://docs.aws.amazon.com/cli/latest/reference/ec2/)
 
 
 ---
