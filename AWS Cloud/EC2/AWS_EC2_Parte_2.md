@@ -116,7 +116,7 @@ Los tipos de volúmenes se dividen en dos categorías:
         * Procesamiento de registros. 
         * No puede ser un volumen de arranque.
 
-    ![alt text](./images/EC2_ST1.png)
+        ![alt text](./images/EC2_ST1.png)
 
 
     * <u>HDD frío (sc1)</u>
@@ -127,7 +127,7 @@ Los tipos de volúmenes se dividen en dos categorías:
         * Almacenamiento orientado al rendimiento para grandes volúmenes de datos a los que se accede con poca frecuencia. 
         * Escenarios donde el menor costo de almacenamiento es importante No puede ser un volumen de arranque.
 
- ![alt text](./images/EC2_SC1.png)
+        ![alt text](./images/EC2_SC1.png)
 
 
 ---
@@ -253,7 +253,7 @@ Seleccione la zona de disponibilidad en la que desea crear el volumen. Debe coin
     Una vez finalizado esto, procederemos a hacer un attach del volumen que deseamos recuperar.
 
         
-        ![alt text](./images/EC2_volume_attach.png)
+    ![alt text](./images/EC2_volume_attach.png)
         
 
     Donde indicaremos lo siguiente:
