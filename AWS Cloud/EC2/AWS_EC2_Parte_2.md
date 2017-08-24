@@ -1,4 +1,4 @@
-| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2_Parte_3.md) |
+| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2_Parte_1.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2_Parte_3.md) |
 
 ---
 ### Opciones de Pago
@@ -313,4 +313,4 @@ https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concept
 https://amimoto-ami.com/2014/10/03/create-snapshot-restore/
 
 ---
-| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2_Parte_3.md)|
+| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2_Parte_1.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2_Parte_3.md)|
