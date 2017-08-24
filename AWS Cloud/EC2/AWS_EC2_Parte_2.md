@@ -114,8 +114,8 @@ Los tipos de volúmenes se dividen en dos categorías:
 
 
     * HDD con Rendimiento Optimizado (st1)
-        
-        ![alt text](./images/EC2_ST1.png)
+    
+    ![alt text](./images/EC2_ST1.PNG)
 
         Volumen de disco duro de bajo costo diseñado para cargas de trabajo de uso frecuente
 
@@ -133,7 +133,7 @@ Los tipos de volúmenes se dividen en dos categorías:
 
     * HDD frío (sc1)
     
-        ![alt text](./images/EC2_SC1.png)
+    ![alt text](./images/EC2_SC1.PNG)
 
         Volumen de HDD de menor costo diseñado para cargas de trabajo de acceso menos frecuente
 
@@ -216,6 +216,11 @@ Para desmontar un volúmen en Linux, ejecutar el siguiente comando:
 
 ### Crear un snapshot desde la consola
 
+
+![alt text](./images/EC2_Create_Snapshot.PNG)
+
+
+
 * Abrir la consola de Amazon EC2 https://console.aws.amazon.com/ec2/
 
 * Dentro del panel de navegación - elegir la opción Snapshots.
@@ -224,7 +229,7 @@ Para desmontar un volúmen en Linux, ejecutar el siguiente comando:
 
 * Se desplegará la siguiente ventana, donde le indicaremos el ID o tag asociado al volumen,         Nombre, Descripción, y si el volúmen se encuentra o no encriptado.
 
-    ![alt text](./images/EC2_Create_Snapshot.png)
+    
 
 
 
@@ -236,11 +241,11 @@ Para desmontar un volúmen en Linux, ejecutar el siguiente comando:
 
 * Luego presionamos sobre la opción Create Volume.
 
-    ![alt text](./images/EC2_Create_Volume.png)
+    ![alt text](./images/EC2_Create_Volume.PNG)
 
 
 ### lgunas consideraciones a tener en cuenta:
-•	
+
 
 * Tipo: 
 Seleccione de Propósito General (SSD), Provisto IOPS (SSD), o Volúmenes Magnéticos.
