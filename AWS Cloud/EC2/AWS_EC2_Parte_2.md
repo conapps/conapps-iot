@@ -1,4 +1,4 @@
-| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2_Parte_3.md) |
+| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2_Parte_1.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2_Parte_3.md) |
 
 ---
 ### Opciones de Pago
@@ -68,26 +68,36 @@ Los tipos de volúmenes se dividen en dos categorías:
     Apunta a rendimiento-performance, por sobre procesamiento de grandes cargas de trabajo.
 
     Aquí se encuentran los siguientes tipos de volúmenes:
-    * <u>SSD de Propósito General (gp2)</u>
-        
-        Volumen SSD de uso general que equilibra el precio y el rendimiento para una amplia variedad de cargas de trabajo transaccionales
+
+    * SSD de Propósito General (gp2)
+    
+    ![alt text](./images/EC2_GP2.PNG)
+
+        Volumen SSD de uso general que equilibra el precio y el rendimiento para una amplia variedad 
+        de cargas de trabajo transaccionales
 
         Caso de uso:
+        
         * Recomendado para la mayoría de las cargas de trabajo.
         * Volúmenes de arranque del sistema
         * Escritorios virtuales
         * Aplicaciones interactivas de baja latencia
         * Entornos de desarrollo y prueba
 
-![alt text](./images/EC2_GP2.png)
 
-    * <u>SSD con IOPS Provisionados (io1)</u>
+
+
+    * SSD con IOPS Provisionados (io1)
     
         Volumen SSD de mayor rendimiento diseñado para aplicaciones de misión crítica
-
-        Caso de uso:
+    ![alt text](./images/EC2_GP1.png)
         
-        * Aplicaciones empresariales críticas que requieren un rendimiento IOPS sostenido, o más    de 10.000 IOPS o 160 MiB / s de rendimiento por volumen. Pensado para grandes cargas de   trabajo de bases de datos, tales como: 
+        Casos de uso:
+        
+        * Aplicaciones empresariales críticas que requieren un rendimiento IOPS sostenido, o más 
+        de 10.000 IOPS o 160 MiB / s de rendimiento por volumen. 
+        
+        Pensado para grandes cargas de   trabajo de bases de datos, tales como: 
         * MongoDB
         * Cassandra 
         * Microsoft SQL Server 
@@ -95,40 +105,51 @@ Los tipos de volúmenes se dividen en dos categorías:
         * PostgreSQL 
         * Oracle
 
-        ![alt text](./images/EC2_GP1.png)
+        
 
 
 
-* Volúmenes respaldados por HDD.
+* <u>Volúmenes respaldados por HDD</u>.
 
-    Optimizados para grandes cargas de trabajo de flujo continuo donde el rendimiento (medido en MiB / s) es una mejor medida de rendimiento que IOPS
+    Optimizados para grandes cargas de trabajo de flujo continuo donde el rendimiento (medido en MiB / s) 
+    es una mejor medida de rendimiento que IOPS
 
     Apunta a procesamiento de grandes cargas de datos.
 
-    * <u>HDD con Rendimiento Optimizado (st1)</u>
-        
+
+
+    * HDD con Rendimiento Optimizado (st1)
+    
+    ![alt text](./images/EC2_ST1.PNG)
+
         Volumen de disco duro de bajo costo diseñado para cargas de trabajo de uso frecuente
 
         Casos de uso:
-        * Transmisión de cargas de trabajo que requieren un rendimiento constante y rápido a un     precio bajo. 
+        
+        * Transmisión de cargas de trabajo que requieren un rendimiento constante y rápido a un precio bajo. 
+        
         * Pensado para Gran cantidad de datos. 
         * Almacenes de datos. 
         * Procesamiento de registros. 
         * No puede ser un volumen de arranque.
         
-![alt text](./images/EC2_ST1.png)
 
 
-    * <u>HDD frío (sc1)</u>
+
+    * HDD frío (sc1)
     
+    ![alt text](./images/EC2_SC1.PNG)
+
         Volumen de HDD de menor costo diseñado para cargas de trabajo de acceso menos frecuente
 
         Casos de uso:
-        * Almacenamiento orientado al rendimiento para grandes volúmenes de datos a los que se accede con poca frecuencia. 
+        * Almacenamiento orientado al rendimiento para grandes volúmenes de datos 
+          a los que se  accede con poca frecuencia.
+
         * Escenarios donde el menor costo de almacenamiento es importante No puede ser un volumen de arranque.
 
    
- ![alt text](./images/EC2_SC1.png)
+
 
 
 ---
@@ -201,6 +222,11 @@ Para desmontar un volúmen en Linux, ejecutar el siguiente comando:
 
 ### Crear un snapshot desde la consola
 
+
+![alt text](./images/EC2_Create_Snapshot.PNG)
+
+
+
 * Abrir la consola de Amazon EC2 https://console.aws.amazon.com/ec2/
 
 * Dentro del panel de navegación - elegir la opción Snapshots.
@@ -209,7 +235,7 @@ Para desmontar un volúmen en Linux, ejecutar el siguiente comando:
 
 * Se desplegará la siguiente ventana, donde le indicaremos el ID o tag asociado al volumen,         Nombre, Descripción, y si el volúmen se encuentra o no encriptado.
 
-    ![alt text](./images/EC2_Create_Snapshot.png)
+    
 
 
 
@@ -221,11 +247,11 @@ Para desmontar un volúmen en Linux, ejecutar el siguiente comando:
 
 * Luego presionamos sobre la opción Create Volume.
 
-    ![alt text](./images/EC2_Create_Volume.png)
+    ![alt text](./images/EC2_Create_Volume.PNG)
 
 
-### lgunas consideraciones a tener en cuenta:
-•	
+### Algunas consideraciones a tener en cuenta:
+
 
 * Tipo: 
 Seleccione de Propósito General (SSD), Provisto IOPS (SSD), o Volúmenes Magnéticos.
@@ -287,4 +313,4 @@ https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concept
 https://amimoto-ami.com/2014/10/03/create-snapshot-restore/
 
 ---
-| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2_Parte_3.md)|
+| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2_Parte_1.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2_Parte_3.md)|

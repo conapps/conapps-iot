@@ -1,7 +1,8 @@
-| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2_Parte_2.md) |
+| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2_Parte_2.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2_Parte_4.md) |
 
----
-### Load Balancing
+
+**Load Balancing**
+--------------------
 
 
 El balanceador de carga clásico ***enruta el tráfico en función de la información a nivel de red*** o aplicación y es ideal para balancear el tráfico de forma sencilla en varias instancias de EC2 en las que se requiere alta disponibilidad, escalado automático y seguridad excelente. 
@@ -69,7 +70,7 @@ Características:
 
     Puede configurar las comprobaciones de estado, que se utilizan para monitorizar el estado de los destinos registrados, de tal forma que el balanceador de carga solo pueda enviar solicitudes a los destinos en buen estado.
 
-![alt text](./images/EC2_AppLB.png)
+    ![alt text](./images/EC2_AppLB.PNG)
 
 
 * **Balanceadores de carga Clásicos**
@@ -79,7 +80,7 @@ Características:
     Para aplicaciones que necesitan capacidades de enrutamiento avanzadas, microservicios o arquitecturas basadas en contenedores, recomendamos el balanceador de carga de aplicaciones.
     
 
-![alt text](./images/EC2_ClassicLB.png)
+    ![alt text](./images/EC2_ClassicLB.PNG)
 
 
 *  **Beneficios**
@@ -132,4 +133,6 @@ Además de Auto Scaling para Amazon EC2, es posible usar Auto Scaling de aplicac
 
 
 ---
-| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2_Parte_2.md) | 
+| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2_Parte_2.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/AWS_EC2_Parte_4.md) |
+
+---
