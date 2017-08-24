@@ -57,7 +57,7 @@ $ aws glacier list-vaults --account-id -
 ---
 ### Crear un *vault*
 
-Para crear un nuevo *vault* desde la CLI:
+Para crear un nuevo *vault* desde la CLI, utilizamos el comando `aws glacier create-vault`
 ```bash
 $ aws glacier create-vault --account-id - --vault-name iot-cloud-vault-02
 {
@@ -123,9 +123,7 @@ $ aws glacier upload-archive --account-id - --vault-name iot-cloud-vault-01 --bo
 ```
 Si fuera un archivo muy grande podríamos dividirlo en partes y utilizar el comando *initiate-multipart-upload* (puede revisar este comando en la documentación de referencia).
 
-Si vamos a la consola web, no vamos a notar ningún cambio. Esto es porque las columnas *Size* y *# of Archives* muestran la información en base al *Inventary* que todavía no se actualizó, y se actualiza una vez por día. Tendremos que esperar 24 horas  para ver alguna diferencia aquí.
-
-![alt text](./images/Glacier_vault_06.png)
+Si vamos a la consola web, no vamos a notar ningún cambio. Esto es porque las columnas *Size* y *# of Archives* muestran la información en base al *Inventary* que todavía no se actualizó, y se actualiza una vez por día. Tendremos que esperar 24 horas  para ver alguna diferencia.
 
 
 También podemos listar los detalles del *vault* mediante:
@@ -254,15 +252,140 @@ $ cat lista.txt
 
 
 ---
-### Recuperar Datos
-Los datos en Glacier no pueden ser recuperados en forma directa.
+### Recuperar un archive desde Glacier
+Los datos en Glacier no pueden ser recuperados en forma directa, ni tampoco utilizando la consola web.
 
-Lo que debemos hacer es:
-1) Iniciar un Job indicando que datos queremos recuperar
-2) Esperar a que el Job sea procesado por Glacier y finalice. Esto puede demorar de 3 a 5 horas normalmente, aunque hay opciones de recuperar datos en minutos con un costo mayor.
-3) Recibir la notificación de que el Job terminó (si configuramos notificaciones).
-4) Descargar la "salida del job".
+Los pasos que debemos realizar para recuperar un *archive* son los siguientes:
+- Iniciar un Job indicando que *archive* queremos recuperar.
+- Esperar a que el Job sea procesado por Glacier y finalice. Esto puede demorar de 3 a 5 horas normalmente, aunque hay opciones de recuperar datos en minutos con un costo mayor.
+- Obtener el resultado del Job y descargarlo a nuestro disco local (esta salida es el archivo que pedimos descargar).
 
+
+Comencemos por iniciar el Job para recuperar el *archive*. Esto lo hacemos mediante nuevamente con el comando `aws glacier initiate-job`, pero en este caso debemos indicar cuál es el *archive* que queremos recuperar.
+
+Esto lo hacemos creando un archivo de texto local (cuyo nombre puede ser cualquiera), con el siguiente contenido:
+```bash
+$ cat objeto-a-recuperar.json
+{
+   "Type": "archive-retrieval",
+   "ArchiveId":"grHW86f7glvFFhFgMCDNDYehZcfTg_h9yMRkrSeroT1iaUzIki8S0hIu1TG2W3Tr0yl1EIGWqoz1gnk5LFLEF-y-RmwQlwN19Zd-dPSivzB3ohRgozkPfBGL6s9Ji1r0tRI4dzfafA",
+   "Description": "2017-08-23 Recuperacion respaldo01.tar.gz"
+}
+```
+
+Donde:
+* *Type:* indica el tipo de operación que vamos a realizar con el job, en este caso es *"archive-retrieval"*.
+* *ArchiveID:* indica el ID del *archive* que quiero recuperar.
+Este valor es el mismo ID que nos devolvió el comando `aws glacier upload-archive` cuando subimos nuestro archivo inicialmente al *vault*. Si no lo guardamos, lo podemos obtener listando el contenido del *vault* como hicimos antes.
+* *Description:* es una descripción cualquiera que le podemos poner a nuestro Job, es buena práctica ponerle un texto coherente con la operación que estamos realizando, dado que nos va a permitir identificar luego el Job entre varios que hayamos ejecutado.
+
+Ahora que tenemos este archivo creado, podemos iniciar el Job mediante `aws glacier inititate-job`, haciendo referencia al *vault* donde se encuentra el *archive* que queremos recuperar y que *archive* queremos recuperar:  
+
+```bash
+$ aws glacier initiate-job --account-id - --vault-name iot-cloud-mis-respaldos --job-parameters file://objeto-a-recuperar.json
+{
+    "location": "/805750336955/vaults/iot-cloud-mis-respaldos/jobs/xuHm2_rhY_FWBFtv5Rd17iH420GjUu4-6V190wSfgiWEu26_rcVabKfaYV0ySOAoCP4NOVPcwssgNIqqkY1CGcXV9zZ4",
+    "jobId": "xuHm2_rhY_FWBFtv5Rd17iH420GjUu4-6V190wSfgiWEu26_rcVabKfaYV0ySOAoCP4NOVPcwssgNIqqkY1CGcXV9zZ4"
+}
+```
+
+Nuevamente, este Job va a demorar varias horas en finalizar. Podemos ver el estado mediante `aws glacier list-jobs`, y en este caso le agrego la opción `--statuscode InProgress` para listar solo los trabajos que se encuentran ejecutando (opcional):
+
+```bash
+$ aws glacier list-jobs --account-id - --vault-name iot-cloud-mis-respaldos --statuscode InProgress
+{
+    "JobList": [
+        {
+            "JobId": "xuHm2_rhY_FWBFtv5Rd17iH420GjUu4-6V190wSfgiWEu26_rcVabKfaYV0ySOAoCP4NOVPcwssgNIqqkY1CGcXV9zZ4",
+            "JobDescription": "2017-08-23 Recuperacion respaldo01.tar.gz",
+            "Action": "ArchiveRetrieval",
+            "ArchiveId": "grHW86f7glvFFhFgMCDNDYehZcfTg_h9yMRkrSeroT1iaUzIki8S0hIu1TG2W3Tr0yl1EIGWqoz1gnk5LFLEF-y-RmwQlwN19Zd-dPSivzB3ohRgozkPfBGL6s9Ji1r0tRI4dzfafA",
+            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-mis-respaldos",
+            "CreationDate": "2017-08-24T00:24:18.152Z",
+            "Completed": false,
+            "StatusCode": "InProgress",
+            "ArchiveSizeInBytes": 5798098,
+            "SHA256TreeHash": "ca6d26f5487ba41e5e10a06502e1ea96efcea8f35624cc9c6ec3920653cc3c0e",
+            "ArchiveSHA256TreeHash": "ca6d26f5487ba41e5e10a06502e1ea96efcea8f35624cc9c6ec3920653cc3c0e",
+            "RetrievalByteRange": "0-5798097",
+            "Tier": "Standard"
+        }
+    ]
+}
+```
+
+Luego de varias horas, podemos ver que el Job finalizó:
+```bash
+$ aws glacier list-jobs --account-id - --vault-name iot-cloud-mis-respaldos
+{
+    "JobList": [
+        {
+            "JobId": "xuHm2_rhY_FWBFtv5Rd17iH420GjUu4-6V190wSfgiWEu26_rcVabKfaYV0ySOAoCP4NOVPcwssgNIqqkY1CGcXV9zZ4",
+            "JobDescription": "2017-08-23 Recuperacion respaldo01.tar.gz",
+            "Action": "ArchiveRetrieval",
+            "ArchiveId": "grHW86f7glvFFhFgMCDNDYehZcfTg_h9yMRkrSeroT1iaUzIki8S0hIu1TG2W3Tr0yl1EIGWqoz1gnk5LFLEF-y-RmwQlwN19Zd-dPSivzB3ohRgozkPfBGL6s9Ji1r0tRI4dzfafA",
+            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-mis-respaldos",
+            "CreationDate": "2017-08-24T00:24:18.152Z",
+            "Completed": true,
+            "StatusCode": "Succeeded",
+            "StatusMessage": "Succeeded",
+            "ArchiveSizeInBytes": 5798098,
+            "CompletionDate": "2017-08-24T04:16:21.770Z",
+            "SHA256TreeHash": "ca6d26f5487ba41e5e10a06502e1ea96efcea8f35624cc9c6ec3920653cc3c0e",
+            "ArchiveSHA256TreeHash": "ca6d26f5487ba41e5e10a06502e1ea96efcea8f35624cc9c6ec3920653cc3c0e",
+            "RetrievalByteRange": "0-5798097",
+            "Tier": "Standard"
+        },
+        {
+            "JobId": "GlIniFul_WwdJn7Q_ip4LFydsT0_ufeXuXfC1q7TAMcycHMLZg9wV-7nxB0XR9BV3yqKlwRGuaKdGeFPsY3ouoGiPEmU",
+            "Action": "InventoryRetrieval",
+            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-mis-respaldos",
+            "CreationDate": "2017-08-23T13:43:19.352Z",
+            "Completed": true,
+            "StatusCode": "Succeeded",
+            "StatusMessage": "Succeeded",
+            "InventorySizeInBytes": 806,
+            "CompletionDate": "2017-08-23T17:38:08.047Z",
+            "InventoryRetrievalParameters": {
+                "Format": "JSON"
+            }
+        }
+    ]
+}
+
+```
+Note que en la salida del comando anterior pueden aparecer varios Jobs que corresponden a solicitudes anteriores que hemos ejecutado. En este caso podemos identificar nuestro Job o bien revisando la *CreationDate* y/o el tipo de acción que realizamos *"Action": "ArchiveRetrieval"*, o quizá mejor, mediante la descripción que le pusimos cuando iniciamos el trabajo *"JobDescription": "2017-08-23 Recuperacion respaldo01.tar.gz"*.
+
+
+Solo solo nos resta recuperar la salida de dicho job, que contiene ni mas ni menos, el archivo que queremos descargar.
+
+Una vez más, para esto utilizamos el comando `aws glacier get-job-output`, con el ID del *job*, y guardamos la salida (que es nuestro archivo a descargar) en nuestro disco local.
+
+```bash
+$ aws glacier get-job-output --account-id - --vault-name iot-cloud-mis-respaldos --job-id "xuHm2_rhY_FWBFtv5Rd17iH420GjUu4-6V190wSfgiWEu26_rcVabKfaYV0ySOAoCP4NOVPcwssgNIqqkY1CGcXV9zZ4" respaldo01-recuperado.tar.gz
+{
+    "checksum": "ca6d26f5487ba41e5e10a06502e1ea96efcea8f35624cc9c6ec3920653cc3c0e",
+    "status": 200,
+    "acceptRanges": "bytes",
+    "contentType": "application/octet-stream",
+    "archiveDescription": "20170822-respaldo01"
+}
+```
+
+Y finalmente, obtenemos nuestro archivo *respaldo01-recuperado.tar.gz*:
+```bash
+$ ls -la
+total 5669
+drwxr-xr-x 1 VM 197121       0 ago 24 11:29 ./
+drwxr-xr-x 1 VM 197121       0 ago 23 21:22 ../
+-rw-r--r-- 1 VM 197121     255 ago 23 21:23 objeto-a-recuperar.json
+-rw-r--r-- 1 VM 197121 5798098 ago 24 11:30 respaldo01-recuperado.tar.gz
+```
+
+Ref:
+> [Basic Command-line AWS Glacier Workflow](https://www.madboa.com/blog/2016/09/23/glacier-cli-intro/)
+> [Downloading an Archive in Amazon Glacier](http://docs.aws.amazon.com/amazonglacier/latest/dev/downloading-an-archive.html)
+> [AWS CLI Command Line - Glacier](http://docs.aws.amazon.com/cli/latest/reference/glacier/index.html)
 
 
 
@@ -275,6 +398,17 @@ Ref:
 * [AWS CLI Command Reference - Glacier](http://docs.aws.amazon.com/cli/latest/reference/glacier/index.html)
 * [How do I use the AWS CLI to view the contents of my Amazon Glacier vault?](https://aws.amazon.com/es/premiumsupport/knowledge-center/cli-glacier-vault/)
 * [Download an Archive from a Vault in Amazon Glacier](https://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/getting-started-download-archive.html)
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -469,60 +603,6 @@ $ cat inventario-iot-cloud-mis-respaldos.out
   ]
 }
 ```
-
-### Recuperar un archivo desde Glacier
-
-Iniciar JOB para recuperar objeto:
-
-```bash
-$ cat objeto-a-recuperar.json
-{
-   "Type": "archive-retrieval",
-   "ArchiveId":"grHW86f7glvFFhFgMCDNDYehZcfTg_h9yMRkrSeroT1iaUzIki8S0hIu1TG2W3Tr0yl1EIGWqoz1gnk5LFLEF-y-RmwQlwN19Zd-dPSivzB3ohRgozkPfBGL6s9Ji1r0tRI4dzfafA",
-   "Description": "2017-08-23 Recuperacion respaldo01.tar.gz"
-}
-
-$ aws glacier initiate-job --account-id - --vault-name iot-cloud-mis-respaldos --job-parameters file://objeto-a-recuperar.json
-{
-    "location": "/805750336955/vaults/iot-cloud-mis-respaldos/jobs/xuHm2_rhY_FWBFtv5Rd17iH420GjUu4-6V190wSfgiWEu26_rcVabKfaYV0ySOAoCP4NOVPcwssgNIqqkY1CGcXV9zZ4",
-    "jobId": "xuHm2_rhY_FWBFtv5Rd17iH420GjUu4-6V190wSfgiWEu26_rcVabKfaYV0ySOAoCP4NOVPcwssgNIqqkY1CGcXV9zZ4"
-}
-
-
-$ aws glacier list-jobs --account-id - --vault-name iot-cloud-mis-respaldos --statuscode InProgress
-{
-    "JobList": [
-        {
-            "JobId": "xuHm2_rhY_FWBFtv5Rd17iH420GjUu4-6V190wSfgiWEu26_rcVabKfaYV0ySOAoCP4NOVPcwssgNIqqkY1CGcXV9zZ4",
-            "JobDescription": "2017-08-23 Recuperacion respaldo01.tar.gz",
-            "Action": "ArchiveRetrieval",
-            "ArchiveId": "grHW86f7glvFFhFgMCDNDYehZcfTg_h9yMRkrSeroT1iaUzIki8S0hIu1TG2W3Tr0yl1EIGWqoz1gnk5LFLEF-y-RmwQlwN19Zd-dPSivzB3ohRgozkPfBGL6s9Ji1r0tRI4dzfafA",
-            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-mis-respaldos",
-            "CreationDate": "2017-08-24T00:24:18.152Z",
-            "Completed": false,
-            "StatusCode": "InProgress",
-            "ArchiveSizeInBytes": 5798098,
-            "SHA256TreeHash": "ca6d26f5487ba41e5e10a06502e1ea96efcea8f35624cc9c6ec3920653cc3c0e",
-            "ArchiveSHA256TreeHash": "ca6d26f5487ba41e5e10a06502e1ea96efcea8f35624cc9c6ec3920653cc3c0e",
-            "RetrievalByteRange": "0-5798097",
-            "Tier": "Standard"
-        }
-    ]
-}
-
-```
-
-```bash
-$ aws glacier get-job-output --account-id - --vault-name iot-cloud-mis-respaldos --job-id "xuHm2_rhY_FWBFtv5Rd17iH420GjUu4-6V190wSfgiWEu26_rcVabKfaYV0ySOAoCP4NOVPcwssgNIqqkY1CGcXV9zZ4" respaldo01-recuperado.tar.gz
-{
-    "checksum": "657a715f87baa9d89b651d185d8bc73147e686ee91252edcd57bae3c310b7490",
-    "status": 200,
-    "acceptRanges": "bytes",
-    "contentType": "application/octet-stream"
-}
-
-```
-
 
 
 ---
