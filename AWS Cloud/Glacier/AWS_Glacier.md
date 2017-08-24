@@ -22,7 +22,6 @@ Amazon Glacier
   - [Listar el contenido de un Vault](./AWS_Glacier_Parte2.md#listar-el-contenido-de-un-vault)
   - [Recuperar un Archive de un Vault](./AWS_Glacier_Parte2.md#recuperar-un-archive-de-un-vault)
   - [Eliminar un Archive de un Vault](./AWS_Glacier_Parte2.md#eliminar-un-archive-de-un-vault)
-  - [Eliminar un Archive de un Vault](./AWS_Glacier_Parte2.md#eliminar-un-archive-de-un-vault)
   - [Eliminar un Vault](./AWS_Glacier_Parte2.md#eliminar-un-vault)
 
 
