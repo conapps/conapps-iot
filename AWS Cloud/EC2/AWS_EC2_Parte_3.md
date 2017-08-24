@@ -69,7 +69,7 @@ Características:
 
     Puede configurar las comprobaciones de estado, que se utilizan para monitorizar el estado de los destinos registrados, de tal forma que el balanceador de carga solo pueda enviar solicitudes a los destinos en buen estado.
 
-    ![alt text](./images/EC2_Application_Load_Balancer.png)
+    ![alt text](./images/EC2_AppLB.png)
 
 * **Balanceadores de carga Clásicos**
 
@@ -77,7 +77,7 @@ Características:
     
     Para aplicaciones que necesitan capacidades de enrutamiento avanzadas, microservicios o arquitecturas basadas en contenedores, recomendamos el balanceador de carga de aplicaciones.
     
-    ![alt text](./images/EC2_Classic_Load_Balancer.png)
+    ![alt text](./images/EC2_ClassicLB.png)
 
 
 *  **Beneficios**
