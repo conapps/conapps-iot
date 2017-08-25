@@ -97,9 +97,7 @@ Esto permite entender aún mas el comportamiento de nuestros datos, por ej., pod
 Adicionalmente a la información de análisis que nos muestra la consola web, podemos exportar los resultados de S3 Analytics a la herramienta que elijamos, por ej. Amazon QuickSight, Amazon Redshift, MS Excel, etc., generando la salida directamente a un bucket en formato .csv para nuestro posterior análisis.
 
 S3 Analytics tiene costo adicional, en base a la cantidad de objetos analizados mensualmente, que dependen de la región que utilicemos.
-![alt text](./images/S3_analytics_price_01.png)
-![alt text](./images/S3_analytics_price_02.png)
-
+![alt text](./images/S3_price_03.png)
 
 S3 Anaytics se configura dentro de las herramientas de *Management* del *bucket*:
 
@@ -231,19 +229,28 @@ Ref.:
 
 ---
 ### S3 Inventory
-Amazon S3 inventory is one of the tools Amazon S3 provides to help manage your storage.
+Supongamos que tenemos un *bucket* donde tenemos almacenados miles de objetos, con decenas de versiones cada uno.
+Listar el contenido de dicho bucket con todas las versiones de los objetos, e incluir información como por ej. el tamaño que ocupan todos esos objetos incluyendo sus versiones, utilizando las herramientas normales como la CLI o SDK, sería una tareas bastante difícil que podría demorar horas, o incluso dar error (timeout).
 
-You can simplify and speed up business workflows and big data jobs using the Amazon S3 inventory, which provides a scheduled alternative to the Amazon S3 synchronous List API operation. Amazon S3 inventory provides a comma-separated values (CSV) flat-file output of your objects and their corresponding metadata on a daily or weekly basis for an S3 bucket or a shared prefix (that is, objects that have names that begin with a common string).
+Amazon S3 Inventory permite obtener en forma automática, ya sea diaria o semanal, un inventario de todo los objetos que tenemos almacenados en un *bucket*. Este inventario es generado en forma automática por Amazon, y el resultado se guarda en un *bucket* destino, en formato CSV.
 
-You can configure what object metadata to include in the inventory, whether to list all object versions or only current versions, where to store the inventory list flat-file output, and whether to generate the inventory on a daily or weekly basis. You can have multiple inventory lists configured for a bucket. For information about pricing, see Amazon S3 Pricing.
+S3 Iventory tiene costo adicional, en base a la cantidad de objetos (millón) inventariados mensualmente, y depende de la región que utilicemos.
+![alt text](./images/S3_price_03.png)
 
 
-![alt text](./images/S3_inventory_list.png)
+La configuración se realiza a nivel de *bucket*, dentro de los herramientas de *Management* - *Inventory*.
+![alt text](./images/S3_inventory_01.png)
+
+Podemos aplicar el inventario a todos los objetos del bucket, o filtarlos mediante el uso de *prefixes*. También podemos seleccionar que información queremos incluir en el inventario, como ser el tamaño del objeto, su fecha de modificación, storage-class a la que pertenece, y algunos otros. En el caso que utilicemos versionado, podemos incluir en el reporte solo la versión actual de los objetos o todas sus versiones.
+Podemos seleccionar el *bucket* destino donde se almacenará el resultado del inventario, e incluso podríamos indicar un prefijo para que se guarde por ej. dentro de una carpeta de dicho *backet*. Y por último, seleccionamos si queremos que se ejecute en forma diaria o semanal.
+
+El resultado se obtiene en formato CSV, a modo de ejemplo:
+![alt text](./images/S3_inventory_02.png)
 
 Ref.:
+* [S3 Storage Management Update – Analytics, Object Tagging, Inventory, and Metrics](https://aws.amazon.com/es/blogs/aws/s3-storage-management-update-analytics-object-tagging-inventory-and-metrics/)
 * [Amazon S3 Inventory](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/storage-inventory.html)
 * [How Do I Configure Amazon S3 Inventory?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/configure-inventory.html)
-
 
 
 ---
