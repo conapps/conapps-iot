@@ -272,6 +272,8 @@ Luego en las propiedades del bucket, podemos acceder a la sección de *Static we
 Debemos especificar cuál es nuestra página principal *index.html* y opcionalmente una página para desplegar en caso que se intente acceder a un elemento inexistente *error.html* (errores de tipo 4XX).
 
 El link que se muestra en *Endpoint: http://iot-cloud-website.s3-website-us-west-2.amazonaws.com* será el link de acceso a nuestra página.
+
+
 ![alt text](./images/S3_static_website_02.png)
 
 Opcionalmente, en *Redirect rules* podemos especificar reglas de redireccionamiento para ciertos objetos. Por ejemplo, supongamos que que renombramos un objeto del *bucket* que está referenciado en nuestra página web, podríamos poner aquí una regla que tome los requerimientos que se hagan al objeto original y los redirija hacia el objeto renombrado. Por otro lado, con *Redirect requests* podríamos redirigir todos los requerimientos que llegan a este *bucket* (a nuestra página estática) enviándolos a otro *bucket* o incluso a otro sitio web externo a S3. Puede revisar estas opciones en la documentación de referencia.
