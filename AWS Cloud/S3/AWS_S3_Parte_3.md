@@ -72,49 +72,49 @@ $ aws s3api get-bucket-lifecycle-configuration --bucket iot-cloud-bucket-01
         }
     ]
 }
-
-También podríamos usar el comando `aws s3api put-lifecycle-configuration` para establecer una regla sobre un *bucket*. Puede ver un ejemplo de esto [aquí](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/set-lifecycle-cli.html).
-
-
 ```
 
+También podríamos usar el comando `aws s3api put-lifecycle-configuration` para establecer una regla sobre un *bucket*. Puede ver un ejemplo [aquí](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/set-lifecycle-cli.html).
+
+
 Ref.:
-* [Object Lifecycle Management](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/object-lifecycle-mgmt.html)
-* [Setting Lifecycle Configuration On a Bucket](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/how-to-set-lifecycle-configuration-intro.html)
-* [Set Lifecycle Configuration Using the AWS CLI](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/set-lifecycle-cli.html)
+> [Object Lifecycle Management](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/object-lifecycle-mgmt.html)
+> [Setting Lifecycle Configuration On a Bucket](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/how-to-set-lifecycle-configuration-intro.html)
+> [Set Lifecycle Configuration Using the AWS CLI](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/set-lifecycle-cli.html)
 
 
 ---
 ### Analytics
-Por medio de *Amazon S3 Analytics - Storage Class Analysis*, se pueden analizar los patrones de acceso sobre nuestros datos. Esto nos ayuda a decidir cuando y que datos podemos mover (*transition*), a otra *storage-class* para aprovechar las diferentes clases de almacenamiento y reducir nuestros costos.
+Por medio de *Amazon S3 Analytics - Storage Class Analysis*, se pueden analizar los patrones de acceso sobre nuestros datos. Esto nos ayuda a decidir cuando y que datos podemos mover (*transition*) a otra *storage-class*.
 
-Esta herramienta analiza en forma continua (desde que la activamos) los patrones de acceso a nuestros datos, incluyendo cuanta cantidad de storage estamos utilizando y cuanto de ese storage hemos accedido recientemente. Esto nos permite determinar cuando podemos mover los datos que son poco accedidos desde la capa Standard donde se encuentran,  a la capa Standard_IA (acceso poco frecuente) o incluso a Glacier.
+Esta herramienta analiza en forma continua (desde que la activamos) los patrones de acceso a nuestros datos, incluyendo cuanta cantidad de storage estamos utilizando y cuanto de ese storage hemos accedido recientemente. Esto nos permite determinar cuando podemos mover los datos que son poco accedidos desde la capa Standard donde se encuentran, a la capa Standard_IA o a Glacier.
 
 Podemos usar esta información para mejorar nuestras políticas de ciclo de vida (*lifecycle policies*) y aprovechar mejor los diferentes tipos de storage, reduciendo los costos.
 
-Esta herramienta se habilita sobre un *bucket*, y cuanto más tiempo esté habilitada (analizando los patrones de acceso) mejor información nos proveerá. Se puede analizar el acceso a todos los objetos del *bucket*, o se pueden configurar para analizar solo determinados objetos dentro del *bucket*, filtrando mediante el uso de *prefixes*, *tags*, o ambos.
-Esto permite entender ahún mas el comportamiento de nuestros datos, por ej., podríamos analizar el acceso a todos los objetos que sean de tipo *"logs"* y analizar en forma separada a todos los objetos de tipo *"imagenes"* y luego tomar diferentes acciones sobre ellos (ya deberíamos tener claro que para que esto sea posible debemos tener categorizados nuestros objetos de alguna forma, ya sea utilizando tags o prefijos con ciertos patrones en los nombres de los objetos, ej., log_*).
+Esta herramienta se habilita sobre un *bucket*, y cuanto más tiempo esté habilitada (analizando los patrones de acceso) mejor información nos proveerá. Se puede analizar el acceso a todos los objetos del *bucket*, o analizar solo determinados objetos dentro del *bucket* filtrando mediante el uso de *prefixes* y/o *tags*.
+Esto permite entender aún mas el comportamiento de nuestros datos, por ej., podríamos analizar el acceso a todos los objetos que sean de tipo *"logs"* y analizar en forma separada a todos los objetos de tipo *"imagenes"* y luego tomar diferentes acciones sobre ellos (ya deberíamos tener claro que para que esto sea posible debemos tener categorizados nuestros objetos de alguna forma, ya sea utilizando tags o prefijos con ciertos patrones en los nombres de los objetos).
 
-Adicionalmente a la información de análisis que nos muestra la consola web, podemos exportar los resultados de S3 Analytics a la herramienta que elijamos, por ej. Amazon QuickSight, Amazon Redshift, MS Excel, etc., generando incluso la salida directamente a un bucket en formato .csv para nuestro posterior análisis.
+Adicionalmente a la información de análisis que nos muestra la consola web, podemos exportar los resultados de S3 Analytics a la herramienta que elijamos, por ej. Amazon QuickSight, Amazon Redshift, MS Excel, etc., generando la salida directamente a un bucket en formato .csv para nuestro posterior análisis.
 
-S3 Analytics tiene costo adicional, en base a la cantidad de objetos analizados mensualmente.
-
-  ![alt text](./images/S3_analytics_price_01.png)
-  ![alt text](./images/S3_analytics_price_02.png)
+S3 Analytics tiene costo adicional, en base a la cantidad de objetos analizados mensualmente, que dependen de la región que utilicemos.
+![alt text](./images/S3_analytics_price_01.png)
+![alt text](./images/S3_analytics_price_02.png)
 
 
 
 S3 Anaytics se configura dentro de las herramientas de *Management* del *bucket*:
+
 ![alt text](./images/S3_analytics_01.png)
 
-Luego debemos agregar un filtro indicando que objetos queremos analizar, y si queremos exportar la salida a otro *bucket* (creado anteriormente), en este caso exportamos los resultados a *iot-cloud-bucket-analytics-results*:
+Luego debemos agregar un filtro indicando que objetos queremos analizar, y si queremos exportar la salida en formato .csv a otro *bucket* (creado anteriormente), en este caso exportamos los resultados a *iot-cloud-bucket-analytics-results*:
 ![alt text](./images/S3_analytics_02.png)
 
 Si decidimos exporta la salida, automáticamente nos va a crear una policy que le permita accesso de escritura sobre el *bucket* destino:
 ![alt text](./images/S3_analytics_03.png)
 
 
-Podemos ver las características de la regla que creamos, mediante la CLI `s3api` con las opción [*list-bucket-analytics-configurations*](http://docs.aws.amazon.com/cli/latest/reference/s3api/list-bucket-analytics-configurations.html), o podríamos incluso crear la regla mediante [*put-bucket-analytics-configuration*](http://docs.aws.amazon.com/cli/latest/reference/s3api/put-bucket-analytics-configuration.html), o elminarla mediante [*delete-bucket-analytics-configuration*](http://docs.aws.amazon.com/cli/latest/reference/s3api/delete-bucket-analytics-configuration.html).
+Podemos ver las características de la regla que creamos, mediante la CLI con `aws s3api list-bucket-analytics-configurations`, crear una regla mediante `aws s3api put-bucket-analytics-configuration`, o eliminarla con `aws s3api delete-bucket-analytics-configuration`.
+
 ```bash
 $ aws s3api list-bucket-analytics-configurations --bucket iot-cloud-bucket-analytics
 {
@@ -138,7 +138,7 @@ $ aws s3api list-bucket-analytics-configurations --bucket iot-cloud-bucket-analy
 }
 ```
 
-Si tuviéramos varias reglas y solo quisiéramos ver una, podemos referenciarla mediante su Id con el comando `aws s3 api get-bucket-analytics-configuration`:
+Si tuviéramos varias reglas y solo quisiéramos ver una, podemos accederla mediante su *id* con el comando `aws s3 api get-bucket-analytics-configuration`:
 
 ```bash
 $ aws s3api get-bucket-analytics-configuration --bucket iot-cloud-bucket-analytics --id analytics-01
@@ -183,10 +183,11 @@ Con esta información podemos ver, por ej., que en los últimos 127 días (desde
 Esta herramienta nos permite entender mejor como utilizamos/accedemos a nuestros datos, y poder mejorar nuestra políticas de ciclo de vida. Por ej, podríamos crear una *lifecycle policy* sobre este *bucket* que mueva todos los objetos con mas de 30 días a la capa de acceso infrecuente *Standard_IA* para ahorrar costos de almacenamiento.
 
 Ref.:
-* [S3 Storage Management Update – Analytics, Object Tagging, Inventory, and Metrics](https://aws.amazon.com/es/blogs/aws/s3-storage-management-update-analytics-object-tagging-inventory-and-metrics/)
-* [Amazon S3 Analytics – Storage Class Analysis](http://docs.aws.amazon.com/AmazonS3/latest/dev/analytics-storage-class.html)
-* [How Do I Configure Storage Class Analysis?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/configure-analytics-storage-class.html)
-* [Precios de Amazon S3](https://aws.amazon.com/es/s3/pricing/)
+> [S3 Storage Management Update – Analytics, Object Tagging, Inventory, and Metrics](https://aws.amazon.com/es/blogs/aws/s3-storage-management-update-analytics-object-tagging-inventory-and-metrics/)
+> [Amazon S3 Analytics – Storage Class Analysis](http://docs.aws.amazon.com/AmazonS3/latest/dev/analytics-storage-class.html)
+> [How Do I Configure Storage Class Analysis?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/configure-analytics-storage-class.html)
+> [AWS CLI Command Line Reference: s3api](http://docs.aws.amazon.com/cli/latest/reference/s3api/index.html#cli-aws-s3api)
+> [Precios de Amazon S3](https://aws.amazon.com/es/s3/pricing/)
 
 ---
 ### Metrics
