@@ -342,6 +342,7 @@ La replicación entre regiones es una característica de Amazon S3 que permite c
 
 La configuración se realiza en el *bucket* de origen, indicando entre otras cosas, cual es el *bucket* destino (ubicado en otro región) al cual vamos a replicar. Podemos replicar todos los objetos del *bucket*, o filtrar que queremos copiar por medio de *prefixes* o *tags*. Para usar la replicación es requerido que tanto el *bucket* origen como destino tengan el versionado activado.
 
+---
 ### Precios
 Se debe tener en cuenta que cuando se habilita esta funcionalidad, se comenzarán a replicar todos los objetos nuevos a partir de ese momento, pero los objetos anteriores que puedan existir en el bucket no son copiados. Los objetos del *bucket* replicado son exactamente iguales a los originales, con la misma metadata (incluyendo la fecha de creación original), los mismos tags, permisos, etc. AWS S3 encripta el tráfico entre las regiones utilizando SSL.
 
@@ -357,8 +358,8 @@ Si replicamos 1.000 objetos de 1GB (1.000GB) pagaríamos la suma de:
 Los costos implicados están en varias secciones de la página de [Precios de AWS S3](https://aws.amazon.com/es/s3/pricing/)
 ![alt text](./images/S3_price_04.png)
 
-
-### Configuración
+---
+### Configuración de la replicación
 Veamos como configurar la replicación entre regiones.
 
 Primero creamos nuestro *bucket* de origen, por ej. en la región us-west-2 (Oregon), y le habilitamos el versionado.
@@ -459,6 +460,7 @@ $  aws s3 ls s3://iot-cloud-bucket-destino
 El tiempo que le toma a S3 replicar la información dependerá del tamaño de los objetos que estamos replicando.
 Si bien en este caso la copia fue inmediata (claro, son 3 objetos de 0 bytes), recuerde que la replicación es asincrónica, y puede llevar varias horas dependiendo de la cantidad de datos a replicar.
 
+---
 ### Deshabilitando la replicación
 
 Desde la consola web tenemos la opción de deshabilitar la replicación sin borrar la configuración, o podemos deshabilitarla y borrar la configuración. También con la CLI podemos deshabilitarla y borrarla mediante `aws s3api delete-bucket-replication`, pero no deshabilitarla sin borrarla.
@@ -561,7 +563,7 @@ El dueño puede opcionalmente brindar (o restringir) acceso de diversas formas:
 
 * **IAM Policies**: permiten especificar permisos específicos sobre S3, y aplicarlos a usuarios, grupos y/o roles. Permite lograr un control muy detallado sobre nuestros recursos de S3. Pero para poder utilizarlas, debemos tener acceso a IAM (vamos a tener una clase específica sobre IAM).
 
-
+---
 ### Bucket Policy (ejemplo)
 
 Un ejemplo de una Bucket Policy sería permitir el acceso read-only a los usuarios anónimos a los objetos de nuestro bucket.
@@ -597,7 +599,8 @@ La política la configuramos dentro de las propiedades del bucket:
 Y si luego volvemos a intentar acceder al objeto desde el browser, ahora podemos hacerlo:
 ![alt text](./images/S3_bucket_policy_04.png)
 
-
+---
+### Policy Generator
 Generar la *policy* desde cero puede ser un poco difícil o engorroso, y puede dar lugar a errores que permitan operaciones que no queríamos habilitar. Afortunadamente, Amazon provee una herramienta web [AWS Policy Generator](http://awspolicygen.s3.amazonaws.com/policygen.html) que nos permite generar la *policy* de una manera bastante mas sencilla, y luego podemos simplemente copiarla a nuestro *bucket* para aplicarla.
 
 ![alt text](./images/S3_policy_generator_01.png)
