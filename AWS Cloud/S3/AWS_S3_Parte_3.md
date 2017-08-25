@@ -200,30 +200,35 @@ Hay dos tipos de métricas disponibles dentro de CloudWatch en S3
 
 * **Daily Storage Metrics for Buckets:** provee información básica sobre el uso del storage de nuestro *bucket*.
 Muestran la cantidad de datos (bytes) y la cantidad de objetos del *bucket* y su evolución durante cierto período de tiempo.
-Estas métricas se encuentran habilitadas por defecto para todos los *buckets*, se actualizan una vez por día, y no tienen costo.
+Estas métricas se encuentran habilitadas por defecto para todos los *buckets*, se actualizan una vez por día, y no tienen costo adicional.
 Por defecto aplican para todo el contenido del *bucket*, o pueden aplicarse filtros (mediante *prefixes* y/o *tags*) para que apliquen sobre determinados objetos.
 
-Podemos acceder a las métricas dentro de las herramientas de *Management* del *bucket*.
-![alt text](./images/S3_metrics_01.png)
-![alt text](./images/S3_metrics_02.png)
-
-
-* **Request metrics:** permiten monitorear las solicitudes (*request*) que se realizan a S3, para poder identificar y actuar ante problemas de operativa (por ej. que una solicitud de un error). Estas métricas se actualizan en intervalos de 1 minuto (hay un período incial de unos 15min necesario para recabar la información la primera vez que se configura la métrica). Se configuran a nivel de *bucket* y se pueden aplicar sobre todos los objetos del mismo, o pueden aplicarse filtros (mediante *prefixes* y/o *tags*) para que apliquen sobre los objetos de nuestro interés.
+* **Request metrics:** permiten monitorear las solicitudes (*request*) que se realizan a S3, para poder identificar y actuar ante problemas de operativa (por ej. que una solicitud de un error).
 Tienen costo adicional, en base a los costos asociados a Amazon CloudWatch.
-
-Nuevamente, la configuración la realizamos dentro de las herramientas de *Management* del *bucket*, donde podemos configurar las métricas con costo correspondientes a *Request* y *Data transfer*:
-.
-![alt text](./images/S3_metrics_03.png)
-
-Luego de unos 15 minutos iniciales, podemos ver la información recolectada por la métrica que definimos, por ej:
+Se configuran a nivel de *bucket* y se pueden aplicar sobre todos los objetos del mismo, o pueden aplicarse filtros (mediante *prefixes* y/o *tags*) para que apliquen sobre los objetos de nuestro interés.
+La información generada se actualizan cada 1 minuto (hay un período inicial de unos 15min necesario para recabar la información la primera vez que se configura la métrica). Esta es la lista de métricas que obtendremos al habilitarlas:
 ![alt text](./images/S3_metrics_04.png)
 
 
+Podemos acceder a las métricas dentro de las herramientas de *Management* del *bucket*.
+
+Las **Storage Metrics** (sin costo) se encuentran en el tab *Storage*.
+Aquí podemos ver, para nuestro *bucket* llamado *iot-cloud-bucket-analytics*, como evolucionó a lo largo del tiempo la cantidad de storage utilizado *BucketSizeBytes (bytes/day)* y la cantidad de objetos almacenados *NumberOfObjects (count/day)*.
+![alt text](./images/S3_metrics_01.png)
+
+Las **Request Metrics** (con costo adicional), se encuentran en los tabs *Requests* y *Data transfer*.
+![alt text](./images/S3_metrics_02.png)
+
+Luego de unos 15 minutos iniciales, podemos ver la información recolectada por la métrica que definimos, a modo de ejemplo :
+![alt text](./images/S3_metrics_03.png)
+
+
+
 Ref.:
-* [S3 Storage Management Update – Analytics, Object Tagging, Inventory, and Metrics](https://aws.amazon.com/es/blogs/aws/s3-storage-management-update-analytics-object-tagging-inventory-and-metrics/)
-* [Monitoring Metrics with Amazon CloudWatch](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/cloudwatch-monitoring.html)
-* [Metrics Configurations for Buckets](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/metrics-configurations.html)
-* [How Do I Configure Request Metrics for an S3 Bucket?](http://docs.aws.amazon.com/AmazonS3/latest/user-guide/configure-metrics.html)
+> [S3 Storage Management Update – Analytics, Object Tagging, Inventory, and Metrics](https://aws.amazon.com/es/blogs/aws/s3-storage-management-update-analytics-object-tagging-inventory-and-metrics/)
+> [Monitoring Metrics with Amazon CloudWatch](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/cloudwatch-monitoring.html)
+> [Metrics Configurations for Buckets](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/metrics-configurations.html)
+> [How Do I Configure Request Metrics for an S3 Bucket?](http://docs.aws.amazon.com/AmazonS3/latest/user-guide/configure-metrics.html)
 
 ---
 ### S3 Inventory
