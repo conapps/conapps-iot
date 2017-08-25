@@ -280,7 +280,8 @@ Opcionalmente, en *Redirect rules* podemos especificar reglas de redireccionamie
 
 Recordemos que por defecto todos nuestros objetos son privados, por tanto debemos brindar permisos que habiliten el acceso de lectura a nuestros objetos dentro del bucket, para que se pueda acceder a nuestro sitio web.
 
-Para esto, debemos configurar la siguiente *bucket policy* al *bucket* (esto lo explicaremos en la sección de Access Control):
+Para esto, debemos configurar la siguiente *bucket policy* al *bucket*. Tenga en cuenta de poner el nombre de su *bucket* donde dice "arn:aws:s3:::iot-cloud-website/\*"
+
 ```json
 {
     "Version": "2012-10-17",
