@@ -317,7 +317,9 @@ upload: .\error.html to s3://iot-cloud-website/error.html
 ```
 
 Ahora ya podemos acceder a nuestra página: http://iot-cloud-website.s3-website-us-west-2.amazonaws.com
-Y accedemos directamente a nuestro *index.html*
+
+Y accederemos a nuestro *index.html*:
+
 ![alt text](./images/S3_static_website_04.png)
 
 Y si vamos a una dirección que no existe, nos dirige a *error.html*
