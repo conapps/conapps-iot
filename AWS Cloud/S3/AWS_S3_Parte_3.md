@@ -260,30 +260,25 @@ Como vimos anteriormente, brindar acceso público a uno o varios objetos almacen
 
 Con Amazon S3, podemos hostear fácilmente un sitio web estático completo, con un costo muy bajo, y sobre una solución que provee alta disponibilidad y puede escalar automáticamente para enfrentar los aumentos de demanda de nuestro sitio.
 
-* Comencemos por crear un bucket para nuestro sitio web (puede hacerlo de la consola web):
-  ```bash
-  $ aws s3 mb s3://iot-cloud-website
-  make_bucket: iot-cloud-website
-  ```
+Comencemos por crear un bucket para nuestro sitio web (puede hacerlo de la consola web):
+```bash
+$ aws s3 mb s3://iot-cloud-website
+make_bucket: iot-cloud-website
+```
 
-* Luego en las propiedades del bucket, podemos acceder a la sección de *Static website hosting* para configurarlo:
+Luego en las propiedades del bucket, podemos acceder a la sección de *Static website hosting* para configurarlo:
+![alt text](./images/S3_static_website_01.png)
 
-  ![alt text](./images/S3_static_website_01.png)
+Debemos especificar cuál es nuestra página principal *index.html* y opcionalmente una página para desplegar en caso que se intente acceder a un elemento inexistente *error.html* (errores de tipo 4XX).
 
+El link que se muestra en *Endpoint: http://iot-cloud-website.s3-website-us-west-2.amazonaws.com* será el link de acceso a nuestra página.
+![alt text](./images/S3_static_website_02.png)
 
-* Debemos especificar cuál es nuestra página principal *index.html* y opcionalmente una página para desplegar en caso que se intente acceder a un elemento inexistente *error.html* (errores de tipo 4XX).
+Opcionalmente, en *Redirect rules* podemos especificar reglas de redireccionamiento para ciertos objetos. Por ejemplo, supongamos que que renombramos un objeto del *bucket* que está referenciado en nuestra página web, podríamos poner aquí una regla que tome los requerimientos que se hagan al objeto original y los redirija hacia el objeto renombrado. Por otro lado, con *Redirect requests* podríamos redirigir todos los requerimientos que llegan a este *bucket* (a nuestra página estática) enviándolos a otro *bucket* o incluso a otro sitio web externo a S3. Puede revisar estas opciones en la documentación de referencia.
 
-  El link que se muestra en *Endpoint: http://iot-cloud-website.s3-website-us-west-2.amazonaws.com* nos llevará a nuestra página.
-  .
-  ![alt text](./images/S3_static_website_02.png)
+Recordemos que por defecto todos nuestros objetos son privados, por tanto debemos brindar permisos que habiliten el acceso de lectura a nuestros objetos dentro del bucket, para que se pueda acceder a nuestro sitio web.
 
-  * Opcionalmente podemos especificar reglas avanzadas para redireccionamiento, en formato XML (puede dirigirse a las referencias de documentación incluidas mas abajo para profundizar sobre esto).  
-
-  * O podríamos redirigir todos los requerimientos que llegan a este *bucket* enviándolos a otro *bucket* o incluso a otro sitio web externo a S3. Esto lo hacemos configurando la opción *Redirect requests*.
-  .
-
-* Recordemos que por defecto todos nuestros objetos son privados, por tanto debemos brindar permisos que habiliten el acceso de lectura a nuestros objetos dentro del bucket. Esto lo hacemos mediante la siguiente *bucket policy* (que explicaremos mas en detalle en la sección de Access Control) antes:
-
+Para esto, debemos configurar la siguiente *bucket policy* al *bucket* (esto lo explicaremos en la sección de Access Control):
 ```json
 {
     "Version": "2012-10-17",
@@ -302,7 +297,12 @@ Con Amazon S3, podemos hostear fácilmente un sitio web estático completo, con 
     ]
 }
 ```
-* Y por último, lo que nos resta hacer es subir nuestra página al bucket, particularmente los archivos que referenciamos *index.html* y *error.html*, así como el resto de estructura y contenido que necesitemos.
+
+Esto lo entendermos mejor en la sección de [Access Control](#access-control), por el momento solo configuremos esto dentro de *Permissions* - *Bucket Policy*:
+![alt text](./images/S3_static_website_03.png)
+
+
+Y por último, lo que nos resta hacer es subir nuestra página al bucket, particularmente los archivos que referenciamos *index.html* y *error.html*, así como el resto de estructura y contenido que necesitemos.
 
 ```bash
 $ aws s3 cp index.html s3://iot-cloud-website/
@@ -314,15 +314,14 @@ upload: .\error.html to s3://iot-cloud-website/error.html
 ```
 
 Ahora ya podemos acceder a nuestra página: http://iot-cloud-website.s3-website-us-west-2.amazonaws.com
-
 Y accedemos directamente a nuestro *index.html*
-![alt text](./images/S3_static_website_03.png)
-
-Y si vamos a una dirección que no existe, nos dirige a *error.html*
 ![alt text](./images/S3_static_website_04.png)
 
+Y si vamos a una dirección que no existe, nos dirige a *error.html*
+![alt text](./images/S3_static_website_05.png)
 
-Podemos combinar esta funcionalidad de AWS S3 Static Website Hosting con AWS Route 53 para poder usar nuestros propios nombres de dominio para nuestro sitio, en lugar de usar la dirección de *endpoint* provisto por Amazon (puede ver la documentación de referencia mas abajo).
+
+Podemos combinar esta funcionalidad de AWS S3 Static Website Hosting con AWS Route 53 para poder usar nuestros propios nombres de dominio para nuestro sitio en lugar de usar la dirección de *endpoint* provisto por Amazon.
 
 Ref.:
 * [How Do I Configure an S3 Bucket for Static Website Hosting?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/static-website-hosting.html)
