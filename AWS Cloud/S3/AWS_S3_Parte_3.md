@@ -338,49 +338,214 @@ Ref.:
 ---
 ## Cross-Region Replication
 ---
-La replicación entre regiones es una característica de Amazon S3 que permite copiar objetos en forma automática entre diferentes regiones de AWS. Cada objeto que subamos a un bucket de S3 se replicará en forma asincrónica en otro bucket situado en otra región de AWS que seleccionemos.
+La replicación entre regiones es una característica de Amazon S3 que permite copiar objetos en forma automática entre diferentes regiones de AWS. Una vez activada, cada objeto que subamos al *bucket* se replicará en forma asincrónica en otro bucket situado en otra región de AWS que seleccionemos.
 
-Para activar esta característica, es necesario agregar la configuración de replicación al *bucket* de origen, indicando cierta información, particularmente hacia que región lo vamos a copiar. Podemos replicar un *bucket* completo, o seleccionar solo algunos objetos, filtrando que copiar (y/o que no) por medio de *prefixes* o *tags*. Para usar la replicación es requerido que tanto el *bucket* origen como destino tengan el versionado activado.
+La configuración se realiza en el *bucket* de origen, indicando entre otras cosas, cual es el *bucket* destino (ubicado en otro región) al cual vamos a replicar. Podemos replicar todos los objetos del *bucket*, o filtrar que queremos copiar por medio de *prefixes* o *tags*. Para usar la replicación es requerido que tanto el *bucket* origen como destino tengan el versionado activado.
 
-Se debe tener en cuenta que cuando se habilita esta opción, se comienzan a replicar todos los objetos nuevos a partir de ese momento, pero los objetos anteriores que puedan existir en el bucket no son copiados. Los objetos de la copia destino son exactamente iguales a los originales, con la misma metadata (incluyendo la fecha de creación original), los mismos tags, permisos, etc. AWS S3 encripta el tráfico entre las regiones utilizando SSL.
+### Precios
+Se debe tener en cuenta que cuando se habilita esta funcionalidad, se comenzarán a replicar todos los objetos nuevos a partir de ese momento, pero los objetos anteriores que puedan existir en el bucket no son copiados. Los objetos del *bucket* replicado son exactamente iguales a los originales, con la misma metadata (incluyendo la fecha de creación original), los mismos tags, permisos, etc. AWS S3 encripta el tráfico entre las regiones utilizando SSL.
 
-El uso de esta característica implica cargos adicionales. Debemos pagar los cargos de S3 por almacenamiento, solicitudes y transferencia de datos entre regiones de la copia replicada, además de los cargos de almacenamiento de la copia principal. El precio de la copia replicada se basa en la región de destino, mientras que los precios de las solicitudes y la transferencia de datos entre regiones se basan en la región de origen.
+Tengamos en cuenta que la replicación implica cargos adicionales. Debemos pagar las tarifas correspondiente al costo del almacenamiento que utilicemos (origen+destino), las solicitudes implícitas en la tarea de replicación, y el costo de transferencia de datos entre regiones.
 
-Veamos como configurarlo.
-* Creamos el *bucket* de origen, en una determinada región de AWS, y con *versioning* habilitado.
-  ![alt text](./images/S3_replication_01.png)
-  .
-  ![alt text](./images/S3_replication_02.png)
-  .
+Como siempre, los precios varían según la región, veamos un ejemplo utilizando los costos de la región de Oregon (us-west-2).
+Si replicamos 1.000 objetos de 1GB (1.000GB) pagaríamos la suma de:
+- USD 0,005 -> por las solicitudes por la replicación ($0.005 por cada 1 000 solicitudes PUT, COPY, POST o LIST).
+- +USD 20 -> por la transferencia de los datos ($0.020 por GB, por transferencia SALIENTE de datos de Amazon S3 a otra región de AWS).
+- +el costo de almacenamiento por los 1.000GB en la región donde se encuentre nuestro *bucket* destino (de acuerdo a su storage-class).
+- +(obviamente) el costo de almacenamiento de los 1.000GB en la región donde se encuentra nuestro *bucket* de origen (y su storage-class).
 
-* Creamos el *bucket* de destino, en una región diferente de AWS, y con *versioning* habilitado.
-  ![alt text](./images/S3_replication_03.png)
-  .
-  ![alt text](./images/S3_replication_04.png)
-  .
+Los costos implicados están en varias secciones de la página de [Precios de AWS S3](https://aws.amazon.com/es/s3/pricing/)
+![alt text](./images/S3_price_04.png)
 
-* Habilitamos la replicación en el *bucket* de origen.
-Podemos seleccionar a donde replicar, que objetos replicar, a que clase de storage destino vamos a replicar. Nuestro usuario debe contar con permisos para poder replicar, para lo cual podemos directamente crear un nuevo rol en IAM desde aquí mismo (necesitamos tener acceso a IAM para esto) o podemos seleccionar un rol de IAM existente (por ej. que haya sido creado por nuestro administrador de IAM).
+
+### Configuración
+Veamos como configurar la replicación entre regiones.
+
+Primero creamos nuestro *bucket* de origen, por ej. en la región us-west-2 (Oregon), y le habilitamos el versionado.
+
+```bash
+$ aws s3 mb s3://iot-cloud-bucket-origen --region us-west-2
+make_bucket: iot-cloud-bucket-origen
+
+$ aws s3api put-bucket-versioning --bucket iot-cloud-bucket-origen --versioning-configuration Status=Enabled
+
+$ aws s3api get-bucket-versioning --bucket iot-cloud-bucket-origen
+{
+    "Status": "Enabled"
+}
+```
+
+Y creamos el *bucket* destino de la replica, por ej. en us-east-2 (Ohio), y también le habilitamos el versionado.
+```bash
+$ aws s3 mb s3://iot-cloud-bucket-destino --region us-east-2
+make_bucket: iot-cloud-bucket-destino
+
+$ aws s3api put-bucket-versioning --bucket iot-cloud-bucket-destino --versioning-configuration Status=Enabled
+
+$ aws s3api get-bucket-versioning --bucket iot-cloud-bucket-destino
+{
+    "Status": "Enabled"
+}
+```
+
+O podemos crearlos mediante la consola web:
+![alt text](./images/S3_replication_01.png)
+![alt text](./images/S3_replication_02.png)
+
+
+El próximo paso es habilitar la replicación, lo cual hacemos en el *bucket* de origen:
+![alt text](./images/S3_replication_03.png)
+
+Seleccionamos a que región y *bucket* destino vamos a replicar, si vamos a replicar todos los objetos o queremos filtar solo cierto *prefix*, y a que storage-class vamos a replicar en el destino.
+
+Nuestro usuario debe contar con permisos para poder replicar, para lo cual podemos directamente crear un nuevo rol en IAM desde aquí mismo (necesitamos tener acceso a IAM para esto) o podemos seleccionar un rol de IAM existente (por ej. que haya sido creado por nuestro administrador de IAM).
+
+![alt text](./images/S3_replication_04.png)
+
+
+Luego podemos ver que la replicación está habilitada para este *bucket*:
 ![alt text](./images/S3_replication_05.png)
-.
-![alt text](./images/S3_replication_06.png)
-.
-![alt text](./images/S3_replication_07.png)
-.
-![alt text](./images/S3_replication_08.png)
-.
 
-Para verificar que la replicación funciona, podemos simplemente subir un objeto al *bucket origen* y verificar que el mismo sea replicado al *bucket destino*. O podemos cambiar las propiedades de un objeto (metadata, tags, ACLs) y verificar que las mismas son modificadas en el objeto replicado.
 
-El tiempo que le toma a S3 replicar la información depende del tamaño de los objetos que estamos replicando.
-Puede llevar varias horas dependiendo de la cantidad de información.
+También podemos habilitar la replicación desde la CLI, con el comando `aws s3api put-bucket-replication` el cual requiere que le pasemos la configuración en formato JSON, podemos ver la configuración mediante `aws s3api get-bucket-replication` o eliminarla mediante `aws s3api delete-bucket-replication`.
+
+```bash
+$ aws s3api get-bucket-replication --bucket iot-cloud-bucket-origen
+{
+    "ReplicationConfiguration": {
+        "Role": "arn:aws:iam::805750336955:role/service-role/replication_role_for_iot-cloud-bucket-origen_to_iot-cloud-bucket",
+        "Rules": [
+            {
+                "ID": "iot-cloud-bucket-origen",
+                "Prefix": "",
+                "Status": "Enabled",
+                "Destination": {
+                    "Bucket": "arn:aws:s3:::iot-cloud-bucket-destino",
+                    "StorageClass": "STANDARD_IA"
+                }
+            }
+        ]
+    }
+}
+```
+
+Para verificar que la replicación funciona, podemos simplemente subir objetos al *bucket origen* y verificar que sean copiados al *bucket destino*. Luego podemos eliminar un objeto del origen y ver que sea eliminado del destino.
+
+```bash
+$ touch file1.out file2.out file3.out
+
+$ aws s3 sync . s3://iot-cloud-bucket-origen/
+upload: .\file2.out to s3://iot-cloud-bucket-origen/file2.out
+upload: .\file1.out to s3://iot-cloud-bucket-origen/file1.out
+upload: .\file3.out to s3://iot-cloud-bucket-origen/file3.out
+
+$  aws s3 ls s3://iot-cloud-bucket-destino
+2017-08-25 18:33:27          0 file1.out
+2017-08-25 18:33:26          0 file2.out
+2017-08-25 18:33:27          0 file3.out
+
+
+$ rm file3.out
+
+$ aws s3 sync . s3://iot-cloud-bucket-origen/ --delete
+delete: s3://iot-cloud-bucket-origen/file3.out
+
+$  aws s3 ls s3://iot-cloud-bucket-destino
+2017-08-25 18:33:27          0 file1.out
+2017-08-25 18:33:26          0 file2.out
+
+```
+
+El tiempo que le toma a S3 replicar la información dependerá del tamaño de los objetos que estamos replicando.
+Si bien en este caso la copia fue inmediata (claro, son 3 objetos de 0 bytes), recuerde que la replicación es asincrónica, y puede llevar varias horas dependiendo de la cantidad de datos a replicar.
+
+### Deshabilitando la replicación
+
+Desde la consola web tenemos la opción de deshabilitar la replicación sin borrar la configuración, o podemos deshabilitarla y borrar la configuración. También con la CLI podemos deshabilitarla y borrarla mediante `aws s3api delete-bucket-replication`, pero no deshabilitarla sin borrarla.
+
+Debemos tener en cuenta que, si subimos nuevos objetos o si modificamos objetos existentes en el bucket de origen con la replicación deshabilitada, y luego habilitamos nuevamente la replicación, los cambios que hicimos no se replicarán en el destino. No se copiaran los nuevos objetos, ni tampoco se replicarán las modificaciones que hayamos hecho a objetos existentes, por lo cual podemos resultar con dos copias totalmente desincronizadas.
+
+Veamos este caso, tenemos los dos *buckets* sincronizados:
+```bash
+$ aws s3 ls s3://iot-cloud-bucket-origen
+2017-08-25 18:33:27          0 file1.out
+2017-08-25 18:33:26          0 file2.out
+
+$ aws s3 ls s3://iot-cloud-bucket-destino
+2017-08-25 18:33:27          0 file1.out
+2017-08-25 18:33:26          0 file2.out
+```
+
+**Deshabilitamos la replicación** en la consola web.
+Luego modificamos la fecha de creación del *file2.out* y creamos el *file3.out* en nuestra máquina local.
+Con la replicación todavía deshabilitada, sincronizamos estos objetos con el *bucket origen*.
+```bash
+$ ls -l
+-rw-r--r-- 1 VM 197121 0 ago 25 18:32 file1.out
+-rw-r--r-- 1 VM 197121 0 ago 25 18:32 file2.out
+-rw-r--r-- 1 VM 197121 0 ago 25 18:52 file3.out
+
+$ touch file2.out file3.out
+
+$ ls -l
+-rw-r--r-- 1 VM 197121 0 ago 25 18:32 file1.out
+-rw-r--r-- 1 VM 197121 0 ago 25 18:52 file2.out
+-rw-r--r-- 1 VM 197121 0 ago 25 18:52 file3.out
+
+$ aws s3 sync . s3://iot-cloud-bucket-origen/
+upload: .\file3.out to s3://iot-cloud-bucket-origen/file3.out
+upload: .\file2.out to s3://iot-cloud-bucket-origen/file2.out
+```
+
+Si listamos ambos *buckets* veremos que están diferentes, esto es lógico dado que la replicación sigue estando deshabilitada.
+``` bash
+$ aws s3 ls s3://iot-cloud-bucket-origen
+2017-08-25 18:33:27          0 file1.out
+2017-08-25 18:54:29          0 file2.out
+2017-08-25 18:54:29          0 file3.out
+
+$ aws s3 ls s3://iot-cloud-bucket-destino
+2017-08-25 18:33:27          0 file1.out
+2017-08-25 18:33:26          0 file2.out
+```
+
+Ahora **habilitamos la replicación** nuevamente desde la consola web.
+Si volvemos a listar ambos *buckets* vemos que las diferencias se mantienen, incluso la hora de modificación del objeto *file2.out* difiere entre las replicas. Por lo cual no se replicaron los objetos nuevos y tampoco se actualizaron las modificaciones que realizamos a objetos que estaban replicados anteriormente.
+
+``` bash
+$ aws s3 ls s3://iot-cloud-bucket-origen
+2017-08-25 18:33:27          0 file1.out
+2017-08-25 18:54:29          0 file2.out
+2017-08-25 18:54:29          0 file3.out
+
+$ aws s3 ls s3://iot-cloud-bucket-destino
+2017-08-25 18:33:27          0 file1.out
+2017-08-25 18:33:26          0 file2.out
+```
+
+Obviamente, si ahora que tenemos la replicación habilitada volvemos a modificar los objetos, estos serán replicados/actualizados.
+```bash
+$ touch file2.out file3.out
+
+$ aws s3 sync . s3://iot-cloud-bucket-origen/
+upload: .\file3.out to s3://iot-cloud-bucket-origen/file3.out
+upload: .\file2.out to s3://iot-cloud-bucket-origen/file2.out
+
+$ aws s3 ls s3://iot-cloud-bucket-origen
+2017-08-25 18:33:27          0 file1.out
+2017-08-25 19:14:59          0 file2.out
+2017-08-25 19:14:58          0 file3.out
+
+$ aws s3 ls s3://iot-cloud-bucket-destino
+2017-08-25 18:33:27          0 file1.out
+2017-08-25 19:14:59          0 file2.out
+2017-08-25 19:14:58          0 file3.out
+```
 
 
 Ref.:
 * [Cross-Region Replication](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/crr.html)
-* [Cross-Region Replication FAQs](https://aws.amazon.com/es/s3/faqs/#crr)
-* [How to enable Cross-Region (AWS Console)](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/enable-crr.html)
-* [Walkthrough 1: Configure Cross-Region Replication Replication for same AWS user account](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/crr-walkthrough1.html)
+* [S3 FAQs Cross-Region Replication FAQs](https://aws.amazon.com/es/s3/faqs/#crr)
 * [Amazon S3 Pricing](https://aws.amazon.com/es/s3/pricing/)
 
 
