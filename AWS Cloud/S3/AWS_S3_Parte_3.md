@@ -574,7 +574,7 @@ Si intentamos acceder al objeto *logo.png* desde un browser (sin darle permisos 
 
 ![alt text](./images/S3_bucket_policy_02.png)
 
-Veamos entonces de darle permisos al *bucket* mediante una *bucket policy* para poder acceder a todos los objetos que tiene dentro. Esto lo hacemos mediante la siguiente *policiy*
+Veamos entonces de darle permisos al *bucket*, pero lo haremos mediante la siguiente *bucket policy*:
 
 ```bash
 {
@@ -583,9 +583,9 @@ Veamos entonces de darle permisos al *bucket* mediante una *bucket policy* para 
     {
       "Sid":"AddPerm",                
       "Effect":"Allow",                                   // que le voy a aplicar: Allow o Deny
-      "Principal": "*",                                   // a quien se lo voy a aplicar: *
-      "Action":["s3:GetObject"],                          // cual es la acción que voy a aplicar
-      "Resource":["arn:aws:s3:::iot-cloud-bucket-03/*"]   // sobre que recurso lo aplico
+      "Principal": "*",                                   // a quien se lo voy a aplicar: * (everybody, todo el mundo)
+      "Action":["s3:GetObject"],                          // sobre que acción la voy a aplicar (leer un objeto)
+      "Resource":["arn:aws:s3:::iot-cloud-bucket-03/*"]   // sobre que recurso lo aplico (el bucket y todos sus objetos)
     }                                               
   ]
 }
@@ -596,6 +596,14 @@ La política la configuramos dentro de las propiedades del bucket:
 
 Y si luego volvemos a intentar acceder al objeto desde el browser, ahora podemos hacerlo:
 ![alt text](./images/S3_bucket_policy_04.png)
+
+
+Generar la *policy* desde cero puede ser un poco difícil o engorroso, y puede dar lugar a errores que permitan operaciones que no queríamos habilitar. Afortunadamente, Amazon provee una herramienta web [AWS Policy Generator](http://awspolicygen.s3.amazonaws.com/policygen.html) que nos permite generar la *policy* de una manera bastante mas sencilla, y luego podemos simplemente copiarla a nuestro *bucket* para aplicarla.
+
+![alt text](./images/S3_policy_generator_01.png)
+
+![alt text](./images/S3_policy_generator_02.png)
+
 
 
 Ref.:
@@ -621,15 +629,15 @@ Ref:
 ---
 ## Encriptación de los Datos
 ---
+Existen diversas opciones para encriptar la información guardada en Amazon S3.
+Repasaremos las opciones disponibles, aunque por el momento no profundizaremos sobre las mismas. Puede referirse a la documentación adicional para tener mas detalles.
 
 ### Datos en transito
 Por defecto podemos realizar *uploads* y *downloads* seguros mediante endpoints encriptados con SSL si utilizamos HTTPS.
 Los datos que se replican entre regiones también viajan encriptados.
 
-
 ### Server Side Encryption (SSE)
-Podemos encriptar los datos que se encuentran alojados en S3.
-
+Podemos encriptar los datos (objetos) que se encuentran alojados en S3.
 De esta forma, Amazon S3 encriptará en forma automática los datos cuando se escriben (o suben) y los desencripta cuando se acceden (o bajan), utilizando Advanced Encryption Standard (AES) con 256-bit symmetric keys.
 
 Tenemos tres opciones para administrar las claves de encriptación:
@@ -638,7 +646,7 @@ Tenemos tres opciones para administrar las claves de encriptación:
 * SSE con AWS KMS (SSE-KMS): encripta los datos utilizando claves que nosotros administramos utilizando el servicio de claves de Amazon: AWS Key Management Service (KMS).
 
 ### Client Side Encryption
-También podemos encriptar los datos nosotros localmente, previo al envío de los mismos a AWS S3.
+También podemos encriptar los datos nosotros localmente en nuestro equipo, previo al envío de los mismos a AWS S3, y subirlos encriptados.
 
 Refs:
 * [Protecting Data Using Encryption](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingEncryption.html)
@@ -661,7 +669,6 @@ Algunos (de los tantos) otros servicios de AWS que interactúan con S3:
 * [AWS Storage Gateway](https://aws.amazon.com/es/storagegateway/)
 * [AWS Glacier](https://aws.amazon.com/es/glacier/) - también puede ver nuestra [Clase de Glacier](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/Glacier/20170816_AWS_Glacier.md)
 * [Amazon CloudWatch Metrics for Amazon S3](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/cloudwatch-monitoring.html)
-* [AWS Snowbal](https://aws.amazon.com/es/snowball/) | [AWS Snowball Edge](https://aws.amazon.com/es/snowball-edge/) | [AWS Snowmobile](https://aws.amazon.com/es/snowmobile/)
 
 ---
 ## Herramientas para AWS
