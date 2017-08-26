@@ -17,29 +17,29 @@ Amazon Simple Storage Service (Amazon S3)
 - [Primeros Pasos](#primeros-pasos)
 - [Linea de Comandos de Amazon S3](#línea-de-comandos-de-amazon-s3)
 - [Folders](#folders)
-- [Acerca de los Datos](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_2.md)
-    - [Consistencia de los Datos](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_2.md#consistencia-de-los-datos)
-    - [Clases de Storage en S3](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_2.md#s3-storage-classes)
-    - [Metadatos](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_2.md#object-metadata)
-    - [Tags](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_2.md#tags)
-    - [Versionado](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_2.md#versionado)
-- [Gestión de los Datos](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_3.md)
-    - [Lifecycle Policies](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_3.md#lifecycle-policies)
-    - [Analytics](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_3.md#analytics)
-    - [Metrics](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_3.md#metrics)
-    - [Inventory](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_3.md#S3-inventory)
-- [Páginas Web estáticas](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_3.md#static-web-pages)
-- [Replicación entre Regiones](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_3.md#cross-region-replication)
-- [Control de Acceso](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_3.md#access-control)
-    - [Bucket Policy](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_3.md#bucket-policy-ejemplo)
-    - [AWS Policy Generator](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_3.md#policy-generator)
-    - [Audit Logs](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_3.md#audit-logs)
-- [Protección de los Datos](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_3.md#protección-de-los-datos)
+- [Acerca de los Datos](./AWS_S3_Parte_2.md)
+    - [Consistencia de los Datos](./AWS_S3_Parte_2.md#consistencia-de-los-datos)
+    - [Clases de Storage en S3](./AWS_S3_Parte_2.md#s3-storage-classes)
+    - [Metadatos](./S3/AWS_S3_Parte_2.md#object-metadata)
+    - [Tags](./AWS_S3_Parte_2.md#tags)
+    - [Versionado](./AWS_S3_Parte_2.md#versionado)
+- [Gestión de los Datos](./AWS_S3_Parte_3.md#gestión-de-los-datos)
+    - [Lifecycle Policies](./AWS_S3_Parte_3.md#lifecycle-policies)
+    - [Analytics](./AWS_S3_Parte_3.md#analytics)
+    - [Metrics](./AWS_S3_Parte_3.md#metrics)
+    - [Inventory](./AWS_S3_Parte_3.md#S3-inventory)
+- [Páginas Web estáticas](./AWS_S3_Parte_3.md#static-web-pages)
+- [Replicación entre Regiones](./AWS_S3_Parte_3.md#cross-region-replication)
+- [Control de Acceso](./AWS_S3_Parte_3.md#access-control)
+    - [Bucket Policy](./AWS_S3_Parte_3.md#bucket-policy-ejemplo)
+    - [AWS Policy Generator](./AWS_S3_Parte_3.md#policy-generator)
+    - [Audit Logs](./AWS_S3_Parte_3.md#audit-logs)
+- [Protección de los Datos](./AWS_S3_Parte_3.md#protección-de-los-datos)
     - [Datos en Tránsito](./AWS_S3_Parte_3.md#datos-en-tránsito)
-    - [Server Side Encryption (SSE)](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_3.md#server-side-encryption-sse)
-    - [Client Side Encryption](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_3.md#client-side-encryption)
-- [Información adicional](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_3.md#información-adicional)
-- [Herramientas para AWS](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_3.md#herramientas-para-aws)
+    - [Server Side Encryption (SSE)](./AWS_S3_Parte_3.md#server-side-encryption-sse)
+    - [Client Side Encryption](./AWS_S3_Parte_3.md#client-side-encryption)
+- [Información adicional](./AWS_S3_Parte_3.md#información-adicional)
+- [Herramientas para AWS S3](./AWS_S3_Parte_3.md#herramientas-para-aws)
 
 ---
 ## Introducción ##
@@ -113,12 +113,12 @@ En la mayoría de los casos no se utiliza directamente la interface REST, sino q
 
 
 
-Ref.:
-[Amazon S3 REST API Introduction](http://docs.aws.amazon.com/es_es/AmazonS3/latest/API/Welcome.html)
-[Consola Web de AWS](https://console.aws.amazon.com/console/home)
-[AWS Command Line Interfce (CLI)](https://aws.amazon.com/es/cli/)
-[AWS SDK para Python (Boto3)](https://aws.amazon.com/es/sdk-for-python/)
-[AWS SDK para Java](https://aws.amazon.com/es/sdk-for-java/)
+Ref:
+* [Amazon S3 REST API Introduction](http://docs.aws.amazon.com/es_es/AmazonS3/latest/API/Welcome.html)
+* [Consola Web de AWS](https://console.aws.amazon.com/console/home)
+* [AWS Command Line Interfce (CLI)](https://aws.amazon.com/es/cli/)
+* [AWS SDK para Python (Boto3)](https://aws.amazon.com/es/sdk-for-python/)
+* [AWS SDK para Java](https://aws.amazon.com/es/sdk-for-java/)
 
 ---
 ## Conceptos Básicos ##
@@ -132,9 +132,9 @@ El nombre del *bucket* debe ser único dentro de todos los existentes en Amazon 
 
 El nombre del *bucket* será visible en la URL que remite a los objetos almacenados en él. Una vez creado, el nombre no puede ser modificado.
 
-Ref.:
-[Working with Amazon S3 Buckets](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingBucket.html)
-[Restricciones y limitaciones en los Buckets](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/BucketRestrictions.html)
+Ref:
+* [Working with Amazon S3 Buckets](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingBucket.html)
+* [Restricciones y limitaciones en los Buckets](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/BucketRestrictions.html)
 
 
 ### Objects
@@ -145,7 +145,7 @@ El tamaño máximo para un objeto es de 5TB, y un *bucket* puede contener una ca
 
 Cada objeto consiste de *datos* (el archivo propiamente dicho) y *metadatos* (una serie de información acerca del archivo). La porción de *datos* es opaca a S3, es decir, es tratada como un simple conjunto de bytes sin importar su contenido. Los *metadatos* son pares de valores nombrados, que describen el objeto.
 
-Ref.:
+Ref:
 * [Working with Amazon S3 Objects](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingObjects.html)
 
 ### Keys
@@ -157,7 +157,7 @@ La combinación de *bucket* + *key* + *version ID* (opcional) identifica en form
 
 Ejemplo: */datos/informes/2017/01/reporte-de-horas.doc*
 
-Ref.:
+Ref:
 * [Object Keys](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingMetadata.html#object-keys)
 
 
@@ -368,7 +368,7 @@ aws s3 rm s3://iot-cloud-bucket-02/logo.png
 delete: s3://iot-cloud-bucket-02/logo.png
 ```
 
-Refs:
+Ref:
 * [AWS CLI Command References s3](http://docs.aws.amazon.com/cli/latest/reference/s3/)
 * [AWS CLI Command Reference: s3api](http://docs.aws.amazon.com/cli/latest/reference/s3api/index.html)
 * [Leveraging the s3 and s3api Commands](https://aws.amazon.com/es/blogs/developer/leveraging-the-s3-and-s3api-commands/)
@@ -442,7 +442,7 @@ $ $ aws s3 sync . s3://iot-cloud-bucket-01/carpeta-01/ --delete
 delete: s3://iot-cloud-bucket-01/carpeta-01/logs/log3.out
 ```
 
-Refs.:
+Ref:
 * [Working with Folders](http://docs.aws.amazon.com/es_es/AmazonS3/latest/UG/FolderOperations.html)
 
 

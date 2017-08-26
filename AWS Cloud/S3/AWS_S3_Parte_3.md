@@ -76,8 +76,7 @@ $ aws s3api get-bucket-lifecycle-configuration --bucket iot-cloud-bucket-01
 
 También podríamos usar el comando `aws s3api put-lifecycle-configuration` para establecer una regla sobre un *bucket*. Puede ver un ejemplo [aquí](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/set-lifecycle-cli.html).
 
-
-Ref.:
+Ref:
 * [Object Lifecycle Management](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/object-lifecycle-mgmt.html)
 * [Setting Lifecycle Configuration On a Bucket](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/how-to-set-lifecycle-configuration-intro.html)
 * [Set Lifecycle Configuration Using the AWS CLI](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/set-lifecycle-cli.html)
@@ -179,7 +178,7 @@ Con esta información podemos ver, por ej., que en los últimos 127 días (desde
 
 Esta herramienta nos permite entender mejor como utilizamos/accedemos a nuestros datos, y poder mejorar nuestra políticas de ciclo de vida. Por ej, podríamos crear una *lifecycle policy* sobre este *bucket* que mueva todos los objetos con mas de 30 días a la capa de acceso infrecuente *Standard_IA* para ahorrar costos de almacenamiento.
 
-Ref.:
+Ref:
 * [S3 Storage Management Update – Analytics, Object Tagging, Inventory, and Metrics](https://aws.amazon.com/es/blogs/aws/s3-storage-management-update-analytics-object-tagging-inventory-and-metrics/)
 * [Amazon S3 Analytics – Storage Class Analysis](http://docs.aws.amazon.com/AmazonS3/latest/dev/analytics-storage-class.html)
 * [How Do I Configure Storage Class Analysis?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/configure-analytics-storage-class.html)
@@ -221,7 +220,7 @@ Luego de unos 15 minutos iniciales, podemos ver la información recolectada por 
 
 
 
-Ref.:
+Ref:
 * [S3 Storage Management Update – Analytics, Object Tagging, Inventory, and Metrics](https://aws.amazon.com/es/blogs/aws/s3-storage-management-update-analytics-object-tagging-inventory-and-metrics/)
 * [Monitoring Metrics with Amazon CloudWatch](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/cloudwatch-monitoring.html)
 * [Metrics Configurations for Buckets](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/metrics-configurations.html)
@@ -247,7 +246,7 @@ Podemos seleccionar el *bucket* destino donde se almacenará el resultado del in
 El resultado se obtiene en formato CSV, a modo de ejemplo:
 ![alt text](./images/S3_inventory_02.png)
 
-Ref.:
+Ref:
 * [S3 Storage Management Update – Analytics, Object Tagging, Inventory, and Metrics](https://aws.amazon.com/es/blogs/aws/s3-storage-management-update-analytics-object-tagging-inventory-and-metrics/)
 * [Amazon S3 Inventory](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/storage-inventory.html)
 * [How Do I Configure Amazon S3 Inventory?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/configure-inventory.html)
@@ -328,7 +327,7 @@ Y si vamos a una dirección que no existe, nos dirige a *error.html*
 
 Podemos combinar esta funcionalidad de AWS S3 Static Website Hosting con AWS Route 53 para poder usar nuestros propios nombres de dominio para nuestro sitio en lugar de usar la dirección de *endpoint* provisto por Amazon.
 
-Ref.:
+Ref:
 * [How Do I Configure an S3 Bucket for Static Website Hosting?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/static-website-hosting.html)
 * [Configuring a Bucket for Website Hosting](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/HowDoIWebsiteConfiguration.html)
 * [Configuring a Webpage Redirect](https://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/how-to-page-redirect.html)
@@ -545,7 +544,7 @@ $ aws s3 ls s3://iot-cloud-bucket-destino
 ```
 
 
-Ref.:
+Ref:
 * [Cross-Region Replication](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/crr.html)
 * [S3 FAQs Cross-Region Replication FAQs](https://aws.amazon.com/es/s3/faqs/#crr)
 * [Amazon S3 Pricing](https://aws.amazon.com/es/s3/pricing/)
@@ -609,7 +608,7 @@ Generar la *policy* desde cero puede ser un poco difícil o engorroso, y puede d
 
 
 
-Ref.:
+Ref:
 * [Overview of Managing Access](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/access-control-overview.html)
 * [Managing Access Permissions to Your Amazon S3 Resources](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/s3-access-control.html)
 * [Bucket Policy Examples](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/example-bucket-policies.html)
@@ -658,7 +657,7 @@ Tenemos tres opciones para administrar las claves de encriptación:
 ### Client Side Encryption
 También podemos encriptar los datos nosotros localmente en nuestro equipo, previo al envío de los mismos a AWS S3, y subirlos encriptados.
 
-Refs:
+Ref:
 * [Protecting Data Using Encryption](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingEncryption.html)
 * [Protecting Data Using Server-Side Encryption](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/serv-side-encryption.html)
 * [Protecting Data Using Client-Side Encryption](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingClientSideEncryption.html)

@@ -53,8 +53,8 @@ Amazon Glacier proporciona tres opciones para el acceso (recuperación) de los d
 Amazon Glacier es un almancenamiento de tipo *object storage* y puede extender las capacidades de Amazon S3 para archivar datos a largo plazo reduciendo los costos.
 
 Ref:
-> [Amazon Glacier](https://aws.amazon.com/es/glacier/)
-> [Detalles del producto Amazon Glacier](https://aws.amazon.com/es/glacier/details/)
+* [Amazon Glacier](https://aws.amazon.com/es/glacier/)
+* [Detalles del producto Amazon Glacier](https://aws.amazon.com/es/glacier/details/)
 
 
 ### Formas de acceso a Glacier
@@ -66,12 +66,12 @@ Al igual que el resto de los servicios de Amazon, puede accederse y utilizarse d
 * AWS SDK
 
 
-Ref.:
-> [API Reference for Amazon Glacier](http://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/amazon-glacier-api.html)
-> [Consola Web de AWS](https://console.aws.amazon.com/console/home)
-> [AWS Command Line Interfce (CLI)](https://aws.amazon.com/es/cli/)
-> [AWS SDK para Python (Boto3)](https://aws.amazon.com/es/sdk-for-python/)
-> [AWS SDK para Java](https://aws.amazon.com/es/sdk-for-java/)
+Ref:
+* [API Reference for Amazon Glacier](http://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/amazon-glacier-api.html)
+* [Consola Web de AWS](https://console.aws.amazon.com/console/home)
+* [AWS Command Line Interfce (CLI)](https://aws.amazon.com/es/cli/)
+* [AWS SDK para Python (Boto3)](https://aws.amazon.com/es/sdk-for-python/)
+* [AWS SDK para Java](https://aws.amazon.com/es/sdk-for-java/)
 
 ---
 ## Conceptos Básicos ##
@@ -108,9 +108,9 @@ La consola web de AWS se puede utilizar para crear y eliminar *vaults* en Amazon
 
 
 Ref:
-> [Getting Started with Amazon Glacier](https://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/amazon-glacier-getting-started.html)
-> [Working with Vaults in Amazon Glacier](http://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/working-with-vaults.html)
-> [Working with Archives in Amazon Glacier](http://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/working-with-archives.html)
+* [Getting Started with Amazon Glacier](https://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/amazon-glacier-getting-started.html)
+* [Working with Vaults in Amazon Glacier](http://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/working-with-vaults.html)
+* [Working with Archives in Amazon Glacier](http://docs.aws.amazon.com/es_es/amazonglacier/latest/dev/working-with-archives.html)
 
 
 ---
@@ -339,7 +339,7 @@ $ aws s3 ls s3://iot-cloud-bucket-glacier/
 ![alt text](./images/Glacier_lifecycle_14.png)
 
 Ref:
-> [How Do I Restore an S3 Object That Has Been Archived to Amazon Glacier?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/restore-archived-objects.html)
+* [How Do I Restore an S3 Object That Has Been Archived to Amazon Glacier?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/restore-archived-objects.html)
 
 ---
 | [Siguiente >](./AWS_Glacier_Parte2.md) |

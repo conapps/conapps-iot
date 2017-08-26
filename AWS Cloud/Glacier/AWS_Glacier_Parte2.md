@@ -446,9 +446,9 @@ drwxr-xr-x 1 VM 197121       0 ago 23 21:22 ../
 ```
 
 Ref:
-> [Basic Command-line AWS Glacier Workflow](https://www.madboa.com/blog/2016/09/23/glacier-cli-intro/)
-> [Downloading an Archive in Amazon Glacier](http://docs.aws.amazon.com/amazonglacier/latest/dev/downloading-an-archive.html)
-> [AWS CLI Command Reference: Glacier](http://docs.aws.amazon.com/cli/latest/reference/glacier/index.html)
+* [Basic Command-line AWS Glacier Workflow](https://www.madboa.com/blog/2016/09/23/glacier-cli-intro/)
+* [Downloading an Archive in Amazon Glacier](http://docs.aws.amazon.com/amazonglacier/latest/dev/downloading-an-archive.html)
+* [AWS CLI Command Reference: Glacier](http://docs.aws.amazon.com/cli/latest/reference/glacier/index.html)
 
 
 
@@ -524,7 +524,7 @@ $ aws glacier describe-vault --account-id - --vault-name iot-cloud-vault-01
 }
 ```
 
-Por lo cual deberemos esperar hasta que el inventariado actualice esta información, para poder luego borrar el *vault*.
+Por lo cual deberemos esperar hasta que el inventariado actualice esta información.
 
 
 Ref:
@@ -548,14 +548,48 @@ An error occurred (InvalidParameterValueException) when calling the DeleteVault 
 ```
 
 Por lo cual, nuevamente, debemos esperar varias horas hasta que el *vault* sea nuevamente inventariado y refleje el borrado de los *archives*.
+--- varias horas mas tarde ---
+
+```bash
+$ aws glacier describe-vault --account-id - --vault-name iot-cloud-vault-01
+{
+    "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-vault-01",
+    "VaultName": "iot-cloud-vault-01",
+    "CreationDate": "2017-08-17T17:53:40.893Z",
+    "LastInventoryDate": "2017-08-25T10:51:06.724Z",
+    "NumberOfArchives": 0,
+    "SizeInBytes": 0
+}
+```
+
+![alt text](./images/Glacier_list_vaults_01.png)
 
 
+Ahora que el inventario se actualizó, podemos finalmente eliminar el *vault* mediante `aws glacier delete-vault`:
+```bash
+$ aws glacier delete-vault --account-id - --vault-name iot-cloud-vault-01
 
+$ aws glacier list-vaults --account-id -
+{
+    "VaultList": [
+        {
+            "VaultARN": "arn:aws:glacier:us-west-2:805750336955:vaults/iot-cloud-mis-respaldos",
+            "VaultName": "iot-cloud-mis-respaldos",
+            "CreationDate": "2017-08-22T17:15:01.608Z",
+            "LastInventoryDate": "2017-08-23T06:01:23.241Z",
+            "NumberOfArchives": 2,
+            "SizeInBytes": 5866437
+        }
+    ]
+}
+```
 
+O podemos hacerlo desde la consola web:
+ ![alt text](./images/Glacier_delete_vault_01.png)
 
 
 Ref:
-> [Deleting a Vault in Amazon Glacier](http://docs.aws.amazon.com/amazonglacier/latest/dev/deleting-vaults.html)
+* [Deleting a Vault in Amazon Glacier](http://docs.aws.amazon.com/amazonglacier/latest/dev/deleting-vaults.html)
 
 
 ---
