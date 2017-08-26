@@ -619,11 +619,17 @@ Ref.:
 
 ---
 ### Audit Logs
-In order to track requests for access to your bucket, you can enable access logging.
+Podemos habilitar el *logging* sobre un *bucket* y de esta forma obtener el detalle de los accesos que se realizaron a los objetos del mismo.
+Esto puede ser útil, por ejemplo, para poder tener registros de auditoría sobre los accesos a los objetos.
 
-Each access log record provides details about a single access request, such as the requester, bucket name, request time, request action, response status, and error code, if any. Access log information can be useful in security and access audits. It can also help you learn about your customer base and understand your Amazon S3 bill.
+Cada registro del log, nos mostrará información de cada requerimiento de acceso, quien lo realizó, a que *bucket*, que acción realizó, y cual fue la respuesta que obtuvo, así como el error code si lo hubiera.
+Los logs son generados y procesados periódicamente por Amazon, y el resultado se exporta a un *bucket* destino que nosotros indiquemos.
+Se habilita a nivel del *bucket*, dentro de las propiedades del mismo. Puede logearse el acceso a todos los objetos del *bucket*, o filtrar sobre algunos objetos mediante el uso de un *prefix*.
 
-There is no extra charge for enabling server access logging on an Amazon S3 bucket; however, any log files the system delivers to you will accrue the usual charges for storage. (You can delete the log files at any time.) No data transfer charges will be assessed for log file delivery, but access to the delivered log files is charged the same as any other data transfer.
+No hay costo adicional por habilitar la opción de logging, aunque dado que la salida del logging se guarda como objetos dentro de otro *bucket*, tendremos el costo asociado a dichos objetos generados.
+
+![alt text](./images/S3_logging_01.png)
+
 
 Ref:
 * [Server Access Logging](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/ServerLogs.html)
@@ -664,14 +670,27 @@ Refs:
 ---
 Algunas otras funcionalidades de S3 que debemos conocer:
 * [S3 Event Notifications](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/NotificationHowTo.html)
-* [S3 Requester Pays Buckets](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/RequesterPaysBuckets.html)
-* [S3 Performance Optimization](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/PerformanceOptimization.html)
-* [S3 Transfer Acceleration](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/transfer-acceleration.html)
+  Podemos configurar notificaciones, de modo que ante ciertas operaciones realizadas sobre un *bucket* (por ej. crear un objeto) nos envíe una notificación mediante SNS, SQS, o una función Lambda.
 
-Algunos (de los tantos) otros servicios de AWS que interactúan con S3:
+* [S3 Requester Pays Buckets](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/RequesterPaysBuckets.html).
+  Normalmente, el dueño (owner) del *bucket* debe pagar no solo por la capacidad de almacenamiento que está utilizando, sino también, por los requerimientos de acceso y los costos de transferencia de las descargas de los objetos.
+  Con esta opción, podemos configurar un *bucket* de forma que el usuario que accede a los datos sea quien pague por los requerimientos de acceso y los costos de transferencia de los objetos que accede. El dueño seguirá de todas formas pagando el costo por almacenar los objetos.
+
+* [S3 Request Rate and Performance Considerations](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/request-rate-perf-considerations.html)
+  En el caso de que tengamos una gran cantidad de operaciones sobre nuestros objetos (superiores a 100 PUT/LIST/DELETE o 300 GET por segundo), debemos tener en cuenta determinadas consideraciones respecto a los nombres que utilizamos para los objetos, y como optimizar la performance.
+
+* [S3 Transfer Acceleration](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/transfer-acceleration.html)
+  Permite habilitar transferencias rápidas, seguras y fáciles de archivos, cuando existen grandes distancias entre la ubicación del cliente (quien sube/accede a los datos) y el lugar donde se encuentra almacenado el *bucket* (la región de Amazon), utilizando los endpoints de Amazon CloudFront.
+
+* [Amazon S3 Transfer - Speed Comparasion](http://s3-accelerate-speedtest.s3-accelerate.amazonaws.com/en/accelerate-speed-comparsion.html)
+  Es una herramienta web que nos permite ver las velocidades de transferencia hacia las diferentes regiones de Amazon S3, compararlas entre sí, y ver además cuanto podríamos mejorar la transferencia si utilizáramos *S3 Transfer Acceleration*.
+
+
+Algunos otros (de los tantos) servicios de AWS que interactúan con S3:
+* [AWS Glacier](https://aws.amazon.com/es/glacier/) - también puede ver nuestra [Clase de Glacier](../Glacier/AWS_Glacier.md)
 * [AWS Storage Gateway](https://aws.amazon.com/es/storagegateway/)
-* [AWS Glacier](https://aws.amazon.com/es/glacier/) - también puede ver nuestra [Clase de Glacier](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/Glacier/20170816_AWS_Glacier.md)
 * [Amazon CloudWatch Metrics for Amazon S3](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/cloudwatch-monitoring.html)
+
 
 ---
 ## Herramientas para AWS
