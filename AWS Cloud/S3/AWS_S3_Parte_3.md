@@ -553,7 +553,7 @@ Ref.:
 
 ---
 ## Access Control
----
+--
 Por defecto Amazon S3 es seguro, cuando creamos un *bucket* o un objeto, solo el dueño (el usuario que lo creó) puede accederlo.
 El dueño puede opcionalmente brindar (o restringir) acceso de diversas formas:
 
@@ -600,7 +600,7 @@ Y si luego volvemos a intentar acceder al objeto desde el browser, ahora podemos
 ![alt text](./images/S3_bucket_policy_04.png)
 
 ---
-### Policy Generator
+### AWS Policy Generator
 Generar la *policy* desde cero puede ser un poco difícil o engorroso, y puede dar lugar a errores que permitan operaciones que no queríamos habilitar. Afortunadamente, Amazon provee una herramienta web [AWS Policy Generator](http://awspolicygen.s3.amazonaws.com/policygen.html) que nos permite generar la *policy* de una manera bastante mas sencilla, y luego podemos simplemente copiarla a nuestro *bucket* para aplicarla.
 
 ![alt text](./images/S3_policy_generator_01.png)
@@ -619,6 +619,7 @@ Ref.:
 
 ---
 ### Audit Logs
+
 Podemos habilitar el *logging* sobre un *bucket* y de esta forma obtener el detalle de los accesos que se realizaron a los objetos del mismo.
 Esto puede ser útil, por ejemplo, para poder tener registros de auditoría sobre los accesos a los objetos.
 
@@ -630,18 +631,18 @@ No hay costo adicional por habilitar la opción de logging, aunque dado que la s
 
 ![alt text](./images/S3_logging_01.png)
 
-
 Ref:
 * [Server Access Logging](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/ServerLogs.html)
 * [How Do I Enable Server Access Logging for an S3 Bucket?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/server-access-logging.html)
 
+
 ---
-## Encriptación de los Datos
+### Protección de los Datos
 ---
 Existen diversas opciones para encriptar la información guardada en Amazon S3.
 Repasaremos las opciones disponibles, aunque por el momento no profundizaremos sobre las mismas. Puede referirse a la documentación adicional para tener mas detalles.
 
-### Datos en transito
+### Datos en Tránsito
 Por defecto podemos realizar *uploads* y *downloads* seguros mediante endpoints encriptados con SSL si utilizamos HTTPS.
 Los datos que se replican entre regiones también viajan encriptados.
 
@@ -693,12 +694,12 @@ Algunos otros (de los tantos) servicios de AWS que interactúan con S3:
 
 
 ---
-## Herramientas para AWS
+## Herramientas para AWS S3
 ---
 
-Amazon cuenta con una variedad de herramientas para AWS, incluyendo SDK, IDE, línea de comandos, etc. Puede acceder al conjunto de herramientas desde aquí:
+Amazon cuenta con una variedad de herramientas para AWS, incluyendo SDK, IDE, línea de comandos, etc.
+Puede acceder al conjunto de herramientas desde aquí:
 * [Herramientas para Amazon Web Services](https://aws.amazon.com/es/tools/)
-
 
 Las herramientas de desarrollo (SDK) están disponibles para varios lenguajes:
 * [AWS SDK](https://aws.amazon.com/es/tools/#sdk)
@@ -707,6 +708,17 @@ Las herramientas de desarrollo (SDK) están disponibles para varios lenguajes:
 
 Y también podemos acceder a las herramientas de línea de comando, algunas de las cuales ya hemos utilizado:
 * [Herramientas de línea de comandos](https://aws.amazon.com/es/tools/#cli)
+* [AWS S3 CLI Command Reference: s3](http://docs.aws.amazon.com/cli/latest/reference/s3/)
+* [AWS S3 CLI Command Reference: s3api](http://docs.aws.amazon.com/cli/latest/reference/s3api/)
+
+### Herramientas de Terceros
+
+También existen incontables herramientas de terceros para trabajar con S3.
+Algunos ejemplos:
+* [S3cmd tool for Amazon S3](https://github.com/s3tools/s3cmd#s3cmd-tool-for-amazon-simple-storage-service-s3)
+* [MinFS - Mount a S3 bucket as a local directory](https://github.com/minio/minfs#minfs-quickstart-guide---)
+* [S3 Browser - Free Windows Client for Amazon S3 and Amazon CloudFront](http://s3browser.com/)
+* [CloudBerry Tools for Amazon S3](https://www.cloudberrylab.com/solutions/amazon-s3)
 
 
 ---
