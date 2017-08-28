@@ -155,12 +155,21 @@ Por el momento esto es todo lo que veremos respecto a la consola web.
 ---
 Una de las formas mas fáciles de trabajar con Glacier es haciéndolo desde S3, mediante *Lifecycle Policies*.
 
-En la clase de S3 ya vimos como crear una policy para mover datos a diferentes capas de almacenamiento, o incluso a Glacier. Puede ver esto [aquí](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_3.md#lifecycle-policies). Revisemos nuevamente como hacerlo.
+En la [clase de S3](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3_Parte_3.md#lifecycle-policies) vimos como crear una *lifecycle policy* para mover datos a diferentes capas de almacenamiento, y particularmente, **archivar objetos desde S3 hacia Glacier**.
+
+![alt text](./images/Glacier_s3_lifecycle_01.png)
+
+
+Ahora veremos como **recuperar objetos desde Glacier a S3**, para poder accederlos nuevamente.
+![alt text](./images/Glacier_s3_lifecycle_02.png)
+
 
 ---
 ### Transfiriendo datos desde S3 a Glaciar
 Vayamos ahora a la consola web de Amazon S3.
-Comencemos por crear un *bucket* donde almacenar los archivos que enviaremos a Glacier, y subamos un archivo a este bucket (utilizo el mismo archivo de 3MB que habíamos creado anteriormente, pero ahora lo llamo *mi_backup.zip*).
+Comencemos por repasar como crear la regla de *lifecycle policiy* para archivar objetos a Glacier.
+
+Para esto, primero vamos a crear un *bucket* y subirle un objeto (*mi_backup.zip*), que enviaremos luego a Glacier.
 
 Recuerde que esto lo estamos haciendo en S3, por lo cual podemos o bien usar la consola web de AWS o la CLI mediante comandos de s3.
 ```bash
@@ -171,9 +180,9 @@ $ aws s3 cp mi_backup.zip s3://iot-cloud-bucket-glacier/
 upload: .\mi_backup.zip to s3://iot-cloud-bucket-glacier/mi_backup.zip
 ```
 
-Ahora definamos una regla de *lifecycle* sobre este bucket, para mover todos los archivos del bucket que tengan más de 1 día de antiguedad a Glacier (este es el mínimo período de tiempo que podemos especificar). Recuerde que si lo desea puede filtrar a que objetos aplica esta regla, utilizando *prefixes* y/o *tags* (ya vimos esto antes).
+Ahora definamos una regla de *lifecycle* sobre este bucket, para mover todos los objetos que tengan más de 1 día de antiguedad a Glacier (este es el mínimo período de tiempo que podemos especificar). Recordemos que podríamos filtrar sobre que objetos aplica esta regla utilizando *prefixes* y/o *tags* (ya vimos esto antes).
 
-Ya debería saber como hacer esto, pero repasemos como crear la regla:
+Repasemos como crear la regla:
 
 ![alt text](./images/Glacier_lifecycle_01.png)
 
@@ -208,7 +217,7 @@ $ aws s3api get-bucket-lifecycle-configuration --bucket iot-cloud-bucket-glacier
 }
 ```
 
-Nuestro objeto *"mi_backup.zip"* se encuentra en la *Storage Class: Standard* de Amazon S3. Esto es porque cuando hicimos el upload no especificamos una clase de storage específica y por lo tanto S3 lo almacena por defecto en esta clase.
+Nuestro objeto *"mi_backup.zip"* se encuentra en la *Storage Class Standard* de Amazon S3. Esto es porque cuando hicimos el upload no especificamos una clase de storage específica y por lo tanto S3 lo almacena por defecto en esta clase.
 
 Esto podemos verlo con la CLI:
 ```bash
