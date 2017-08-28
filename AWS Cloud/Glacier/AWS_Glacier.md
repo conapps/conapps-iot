@@ -370,6 +370,6 @@ $ aws s3api head-object --bucket iot-cloud-bucket-glacier --key mi_backup.zip
 
 Ref:
 * [How Do I Restore an S3 Object That Has Been Archived to Amazon Glacier?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/restore-archived-objects.html)
-
+* [AWS CLI Command Referencia: s3api restore-object](http://docs.aws.amazon.com/cli/latest/reference/s3api/restore-object.html)
 ---
 | [Siguiente >](./AWS_Glacier_Parte2.md) |
