@@ -345,7 +345,28 @@ $ aws s3 ls s3://iot-cloud-bucket-glacier/
 2017-08-17 16:48:57    3145728 mi_backup.zip
 2017-08-21 15:00:11    3145728 mi_backup_copia.zip
 ```
+
 ![alt text](./images/Glacier_lifecycle_14.png)
+
+También podemos hacer el restore desde Glacier, utilizando la CLI, mediante el comando `aws s3api restore-object`
+
+```bash
+$ aws s3api restore-object --bucket iot-cloud-bucket-glacier --key mi_backup.zip --restore-request Days=3
+
+
+$ aws s3api head-object --bucket iot-cloud-bucket-glacier --key mi_backup.zip
+{
+    "AcceptRanges": "bytes",
+    "Restore": "ongoing-request=\"true\"",
+    "LastModified": "Thu, 17 Aug 2017 19:48:57 GMT",
+    "ContentLength": 3145728,
+    "ETag": "\"b944a8c500fe92d9e3af3ab9f0c53f0b\"",
+    "ContentType": "application/zip",
+    "Metadata": {},
+    "StorageClass": "GLACIER"
+}
+
+```
 
 Ref:
 * [How Do I Restore an S3 Object That Has Been Archived to Amazon Glacier?](http://docs.aws.amazon.com/es_es/AmazonS3/latest/user-guide/restore-archived-objects.html)
