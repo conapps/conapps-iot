@@ -42,7 +42,7 @@ Amazon EC2 cambia el modelo económico de la informática, ya que solo tendrá q
 ### Caso práctico de AWS: Netflix
 AWS permite a Netflix desplegar rápidamente miles de servidores y terabytes de almacenamiento en cuestión de minutos. Los usuarios pueden ver programas y películas de Netflix desde cualquier parte del mundo, incluso en la web, en tabletas o en dispositivos móviles como el iPhone.
 
-http://docs.aws.amazon.com/es_es/AWSEC2/latest/UserGuide/ec2-scheduled-instances.html
+https://aws.amazon.com/es/solutions/case-studies/netflix/
 
 
 ### El servicio EC2 puede dividirse en las siguientes secciones:
@@ -75,18 +75,18 @@ Estos AMI de proveedores pueden tener aplicaciones y configuraciones específica
 
 
 ## Tipos de Instancias
-```bash
+
 Un tipo de instancia simplemente define el tamaño de la instancia desde una CPU, memoria, almacenamiento y perspectiva de red. Tener esta flexibilidad de instancias variadas le permite seleccionar el tamaño o la potencia más apropiada de un servidor virtual que necesita para un rendimiento óptimo con sus aplicaciones.
-```
 
-Amazon EC2 permite elegir entre ***instancias de desempeño fijas*** (por ejemplo, M3, C3 y R3) e ***instancias de desempeño con ráfagas*** (por ejemplo, T2).
 
-##Familias de Instancias
+Amazon EC2 permite elegir entre ***instancias de desempeño fijo*** (por ejemplo, M3, C3 y R3) e ***instancias de desempeño con ráfagas*** (por ejemplo, T2).
+
+## Familias de Instancias
 
 ![alt text](./images/EC2_Available_Instance_Types.PNG)
 
 
-**Instancias de Desempeño con Ráfagas**
+### Instancias de Desempeño con Ráfagas
 
 
 Aquí es donde se encuentran las de propósito General.
@@ -133,17 +133,17 @@ Transcurridas 2 horas dispondremos de 12 minutos completos (2 horas x 6 crédito
 
 **Formato de Desempeño de las Instancias**
 
-Cuando inicia una instancia, el tipo de instancia que especifique determina el hardware del equipo host utilizado para su instancia. Cada tipo de instancia ofrece diferentes capacidades de cálculo, memoria y almacenamiento y se agrupan en familias de instancias basadas en estas capacidades. Seleccione un tipo de instancia basado en los requisitos de la aplicación o el software que planea ejecutar en su instancia.
-
 Amazon EC2 proporciona a cada instancia una cantidad consistente y previsible de capacidad de CPU, independientemente de su hardware subyacente.
 
-Amazon EC2 dedica algunos recursos del equipo host, como CPU, memoria y almacenamiento de instancias, a una instancia particular. Amazon EC2 comparte otros recursos de la computadora host, como la red y el subsistema de disco, entre instancias. Si cada instancia de un equipo host intenta utilizar tanto de uno de estos recursos compartidos como sea posible, cada uno recibe un porcentaje igual de ese recurso. Sin embargo, cuando un recurso está infrautilizado, una instancia puede consumir una mayor proporción de ese recurso mientras esté disponible.
+Amazon EC2 dedica algunos recursos del equipo host, como CPU, memoria y almacenamiento de instancias, a una instancia particular. Amazon EC2 comparte otros recursos de la computadora host, como la red y el subsistema de disco, entre instancias. 
 
-Cada tipo de instancia proporciona un rendimiento mínimo superior o inferior de un recurso compartido. Por ejemplo, los tipos de instancia con alto rendimiento de E / S tienen una mayor asignación de recursos compartidos. La asignación de una mayor proporción de recursos compartidos también reduce la varianza del rendimiento de E / S. Para la mayoría de las aplicaciones, un rendimiento de E / S moderado es más que suficiente. Sin embargo, para aplicaciones que requieren un rendimiento de E / S mayor o más consistente, considere un tipo de instancia con mayor rendimiento de E / S.
+Si cada instancia de un equipo host intenta utilizar tanto de uno de estos recursos compartidos como sea posible, cada uno recibe un porcentaje igual de ese recurso. Sin embargo, cuando un recurso está infrautilizado, una instancia puede consumir una mayor proporción de ese recurso mientras esté disponible.
+
+Cada tipo de instancia proporciona un rendimiento mínimo superior o inferior de un recurso compartido. Por ejemplo, los tipos de instancia con alto rendimiento de E / S tienen una mayor asignación de recursos compartidos. La asignación de una mayor proporción de recursos compartidos también reduce la varianza del rendimiento de E / S. Para la mayoría de las aplicaciones, un rendimiento de E / S moderado es más que suficiente. Sin embargo, para aplicaciones que requieren un rendimiento de E / S mayor o más consistente, se deberá considerar un tipo de instancia con mayor rendimiento de E / S.
 
 
 
-**Instancias de Desempeño fijo**
+### Instancias de Desempeño fijo
 
 Garantizan entregar los recursos en forma constante.
 Pensada para satisfacer aquellos requerimientos, donde es importante un desempeño de la CPU alto de manera consistente para aplicaciones como, por ejemplo,codificación de video, sitios web de alto volumen o aplicaciones HPC (High Performance Computing)
