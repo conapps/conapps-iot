@@ -16,6 +16,7 @@ Amazon Elastic Cloud Computing (Amazon EC2)
 - [Opciones de Tenencia](#opciones-de-tenencia)
 - [Ciclo de Vida de las Instancias](#ciclo-de-vida-de-las-instancias)
 
+&nbsp;
 ---
 ## Introducción ##
 ---
@@ -53,8 +54,8 @@ https://aws.amazon.com/es/solutions/case-studies/netflix/
 *	datos del usuario
 *	Opciones de almacenamiento
 *	seguridad
-
-
+---
+&nbsp;
 ## AMIs
 
 Son esencialmente plantillas de instancias EC2 preconfiguradas que permiten iniciar rápidamente una nueva instancia EC2 basada en la configuración dentro del AMI. 
@@ -169,17 +170,14 @@ Para ello se deberán realizar los siguientes pasos:
 
   Si por error se le da nuevamente **desregistrar** a una AMI a la que ya se le inició el proceso, se mostrará el siguiente mensaje de error:
   
- ![alt text](./images/EC2_AMI_Desregister_Error.png)
+  ![alt text](./images/EC2_AMI_Desregister_Error.png)
 
 * Finalmente, para verificar, se deberá volver a la sección **Images**. Allí se constatará de que no existen AMIs creadas.
 ![alt text](./images/EC2_AMI_Desregister_Verification.png)
 
 
-
-
-
-
-
+---
+&nbsp;
 
 ## Tipos de Instancias
 
@@ -331,8 +329,8 @@ Pensada para satisfacer aquellos requerimientos, donde es importante un desempe�
 
   Esta familia incluye instancias de gran capacidad de almacenamiento que ofrecen almacenamiento de instancias respaldado por SSD en memoria no volátil exprés (NVMe) optimizado para baja latencia, desempeño de E/S aleatoria muy alta, desempeño de lectura secuencial alto y ofrecen IOPS altas a bajo costo.
 
-
 ---
+&nbsp;
 ## Formas de Adquisición:
 
 * Reservadas
@@ -445,7 +443,7 @@ Pensada para satisfacer aquellos requerimientos, donde es importante un desempe�
 
   Por mas información consulte:   http://docs.aws.amazon.com/es_es/AWSEC2/latest/UserGuide/ec2-scheduled-instances.html
 ---
-
+&nbsp;
 ## Opciones de Tenencia
 
 * Compartida
@@ -519,6 +517,7 @@ Pensada para satisfacer aquellos requerimientos, donde es importante un desempe�
 
 
 **************************************************
+&nbsp;
 ## Ciclo de Vida de las Instancias
 ![alt text](./images/EC2_Instance_Life_Cycle.PNG)
 
