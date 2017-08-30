@@ -73,6 +73,105 @@ Entonces, si se necesita otro servidor de la misma configuración, todo lo que n
 Además de AWS-manejado y de su propio AMIs personalizado, también será posible seleccionar un AMI del mercado de AWS. El mercado de AWS es básicamente una tienda en línea que permite comprar AMIs de proveedores de confianza como Cisco, Citrix, Alert Logic, etc. 
 Estos AMI de proveedores pueden tener aplicaciones y configuraciones específicas ya hechas, como las instancias optimizadas con seguridad incorporada Y herramientas de monitoreo o contengan sistemas de migración de bases de datos. Por último, también existen AMI de la comunidad, que son un repositorio de AMIs que han sido creados y compartidos por otros miembros de AWS.
 
+**Como crear AMIs personalizadas**
+
+A continuación se presentará un ejemplo práctico, de como crear AMIs personalizadas. Es decir: De una instancia base, puede generarse la necesidad de disponer de imagenes de la misma, para ser replicadas en nuevas instancias. Pej: Tomo una AMI base con Windows Server 2016, y le instalo determinados features que sé que voy a necesitar cada vez que levante una nueva instancia con dicho sistema operativo.
+
+Pasos:
+* Desde una instancia, voy a ***Create Image***.
+![alt text](./images/EC2_Create_AMI.png)
+
+* Luego debo seleccionar los parámetros a nivel de configuración. Recordemos que los tipos de volumen de propósito general son los que se encuentran incluídos dentro del free tier.
+
+  En el caso de la opción Delete On Termination, significa que dicha imagen será destruida una vez que la instancia asociada a dicha imagen finalice. Si se desea esto, se deberá activar esta opción.
+
+  ![alt text](./images/EC2_Create_AMI_02.png)
+  <u>**Nota:**</u>
+
+  ***La capa gratuita nos permite almacenar hasta 30 GB de Amazon Elastic Block Store en cualquier combinación de almacenamiento general (SSD) o magnético, más 2 millones de E/S (con almacenamiento magnético de EBS) y 1 GB de almacenamiento de snapshots***
+
+  ***Por mas información consulte:   https://aws.amazon.com/es/free/***
+
+
+
+* Una vez finalizado con el proceso de parametrización se mostrará lo siguiente:
+![alt text](./images/EC2_Create_AMI_03.png) 
+
+  <u>**Nota:**</u>
+
+  ***El proceso de creación de una AMI, genera un snapshot. Para evitar costos adicionales, borrar todo para evitar costos adicionales.***
+
+   ***Por mas información consulte:   https://aws.amazon.com/es/free/***
+
+
+* Para ver la AMI creada, nos dirigimos a Images->AMIs
+
+  ![alt text](./images/EC2_Available_Custom_AMI.png) 
+
+
+**Permisos sobre AMIs personalizadas**
+* Para visualizar y modificar los permisos sobre la AMI creada, se deberá hacer clic sobre la AMI.
+
+  ![alt text](./images/EC2_AMI_Permissions.png) 
+
+  Luego hacemos clic sobre el botón Edit, y se mostrará la siguiente pantalla:
+  ![alt text](./images/EC2_Modify_AMI_Permissions.png) 
+  
+
+  Allí se podrán agregar/modificar/eliminar permisos sobre dicha AMI.
+
+  También podemos otorgarle permisos al usuario, de forma de que pueda crear volúmenes asociados al snapshot.
+
+**Agregar TAG a AMI**
+
+* Los TAGs permiten clasificar los recursos AWS de diferentes maneras, por ejemplo, por propósito, propietario o entorno. Esto es útil cuando se tienen muchos recursos del mismo tipo. Con lo cual el manejo de tags facilita al momento de identificar rápidamente un recurso específico basado en los tags que se le han asignado. 
+
+
+  ![alt text](./images/EC2_AMI_Tags.png) 
+  
+
+
+  ![alt text](./images/EC2_AMI_Tags_02.png)
+
+  Cada tag consta de una clave y un valor opcional, ambos definidos.
+
+  <u>Un ejemplo:</u>
+
+  ![alt text](./images/EC2_AMI_Tags_03.png)
+
+
+  Por mas información consulte:   http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html
+
+
+**Agregar TAG a AMI**
+
+  
+* Para poder utilizar las AMIs creadas, primeramente se deberá crear una nueva instancia. Luego, en el momento de elegir la AMI, debajo de **my AMIs** se encuentran las AMI creadas. Simplemente la seleccionamos, y luego el proceso continúa de forma análoga al proceso básico de levantar una nueva instancia.
+
+
+  ![alt text](./images/EC2_AMI_Choose.PNG)
+
+  ![alt text](./images/EC2_Instance_Deploy.PNG)
+
+
+**Desregistrar una AMI**
+
+Se puede llegar a dar la situación, en la que se desee desregistrar la AMI creada.
+Para ello se deberán realizar los siguientes pasos:
+
+* Dirigirse a Images, y luego presionar botón derecho sobre la AMI.
+  
+  ![alt text](./images/EC2_AMI_Desregister.PNG)
+
+  ![alt text](./images/EC2_AMI_Desregister_02.PNG)
+
+* El proceso de desregistro demora unos minutos en completarse.
+
+  Si por error se le da nuevamente **desregistrar** a una AMI a la que ya se le inició el proceso, se mostrará el siguiente mensaje de error:
+  ![alt text](./images/EC2_AMI_Desregister_Error.png)
+
+* Finalmente, para verificar, se deberá volver a la sección **Images**. Allí se constatará de que no existen AMIs creadas.
+![alt text](./images/EC2_AMI_Desregister_Verification.png)
 
 ## Tipos de Instancias
 
@@ -80,6 +179,8 @@ Un tipo de instancia simplemente define el tamaño de la instancia desde una CPU
 
 
 Amazon EC2 permite elegir entre ***instancias de desempeño fijo*** (por ejemplo, M3, C3 y R3) e ***instancias de desempeño con ráfagas*** (por ejemplo, T2).
+
+
 
 ## Familias de Instancias
 
