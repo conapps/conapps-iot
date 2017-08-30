@@ -59,7 +59,7 @@ Es posible integrar IAM con otros servicios de AWS.
 
 IAM es un servicio que se ofrece sin cargo.
 
-Ref: Más información sobre el standard de seguridad de los datos [PCI DSS](https://aws.amazon.com/es/compliance/pci-dss-level-1-faqs/).
+Refs: Más información sobre el standard de seguridad de los datos [PCI DSS](https://aws.amazon.com/es/compliance/pci-dss-level-1-faqs/).
 
 ---
 ## Identity vs Access Management
@@ -141,17 +141,14 @@ De esta froma, los usuarios dentro del grupo, heredan dichos permisos. Solo bast
 - **Un usuario puede ser asociado a un máximo de 10 grupos**.
 
 ![IAM Groups](images/IAM_groups_permissions.PNG)
---
 
-## Ejercicio # 1 haciendo clic en el siguiente [link](ejercicios/AWS_IAM_1_Users.md)
-
-## Ejercicio # 2 haciendo clic en el siguiente [link](ejercicios/AWS_IAM_2_Groups.md)
-
+---
+## [Ejercicio # 1 y 2](ejercicios/AWS_IAM_1_Users_Groups.md)
 ---
 
 ## Roles
 
-Un rol es muy parecido a un usuario, en el sentido de que se puede asignar permisos a un rol y luego el rol, atachearlo a un servicio. Sin embargo, **un rol no tienen ningun tipo de credencial (password o access keys**.
+Un rol es muy parecido a un usuario, en el sentido de que se le pueden asignar permisos y luego ser atacheado a un servicio. Sin embargo, **un rol no tiene ningun tipo de credencial (user/password o access keys)**.
 
 ### Tipos de roles
 
@@ -173,14 +170,14 @@ Las credenciales temporales son utilizadas principalmente para los roles. Se pue
 
 - Rol
     - Cuando tenemos aplicaciones corriendo sobre una instancia de EC2 y la aplicación necesita acceder a otros servicios de AWS.
-    - Cuando tenemos una app para celulares y la app necesita acceder a otros servicios de AWS.
+    - Cuando deseamos utilizar _features_ de algunos servicios los cuales si o si necesitan tener un rol asignados (Ej; Amazon S3 region replication).
     - Cuando los usuarios ya estan autenticados en la red empresarial y necesita utilizar AWS sin la necesidad de tener que loguearse nuevamente (SSO).
 
 ---
 
 ## Políticas (Policies)
 
-Las IAM Policies son utilziadas para asignar permisos. El formato json y la estructura base es la siguiente:
+Las IAM Policies son utilziadas para asignar permisos. El formato de definición de las políticas es json y la estructura base es la siguiente:
 
 ```bash
 {
@@ -201,6 +198,62 @@ Las IAM Policies son utilziadas para asignar permisos. El formato json y la estr
 }
 ```
 
+- **Version:**
+    - Debe aparecer antes que el Statement.
+    - Solo acepta 2 valores (2012-10-17 o 2008-10-17). 
+    - Si no se especifica, toma 2008 por defecto. 
+    - Con la versión 2008 hay _features_ que no funcionan (Ej; _policy variables_).
+
+- **Statement:** 
+    - Elemento obligatorio.
+    - Elemento principal de la _policy_.
+    - Incluye varios elementos dentro de un array json.
+    - Formato: "Statement": [{...},{...},{...}].
+
+- **Sid:**
+    - Elemento opcional, se puede asignar un sid a cada statement.
+    - Es un sub-id que puede ser utilizados por algunos servicios como SQS y SNS.
+
+- **Acction:**
+    - Elemento obligatorio.
+    Describe la/s acción/es específica/s que serán permitidas o denegadas.
+    - Cada servicio de AWS tiene su propio conjutno de tareas a realizar/denegar.
+    - No es key sensitive -> iam:ListAccessKeys = IAM:listaccesskeys.
+    - Se pueden concatenar acciones: "Action": [ "sqs:SendMessage", "sqs:ReceiveMessage", "ec2:StartInstances", "iam:ChangePassword", "s3:GetObject"].
+    - Se pueden utilizar _wildcards (*)_: "Action": "s3:*" o "Action": "iam:\*AccessKey\*".
+
+- Effect:
+    - Solo acpeta 2 opciones: Allow o Deny.
+
+- Resource:
+    - Indica el recurso o recursos que cubre el statement.
+    - Se utiliza el nombre ARN.
+    ```bash
+    "Resource": "arn:aws:s3:us-east-2:user-account-ID:my_corporate_bucket/*"
+    ```
+
+- Condition:
+    - Campo opcional.
+    - Permite setear condiciones para ejecutar la política.
+    - Pueden incluir fechas, horas, ip origen, usuario, etc.
+    ```bash
+    "Condition": {
+          "IpAddress": {
+              "aws:SourceIp": "10.10.0.0/16"
+          }
+      }
+    ```
+
+Refs:
+
+[AWS Reference Policies Elements](http://docs.aws.amazon.com/es_es/IAM/latest/UserGuide/reference_policies_elements.html)
+
+[AWS Amazon Resources Names](http://docs.aws.amazon.com/es_es/general/latest/gr/aws-arns-and-namespaces.html)
+
+[AWS Global Conditions Keys](http://docs.aws.amazon.com/es_es/IAM/latest/UserGuide/reference_policies_condition-keys.html#AvailableKeys)
+
+---
+
 ## Tipos de Políticas (Type of policies)
 
 - **AWS Managed Policies** 
@@ -211,10 +264,11 @@ Son políticas pre-creadas por AWS y pueden ser asociadas a Grupos, Roles y Usua
 
 Son políticas creadas por el propio usuario y existen 3 formas de hacerlo:
 
-    1. Copiar una _Managed Policy_ y editarla.
-    2. Utilizar el generador de _policies._
-    3. Escribir el json con la nueva política
+    1. Copiar una Managed Policy y editarla.
+    2. Utilizar el generador de policies.
+    3. Escribir el json desde 0.
 
+---
 ## Resolución de conflictos de permisos.
 
 - Por defecto el acceso a todos los recursos esta prohibido.

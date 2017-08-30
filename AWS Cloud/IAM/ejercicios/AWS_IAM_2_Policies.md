@@ -1,8 +1,8 @@
-## Manejo de políticas mediante la consola de AWS (MC).
+## Ejercicio 3: Manejo de políticas mediante la consola de AWS (MC).
 
 A continuación vamos a crear políticas para definir permisos. Existen 3 formas de realizar esta tarea:
 
-### 1. Copy an AWS Managed Policy
+### Forma 1. Copy an AWS Managed Policy
 
 * Acceder a la [consola IAM](https://console.aws.amazon.com/iam/)
 
@@ -29,7 +29,7 @@ A continuación vamos a crear políticas para definir permisos. Existen 3 formas
 ![IAM Policy](../images/IAM_policy8.png)
 
 ---
-### 2. Policy Generator
+### Forma 2. Policy Generator
 
 * Hacemos clic en la opción _Select_ de _Policy Generator_
 
@@ -58,7 +58,7 @@ A continuación vamos a crear políticas para definir permisos. Existen 3 formas
 
 
 ---
-### 3. Create Your Own Policy
+### Forma 3. Create Your Own Policy
 
 * Hacemos clic en la opción _Create your own policy_
 
@@ -118,9 +118,6 @@ aws iam create-policy --policy-name custom-policy-marcelo --policy-document file
     }
 }
 ```
-
-
-
 
 ---
 Refs:
