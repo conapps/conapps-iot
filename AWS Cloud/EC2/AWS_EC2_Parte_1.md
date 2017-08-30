@@ -73,7 +73,7 @@ Entonces, si se necesita otro servidor de la misma configuración, todo lo que n
 Además de AWS-manejado y de su propio AMIs personalizado, también será posible seleccionar un AMI del mercado de AWS. El mercado de AWS es básicamente una tienda en línea que permite comprar AMIs de proveedores de confianza como Cisco, Citrix, Alert Logic, etc. 
 Estos AMI de proveedores pueden tener aplicaciones y configuraciones específicas ya hechas, como las instancias optimizadas con seguridad incorporada Y herramientas de monitoreo o contengan sistemas de migración de bases de datos. Por último, también existen AMI de la comunidad, que son un repositorio de AMIs que han sido creados y compartidos por otros miembros de AWS.
 
-**Como crear AMIs personalizadas**
+<u>**Como crear AMIs personalizadas**</u>
 
 A continuación se presentará un ejemplo práctico, de como crear AMIs personalizadas. Es decir: De una instancia base, puede generarse la necesidad de disponer de imagenes de la misma, para ser replicadas en nuevas instancias. Pej: Tomo una AMI base con Windows Server 2016, y le instalo determinados features que sé que voy a necesitar cada vez que levante una nueva instancia con dicho sistema operativo.
 
@@ -86,9 +86,9 @@ Pasos:
   En el caso de la opción Delete On Termination, significa que dicha imagen será destruida una vez que la instancia asociada a dicha imagen finalice. Si se desea esto, se deberá activar esta opción.
 
   ![alt text](./images/EC2_Create_AMI_02.png)
-  <u>**Nota:**</u>
 
-  ***La capa gratuita nos permite almacenar hasta 30 GB de Amazon Elastic Block Store en cualquier combinación de almacenamiento general (SSD) o magnético, más 2 millones de E/S (con almacenamiento magnético de EBS) y 1 GB de almacenamiento de snapshots***
+
+  **La capa gratuita nos permite almacenar hasta 30 GB de Amazon Elastic Block Store en cualquier combinación de almacenamiento general (SSD) o magnético, más 2 millones de E/S (con almacenamiento magnético de EBS) y 1 GB de almacenamiento de snapshots**
 
   ***Por mas información consulte:   https://aws.amazon.com/es/free/***
 
@@ -97,7 +97,7 @@ Pasos:
 * Una vez finalizado con el proceso de parametrización se mostrará lo siguiente:
 ![alt text](./images/EC2_Create_AMI_03.png) 
 
-  <u>**Nota:**</u>
+  **Nota:**
 
   ***El proceso de creación de una AMI, genera un snapshot. Para evitar costos adicionales, borrar todo para evitar costos adicionales.***
 
@@ -109,7 +109,7 @@ Pasos:
   ![alt text](./images/EC2_Available_Custom_AMI.png) 
 
 
-**Permisos sobre AMIs personalizadas**
+<u>**Permisos sobre AMIs personalizadas**</u>
 * Para visualizar y modificar los permisos sobre la AMI creada, se deberá hacer clic sobre la AMI.
 
   ![alt text](./images/EC2_AMI_Permissions.png) 
@@ -122,7 +122,7 @@ Pasos:
 
   También podemos otorgarle permisos al usuario, de forma de que pueda crear volúmenes asociados al snapshot.
 
-**Agregar TAG a AMI**
+<u>**Agregar TAG a AMI**</u>
 
 * Los TAGs permiten clasificar los recursos AWS de diferentes maneras, por ejemplo, por propósito, propietario o entorno. Esto es útil cuando se tienen muchos recursos del mismo tipo. Con lo cual el manejo de tags facilita al momento de identificar rápidamente un recurso específico basado en los tags que se le han asignado. 
 
@@ -143,35 +143,43 @@ Pasos:
   Por mas información consulte:   http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html
 
 
-**Agregar TAG a AMI**
+<u>**Uso de una AMI Personalizada**</u>
 
   
 * Para poder utilizar las AMIs creadas, primeramente se deberá crear una nueva instancia. Luego, en el momento de elegir la AMI, debajo de **my AMIs** se encuentran las AMI creadas. Simplemente la seleccionamos, y luego el proceso continúa de forma análoga al proceso básico de levantar una nueva instancia.
 
 
-  ![alt text](./images/EC2_AMI_Choose.PNG)
+  ![alt text](./images/EC2_AMI_Choose.png)
 
-  ![alt text](./images/EC2_Instance_Deploy.PNG)
+  ![alt text](./images/EC2_Instance_Deploy.png)
 
 
-**Desregistrar una AMI**
+<u>**Desregistrar una AMI**</u>
 
 Se puede llegar a dar la situación, en la que se desee desregistrar la AMI creada.
 Para ello se deberán realizar los siguientes pasos:
 
 * Dirigirse a Images, y luego presionar botón derecho sobre la AMI.
   
-  ![alt text](./images/EC2_AMI_Desregister.PNG)
+  ![alt text](./images/EC2_AMI_Desregister.png)
 
-  ![alt text](./images/EC2_AMI_Desregister_02.PNG)
+  ![alt text](./images/EC2_AMI_Desregister_02.png)
 
 * El proceso de desregistro demora unos minutos en completarse.
 
   Si por error se le da nuevamente **desregistrar** a una AMI a la que ya se le inició el proceso, se mostrará el siguiente mensaje de error:
-  ![alt text](./images/EC2_AMI_Desregister_Error.png)
+  
+ ![alt text](./images/EC2_AMI_Desregister_Error.png)
 
 * Finalmente, para verificar, se deberá volver a la sección **Images**. Allí se constatará de que no existen AMIs creadas.
 ![alt text](./images/EC2_AMI_Desregister_Verification.png)
+
+
+
+
+
+
+
 
 ## Tipos de Instancias
 
