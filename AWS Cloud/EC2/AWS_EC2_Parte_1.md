@@ -504,7 +504,8 @@ Pensada para satisfacer aquellos requerimientos, donde es importante un desempe�
       * El nombre que especifique para un grupo de ubicaciones debe ser único dentro de su cuenta de AWS.
 
       * Los siguientes son los únicos tipos de instancia que puede utilizar al iniciar una instancia en un grupo de ubicaciones:
-      ![alt text](./images/EC2_Placement_Group_Instances.png)
+      
+      ![alt text](./images/EC2_Placement_Group_Instances.PNG)
 
       * La velocidad máxima de tráfico de la red entre dos instancias de un grupo de ubicaciones está limitada por la más lenta de las dos instancias.  
 
