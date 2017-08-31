@@ -2,12 +2,14 @@
 
 ---
 ### Opciones de Pago
+
 * Instancias Bajo Demanda
+    
     Son las instancias de EC2 que puede iniciar en cualquier momento y tenerlo aprovisionado y disponible en cuestión de minutos. 
     
     Se puede usar esta instancia por un tiempo más corto o por el tiempo que se necesite antes de finalizar la instancia. 
     
-    Estas instancias tienen una tasa fija y se determina en el tipo de instancia seleccionado y se paga por hora. 
+    Estas instancias tienen una tasa fija y se determina en el tipo de instancia seleccionado y **se paga por hora**. 
     
     Las instancias bajo demanda se usan típicamente para usos a corto plazo donde las cargas de trabajo pueden ser irregulares y donde la carga de trabajo no puede interrumpirse. 
     
@@ -90,7 +92,7 @@ Los tipos de volúmenes se dividen en dos categorías:
     * SSD con IOPS Provisionados (io1)
     
         Volumen SSD de mayor rendimiento diseñado para aplicaciones de misión crítica
-    ![alt text](./images/EC2_GP1.png)
+    ![alt text](./images/EC2_GP1.PNG)
         
         Casos de uso:
         
