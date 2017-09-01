@@ -327,7 +327,15 @@ Pensada para satisfacer aquellos requerimientos, donde es importante un desempe�
  
   **Descripción:**
 
-  Esta familia incluye instancias de gran capacidad de almacenamiento que ofrecen almacenamiento de instancias respaldado por SSD en memoria no volátil exprés (NVMe) optimizado para baja latencia, desempeño de E/S aleatoria muy alta, desempeño de lectura secuencial alto y ofrecen IOPS altas a bajo costo.
+  Las instancias de optimización de cálculo son ideales para aplicaciones de cálculo que se benefician de los procesadores de alto         rendimiento. Son adecuados para las siguientes aplicaciones:
+
+  * Cargas de trabajo de procesamiento por lotes
+  * Transcodificación de medios
+  * Servidores web de alto tráfico, servidores de juegos masivos online (MMO) y motores de publicación de anuncios
+  * Computación de alto rendimiento (HPC) y otras aplicaciones de uso intensivo de computación
+  
+  Esta familia incluye instancias de gran capacidad de almacenamiento que ofrecen almacenamiento de instancias respaldado por SSD en       memoria no volátil exprés (NVMe) optimizado para baja latencia, desempeño de E/S aleatoria muy alta, desempeño de lectura secuencial     alto y ofrecen IOPS altas a bajo costo.
+
 
 ---
 &nbsp;
