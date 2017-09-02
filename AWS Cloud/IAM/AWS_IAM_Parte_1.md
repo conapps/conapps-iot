@@ -37,7 +37,7 @@ Podemos utilizar las funciones de IAM para otorgar credenciales de acceso a apli
 
 - **Multi-factor authentication (MFA)**
 
-Podemos agregar autenticación en 2 pasos para mayor seguridad. Los usuarios deberán no solo la clave de acceso, sino que también, un código de acceso de algún dispositivo pre-configurado.
+Podemos agregar autenticación en 2 pasos para mayor seguridad. Los usuarios deberán otorgar la clave de acceso, sino que también, un código que será enviado a algún dispositivo pre-configurado.
 
 - **Federación de identidad**
 
@@ -49,76 +49,98 @@ Si estamos utilizando [AWS CloudTrail](https://aws.amazon.com/es/cloudtrail/) re
 
 - **Payment Card Industry(PCI) & Data Security Standard (DSS)**
 
-IAM soporta el manejo de información y transacciones asociadas a las tarjetas de crédito. Para más información consultar.
+IAM soporta el manejo de información y transacciones asociadas a las tarjetas de crédito.
 
 - **Integración con otros servicios de AWS**
 
-Es posible integrar IAM con otros servicios de AWS.
+Es posible integrar las funciones de IAM con otros servicios de AWS. Generalmente utilizando la funcion de Roles.
 
 - **Sin cargos extra**
 
 IAM es un servicio que se ofrece sin cargo.
 
+
 Refs: Más información sobre el standard de seguridad de los datos [PCI DSS](https://aws.amazon.com/es/compliance/pci-dss-level-1-faqs/).
 
 ---
-## Identity vs Access Management
+## _Identity vs Access Management_
 
-Es importante entender la diferencia entre el concepto de Identity y el de Access Management.
+Es importante entender la diferencia entre el concepto de _Identity_ y el de _Access Management_.
 
-- **Identity**
+- **_Identity_**
 
-Cuando nos referimos a Identity, estamos hablando de como vamos a identificar unívocamente a una persona/aplicación.
+Cuando nos referimos a _Identity_, estamos hablando de identidad y de **como vamos a identificar a ese usuario**.
 
-- **Access Management**
+- **_Access Management_**
 
- Cuando hablamos de Access Management estamos hablando de qué es lo que un usuario/aplicación va a poder hacer dentro de AWS.
+ Cuando hablamos de _Access Management_, estamos hablando de **qué es lo que un usuario va a poder hacer dentro de AWS**. Básicamente estamos hablando de qué es lo que el usuario va a poder realizar dentro de AWS.
 
-**Por defecto, los usuarios (salvo root) no tienen permisos para acceder a ningún recurso** salvo que se indique lo contrario mediante políticas.
+**Por defecto, los usuarios (salvo root) no tienen permisos para acceder a ningún recurso**, salvo que se indique lo contrario mediante políticas.
 
 ---
 ## Tipos de acceso
 
-Podemos utilizar AWS Identity and Access Management en cualquera de las siguientes formas.
+Podemos identificar a un usuario de IAM de varias formas.
 
-- **Usuario + Password**
-    - AWS Management Console
+- **_User + Password_**
 
-- **Access Key ID + Secret Access Key**
-    - AWS Command Line Tools
-    - AWS SDKs
-    - HTTPS API REST
+    - Nos brinda acceso a AWS mediante la _Management Console_.
 
----
+- **_Access Key ID + Secret Access Key_**
 
-## El usuario root
-
-Cuando crearmos por primera vez una cuenta en AWS, por defecto estamos creando una cuenta root. Con estas credenciales, podemos acceder a la Consola de administración.
-
-Cuando utilizamos la cuenta root, tenemos acceso completo a todos los servicios y recursos de AWS, incluyendo la facturación. AWS recomienda **NO UTILIZAR LA CUENTA ROOT** para el trabajo diario y crear otros usuarios con los permisos necesarios.
+    - Nos brinda acceso a AWS mediante las siguientes modalidades:
+        - AWS _Command Line Tools_
+        - AWS SDKs
+        - HTTPS API REST
 
 ---
 
-## Responsabilidades
+## _Access Key ID + Secret Access Key_
 
-![IAM Responsability](images/IAM_responsibility.png)
+En el caso que necesitemos que un usuario tenga acceso a los servicios de AWS de forma programática, es necesesario generar un par de llaves llamadas: _access key pair_. 
+
+Una _access key pair_ está integrada por:
+
+- **_Access Key Id_:**
+    - _Uppercase String_ alfanumerico de 20 digitos (numeros y letras mayúsculas).
+    - Está activa por defecto (se puede deshabilitar).
+    - Se puede generar hasta 2 AKI por usuario (útil para rotación de _keys_).
+    - Se pueden borrar (no se pueden recuperar).
+    - Podemos darle permisos al _owner_ de las _keys_ para que se administre sus propias _keys_.
+
+- **_Secret Access Key_:**
+    - _String_ de 40 caracteres de longitud.
+    - Solo disponible cuando se crea el usuario. 
+    - **Importante** no perderla porque no es posible recuperarla.
+
+---
+
+## El usuario _root_
+
+Cuando crearmos por primera vez una cuenta en AWS, por defecto estamos creando una cuenta _root_. Con estas credenciales, podemos acceder a la consola de administración.
+
+Cuando utilizamos la cuenta root, tenemos acceso completo a todos los servicios y recursos de AWS, incluyendo la facturación. **AWS recomienda no utilizar la cuenta _root_** para el trabajo diario, y recomienda crear otros usuarios con los permisos necesarios.
 
 ---
 ## Usuarios
 
 Como vimos anteriormente, el concepto de _Identity_
-nos permite contestr la pregunta ¿quien es ese usuario?. En lugar de compartir la clave de root, podemos crear otras cuentas IAM que corresponderán a personas físicas en nuestra empresa, y que tendrán sus propias credenciales para acceder a la consola de administración.
+nos permite responder la pregunta ¿quien es ese usuario?. En lugar de compartir la clave de _root_, podemos crear otras cuentas IAM que corresponderán a personas físicas en nuestra empresa, y que tendrán sus propias credenciales para acceder a la consola de administración y/o acceso de forma programática.
 
-**Puntos importantes a recordar:**
-
-- Los usuarios IAM no son cuentas separadas de AWS.
-- El usuario administrador con los permisos de administrator, no es el mismo que el usuario root.
-
-Incluso se pueden generar _access keys_ para que puedan acceder de manera programática.
+**Nota:** Los usuarios IAM no son cuentas separadas de AWS.
 
 En la figura siguiente, Brad, Jim, DevApp1, DevApp2, TestApp1, y TestApp2 son usuarios IAM que fueron creados dentro de una sola cuenta de AWS, y cada usuario tiene sus propias credenciales.
 
 ![IAM Users](images/IAM_users.png)
+
+Notarán que algunos usuarios son usuarios de aplicaciones. Por lo que **un usuario IAM no necesariamente tiene que representar a una persona física**. Podemos generar un usuario para una aplicación que corre en nuestra red empresarial y necesita acceso a recursos de AWS.
+
+## Usuarios Federados
+
+_...If your users already have a way to be authenticated—for example, by signing in to your corporate
+network—you can federate those user identities into AWS. A user who has already logged in replaces his..._
+
+# PAG 4 y 5
 
 ---
 ## Grupos
