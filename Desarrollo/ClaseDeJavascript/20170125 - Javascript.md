@@ -64,6 +64,6 @@ $ node hola-mundo.js
 ```
 
 | [<-- Anterior](https://github.com/conapps/conapps-iot) |
-[Siguiente -->](20170903-TiposDeDatos.md) 1
+[Siguiente -->](20170903-TiposDeDatos.md) |
 
 <sup>1</sup> _Mas adelante veremos que esta afirmación no es estrictamente cierta y que en Javascript es muy común que las instrucciones presentes en un archivo no se ejecuten secuencialmente._
