@@ -54,7 +54,7 @@ Nosotros aprovecharemos lo que hemos aprendido sobre Docker para saltearnos la i
 > console.log('Hola mundo desde Node.js')
 ```
 
-En el ejercicio anterior vimos como podemos trabajar de forma interactiva con Node.js, escribiendo instrucciones con sintáxis ECMAScript que se ejecutan inmediatamente. Sin embargo, este escenario no es el mas común a la hora de correr aplicaciones en producción, donde lo que se utilizan son scripts (archivos de texto) que ya tienen varias instrucciones escritas y que el motor ejecuta secuencialmente[*](#).
+En el ejercicio anterior vimos como podemos trabajar de forma interactiva con Node.js, escribiendo instrucciones con sintáxis ECMAScript que se ejecutan inmediatamente. Sin embargo, este escenario no es el mas común a la hora de correr aplicaciones en producción, donde lo que se utilizan son scripts (archivos de texto) que ya tienen varias instrucciones escritas y que el motor ejecuta secuencialmente<sup>1</sup>.
 
 > *Ejercicio*
 > Con la imagen generada en el ejercicio anterior cree un contenedor que corra el archivo [hola-mundo.js](hola-mundo.js) de la siguiente manera:
@@ -64,6 +64,6 @@ $ node hola-mundo.js
 ```
 
 
-* _Mas adelante veremos que esta afirmación no es estrictamente cierta y que en Javascript es muy común que las instrucciones presentes en un archivo no se ejecuten secuencialmente._
+<sup>1</sup> _Mas adelante veremos que esta afirmación no es estrictamente cierta y que en Javascript es muy común que las instrucciones presentes en un archivo no se ejecuten secuencialmente._
 
 [Siguiente -->](20170903-TiposDeDatos.md)
