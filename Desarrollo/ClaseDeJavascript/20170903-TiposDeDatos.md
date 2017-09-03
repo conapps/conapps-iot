@@ -1,4 +1,4 @@
-| [<-- Volver](20170125 - Javascript.md) |
+| [<-- Volver](20170125%20-%20Javascript.md) |
 [Siguiente -->](#) |
 
 ## Consola
