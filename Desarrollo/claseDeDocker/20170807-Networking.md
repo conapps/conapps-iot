@@ -1,4 +1,4 @@
-| [<-- Volver](https://github.com/conapps/conapps-iot/blob/master/claseDeDocker/20170815-Storage.md) |
+| [<-- Volver](20170815-Storage.md) |
 
 ## Networking
 
@@ -552,4 +552,4 @@ Para comprobar que funciona puede intentar navegar a ```http://<ip-a-publicar>``
 
 
 
-| [<-- Volver](https://github.com/conapps/conapps-iot/blob/master/claseDeDocker/20170815-Storage.md) |
+| [<-- Volver](20170815-Storage.md) |
