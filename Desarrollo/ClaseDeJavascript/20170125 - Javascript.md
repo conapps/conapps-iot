@@ -63,7 +63,7 @@ En el ejercicio anterior vimos como podemos trabajar de forma interactiva con No
 $ node hola-mundo.js
 ```
 
+| [<-- Anterior](https://github.com/conapps/conapps-iot) |
+[Siguiente -->](20170903-TiposDeDatos.md) 1
 
 <sup>1</sup> _Mas adelante veremos que esta afirmación no es estrictamente cierta y que en Javascript es muy común que las instrucciones presentes en un archivo no se ejecuten secuencialmente._
-
-[Siguiente -->](20170903-TiposDeDatos.md)
