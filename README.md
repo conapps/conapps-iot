@@ -43,12 +43,12 @@ Documentación
 
 ### JavaScript
 
-- [Clase de JavaScript](https://github.com/conapps/conapps-iot/blob/master/20170125%20-%20Javascript.md)
+- [Clase de JavaScript](https://github.com/conapps/conapps-iot/blob/master/Desarrollo/ClaseDeJavascript/20170125%20-%20Javascript.md)
   - Autor: Guzmán Monné
   - Fecha: 2017/01/25
 
 ### Docker
-- [Clase de Docker](https://github.com/conapps/conapps-iot/blob/master/claseDeDocker/20170801-Docker.md)
+- [Clase de Docker](https://github.com/conapps/conapps-iot/blob/master/Desarrollo/claseDeDocker/20170801-Docker.md)
   - Autor: Ismael Almandos
   - Fecha: 2017/08/01
 
@@ -70,4 +70,3 @@ Contribuidores
 - Guillermo Barboza [gbarboza@conatel.com.uy](mailto://gbarboza@conatel.com.uy).
 - Daniel Cetti [dcetti@conatel.com.uy](mailto://dcetti@conatel.com.uy).
 - Eduardo Paredes [eparedes@conatel.com.uy](mailto://eparedes@conatel.com.uy).
-
