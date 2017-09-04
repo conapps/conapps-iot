@@ -137,21 +137,28 @@ Notarán que algunos usuarios son usuarios de aplicaciones. Por lo que **un usua
 
 ## Usuarios Federados
 
-_...If your users already have a way to be authenticated—for example, by signing in to your corporate
-network—you can federate those user identities into AWS. A user who has already logged in replaces his..._
+Si un usuario ya cuenta con una forma de autenticación habilitada, es posible federar dichos usuarios dentro de AWS. Otorgando acceso mediante _Management Console_ y mediante API, CLI o SDK. 
 
-# PAG 4 y 5
+**Util cuando:**
+
+- Usuarios corporativos: 
+
+Si tenemos un directorio de usuarios compatible con _Security Assertion Markup Language 2.0_ (SAML 2.0), podemos configurar _Single-Sign On_ (SSO) para AWS.
+
+- _Identity Providers_:
+
+Si estamos creando una aplicación para celulares o una web, podemos permitirle al usuario se autentique a travez de un _Identity provider_ como Facebook, Google o cualquier otro proveedor que sea compatible con _OpenID Connect_ (OIDC). AWS recomienda utilizar [Amazon Cognito](https://aws.amazon.com/es/cognito/).
 
 ---
 ## Grupos
 
 Es posible organizar usuarios dentro de grupos IAM. Básicamente, un grupo es una colección de usuarios.
 
-Todos los usuarios dentro de un grupo tienen los permisos asignados al grupo. Es una forma fácil de agrupar usuarios y permisos.
+Todos los usuarios dentro de un grupo tienen los mismos permisos asignados al grupo. Es una forma fácil de agrupar usuarios y permisos.
 
 Por ejemplo: En la figura siguiente tenemos un grupo llamado **Admins**, otro **Developers** y otro **Test**. Los usuarios que estan dentro del grupo Admin, tienen los permisos que se hayan definido para los Administradores. Si un nuevo usuario administrador ingresa a la empresa, bastará con agregarlo al grupo para que tenga los mismos permisos que los otros administradores.
 
-Otro caso puede ser un usuario Test que sea ascendido a developer. En este caso, agregaremos a Cathy al grupo Developers y la borraremos del grupo Test.
+Otros ejemplos muy comunes es que un usuario perteneciente al grupo de Test sea promovido a developer. Por ejemplo; en este caso, agregaremos a Cathy al grupo Developers y la borraremos del grupo Test.
 
 ![IAM Groups](images/IAM_groups1.PNG)
 
@@ -170,7 +177,7 @@ De esta froma, los usuarios dentro del grupo, heredan dichos permisos. Solo bast
 
 ## Roles
 
-Un rol es muy parecido a un usuario, en el sentido de que se le pueden asignar permisos y luego ser atacheado a un servicio. Sin embargo, **un rol no tiene ningun tipo de credencial (user/password o access keys)**.
+Un rol es muy parecido a un usuario, en el sentido de que se le pueden asignar permisos y luego ser atacheado a un usuario federado, a una aplicación o un servicio que generalmente no tiene acceso a AWS. Sin embargo, **un rol no tiene ningun tipo de credencial (user/password o access keys)**.
 
 ### Tipos de roles
 
@@ -178,10 +185,6 @@ Un rol es muy parecido a un usuario, en el sentido de que se le pueden asignar p
 - AWS Service-Linked Role
 - Rol for Cross-Account Access
 - Rol for identify Provider Access.
-
-## Credenciales Temporales
-
-Las credenciales temporales son utilizadas principalmente para los roles. Se pueden generar credenciales temporales con permisos más restrictivos que los usuarios estandard y previene que se ejecuten tareas de forma accidental. Otro beneficio de las credenciales temporales es que expiran automáticamente despues de un tiempo determinado.
 
 ## ¿Cuando usar qué?
 
@@ -191,7 +194,7 @@ Las credenciales temporales son utilizadas principalmente para los roles. Se pue
     - Cuando se desea utilizar CLI para trabajar en AWS.
 
 - Rol
-    - Cuando tenemos aplicaciones corriendo sobre una instancia de EC2 y la aplicación necesita acceder a otros servicios de AWS.
+    - Cuando tenemos aplicaciones corriendo sobre algún servicio de AWS (Ej; EC2 y la aplicación necesita acceder a otros servicios de AWS (Ej S3, RDS, etc).
     - Cuando deseamos utilizar _features_ de algunos servicios los cuales si o si necesitan tener un rol asignados (Ej; Amazon S3 region replication).
     - Cuando los usuarios ya estan autenticados en la red empresarial y necesita utilizar AWS sin la necesidad de tener que loguearse nuevamente (SSO).
 
@@ -199,7 +202,7 @@ Las credenciales temporales son utilizadas principalmente para los roles. Se pue
 
 ## Políticas (Policies)
 
-Las IAM Policies son utilziadas para asignar permisos. El formato de definición de las políticas es json y la estructura base es la siguiente:
+Las IAM Policies son utilziadas para asignar permisos. El formato de definición de las políticas es JSON y la estructura base es la siguiente:
 
 ```bash
 {

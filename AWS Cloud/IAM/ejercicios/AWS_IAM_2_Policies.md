@@ -74,16 +74,16 @@ A continuación vamos a crear políticas para definir permisos. Existen 3 formas
       "Effect": "Allow",
       "Action": "s3:*",
       "Resource": [
-        "arn:aws:s3:::manya-querido",
-        "arn:aws:s3:::manya-querido/*"
+        "arn:aws:s3:::iot-iam-lab",
+        "arn:aws:s3:::iot-iam-lab/*"
       ]
     },
     {
       "Effect": "Deny",
       "NotAction": "s3:*",
       "NotResource": [
-        "arn:aws:s3:::manya-querido",
-        "arn:aws:s3:::manya-querido/*"
+        "arn:aws:s3:::iot-iam-lab",
+        "arn:aws:s3:::iot-iam-lab/*"
       ]
     }
   ]

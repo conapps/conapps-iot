@@ -111,7 +111,7 @@ $ aws iam list-groups-for-user --user-name miriarte3
 
 * Borrar usuario (6 pasos)
 
-1. Borramos la access key (si tiene)
+1. Borramos la/s access key/s (si tiene)
 
 ```bash
 aws iam delete-access-key --access-key ASDF0897ASDF087ASDF --user-name miriarte3
@@ -170,7 +170,7 @@ Puede contener, letras, numeros, y los siguientes caracteres: mas (+), igual (=)
 ![IAM Groups](../images/IAM_groups3.png)
 
 
-* Indique la política predefinida de permisos _AdministratorAccess_.
+* Indique la política predefinida de permisos (por el momento ninguna).
 
 ![IAM Groups](../images/IAM_groups4.png)
 
@@ -218,16 +218,24 @@ aws iam list-groups
 aws iam update-group --group-name admin2 --new-group-name admin3
 ```
 
-* Agregar un usuario al nuevo grupo.
+* Agregar el usuario a los grupos admin y dev.
 
 ```bash
 aws iam add-user-to-group --user-name miriarte1 --group-name admin1
+
+aws iam add-user-to-group --user-name miriarte1 --group-name dev1
+```
+
+* Remover un usuario de un grupo.
+
+```bash
+aws iam remove-user-from-group --user-name miriarte1 --group-name dev1
 ```
 
 * Borrar un grupo.
 
 ```bash
-aws iam delete-group --group-name borrar1
+aws iam delete-group --group-name test1
 ```
 
 ---
