@@ -6,3 +6,5 @@ Puede configurar el balanceador de carga para que acepte el tráfico entrante es
 
 Elastic Load Balancing admite dos tipos de balanceadores de carga: Balanceador de carga de aplicaciones y Classic Load Balancer. Hay una diferencia fundamental entre la forma de configurar ambos tipos. Con un Classic Load Balancer, se registran las instancias en el balanceador de carga. Con un Balanceador de carga de aplicaciones, se registran las instancias como destinos en un grupo de destino y se direcciona el tráfico a un grupo de destino.
 
+![alt text](https://raw.githubusercontent.com/conapps/conapps-iot/master/AWS%20Cloud/EC2/ELB/images/logo.png "Logo ELB")
+
