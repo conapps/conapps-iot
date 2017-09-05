@@ -8,3 +8,10 @@ Elastic Load Balancing admite dos tipos de balanceadores de carga: Balanceador d
 
 ![alt text](https://raw.githubusercontent.com/conapps/conapps-iot/master/AWS%20Cloud/EC2/ELB/images/logo.png "Logo ELB")
 
+## Zonas de disponibilidad e instancias
+
+Cuando se habilita una zona de disponibilidad para el balanceador de carga, ELB crea en ella un nodo de balanceador de carga. Si registra instancias en una zona de disponibilidad, pero no la habilita, las instancias registradas no reciben tráfico.
+
+Con un Classic Load Balancer, recomendamos habilitar varias zonas de disponibilidad. Con un Balanceador de carga de aplicaciones, es imprescindible habilitar varias zonas de disponibilidad. Después de habilitar varias zonas de disponibilidad, si una de ellas deja de estar disponible o no contiene ninguna instancia en buen estado, el balanceador de carga puede continuar direccionando el tráfico a las instancias en buen estado de otra zona de disponibilidad.
+
+El balanceo de carga entre zonas siempre está habilitado en un Balanceador de carga de aplicaciones y está deshabilitado de forma predeterminada en un Classic Load Balancer. 
