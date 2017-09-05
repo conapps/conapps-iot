@@ -106,7 +106,7 @@ Una _access key pair_ está integrada por:
     - Está activa por defecto (se puede deshabilitar).
     - Se puede generar hasta 2 AKI por usuario (útil para rotación de _keys_).
     - Se pueden borrar (no se pueden recuperar).
-    - Podemos darle permisos al _owner_ de las _keys_ para que se administre sus propias _keys_.
+    - Podemos darle permisos al usuario_owner_ de las _keys_ para que se administre sus propias _keys_.
 
 - **_Secret Access Key_:**
     - _String_ de 40 caracteres de longitud.
@@ -139,7 +139,7 @@ Notarán que algunos usuarios son usuarios de aplicaciones. Por lo que **un usua
 
 Si un usuario ya cuenta con una forma de autenticación habilitada, es posible federar dichos usuarios dentro de AWS. Otorgando acceso mediante _Management Console_ y mediante API, CLI o SDK. 
 
-**Util cuando:**
+**Casos de Uso**
 
 - Usuarios corporativos: 
 
@@ -177,15 +177,52 @@ De esta froma, los usuarios dentro del grupo, heredan dichos permisos. Solo bast
 
 ## Roles
 
-Un rol es muy parecido a un usuario, en el sentido de que se le pueden asignar permisos y luego ser atacheado a un usuario federado, a una aplicación o un servicio que generalmente no tiene acceso a AWS. Sin embargo, **un rol no tiene ningun tipo de credencial (user/password o access keys)**.
+Un rol es muy parecido a un usuario, en el sentido de que se le pueden asignar permisos y luego ser atacheado a un usuario federado, a una aplicación o un servicio que generalmente no tiene acceso a AWS. Sin embargo, **un rol no tiene ningun tipo de credencial asociado (user/password o access keys)**.
 
+
+### Imaginen la siguiente situación:
+
+Una aplicación que corre en una instancia de EC2 necesita acceso a un _bucket_ de S3, tenemos 2 formas de hacerlo.
+
+- **Forma 1**: Creamos un usuario en IAM, le damos permisos de _Put_ y _Get_ sobre el _bucket_, lo embebemos en el código de la aplicación.
+    
+![IAM Groups](images/IAM_role2.PNG)
+
+- **Forma 2**: Creamos un rol, le damos permisos de _Put_ y _Get_ sobre el _bucket_, lo asociamos a la instancia de EC2
+
+
+![IAM Groups](images/IAM_role3.PNG)
+
+
+---
 ### Tipos de roles
 
-- AWS Service Role
-- AWS Service-Linked Role
-- Rol for Cross-Account Access
-- Rol for identify Provider Access.
+- **AWS Service Role**
+    - El rol que asume un servicio para ejecutar determinada accion en nuestro nombre se denomina _service role_. (Ej: _replication_policy_for_iot-cloud-bucket-origen_to_iot-cloud-bucket-destino_).
+    - En otroas palabras, este tipo de rol, es asumido por un servicio para ejecutar determinada acción. 
+    - Muchos servicios de AWS requieren tener asociado un rol a dicho servicio.    
+    - Dicho rol, debe incluir todos los permisos necesarios para acceder a los recursos de AWS que necesite.    
+    - Se puede crear, modificar y borrar _Services Roles_ desde IAM.
 
+![IAM Groups](images/IAM_role5.PNG)
+
+- **AWS Service-Linked Role**
+    - _Service-Linked Role_ es el único tipo de _service role_ que está directamente "linqueado" al servicio.
+    - El rol está predefinido por el servicio e incluye todos los permisos que el servicio requiere.
+    - Facilita el _setup_ porque no es neceario configurar los permisos manualmente.
+    - No es posible modificar los permisos asociados a este este tipo de roles.
+
+
+![IAM Groups](images/IAM_role4.PNG)
+
+- **Rol for Cross-Account Access**
+
+![IAM Groups](images/IAM_role6.PNG)
+- **Rol for identify Provider Access**
+
+![IAM Groups](images/IAM_role7.PNG)
+
+---
 ## ¿Cuando usar qué?
 
 - Usuario
