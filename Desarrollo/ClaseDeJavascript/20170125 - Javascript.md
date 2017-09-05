@@ -29,12 +29,14 @@ Como todo leguaje interpretado, el códgo Javascript se escribe en simples archi
 La forma mas común de interacción con un motor de Javascript es a través de los navegadores Web; hagámos nuestro pimero ejémplo de ```"Hola Mundo!"``` con el navegador Google Chrome.
 
 > *Ejercicio:*
+>
 > Abra el navegador Google Chrome.
-> Con el juego de teclas ```ctl+shft+J``` ejecute las Chrome Developers Tools y en particular identifique la consola. Mediante el uso de la misma, el usuario puede interactuar directamente con el motor de Javascript del navegador; como es tradicional al aprender un nuevo lenguaje de programación, en este ejercicio la utilizaremos para ejeecutar nuestro primer mensaje de "Hola Mundo!" mediante el comando ```console.log("Hola Mundo!")```.
+> Con el juego de teclas ```ctl+shft+J``` ejecute las Chrome Developers Tools y en particular identifique la consola. Mediante el uso de la misma, el usuario puede interactuar directamente con el motor de Javascript del navegador; como es tradicional al aprender un nuevo lenguaje de programación, en este ejercicio la utilizaremos para ejecutar nuestro primer mensaje de "Hola Mundo!" mediante el comando ```console.log("Hola Mundo!")```.
 
 Ya sabemos como interactuar con el motor de Javascript de Google Chrome; veamos ahora como interactuar con el motor de Javascript de Firefox.
 
 > *Ejercicio:*
+>
 > Abra el navegador Google Chrome.
 > Investigue en Internet como acceder a la consola Javascript de Mozilla Firefox y ejecute ```alert("Hola Mundo!")```.
 
@@ -48,6 +50,7 @@ Javascript puede correrse en cualquier máquina, y en particular en un servidor,
 Nosotros aprovecharemos lo que hemos aprendido sobre Docker para saltearnos la instalación y utilizar un ambiente que ya fue previamente confeccionado para esta instancia.
 
 > *Ejercicio*
+>
 > Descargue el archivo [Dockerfile](Dockerfile) y utilicelo para generar una imagen. Con la imagen generada cree un contenedor que corra de forma interactiva el comando ```node```. Esto nos permitirá interactuar directamente con el motor de javascript para ejecutar nuestro primer comando en Node de la siguente manera:
 
 ```bash
