@@ -160,24 +160,24 @@ En el sigiente ejercicio vamos a crear un grupo y agregaremos el usuario creado 
 
 * Hacer clic sobre la opción _Groups > Create new Group_.
 
-![IAM Groups](../images/IAM_groups2.png)
+![IAM Groups](../images/IAM_groups2.PNG)
 
 
 * Indique el nombre del grupo.
 
 Puede contener, letras, numeros, y los siguientes caracteres: mas (+), igual (=), coma (,), punto (.), arroba (@), guion bajo (\_), y guion medio (-). El nombre no es _case sensitive_ y puede contener un máximo de 128 caracteres. 
 
-![IAM Groups](../images/IAM_groups3.png)
+![IAM Groups](../images/IAM_groups3.PNG)
 
 
 * Indique la política predefinida de permisos (por el momento ninguna).
 
-![IAM Groups](../images/IAM_groups4.png)
+![IAM Groups](../images/IAM_groups4.PNG)
 
 
 * Por último, _Create Group_.
 
-![IAM Groups](../images/IAM_groups5.png)
+![IAM Groups](../images/IAM_groups5.PNG)
 
 
 ---

@@ -172,7 +172,7 @@ De esta froma, los usuarios dentro del grupo, heredan dichos permisos. Solo bast
 ![IAM Groups](images/IAM_groups_permissions.PNG)
 
 ---
-## [Ejercicio # 1 y 2](ejercicios/AWS_IAM_1_Users_Groups.md)
+## [Ejercicio # 1 y 2](ejercicios/AWS_IAM_Users&Groups.md)
 ---
 
 ## Roles
@@ -184,18 +184,21 @@ Un rol es muy parecido a un usuario, en el sentido de que se le pueden asignar p
 
 Una aplicación que corre en una instancia de EC2 necesita acceso a un _bucket_ de S3, tenemos 2 formas de hacerlo.
 
-- **Forma 1**: Creamos un usuario en IAM, le damos permisos de _Put_ y _Get_ sobre el _bucket_, lo embebemos en el código de la aplicación.
+- **Forma 1**: Creamos un usuario en IAM, le damos permisos de _Put_ y _Get_ sobre el _bucket_, por último,  embebemos en el código dentro de la aplicación o en la instancia de EC2.
     
 ![IAM Groups](images/IAM_role2.PNG)
 
-- **Forma 2**: Creamos un rol, le damos permisos de _Put_ y _Get_ sobre el _bucket_, lo asociamos a la instancia de EC2
+- **Forma 2**: Creamos un rol, le damos permisos de _Put_ y _Get_ sobre el _bucket_, por último, asociamos dicho rol a la instancia de EC2
 
 
 ![IAM Groups](images/IAM_role3.PNG)
 
+- **Pregunta:** ¿Cuales son las ventajas y desventajas de cada método?
 
 ---
 ### Tipos de roles
+
+Existen 4 tipos de roles que podemos crear en AWS. continuación un breve explicación de cada uno.
 
 - **AWS Service Role**
     - El rol que asume un servicio para ejecutar determinada accion en nuestro nombre se denomina _service role_. (Ej: _replication_policy_for_iot-cloud-bucket-origen_to_iot-cloud-bucket-destino_).
@@ -230,6 +233,10 @@ Una aplicación que corre en una instancia de EC2 necesita acceso a un _bucket_ 
     - Cuando otras personas de la companía necesitan trabajar sobre AWS.
     - Cuando se desea utilizar CLI para trabajar en AWS.
 
+- Grupos
+    - Cuando tenemos un conjunto de usuario que realizarán las mismas tareas dentro de AWS.
+    - Para facilitar la administración de los permisos.
+    
 - Rol
     - Cuando tenemos aplicaciones corriendo sobre algún servicio de AWS (Ej; EC2 y la aplicación necesita acceder a otros servicios de AWS (Ej S3, RDS, etc).
     - Cuando deseamos utilizar _features_ de algunos servicios los cuales si o si necesitan tener un rol asignados (Ej; Amazon S3 region replication).
@@ -239,7 +246,12 @@ Una aplicación que corre en una instancia de EC2 necesita acceso a un _bucket_ 
 
 ## Políticas (Policies)
 
-Las IAM Policies son utilziadas para asignar permisos. El formato de definición de las políticas es JSON y la estructura base es la siguiente:
+Las IAM Policies son utilziadas para asignar permisos a recursos y servicios en AWS.
+
+**_Best practice:_** "Atachear" las políticas a grupos y no a usuarios.
+
+
+El formato de definición de las políticas es JSON y la estructura base es la siguiente:
 
 ```bash
 {
@@ -267,34 +279,34 @@ Las IAM Policies son utilziadas para asignar permisos. El formato de definición
     - Con la versión 2008 hay _features_ que no funcionan (Ej; _policy variables_).
 
 - **Statement:** 
-    - Elemento obligatorio.
     - Elemento principal de la _policy_.
+    - Elemento obligatorio.
     - Incluye varios elementos dentro de un array json.
     - Formato: "Statement": [{...},{...},{...}].
 
 - **Sid:**
     - Elemento opcional, se puede asignar un sid a cada statement.
-    - Es un sub-id que puede ser utilizados por algunos servicios como SQS y SNS.
+    - Es un sub-id asignado al _statement_ que puede ser utilizados por algunos servicios como SQS y SNS.
 
 - **Acction:**
     - Elemento obligatorio.
-    Describe la/s acción/es específica/s que serán permitidas o denegadas.
+    Describe la/s acción/es específica/s que serán permitidas o denegadas dependiendo del campo _Effect_.
     - Cada servicio de AWS tiene su propio conjutno de tareas a realizar/denegar.
     - No es key sensitive -> iam:ListAccessKeys = IAM:listaccesskeys.
     - Se pueden concatenar acciones: "Action": [ "sqs:SendMessage", "sqs:ReceiveMessage", "ec2:StartInstances", "iam:ChangePassword", "s3:GetObject"].
     - Se pueden utilizar _wildcards (*)_: "Action": "s3:*" o "Action": "iam:\*AccessKey\*".
 
-- Effect:
+- **Effect:**
     - Solo acpeta 2 opciones: Allow o Deny.
 
-- Resource:
+- **Resource:**
     - Indica el recurso o recursos que cubre el statement.
     - Se utiliza el nombre ARN.
     ```bash
     "Resource": "arn:aws:s3:us-east-2:user-account-ID:my_corporate_bucket/*"
     ```
 
-- Condition:
+- **Condition:**
     - Campo opcional.
     - Permite setear condiciones para ejecutar la política.
     - Pueden incluir fechas, horas, ip origen, usuario, etc.
@@ -326,9 +338,9 @@ Son políticas pre-creadas por AWS y pueden ser asociadas a Grupos, Roles y Usua
 
 Son políticas creadas por el propio usuario y existen 3 formas de hacerlo:
 
-    1. Copiar una Managed Policy y editarla.
-    2. Utilizar el generador de policies.
-    3. Escribir el json desde 0.
+- Copiar una Managed Policy y editarla.
+- Utilizar el generador de policies.
+- Escribir el json desde 0.
 
 ---
 ## Resolución de conflictos de permisos.
@@ -338,3 +350,7 @@ Son políticas creadas por el propio usuario y existen 3 formas de hacerlo:
 - Si existe un "Deny", sobreescribirá cualquier "Allow" que exista anteriormente.
 
 ![IAM Policy](images/IAM_policy3.png)
+
+
+---
+[Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/IAM/AWS_IAM_Parte_2.md)
