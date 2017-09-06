@@ -369,11 +369,62 @@ Indica el largo de la lista, notar que el largo de la lista comienza a contar a 
 >
 > ¿Cómo podemos acceder al último elemento de una lista cuyo largo puede cambiar a lo largo de la ejecución del programa?
 
-
-
-
-
 ### objetos
+
+Los objectos en JavaScript, al igual que en muchos otros lenguajes de programación, pueden ser comparados con objectos de la vida real. El concepto de Objetos en JavaScript se puede entender como en la vida real, objetos tangibles.
+
+En JavaScript, un objecto es un entidad independiente con propiedades y tipos. Compárelo con una taza por ejemplo. Una taza es un objeto, con propiedades. Una copa tiene un color, un diseño, peso, un material del que fue hecho, etc. De la misma manera, los objetos de JavaScript pueden tener propiedades, que definen sus características.
+
+Un objeto de JavaScript tiene propiedades asociadas. Una propiedad de un objeto puede ser explicada como una variable que se adjunta al objeto. Las propiedades de un objeto son basicamente lo mismo que las variables comunes de JavaScript, excepto por el nexo con el objeto. Las propiedades de un objeto definen las características de un objeto.
+
+Veamos a continuación como se define un objeto:
+
+```JavaScript
+var auto = {
+  marca: 'Toyota',
+  puertas: 5,
+  cilidrada: 1.2
+}
+```
+
+Los elementos de los objetos pueden accederse mediente notación de puntos o mediante paréntesis rectos, (indicando la propiedad del objeto como un string). Las siguientes expresiones son equivalentes:
+
+```JavaScript
+> auto.marca
+'Toyota'
+> auto['marca']
+'Toyota'
+```
+
+A grandes razgos la notación de puntos es más cómoda, pero la notación con paréntesis rectos, al recibir un string, nos permite mayor flexibilidad. Veámos esto con un ejemplo:
+
+```JavaScript
+> var calificaciones = {
+  hugo: 89,
+  Paco: 100,
+  Luis: 23
+}
+
+> var nombre = 'hugo';
+> calificaciones[nombre]
+89
+> calificaciones.nombre
+undefined
+```
+
+Agregar atributos a un objeto es muy sencillo, simplemente se referencia al atributo como si ya existiera:
+
+```JavaScript
+> var calificaciones = {
+  hugo: 89,
+  Paco: 100,
+  Luis: 23
+}
+
+> calificaciones.pedro = 75;
+> calificaciones;
+{ hugo: 89, Paco: 100, Luis: 23, pedro: 75 }
+```
 
 ### if {} else {}
 
