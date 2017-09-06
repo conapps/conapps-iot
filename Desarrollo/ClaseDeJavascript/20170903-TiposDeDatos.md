@@ -369,7 +369,7 @@ Indica el largo de la lista, notar que el largo de la lista comienza a contar a 
 >
 > ¿Cómo podemos acceder al último elemento de una lista cuyo largo puede cambiar a lo largo de la ejecución del programa?
 
-### objetos
+### Objetos
 
 Los objectos en JavaScript, al igual que en muchos otros lenguajes de programación, pueden ser comparados con objectos de la vida real. El concepto de Objetos en JavaScript se puede entender como en la vida real, objetos tangibles.
 
