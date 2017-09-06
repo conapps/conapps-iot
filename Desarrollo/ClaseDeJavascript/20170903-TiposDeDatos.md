@@ -144,16 +144,16 @@ A continuación compartimos una lista con el resto de las secuencias de escape:
 
 | Secuencia | Significado |
 | --------- | ----------- |
-| \b: | backspace (U+0008 BACKSPACE) |
-| \f: | form feed (U+000C FORM FEED) |
-| \n: | line feed (U+000A LINE FEED) |
-| \r: | carriage return (U+000D CARRIAGE RETURN) |
-| \t: | horizontal tab (U+0009 CHARACTER TABULATION) |
-| \v: | vertical tab (U+000B LINE TABULATION) |
-| \0: | null character (U+0000 NULL) (only if the next character is not a decimal digit; else it’s an octal escape sequence) |
-| \': | single quote (U+0027 APOSTROPHE) |
-| \": | double quote (U+0022 QUOTATION MARK) |
-| \\: | backslash (U+005C REVERSE SOLIDUS) |
+| \b | backspace (U+0008 BACKSPACE) |
+| \f | form feed (U+000C FORM FEED) |
+| \n | line feed (U+000A LINE FEED) |
+| \r | carriage return (U+000D CARRIAGE RETURN) |
+| \t | horizontal tab (U+0009 CHARACTER TABULATION) |
+| \v | vertical tab (U+000B LINE TABULATION) |
+| \0 | null character (U+0000 NULL) (only if the next character is not a decimal digit; else it’s an octal escape sequence) |
+| \\' | single quote (U+0027 APOSTROPHE) |
+| \\" | double quote (U+0022 QUOTATION MARK) |
+| \\\\ | backslash (U+005C REVERSE SOLIDUS) |
 
 A partir de la versión ECMAScript 6 se introdujeron en el lenguaje los "Template Literals", básicamente es la posibilidad de definir un string utilizando comillas invertidas. Esta forma de definición tiene muchas ventajas que exploraremos mas adelante, pero en particular permite la definición de strings multilínea sin necesidad de utilizar secuencias de escape:
 
