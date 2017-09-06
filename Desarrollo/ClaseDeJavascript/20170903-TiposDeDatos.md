@@ -401,8 +401,8 @@ A grandes razgos la notación de puntos es más cómoda, pero la notación con p
 ```JavaScript
 > var calificaciones = {
   hugo: 89,
-  Paco: 100,
-  Luis: 23
+  paco: 100,
+  luis: 23
 }
 
 > var nombre = 'hugo';
@@ -417,22 +417,38 @@ Agregar atributos a un objeto es muy sencillo, simplemente se referencia al atri
 ```JavaScript
 > var calificaciones = {
   hugo: 89,
-  Paco: 100,
-  Luis: 23
+  paco: 100,
+  luis: 23
 }
 
 > calificaciones.pedro = 75;
 > calificaciones;
-{ hugo: 89, Paco: 100, Luis: 23, pedro: 75 }
+{ hugo: 89, paco: 100, luis: 23, pedro: 75 }
 ```
 
+Para borrar un atributo:
+
+```JavaScript
+> var calificaciones = {
+  hugo: 89,
+  paco: 100,
+  luis: 23
+}
+> delete calificaciones.hugo;
+> calificaciones;
+{ paco: 100, luis: 23 }
+```
+
+
 ### if {} else {}
+Falta completar
 
 ### for
+Falta completar
 
 ### while
-
+Falta completar
 
 ### ¿Es necesario utilizar ```;```?
 
-[Como utilizar ;](https://www.codecademy.com/es/blog/78)
+Documento sobre como utilizar ```;``` en Javascript [aquí](https://www.codecademy.com/es/blog/78)
