@@ -241,7 +241,7 @@ Tenga en cuenta los siguientes puntos para nombrar las variables:
   - Se puede usar ```_``` pero no está recomendado
   - Se puede usar ```$``` pero no está recomendado
   - La forma recomendada de nombrar una variable es utilizando camelCase, por ejemplo: ```var miNuevaVariable = 'Hola mundo';````
-  - Está OK utilizar los numeros al funcionalidad
+  - Está OK utilizar los numeros al final
 
 Una vez que una variable está definida, para asignar un nuevo valor a la misma omito la palabra ```var```:
 
