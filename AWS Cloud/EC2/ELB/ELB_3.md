@@ -30,11 +30,11 @@ Cambiar el número de instancias a **"2"** , ya que para poder comprobar el corr
 
 Las instancias deben estar en la misma VPC que el balanceador.
 
-Hacer click en **Next¨** para continuar con el wizard
+Hacer click en **Next** para continuar con el wizard
 
 ![alt text](https://raw.githubusercontent.com/conapps/conapps-iot/master/AWS%20Cloud/EC2/ELB/images/Tutorial%20Classic%20LB/Paso5.JPG "Paso5")
 
-Utilizar el storage default , ya que entra en el free tier.
+Utilizar el storage default , ya que entra en el *free tier*.
 Hacer click en **Next: Add Tags**:
 
 ![alt text](https://raw.githubusercontent.com/conapps/conapps-iot/master/AWS%20Cloud/EC2/ELB/images/Tutorial%20Classic%20LB/Paso6.JPG "Paso6")
@@ -102,9 +102,9 @@ Pegar la IP de la instancia que modificamos en el navegador para comprobar que s
 
 ![alt text](https://raw.githubusercontent.com/conapps/conapps-iot/master/AWS%20Cloud/EC2/ELB/images/Tutorial%20Classic%20LB/Paso19.JPG "Paso19")
 
-Ya tenemos creadas ambas instancias con un web server levantado cada una y un index.html que refleja la identidad de las mismas.
+Ya tenemos creadas ambas instancias con un web server levantado en cada una y un index.html que refleja la identidad de las mismas.
 
-Los siguientes pasos son para la creación del **Load Balancer:**
+## Paso 3: Creación del **Load Balancer:**
 
 Desde el dashboard de **EC2** seleccionar **Load Balancers**
 
@@ -144,7 +144,7 @@ En este paso podemos configurar los párametros para el health check que realiza
 
 * Unhealthy Threshold: El número de fallos consecutivos que deben ocurrir para declarar una instancia inaccesible.
 
-* Healthy Threshold: El número de health checks correctos para declara a una instancia como "Sana"
+* Healthy Threshold: El número de health checks correctos para declarar a una instancia como "Sana"
 
 ![alt text](https://raw.githubusercontent.com/conapps/conapps-iot/master/AWS%20Cloud/EC2/ELB/images/Tutorial%20Classic%20LB/Paso27.JPG "Paso27")
 
