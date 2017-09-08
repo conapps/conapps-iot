@@ -1,4 +1,4 @@
-# Prácticos ELB
+# Prácticos Classic Load Balancer
 
 En este primer ejercicio práctico vamos crear 2 instancias en EC2 con un Apache Web Server instalado en ambas.
 
