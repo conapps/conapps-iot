@@ -1,5 +1,5 @@
 | [<-- Volver](20170125%20-%20Javascript.md) |
-[Siguiente -->](#) |
+[Siguiente -->](20170911-Ejercicios01.md) |
 
 ## Tipos de datos y operadores
 ---
@@ -240,7 +240,7 @@ Tenga en cuenta los siguientes puntos para nombrar las variables:
   - Los nombres no pueden empezar con números (el motor da error)
   - Se puede usar ```_``` pero no está recomendado
   - Se puede usar ```$``` pero no está recomendado
-  - La forma recomendada de nombrar una variable es utilizando camelCase, por ejemplo: ```var miNuevaVariable = 'Hola mundo';````
+  - La forma recomendada de nombrar una variable es utilizando camelCase, por ejemplo: ```var miNuevaVariable = 'Hola mundo';```
   - Está OK utilizar los numeros al final
 
 Una vez que una variable está definida, para asignar un nuevo valor a la misma omito la palabra ```var```:
@@ -346,7 +346,7 @@ Remueve el último elemento de la lista:
 
 **push()**
 
-Agrega un dato al final de la lista:
+Agrega un elemnento al final de la lista:
 
 ```javascript
 > var miLista = [1, 2, 3];
@@ -371,11 +371,9 @@ Indica el largo de la lista, notar que el largo de la lista comienza a contar a 
 
 ### Objetos
 
-Los objectos en JavaScript, al igual que en muchos otros lenguajes de programación, pueden ser comparados con objectos de la vida real. El concepto de Objetos en JavaScript se puede entender como en la vida real, objetos tangibles.
+Los objectos en JavaScript, al igual que en muchos otros lenguajes de programación, pueden ser utilizados para modelar objectos de la vida real. En JavaScript, un objecto es una entidad independiente con propiedades, funciones y tipos. Compárelo con una taza por ejemplo. Una taza tiene un color, un diseño, peso, un material del cual fue hecha, etc. De la misma manera, los objetos de JavaScript pueden tener propiedades que definen sus características.
 
-En JavaScript, un objecto es un entidad independiente con propiedades y tipos. Compárelo con una taza por ejemplo. Una taza es un objeto, con propiedades. Una copa tiene un color, un diseño, peso, un material del que fue hecho, etc. De la misma manera, los objetos de JavaScript pueden tener propiedades, que definen sus características.
-
-Un objeto de JavaScript tiene propiedades asociadas. Una propiedad de un objeto puede ser explicada como una variable que se adjunta al objeto. Las propiedades de un objeto son basicamente lo mismo que las variables comunes de JavaScript, excepto por el nexo con el objeto. Las propiedades de un objeto definen las características de un objeto.
+Una propiedad de un objeto puede ser explicada como una variable que se adjunta al objeto. Las propiedades de un objeto son básicamente lo mismo que las variables comunes de JavaScript, excepto por el nexo con el objeto. Las propiedades de un objeto definen las características de un objeto.
 
 Veamos a continuación como se define un objeto:
 
@@ -440,15 +438,162 @@ Para borrar un atributo:
 ```
 
 
-### if {} else {}
-Falta completar
+### if (cond) {...} else {...}
 
-### for
-Falta completar
+La estructura ```if (cond) {...} else {...}``` nos permite ejecutar bloques de código de forma condicional, es decir, ejecutar un bloque de líneas de código sólo si se cumple cierta condición. La forma genérica de esta estructura es la siguiente:
+
+```javascript
+if (condición) {
+  ...
+  código a ejecutar si se cumple la condición
+  ...
+} else {
+  ...
+  código a ejecutar si no se cumple la condición
+  ...  
+}
+```
+
+Veamos el funcionamiento con un ejemplo básico:
+
+```javascript
+var numero = 4;
+if (numero <= 10) {
+  console.log('El número es menor o igual a 10')
+} else {
+  console.log('El número es mayor a 10')
+}
+```
+
+En algunas circunstancias el bloque ```if (cond) {...} else {...}``` no es suficiente para el árbol de desiciones que necesitamos construir. Supongamos que necesitamos escribir un programa que dada una calificación obtenida en un examen, imprima a consola si el estudiante exoneró (calificación >= 60), aprobó el curso pero debe rendir examen (60 > calificación >= 25), o reprobó el curso y debe recursar (calificación < 25). Una forma de escribir este código sería la siguiente:
+
+```javascript
+
+var calificacion = 45;
+
+if (calificacion >= 60) {
+  console.log('Exonerado.');
+} else if (calificacion >= 25) {
+  console.log('Aprobó el curso, pero debe rendir examen.');
+} else {
+  console.log('Reprobó el curso, debe recursar.')
+}
+```
+
+Supongamos ahora que para el caso de quienes reprueben el curso (calificacion < 25) haya que ver si ya han recursado previamente, en tal caso, no se les permitirá recursar una vez mas y se les habilitará a dar el examen sin necesidad de recursar. Para implementar esta lógica necesitaremos anidar los bloques ```if else```, veamos como quedaría el código para este ejemplo:
+
+```javascript
+
+var estudiante = {
+  calificacion: 45,
+  yaRecurso: true
+}
+
+if (estudiante.calificacion >= 60) {
+  console.log('Exonerado.');
+} else if (estudiante.calificacion >= 25) {
+  console.log('Aprobó el curso, pero debe rendir examen.');
+} else {
+  if (estudiante.yaRecurso) {
+    console.log('Reprobó el curso, debe dar examen sin recursar.');  
+  } else {
+    console.log('Reprobó el curso, debe recursar.');
+  }
+}
+```
+
+#### Operadores lógicos y Condicionales complejas
+
+La condición que se chequea para ver si se ejecuta cierto código en una expresión ```if``` puede llegar a estar compuesta por varias condiciones concatenadas con operadores lógicos (**and** y  **or**); a esto se le llama condiconales complejas.
+En javascript los operadores lógicos son los siguientes:
+
+| Operador | Símbolo | Ejemplo |
+| -------- | ------- | ------- |
+| **and**  |   &&    | true && false = false |
+| **or**  |   ||    | true || false = true |
+| **not**  |   !    | true && !false = true |
+
+Retomando el ejemplo del estudiante y el examen. Supongamos ahora que, manteniendo el resto de los condicionantes, el estudiante podrá y tendrá que recursar siempre y cuando haya obtenido menos de 25 puntos, no haya recursado antes y no esté becado; de lo contrario podrá y tendrá que dar el examen sin recursar.
+El código para programar esta lógica podría ser el siguiente:
+
+```javascript
+
+var estudiante = {
+  calificacion: 45,
+  yaRecurso: true,
+  estaBecado: false
+}
+
+if (estudiante.calificacion >= 60) {
+  console.log('Exonerado.');
+} else if (estudiante.calificacion >= 25) {
+  console.log('Aprobó el curso, pero debe rendir examen.');
+} else {
+  if (estudiante.yaRecurso || estudiante.estaBecado) {
+    console.log('Reprobó el curso, debe dar examen sin recursar.');  
+  } else {
+    console.log('Reprobó el curso, debe recursar.');
+  }
+}
+```
+
 
 ### while
-Falta completar
+
+La estructura de ```while``` permite ejecutar una secuencia de comandos mientras una determinada condición sea verdadera. La estructura básica de un loop con ```while``` es la siguiente:
+
+```Javascript
+while (condicion) {
+  ...
+  comandos a ejecutar
+  ...
+}
+```
+
+A modo de ejemplo, si quisieramos imprimir a la consola todos los números del 1 al 5 podríamos ejecutar el siguiente código:
+
+```javascript
+var i = 1;
+while(i <= 5) {
+  console.log(i);
+  i++;
+}
+```
+
+Si por el contrario quisieramos que algunas líneas de código se ejecuten repetitivamente de forma indefinida (para siempre), haríamos lo siguiente:
+
+```javascript
+while(true) {
+  ...
+  lineas de código que se ejecutan repetitivamente para siempre
+  ...
+}
+```
+
+### for
+
+Un ```for``` permite ejecutar una secuencia de comandos un número predeterminado de veces.
+La estructura básica del ```for``` es la siguiente:
+
+```javascript
+for (/*inicialización*/; /*chequedo de una condición*/; /*código a ejecutar al final de cada loop*/) {
+  ...
+  código a ejecutar
+  ...
+}
+```
+
+De esta forma, si quisieramos implementar un ```for``` para imprimir a la consola los números del 1 al 5 haríamos:
+
+```javascript
+for (var i = 1; i <= 5; i++) {
+  console.log(i);
+}
+```
 
 ### ¿Es necesario utilizar ```;```?
 
 Documento sobre como utilizar ```;``` en Javascript [aquí](https://www.codecademy.com/es/blog/78)
+
+| [<-- Volver](20170125%20-%20Javascript.md) |
+[Siguiente -->](20170911-Ejercicios01.md) |
