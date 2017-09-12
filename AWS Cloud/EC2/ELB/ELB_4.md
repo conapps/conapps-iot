@@ -1,6 +1,6 @@
 # Utilizando el AWS CLI con Elastic Load Balancer
 
-En este ejemplo vamos a crear y agregar instancias a un balanceador similar al que realizamos mediante la consola en el práctico anterior pero a través del **CLI** de Amazon Web Services.
+En este ejemplo vamos a crear y agregar instancias a un balanceador similar al que realizamos mediante la GUI en el práctico anterior, pero a través del **CLI** de Amazon Web Services.
 
 ![alt text](https://raw.githubusercontent.com/conapps/conapps-iot/master/AWS%20Cloud/EC2/ELB/images/Tutorial%20CLI/Intro.JPG "Intro")
 
