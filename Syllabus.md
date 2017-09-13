@@ -564,119 +564,210 @@ Desarrollo frontend
 ---
 ### JavaScript
 
-Basado en la serie de libros: 'You don't know JavaScript' de Kyle Simpson.
+#### HTML & CSS
+#### SQL y NoSQL
+#### jQuery
+#### Lodash
+#### Chrome Developer Tools
 
-[Leer online](https://github.com/getify/You-Dont-Know-JS)
+#### JavaScript
 
-- Conceptos generales.
-  - Statements.
-  - Expressions.
-  - Ejecución.
-  - I/O.
-  - Operadores.
-  - Valores y Tipos.
-  - Conversión entre tipos.
-  - Comentarios.
+Fuente:
+
+- [JS the right way](http://jstherightway.org/)
+- [Superhero.js](http://superherojs.com/)
+- [JS Books](http://jsbooks.revolunet.com/)
+- [Free Programming Books](https://github.com/EbookFoundation/free-programming-books)
+
+- Sintaxis
+  - Valores y tipos
+    - Números
+    - Strings
+    - Fechas.
+  - Estructuras de un programa
+    - Enunciados (statements).
+    - Expresiones.
+    - Comentarios
   - Variables.
-  - Bloques.
+    - Propiedades.
+    - Declaración.
+    - Asignación.
+    - Declaración.
+    - Scope.
+    - Expresiones.
+    - Conversiones de tipos.
   - Condicionales.
+    - `if`
+    - `else`, `else if`
+    - Operadores
+    - `switch`
   - Loops.
-  - Funciones.
-  - Scopes.
-- Introducción a JavaScript
+    - `while`
+    - `for`
   - Objetos.
+    - ¿Que es un objeto?
+    - Creación.
+    - Acceso a propiedades.
+    - Modificación.
+    - Metodos.
+    - `this`
+    - Reflexión.
+    - Eliminación.
+    - Objetos existentes.
   - Arrays.
-  - Equalidad.
-  - Scopes y Hoisting.
-  - `'strict mode'`
-  - Funciones como valores.
-  - IIFEs.
-  - Closure.
-  - `this`
-  - Prototypes.
-  - Polyfilling & Transpiling.
-  - DOM API.
-- Tipos.
-  - Incluidos en el lenguaje.
-  - Valores como tipos.
-  - `undefined`.
-  - `typeof`.
-- Valores
-  - Arrays.
-  - Arrays-like.
-  - Strings.
-  - Números.
-  - Valores especiales.
-    - `null`.
-    - `undefined`.
-    - `void`.
-  - Números especiales.
-    - `Nan`.
-    - Ceros.
-  - Valores vs Referencias.
-  - Funciones de valores nativos.
-    - Funciones de valores nativos como constructores.
-    - `Date()`.
-    - `Error()`.
-    - `Symbol()`.
-  - Coerción.
-    - Convirtiendo valores.
-    - Operaciones sobre valores abstractos.
-    - Coerción explicita.
-    - Coerción implicita.
-    - Operadores.
-    - Loose Equals vs. Strict Equals.
-    - Casos de borde.
-    - Comparaciónes "falsas".
-  - Gramatica.
-    - Statements & Expressions.
-    - Reglas de Contexto.
-    - Object destructuring.
-    - `else if`.
-    - Precedencia de operadores.
-    - `;`.
-    - `try...catch...finnaly`.
-    - `switch`.
-- Scopes & Closure.
-  - ¿Que es un scope?
-  - Global scope.
-  - *Nested Scope*
-  - Lexical Scope.
-  - Function scope.
-  - `let` y `const`
-  - Clojure.
-  - Modulos.
-  - `import` & `export`.
-- `this`.
-  - ¿Que es `this`?
-  - Call-site.
-    - Por defecto.
-    - Implicito.
-    - Explicito.
-    - `bind`
-    - `new`
-- Objetos.
-  - Sintaxis.
-  - Tipo.
-  - Objetos existentes.
-  - Contenidos.
-  - Acceso a propiedades.
-  - Propiedad vs. Metodo.
-  - Arrays.
-  - Duplicando objetos.
-  - Iteraciones.
-- Async.
-  - Event Loop.
-  - Promises.
+    - Creación.
+    - Manipulación.
+    - Iteración.
+    - Modificación.
+    - Eliminación.
+    - Confusión.
+  - Funciones.
+    - Declaración.
+    - Invocación.
+    - Argumentos.
+    - `return`.
+    - Excepciones.
+    - Recursión.
+    - Funciones anonimas.
+    - Funciones existentes.
+    - Scope.
+    - Closure.
+    - Callbacks.
+    - Module.
+  - Expresiones regulares.
+    - Construcción.
+    - Elementos.
+- Paradigmas de desarrollo
+  - Oriendado a objetos.
+    - Fundamentos.
+    - Clases.
+    - Objetos y `prototypes`.
+  - Funcional.
+    - Fundamentos.
+    - Estado.
+    - Inmutabilidad.
+    - Funciones puras.
+    - `map`, `reduce`, `filter`.
+    - Higher-order functions. 
+  - Herencia
+    - Pseudoclasica.
+    - Prototypal.
+    - Funcional.
+    - Parts.
+  - Recetas con funciones.
+    - Aplicación parcial.
+    - Unary.
+    - Tap.
+    - Maybe.
+    - Once.
+    - Cascade.
+    - Curry.
+    - Memoization.
+- ES6
+  - Bock binding.
+  - Spread operator `...`
+  - Arrow functions
+  - Destructuring
+  - Symbols
+  - `Set` y `Map`
+  - Iterators and Generators
+  - Modules, `import`
+- Asincronía.
+  - Callbacks.
+    - Librería: `async`
+  - Promesas.
+    - Según especificación.
+    - Librerías.
   - Observables.
-  - Generators.
-- Mixins y Clases
-  - Teoría de clases.
-  - Mixins.
-- `this` & Object prototypes.
-  - `Object.create`.
-- Behaviour delegation.
-  - Objects linked to Other Objects.
+    - `rxjs`
+    - Otras librerías.
+  - Generadores.
+  - `async… await`
+- Testing
+  - Teoría.
+    - TDD
+  - `jest`
+  - `sinon`
+- Librerías fundamentales.
+  - `lodash`
+  - `jquery`
+  - `moment`
+  - `d3`
+- Aplicaciones fundamentales.
+  - Como interactuar con un servidor Web.
+    - `fetch()`
+    - Manejo de errores.
+    - JSON.
+  - Como interactuar con una API.
+    - Postman.
+    - Autenticación.
+    - CORS.
+    - Enviar datos.
+- NodeJS
+  - Introducción a NodeJS
+  - Instalación.
+  - Debugger.
+  - `npm`
+    - `package.json`
+    - Proyecto de JavaScript.
+    - Babel
+    - WebPack
+    - Gulp
+    - Semver.
+  - Modulos.
+    - `require`
+    - `exports`, `module.exports`
+  - The event loop.
+  - Manejo de errores.
+  - API
+    - Eventos.
+      - `EventEmmiter`
+    - HTTP
+      - Servidores.
+      - Clientes.
+    - I/O
+      - Streams.
+      - Filesystems.
+      - Buffers.
+    - Helpers
+      - DNS.
+      - Crypto.
+        - Hashing.
+        - HMAC.
+        - Public key crypto.
+    - Acceso a datos.
+      - NoSQL
+        - Redis.
+        - MongoDB
+        - CouchDB
+      - SQL
+        - MySQL
+        - PostgreSQL
+    - Librerias
+      - `express`
+      - `socket.io`
+- Frontend
+  - DOM
+    - Estructura.
+    - Acceso.
+    - Modificación.
+    - jQuery
+    - You might not need jQuery.
+    - Seleccion de elementos.
+    - Obtener información de los elementos.
+    - Atributos.
+    - Clases.
+    - Modificar elementos.
+    - Agregar nuevos elementos.
+    - Reemplazar elementos.
+    - Agregando estilos.
+  - Reaccionar a eventos.
+    - Introducción.
+    - Event listeners.
+    - Propagación de eventos.
+    - Cancelación de eventos.
+  - Manipular formularios.
+  - Animar elementos.
 
 Desarrollo Backend
 ---
