@@ -29,7 +29,7 @@ Podemos conceder permisos a otro usuarios para administrar y utilizar recursos d
 
 - **Permisos granulares**
 
-Podemos otorgarles distintos tipos de permisos a diferentes usuarios sobre diferentes recursos. Ej; A algunos usuarios podemos darle full access sobre EC2 y S3, y a otros usuaros de AWS podemos darle read-only sobre algunos buckets de S3, o permisos para administrar algunas instancias de EC2.
+Podemos otorgarles distintos tipos de permisos a diferentes usuarios sobre diferentes recursos. Ej; A algunos usuarios podemos darle _full access_ sobre EC2 y S3, y a otros usuaros de AWS podemos darle _read-only_ sobre algunos buckets de S3, o permisos para administrar algunas instancias de EC2.
 
 - **Acceso seguro para aplicaciones sobre EC2**
 
@@ -37,11 +37,11 @@ Podemos utilizar las funciones de IAM para otorgar credenciales de acceso a apli
 
 - **Multi-factor authentication (MFA)**
 
-Podemos agregar autenticación en 2 pasos para mayor seguridad. Los usuarios deberán otorgar la clave de acceso, sino que también, un código que será enviado a algún dispositivo pre-configurado.
+Podemos agregar autenticación en 2 pasos para mayor seguridad. Los usuarios no solo deberán otorgar la clave de acceso, sino que también, un código que será enviado a algún dispositivo pre-configurado.
 
 - **Federación de identidad**
 
-Podemos darle acceso temporal a otro usuario (que ya tenga usuario en AWS) y que no pertenezca a nuestra organización.
+Podemos darle acceso temporal a otros usuarios (usuarios que tengan cuenta en otro _tenant_ de AWS o estén autenticados en otros sistemas) y que no pertenezca a nuestra organización.
 
 - **Información de auditoría**
 
@@ -106,7 +106,7 @@ Una _access key pair_ está integrada por:
     - Está activa por defecto (se puede deshabilitar).
     - Se puede generar hasta 2 AKI por usuario (útil para rotación de _keys_).
     - Se pueden borrar (no se pueden recuperar).
-    - Podemos darle permisos al usuario_owner_ de las _keys_ para que se administre sus propias _keys_.
+    - Podemos darle permisos al usuario _owner_ de las _keys_ para que se administre sus propias _keys_.
 
 - **_Secret Access Key_:**
     - _String_ de 40 caracteres de longitud.
@@ -158,7 +158,7 @@ Todos los usuarios dentro de un grupo tienen los mismos permisos asignados al gr
 
 Por ejemplo: En la figura siguiente tenemos un grupo llamado **Admins**, otro **Developers** y otro **Test**. Los usuarios que estan dentro del grupo Admin, tienen los permisos que se hayan definido para los Administradores. Si un nuevo usuario administrador ingresa a la empresa, bastará con agregarlo al grupo para que tenga los mismos permisos que los otros administradores.
 
-Otros ejemplos muy comunes es que un usuario perteneciente al grupo de Test sea promovido a developer. Por ejemplo; en este caso, agregaremos a Cathy al grupo Developers y la borraremos del grupo Test.
+Otros ejemplos comunes: un usuario perteneciente al grupo de Test sea promovido a developer. Por ejemplo; en este caso, agregaremos a Cathy al grupo Developers y la borraremos del grupo Test.
 
 ![IAM Groups](images/IAM_groups1.PNG)
 
@@ -177,18 +177,18 @@ De esta froma, los usuarios dentro del grupo, heredan dichos permisos. Solo bast
 
 ## Roles
 
-Un rol es muy parecido a un usuario, en el sentido de que se le pueden asignar permisos y luego ser atacheado a un usuario federado, a una aplicación o un servicio que generalmente no tiene acceso a AWS. Sin embargo, **un rol no tiene ningun tipo de credencial asociado (user/password o access keys)**.
+Un rol es muy parecido a un usuario, en el sentido de que se le pueden asignar permisos y luego ser atacheado a un usuario federado, a una aplicación o un servicio que generalmente no tiene acceso a AWS. Sin embargo, **un rol no tiene ningun tipo de credenciales gestionadas por nosotros (user/password o access keys)**.
 
 
 ### Imaginen la siguiente situación:
 
 Una aplicación que corre en una instancia de EC2 necesita acceso a un _bucket_ de S3, tenemos 2 formas de hacerlo.
 
-- **Forma 1**: Creamos un usuario en IAM, le damos permisos de _Put_ y _Get_ sobre el _bucket_, por último,  embebemos en el código dentro de la aplicación o en la instancia de EC2.
+- **Forma 1**: Creamos un usuario en IAM, le damos permisos de _Put_ y _Get_ sobre el _bucket_, por último,  embebemos el usuario y la password en el código dentro de la aplicación o en la instancia de EC2.
     
 ![IAM Groups](images/IAM_role2.PNG)
 
-- **Forma 2**: Creamos un rol, le damos permisos de _Put_ y _Get_ sobre el _bucket_, por último, asociamos dicho rol a la instancia de EC2
+- **Forma 2**: Creamos un rol asociando una policie con permisos de _Put_ y _Get_ sobre el _bucket_, por último, asociamos dicho rol a la instancia de EC2
 
 
 ![IAM Groups](images/IAM_role3.PNG)
@@ -202,8 +202,8 @@ Existen 4 tipos de roles que podemos crear en AWS. continuación un breve explic
 
 - **AWS Service Role**
     - El rol que asume un servicio para ejecutar determinada accion en nuestro nombre se denomina _service role_. (Ej: _replication_policy_for_iot-cloud-bucket-origen_to_iot-cloud-bucket-destino_).
-    - En otroas palabras, este tipo de rol, es asumido por un servicio para ejecutar determinada acción. 
-    - Muchos servicios de AWS requieren tener asociado un rol a dicho servicio.    
+    - En otras palabras, este tipo de rol, es asumido por un servicio para ejecutar determinada acción. 
+    - Muchos servicios de AWS requieren tener asociado un rol para ejecutar las acciones.    
     - Dicho rol, debe incluir todos los permisos necesarios para acceder a los recursos de AWS que necesite.    
     - Se puede crear, modificar y borrar _Services Roles_ desde IAM.
 
@@ -231,7 +231,7 @@ Existen 4 tipos de roles que podemos crear en AWS. continuación un breve explic
 - Usuario
     - Cuando se crea una cuenta en AWS y solo existe un usuario que va a trabajar en AWS.
     - Cuando otras personas de la companía necesitan trabajar sobre AWS.
-    - Cuando se desea utilizar CLI para trabajar en AWS.
+    - Cuando se desea utilizar CLI, API o SDK para trabajar en AWS.
 
 - Grupos
     - Cuando tenemos un conjunto de usuario que realizarán las mismas tareas dentro de AWS.
@@ -239,8 +239,8 @@ Existen 4 tipos de roles que podemos crear en AWS. continuación un breve explic
     
 - Rol
     - Cuando tenemos aplicaciones corriendo sobre algún servicio de AWS (Ej; EC2 y la aplicación necesita acceder a otros servicios de AWS (Ej S3, RDS, etc).
-    - Cuando deseamos utilizar _features_ de algunos servicios los cuales si o si necesitan tener un rol asignados (Ej; Amazon S3 region replication).
-    - Cuando los usuarios ya estan autenticados en la red empresarial y necesita utilizar AWS sin la necesidad de tener que loguearse nuevamente (SSO).
+    - Cuando deseamos utilizar _features_ de algunos servicios los cuales si o si necesitan tener un rol asignados (Ej; Amazon S3 _region replication_).
+    - Cuando los usuarios ya estan autenticados en la red empresarial o por _Identity Providers_ y necesitan utilizar AWS sin la necesidad de tener que loguearse nuevamente (SSO).
 
 ---
 
@@ -292,12 +292,12 @@ El formato de definición de las políticas es JSON y la estructura base es la s
     - Elemento obligatorio.
     Describe la/s acción/es específica/s que serán permitidas o denegadas dependiendo del campo _Effect_.
     - Cada servicio de AWS tiene su propio conjutno de tareas a realizar/denegar.
-    - No es key sensitive -> iam:ListAccessKeys = IAM:listaccesskeys.
+    - No es _key sensitive_ -> iam:ListAccessKeys = IAM:listaccesskeys.
     - Se pueden concatenar acciones: "Action": [ "sqs:SendMessage", "sqs:ReceiveMessage", "ec2:StartInstances", "iam:ChangePassword", "s3:GetObject"].
-    - Se pueden utilizar _wildcards (*)_: "Action": "s3:*" o "Action": "iam:\*AccessKey\*".
+    - Se pueden utilizar _wildcards (*)_: "Action": "s3:*" o "Action": "sqs:\*Message".
 
 - **Effect:**
-    - Solo acpeta 2 opciones: Allow o Deny.
+    - Solo acepeta 2 opciones: Allow o Deny.
 
 - **Resource:**
     - Indica el recurso o recursos que cubre el statement.
