@@ -560,7 +560,7 @@ Cloud (Infraestructura)
 
 ### Workmail, Worspaces, Workdocs (Aplicaciones de oficina en la nube)
 
-Desarrollo frontend
+Desarrollo
 ---
 
 #### HTML & CSS
