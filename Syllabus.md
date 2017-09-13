@@ -562,7 +562,6 @@ Cloud (Infraestructura)
 
 Desarrollo frontend
 ---
-### JavaScript
 
 #### HTML & CSS
 #### SQL y NoSQL
