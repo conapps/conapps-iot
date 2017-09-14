@@ -176,3 +176,6 @@ Pegar en el navegador y presionar F5, observar como intercambia entre las instan
 
 ![alt text](https://raw.githubusercontent.com/conapps/conapps-iot/master/AWS%20Cloud/EC2/ELB/images/Tutorial%20Classic%20LB/Paso32.JPG "Paso32")
 ![alt text](https://raw.githubusercontent.com/conapps/conapps-iot/master/AWS%20Cloud/EC2/ELB/images/Tutorial%20Classic%20LB/Paso33.JPG "Paso33")
+
+
+| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/ELB/ELB_2.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/ELB/ELB_4.md)|

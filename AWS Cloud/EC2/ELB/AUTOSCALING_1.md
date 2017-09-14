@@ -28,3 +28,5 @@ No se aplican tarifas adicionales con Auto Scaling, por lo que es fácil probarl
 Para distribuir automáticamente el tráfico entrante de la aplicación entre varias instancias de un grupo Auto Scaling, utilice Elastic Load Balancing.
 
 Para monitorizar las estadísticas básicas de las instancias y los volúmenes de Amazon EBS, utilice Amazon CloudWatch.
+
+| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/ELB/ELB_4.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/ELB/AUTOSCALING_2.md)|

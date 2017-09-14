@@ -84,3 +84,4 @@ Ancho de banda: cantidad de tráfico procesado por el balanceador de carga en Mb
 * **Evaluaciones de regla**:  es el producto de la cantidad de reglas procesadas por su balanceador de carga y la tasa de solicitudes. Las primeras 10 reglas procesadas son gratis (Evaluaciones de regla = Tasa de solicitudes * (Cantidad de reglas procesadas - 10 reglas gratis)).
 
 
+[Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/ELB/ELB_2.md)

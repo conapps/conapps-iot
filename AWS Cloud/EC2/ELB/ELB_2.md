@@ -36,3 +36,5 @@ Los nodos de un balanceador de carga expuesto a Internet tienen direcciones IP p
 Los nodos de un balanceador de carga interno solo tienen direcciones IP privadas. El nombre de DNS de un balanceador de carga interno se puede resolver para obtener las direcciones IP privadas de los nodos. Por lo tanto, los balanceadores de carga internos solo puede direccionar las solicitudes de los clientes que tienen acceso a la VPC para el balanceador de carga.
 
 Tenga en cuenta que tanto los balanceadores de carga expuestos a Internet como los internos direccionan las solicitudes a las instancias mediante direcciones IP privadas. Por lo tanto, las instancias no requieren direcciones IP públicas para recibir las solicitudes desde un balanceador de carga, ya sea interno o expuesto a Internet.
+
+| [< Anterior](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/ELB/ELB_1.md) | [Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/EC2/ELB/ELB_3.md)|
