@@ -59,7 +59,7 @@ En **Advanced details** debemos tildar el checkbox "Receive traffic from one or 
 
 ![alt text](https://raw.githubusercontent.com/conapps/conapps-iot/master/AWS%20Cloud/EC2/ELB/images/Tutorial%20Autoscaling/Paso12.JPG "Paso12")
 
-Vamos a realizar el mismo procedicmiento pero para quitar instancias cuando el CPU no esta activo:
+Vamos a realizar el mismo procedimiento pero para quitar instancias cuando el CPU no esta activo:
 
 ![alt text](https://raw.githubusercontent.com/conapps/conapps-iot/master/AWS%20Cloud/EC2/ELB/images/Tutorial%20Autoscaling/Paso13.JPG "Paso13")
 
