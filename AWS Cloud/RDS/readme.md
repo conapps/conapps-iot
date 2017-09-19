@@ -1,5 +1,4 @@
-# QUE ES Amazon Relational Database
-Service (Amazon RDS)?
+# QUE ES Amazon Relational Database Service (Amazon RDS)?
 
 El servicio Amazon Database Relacional (Amazon RDS) es un servicio web que facilita la configuración,
 operar y escalar una base de datos relacional en la nube. 
