@@ -53,4 +53,9 @@ paso1 imagen
 paso2 imagen
 
 7. En la página **Configure Advanced Settings**, proporcione información adicional que necesita RDS iniciar la instancia de MySQL DB. La tabla muestra la configuración de una instancia de ejemplo de base de datos. Especifica tu Información de la instancia de base de datos y, a continuación, seleccione Iniciar instancia de base de datos.
+tabla   
+paso3 imagen
 
+8. En la consola RDS, la nueva instancia de DB aparece en la lista de instancias de la base de datos. La instancia de DB tienen un estado de creación hasta que la instancia de DB se crea y está lista para su uso. Cuando el estado cambia a disponible, puede conectarse a una base de datos en la instancia de DB. Dependiendo de la clase de instancia de DB y el almacén asignado, podría tomar varios minutos para que la nueva DB instancia esté disponible.
+
+paso4 imagen
