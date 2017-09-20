@@ -33,8 +33,8 @@ En este ejemplo, se crea una instancia de base de datos que ejecuta el motor de 
 1. Inicie sesión en AWS Management Console y abra la consola Amazon RDS en [CONSOLE](https://console.aws.amazon.com/rds/).
 2. En la esquina superior derecha de la consola Amazon RDS, elija la región en la que desea crear la instancia de DB.
 3. En el panel de navegación, seleccione **Instances**.
-4. Seleccione **Launch DB Instance**. Se abrirá el Asistente para instancias de DB de inicio **Select Engine** en la página.
-paso1 imagen
+4. Seleccione **Launch DB Instance**. Se abrirá el Asistente para instancias de DB en la página de inicio **Select Engine** .
+![paso1](images/paso1.jpg) 
 5. En la página Select Engine, elija el icono de MySQL y, a continuación, seleccione **Select** para el DB de MySQL .
 6. En la página Especificar detalles de la base de datos, especifique la información de la instancia de la base de datos. La siguiente tabla muestra para una instancia de ejemplo de base de datos. Cuando los ajustes sean como los desea, seleccione **Siguiente**. 
 
@@ -50,15 +50,15 @@ paso1 imagen
 | Master Username | Type a name using alphanumeric characters that you will use as the master user name to log on to your DB instance. This will be the user name you use to log on to your database on the DB instance for the first time. |
 | Master Password and Confirm Password | Type a password that contains from 8 to 41 printable ASCII characters (excluding /,", and @) for your master user password. This will be the password you will use when you use the user name to log on to your database. Then type the password again in the Confirm Password box. |
 
-paso2 imagen
+![paso2](images/paso2.jpg) 
 
 7. En la página **Configure Advanced Settings**, proporcione información adicional que necesita RDS iniciar la instancia de MySQL DB. La tabla muestra la configuración de una instancia de ejemplo de base de datos. Especifica tu Información de la instancia de base de datos y, a continuación, seleccione Iniciar instancia de base de datos.
 tabla   
-paso3 imagen
+![paso3](images/paso3.jpg)
 
 8. En la consola RDS, la nueva instancia de DB aparece en la lista de instancias de la base de datos. La instancia de DB tienen un estado de creación hasta que la instancia de DB se crea y está lista para su uso. Cuando el estado cambia a disponible, puede conectarse a una base de datos en la instancia de DB. Dependiendo de la clase de instancia de DB y el almacén asignado, podría tomar varios minutos para que la nueva DB instancia esté disponible.
 
-paso4 imagen
+![paso4](images/paso4.jpg) 
 
 ## Connecting to a Database on a DB Instance Running the MySQL Database Engine
 
