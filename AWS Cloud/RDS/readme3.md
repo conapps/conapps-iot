@@ -53,7 +53,25 @@ En este ejemplo, se crea una instancia de base de datos que ejecuta el motor de 
 ![paso2](images/paso2.jpg) 
 
 7. En la página **Configure Advanced Settings**, proporcione información adicional que necesita RDS iniciar la instancia de MySQL DB. La tabla muestra la configuración de una instancia de ejemplo de base de datos. Especifica tu Información de la instancia de base de datos y, a continuación, seleccione Iniciar instancia de base de datos.
-tabla   
+
+| For This Parameter | Do This |
+| --- | --- |
+| VPC | Choose the name of the Amazon Virtual Private Cloud (VPC) that will host your MySQL DB instance. If your DB instance will not be hosted in a VPC, choose Not in VPC. |
+| Availability Zone | Determine if you want to specify a particular Availability Zone. If you chose Yes for the Multi-AZ Deployment parameter on the previous page, you will not have any options here |
+| DB Security Groups | Choose the security group you want to use with this DB instance. |
+| Database Name | Type a name for your default database that is 1 to 64 alpha-numeric characters. If you do not provide a name, Amazon RDS will not automatically create a database on the DB instance you are creating. To create additional databases, connect to the DB instance and use the SQL command CREATE DATABASE. |
+| Database Port | Leave the default value of **3306** unless you have a specific port you want to access the database through. MySQL installations default to port 3306. |
+| DB Parameter Group | Leave the default value unless you created your own DB parameter group. |
+| Option Group | Choose the default value because this option group is used with the MySQL version you chose on the previous page. |
+| Copy Tags To Snapshots | Choose this option to have any DB instance tags copied to a DB snapshot when you create a snapshot. |
+| Enable Encryption | Choose **Yes** to enable encryption at rest for this DB instance. |
+| Backup Retention Period | Set the number of days you want automatic backups of your database to be retained. For testing purposes, you can set this value to **1**. |
+| Backup Window | Unless you have a specific time that you want to have your database backup, use the default of **No Preference**. |
+| Enable Enhanced Monitoring | Unless you want to enable gathering metrics in real time for the operating system that your DB instance runs on, use the default of **No**. |
+| Auto Minor Version Upgrade |Choose **Yes** to enable your DB instance to receive minor DB engine version upgrades automatically when they become available |
+| Maintenance Window |Choose the 30 minute window in which pending modifications to your DB instance are applied. If the time period doesn't matter, choose **No Preference** |
+|
+
 ![paso3](images/paso3.jpg)
 
 8. En la consola RDS, la nueva instancia de DB aparece en la lista de instancias de la base de datos. La instancia de DB tienen un estado de creación hasta que la instancia de DB se crea y está lista para su uso. Cuando el estado cambia a disponible, puede conectarse a una base de datos en la instancia de DB. Dependiendo de la clase de instancia de DB y el almacén asignado, podría tomar varios minutos para que la nueva DB instancia esté disponible.
@@ -67,17 +85,7 @@ Para más información en el uso de MySQL, vaya a la documentación de MySQL.
 
 **Para conectarse a una base de datos en una instancia de DB utilizando el monitor MySQL**   
 Escriba el comando siguiente en un símbolo del sistema en un equipo cliente para conectarse a una base de datos en una instancia de MySQL DB utilizando el monitor MySQL. Sustituya el nombre DNS de su instancia de base de datos para *endpoint*, el nombre de usuario principal que utilizó para *mymasteruser* y la contraseña maestra utilizado para *password*.  
-PROMPT> mysql -h *endpoint* -P 3306 -u *mymasteruser* -p
-
-Verá una salida similar a la siguiente.
-
-Welcome to the MySQL monitor. Commands end with ; or \g.
-Your MySQL connection id is 350
-Server version: 5.6.27-log MySQL Community Server (GPL)
-
-Type 'help;' or '\h' for help. Type '\c' to clear the buffer.
-
-mysql>
+![salida](images/paso5.jpg)
 
 ## Deleting a DB Instance
 
