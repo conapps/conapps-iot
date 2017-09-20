@@ -5,7 +5,7 @@ En esta sección se muestra cómo crear y conectarse a una instancia de BD utili
 *IMPORTANTE*   
 Debe completar las tareas en la sección Configuración de Amazon RDS antes de crear o conectarse a una instancia de DB.
 
-Crear una instancia de DB y conectarse a una base de datos en una instancia de DB es ligeramente diferente para cada uno de los motores DB; elija el motor de base de datos inferior que desea utilizar para obtener información detallada sobre la creación y conectarse a la instancia de DB. Después de haber creado y conectado a su instancia de DB, hay instrucciones para ayudarle a eliminar la instancia de la base de datos.
+Crear una instancia de DB y conectarse a una base de datos en una instancia de DB es ligeramente diferente para cada uno de los motores DB; elija el motor de base de datos que desea utilizar . Después de haber creado y conectado a su instancia de DB, hay instrucciones para ayudarle a eliminar la instancia de la base de datos.
 
 *TEMAS*
 
@@ -23,7 +23,7 @@ La forma más sencilla de crear una instancia de base de datos es utilizar AWS M
 
 *TEMAS*
 * Creación de una instancia de base de datos MySQL 
-* Conexión a una base de datos en una instancia de DB Ejecución del motor de base de datos MySQL 
+* Conexión a una base de datos en una instancia de DB Ejecutando el motor de base de datos MySQL 
 * Eliminación de una instancia de DB
 
 ## Creating a MySQL DB Instance
@@ -70,7 +70,7 @@ En este ejemplo, se crea una instancia de base de datos que ejecuta el motor de 
 | Enable Enhanced Monitoring | Unless you want to enable gathering metrics in real time for the operating system that your DB instance runs on, use the default of **No**. |
 | Auto Minor Version Upgrade |Choose **Yes** to enable your DB instance to receive minor DB engine version upgrades automatically when they become available |
 | Maintenance Window |Choose the 30 minute window in which pending modifications to your DB instance are applied. If the time period doesn't matter, choose **No Preference** |
-|
+
 
 ![paso3](images/paso3.jpg)
 
@@ -80,8 +80,8 @@ En este ejemplo, se crea una instancia de base de datos que ejecuta el motor de 
 
 ## Connecting to a Database on a DB Instance Running the MySQL Database Engine
 
-Una vez que Amazon RDS provee su instancia de DB, puede usar cualquier aplicación de cliente SQL estándar para conecte a una base de datos en la instancia de la base de datos. En este ejemplo, se conecta a una base de datos en un DB de MySQL instancia usando comandos de monitor MySQL. Una aplicación basada en GUI que puede utilizar para conectarse es MySQL Banco de trabajo. Para obtener más información, vaya a la página Descargar MySQL Workbench.   
-Para más información en el uso de MySQL, vaya a la documentación de MySQL.
+Una vez que Amazon RDS provee su instancia de DB, puede usar cualquier aplicación de cliente SQL estándar para conecte a una base de datos en la instancia de la base de datos. En este ejemplo, se conecta a una base de datos en un DB de MySQL instancia usando comandos de monitor MySQL. Una aplicación basada en GUI que puede utilizar para conectarse es MySQL workbench. Para obtener más información, vaya a la página [Descargar MySQL Workbench](https://dev.mysql.com/downloads/workbench/).   
+Para más información en el uso de MySQL, vaya a la [documentación de MySQL](https://dev.mysql.com/doc/).
 
 **Para conectarse a una base de datos en una instancia de DB utilizando el monitor MySQL**   
 Escriba el comando siguiente en un símbolo del sistema en un equipo cliente para conectarse a una base de datos en una instancia de MySQL DB utilizando el monitor MySQL. Sustituya el nombre DNS de su instancia de base de datos para *endpoint*, el nombre de usuario principal que utilizó para *mymasteruser* y la contraseña maestra utilizado para *password*.  
@@ -90,7 +90,7 @@ Escriba el comando siguiente en un símbolo del sistema en un equipo cliente par
 ## Deleting a DB Instance
 
 Una vez que se haya conectado a la instancia de ejemplo de DB que creó, debe eliminar la instancia de la base de datos por lo que ya no se cobran por ello.  
-**Para eliminar una instancia de la base de datos sin una instantánea final de la base de datos**
+**Eliminar una instancia de DB sin un final DB snapshot**
 1. Inicie sesión en AWS Management Console y abra la consola Amazon RDS en [console](https://console.aws.amazon.com/rds/).
 2. En la lista Instancias, seleccione la instancia de DB que desea eliminar.
 3. Seleccione **Instances Action** y elija **Delete** en el menú desplegable.
