@@ -18,7 +18,7 @@ Debe completar las tareas en la sección Configuración de Amazon RDS para crear
 create the DB instance.
 3. In the navigation pane, choose **Instances**.
 4. Choose **Launch DB Instance** to start the **Launch DB Instance Wizard**.  
-The wizard opens on the **Select Engine** page.
+The wizard opens on the **Select Engine** page.   
 ![paso1](images/post1.jpg)
 5. On the **Select Engine page**, choose the PostgreSQL icon, and then choose **Select**.
 6. Next, **the Production?** page asks if you are planning to use the DB instance you are creating for
@@ -26,11 +26,11 @@ production. If you are, choose **PostgreSQL** under **Production**. If you choos
 option **Multi-AZ** and the **Provisioned IOPS** storage option will be preselected in the following step.
 Choose **Next Step** when you are finished.
 7. On the **Specify DB Details** page, specify your DB instance information. Choose **Next Step** when you
-are finished.
+are finished.   
 ![post2](images/post2.jpg)
 8. On the **Configure Advanced Settings** page, provide additional information that RDS needs to
 launch the PostgreSQL DB instance. The table shows settings for an example DB instance. Specify
-your DB instance information, then choose **Launch DB Instance**.
+your DB instance information, then choose **Launch DB Instance**.   
 ![post3](images/post3.jpg)
 9. On the final page of the wizard, choose **View Your DB Instances**.   
 10. On the Amazon RDS console, the new DB instance appears in the list of DB instances. The DB
@@ -62,13 +62,13 @@ En este ejemplo, se conecta a una instancia de DB de PostgreSQL utilizando pgAdm
 1. Inicie la aplicación pgAdmin en su equipo cliente. Puede instalar pgAdmin desde [http: //www.pgadmin.org/](http://www.pgadmin.org/).
 2. Seleccione **Add Server** en el menú **File**.
 3. En el cuadro de diálogo **New Server Registration**, escriba el punto final de la instancia de la base de datos (por ejemplo,
-mypostgresql.c6c8dntfzzhgv0.us-west-2.rds.amazonaws.com) en el cuadro **Host**. No incluya el dos puntos o número de puerto como se muestra en la consola RDS de Amazon (mypostgresql.c6c8dntfzzhgv0.uswest-2.rds.amazonaws.com: 543).  
-Introduzca el puerto que asignó a la instancia de DB en el cuadro **Port**. Introduzca el nombre de usuario y la contraseña que ingresó cuando creó la instancia de DB en los cuadros **Username** y **Password**, respectivamente.
+mypostgresql.c6c8dntfzzhgv0.us-west-2.rds.amazonaws.com) en el cuadro **Host**. No incluya el dos puntos o número de puerto como se muestra en la consola RDS de Amazon (mypostgresql.c6c8dntfzzhgv0.uswest-2.rds.amazonaws.com:543).    
+Introduzca el puerto que asignó a la instancia de DB en el cuadro **Port**. Introduzca el nombre de usuario y la contraseña que ingresó cuando creó la instancia de DB en los cuadros **Username** y **Password**, respectivamente.  
 ![pg1](images/pg1.jpg)
 4. Seleccione **OK**.
-5. En el explorador de objetos, expanda **Server Groups**. Elija el servidor (la instancia de base de datos) que creó, y luego elija el nombre de la base de datos.
+5. En el explorador de objetos, expanda **Server Groups**. Elija el servidor (la instancia de base de datos) que creó, y luego elija el nombre de la base de datos.  
 ![pg2](images/pg2.jpg)
-6. Elija el icono del complemento y elija **PSQL Console**. Se abre la ventana de comandos de psql para el valor predeterminado base de datos que creó.
+6. Elija el icono del complemento y elija **PSQL Console**. Se abre la ventana de comandos de psql para el valor predeterminado base de datos que creó.  
 ![pg3](images/pg3.jpg)
 7. Utilice la ventana de comandos para introducir comandos SQL o psql. Escriba \ q para cerrar la ventana.
 
