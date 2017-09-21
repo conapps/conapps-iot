@@ -55,6 +55,10 @@ IAM soporta el manejo de información y transacciones asociadas a las tarjetas d
 
 Es posible integrar las funciones de IAM con otros servicios de AWS. Generalmente utilizando la funcion de Roles.
 
+- **Eventualmente Consistente**
+
+Al igual que muchos otros servicios de AWS, IAM es eventualmente consistente. Esto quiere decir que pueden existir determinados períodos de tiempo donde la información no esté replicada 100% en las _Availability Zones_ y por lo tanto, existan inconsistencias de información mientras se ejecuta la replicación.
+
 - **Sin cargos extra**
 
 IAM es un servicio que se ofrece sin cargo.
