@@ -1,5 +1,5 @@
 # Creating a PostgreSQL DB Instance and Connecting to a Database on a PostgreSQL DB Instance   
-La forma más fácil de crear una instancia de DB es utilizar la consola RDS. Una vez creado el DB Por ejemplo, puede utilizar las utilidades de cliente SQL estándar para conectarse a la instancia de DB, como pgAdmin. En este ejemplo, se crea una instancia de base de datos que ejecuta el motor de base de datos PostgreSQL denominado west2- postgres1, con una clase de instancia de DB db.m1.small, 10 GB de almacenamiento y respaldos automatizados habilitados con un período de retención de un día.
+La forma más fácil de crear una instancia de DB es utilizar la consola RDS. Una vez creado el DB Por ejemplo, puede utilizar las utilidades de cliente SQL estándar para conectarse a la instancia de DB, como pgAdmin. En este ejemplo, se crea una instancia de base de datos que ejecuta el motor de base de datos PostgreSQL denominado dcetti-postgres1, con una clase de instancia de DB db.t2.micro, 10 GB de almacenamiento y respaldos automatizados habilitados con un período de retención de un día.
 
 *Importante*  
 Debe completar las tareas en la sección Configuración de Amazon RDS para crear o conectarse a una instancia de DB.
@@ -62,7 +62,7 @@ En este ejemplo, se conecta a una instancia de DB de PostgreSQL utilizando pgAdm
 1. Inicie la aplicación pgAdmin en su equipo cliente. Puede instalar pgAdmin desde [http: //www.pgadmin.org/](http://www.pgadmin.org/).
 2. Seleccione **Add Server** en el menú **File**.
 3. En el cuadro de diálogo **New Server Registration**, escriba el punto final de la instancia de la base de datos (por ejemplo,
-mypostgresql.c6c8dntfzzhgv0.us-west-2.rds.amazonaws.com) en el cuadro **Host**. No incluya el dos puntos o número de puerto como se muestra en la consola RDS de Amazon (mypostgresql.c6c8dntfzzhgv0.uswest-2.rds.amazonaws.com:543).    
+mypostgresql.c6c8dntfzzhgv0.us-east-2.rds.amazonaws.com) en el cuadro **Host**. No incluya el dos puntos o número de puerto como se muestra en la consola RDS de Amazon (mypostgresql.c6c8dntfzzhgv0.us-east-2.rds.amazonaws.com:5432).    
 Introduzca el puerto que asignó a la instancia de DB en el cuadro **Port**. Introduzca el nombre de usuario y la contraseña que ingresó cuando creó la instancia de DB en los cuadros **Username** y **Password**, respectivamente.  
 ![pg1](images/pg1.jpg)
 4. Seleccione **OK**.
