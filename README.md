@@ -43,7 +43,11 @@ Documentación
 
 ### JavaScript
 
-- [Clase de JavaScript](https://github.com/conapps/conapps-iot/blob/master/Desarrollo/ClaseDeJavascript/20170125%20-%20Javascript.md)
+- [00 - Introducción](https://github.com/conapps/conapps-iot/blob/master/Desarrollo/ClaseDeJavascript/20170125%20-%20Javascript.md)
+  - Autor: Ismael Almandos
+  - Fecha: 2017/01/25
+- [01 - Funciones](https://github.com/guzmonne/javascript-class/blob/master/Clases/01_Funciones.md)
+  - [Repositorio](https://github.com/guzmonne/javascript-class)
   - Autor: Guzmán Monné
   - Fecha: 2017/01/25
 
