@@ -1,9 +1,7 @@
 # Que es Amazon Relational Database Service (Amazon RDS)?
 
-El servicio Amazon Database Relacional (Amazon RDS) es un servicio web que facilita configurar,
-operar y escalar una base de datos relacional en la nube.   
-Proporciona una capacidad rentable de
-base de datos relacional estándar del sector y gestiona tareas comunes de administración de bases de datos.
+El servicio Amazon Database Relacional (Amazon RDS) es un servicio web que facilita operar, configurar y armar una base de datos relacional en la nube.   
+Las principales caracteristicas son: rentabilidad(mayor relación costo-beneficio), capacidad ajustable a las necesidades de la industria standard  y gestiona tareas administrativas.
 
 *TEMAS*
 
