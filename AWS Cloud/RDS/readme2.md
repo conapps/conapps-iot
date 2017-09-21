@@ -8,7 +8,7 @@ Antes de utilizar Amazon RDS por primera vez, realice las siguientes tareas:
 
 ## Sign Up for AWS
 
-Regístrese para AWS.
+**Regístrese para AWS**.
 
 Cuando se registra en Amazon Web Services (AWS), su cuenta AWS se registra automáticamente para todos servicios en AWS, incluyendo Amazon RDS. Se le cobrará sólo por los servicios que utiliza. Con Amazon RDS, solo paga por los recursos que usa. La instancia de Amazon RDS DB que creaste será en vivo (no se ejecuta en una caja de arena). Usted incurrirá en las tarifas de uso estándar de Amazon RDS para la instancia hasta que termine. Para obtener más información acerca de las tasas de uso de Amazon RDS, consulte la Página de producto RDS. Si es un nuevo cliente de AWS, puede comenzar con Amazon RDS de forma gratuita; para Para más información, vea AWS Free Usage Tier.
 Si ya tiene una cuenta AWS, vaya a la siguiente tarea. Si no tiene una cuenta de AWS, use la siguiente procedimiento para crear uno.
@@ -19,7 +19,7 @@ Parte del procedimiento de registro implica recibir una llamada telefónica e in
 
 ## Create an IAM User
 
-Crear un usuario de IAM
+**Crear un usuario de IAM**
 
 Los servicios en AWS, como Amazon RDS, requieren que usted proporcione credenciales al acceder a ellos, por lo que que el servicio puede determinar si tiene permiso para acceder a sus recursos. La consola requiere tu contraseña. Puede crear claves de acceso para su cuenta AWS para acceder a la interfaz de línea de comandos o API. Sin embargo, no recomendamos que acceda a AWS utilizando las credenciales de su cuenta de AWS; recomendamos que utilice AWS Identity and Access Management (IAM) en su lugar. Crear un usuario de IAM, y luego agregar el usuario a un grupo IAM con permisos administrativos o conceder a este usuario administrativo permisos. A continuación, puede acceder a AWS utilizando una URL especial y las credenciales para el usuario de IAM. Si se ha inscrito en AWS pero no ha creado un usuario de IAM para usted, puede crear uno utilizando el IAM consola.
 
@@ -41,15 +41,15 @@ Cuando tú está listo para continuar, elija **Crear usuario**.
 Puede utilizar este mismo proceso para crear más grupos y usuarios y para dar acceso a
 Recursos de cuenta de AWS. Para obtener más información sobre el uso de políticas para restringir los permisos de los usuarios a AWS específicos , vaya a **Access Management and Example Policies for Administering AWS Resources.**
 
-Para iniciar sesión como este nuevo usuario de IAM, cierre la sesión de la consola AWS y,a continuación, utilice la siguiente URL, donde your_aws_account_id es su número de cuenta AWS sin los guiones (por ejemplo, si su AWS número de cuenta es 1234-5678-9012, su ID de cuenta de AWS es 123456789012):
+Para iniciar sesión como este nuevo usuario de IAM, cierre la sesión de la consola AWS y,a continuación, utilice la siguiente URL, donde **your_aws_account_id** es su número de cuenta AWS sin los guiones (por ejemplo, si su AWS número de cuenta es 1234-5678-9012, su ID de cuenta de AWS es 123456789012):
 
-[console](https://your_aws_account_id.signin.aws.amazon.com/console/)
+[https://your_aws_account_id.signin.aws.amazon.com/console/](https://your_aws_account_id.signin.aws.amazon.com/console/)
 
 Introduzca el nombre de usuario y la contraseña de IAM que acaba de crear. Cuando inicia sesión, la barra de navegación muestra "your_user_name @ your_aws_account_id".
 Si no desea que la URL de su página de inicio de sesión contenga su ID de cuenta de AWS, puede alias de cuenta. Desde el panel IAM, haga clic en Personalizar e introduzca un alias, como el nombre de su empresa.
 Para iniciar sesión después de crear un alias de cuenta, utilice la siguiente URL:
 
-[console](https://your_account_alias.signin.aws.amazon.com/console/)
+[https://your_account_alias.signin.aws.amazon.com/console/](https://your_account_alias.signin.aws.amazon.com/console/)
 
 Para verificar el enlace de inicio de sesión de los usuarios de IAM para su cuenta, abra la consola IAM y compruebe AWS Account Alias.
 
