@@ -72,3 +72,36 @@ Introduzca el puerto que asignó a la instancia de DB en el cuadro **Port**. Int
 ![pg3](images/pg3.jpg)
 7. Utilice la ventana de comandos para introducir comandos SQL o psql. Escriba \ q para cerrar la ventana.
 
+## Using psql to Connect to a PostgreSQL DB Instance
+Si su computadora cliente tiene instalado PostgreSQL, puede usar una instancia local de psql para conectarse a una
+Instancia de PostgreSQL DB. Para conectarse a su instancia de DB de PostgreSQL usando psql, debe proporcionar
+información y credenciales de acceso.  
+El siguiente formato se utiliza para conectarse a una instancia de DB de PostgreSQL en Amazon RDS:   
+![salida1](images/salida1.jpg)  
+Por ejemplo, el siguiente comando se conecta a una base de datos denominada **mypgdb** en una instancia de DB de PostgreSQL
+llamado **mypostgresql** usando credenciales ficticias:   
+![salida2](images/salida2.jpg)
+### Troubleshooting Connection Issues
+De lejos, el problema más común que se produce al intentar conectarse a una base de datos en un DB
+Por ejemplo, las reglas de acceso en el grupo de seguridad asignado a la instancia de la base de datos. Si utilizó el DB predeterminado
+cuando creó la instancia de la base de datos, es probable que el grupo de seguridad no haya
+las reglas que le permitirán acceder a la instancia. Para obtener más información acerca de la seguridad de Amazon RDS
+grupos, vea Grupos de seguridad de Amazon RDS.  
+
+El error más común es no se pudo conectar con el servidor: La conexión se agotó. Si recibe este error,
+compruebe que el nombre de host es el punto final de instancia de DB y que el número de puerto es correcto. Compruebe que el
+grupo de seguridad asignado a la instancia de base de datos tiene las reglas necesarias para permitir el acceso a través de cualquier firewall
+su conexión puede estar pasando.
+
+## Deleting a DB Instance
+Una vez que se haya conectado a la instancia de ejemplo de DB que creó, debe eliminar la instancia de la base de datos
+por lo que ya no se cobran por ello.
+Para eliminar una instancia de la base de datos sin una instantánea final de la base de datos.
+
+**To delete a DB instance with no final DB snapshot**
+1. Sign in to the AWS Management Console and open the Amazon RDS console at [https://console.aws.amazon.com/rds/](https://console.aws.amazon.com/rds/).
+2. In the **Instances** list, choose the DB instance you wish to delete.
+3. Choose **Instance Actions**, and then choose **Delete** from the dropdown menu.
+4. Choose **No** in the **Create final Snapshot?** drop-down list box.
+5. Choose **Yes, Delete**.
+
