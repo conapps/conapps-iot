@@ -25,7 +25,7 @@ Puede contener, letras, numeros, y los siguientes caracteres: mas (+), igual (=)
 
 ![IAM Users](../images/IAM_user4.PNG)
 
-* Realizamos el review de las ociones.
+* Realizamos el review de las opciones seleccionadas.
 
 ![IAM Users](../images/IAM_user5.PNG)
 
@@ -103,7 +103,7 @@ aws iam list-attached-user-policies --user-name miriarte3
 * Listamos los grupos a los que pretenece el usuario
 
 ```bash
-$ aws iam list-groups-for-user --user-name miriarte3
+aws iam list-groups-for-user --user-name miriarte3
 ```
 
 

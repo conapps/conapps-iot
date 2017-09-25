@@ -229,6 +229,56 @@ Existen 4 tipos de roles que podemos crear en AWS. continuación un breve explic
 
 ![IAM Groups](images/IAM_role7.PNG)
 
+
+---
+## ¿Como utilizamos los roles?
+
+**Caso de uso: EC2 app + S3 _Bucket_**
+
+![IAM Groups](images/IAM_role12.png)
+
+Como vemos en la figura anterior, un desarrollador ejecuta una aplicación sobre una instancia de EC2 la cual requiere acceso a un _bucket_ de S3 llamado _photos_.
+
+Por otro lado, un administrador crea un rol llamado _get-pics_ al cual se le atachea una _policy_ que tiene permisos de lectura sobre el _bucket_, y se le permite al desarrolladaor ejecutar la instancia con dicho rol asociado.
+
+Como vemos a continuación, la aplicación que corre sobre la instancia, puede hacer uso de las credenciales temporales que genera el rol para acceder al _bucket_ ejecutando el siguiente comando.
+
+ ```bash
+curl http://169.254.169.254/latest/meta-data/iam/security-credentials/s3access
+```
+
+```bash
+{
+  "Code" : "Success",
+  "LastUpdated" : "2012-04-26T16:39:16Z",
+  "Type" : "AWS-HMAC",
+  "AccessKeyId" : "ASIAIOSFODNN7EXAMPLE",
+  "SecretAccessKey" : "wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY",
+  "Token" : "token",
+  "Expiration" : "2017-05-17T15:09:54Z"
+}
+```
+
+* Ejemplo de uso en Python
+
+```bash
+assumeRoleResult = AssumeRole(a);
+tempCredentials = new SessionAWSCredentials(
+   assumeRoleResult.AccessKeyId, 
+   assumeRoleResult.SecretAccessKey, 
+   assumeRoleResult.SessionToken);
+s3Request = CreateAmazonS3Client(tempCredentials);
+```
+
+De esta forma se obtienen la _Access Key Id_ y la _Secret Access Key_ necesarias para poder acceder al _bucket_ de S3 como lo vimos en la [clase de S3](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3.md).
+
+El administrador no tiene que darle permisos al desarrollador para acceder al _bucket_ y tampoco el desarrollador debe compartir ni "hardcodear" sus _keys_ en la instancia o aplicación.
+
+Refs:
+
+[Id_roles_use_switch-role-ec2](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html)
+
+
 ---
 ## ¿Cuando usar qué?
 
@@ -252,7 +302,7 @@ Existen 4 tipos de roles que podemos crear en AWS. continuación un breve explic
 
 Las IAM Policies son utilziadas para asignar permisos a recursos y servicios en AWS.
 
-**_Best practice:_** "Atachear" las políticas a grupos y no a usuarios.
+**_Best practice:_** "Atachear" las políticas a grupos y/o roles y no a usuarios individuales.
 
 
 El formato de definición de las políticas es JSON y la estructura base es la siguiente:
@@ -342,7 +392,7 @@ Son políticas pre-creadas por AWS y pueden ser asociadas a Grupos, Roles y Usua
 
 Son políticas creadas por el propio usuario y existen 3 formas de hacerlo:
 
-- Copiar una Managed Policy y editarla.
+- Copiar una _Managed Policy_ y editarla.
 - Utilizar el generador de policies.
 - Escribir el json desde 0.
 
@@ -357,4 +407,12 @@ Son políticas creadas por el propio usuario y existen 3 formas de hacerlo:
 
 
 ---
-[Siguiente >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/IAM/AWS_IAM_Parte_2.md)
+## Ejercicios de _Policies_ y Roles.
+
+---
+## [Ejercicio # 3](ejercicios/AWS_IAM_Policies.md)
+
+## [Ejercicio # 4](ejercicios/AWS_IAM_Roles.md)
+---
+
+[Siguiente AWS_IAM_Parte_2>](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/IAM/AWS_IAM_Parte_2.md)
