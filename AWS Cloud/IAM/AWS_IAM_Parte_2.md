@@ -7,16 +7,14 @@ AWS recomienda seguir la siguiente guía para mejorar la seguridad sobre los rec
 
 * Eliminar las _Access Keys_ para el usuario root.
 * Crear usuarios individuales.
-* Use AWS Defined Policies to Assign Permissions Whenever Possible.
-* Use Groups to Assign Permissions to IAM Users.
-* Grant Least Privilege.
-* Use Access Levels to Review IAM Permissions.
-* Configure a Strong Password Policy for Your Users.
-* Enable MFA for Privileged Users.
-* Use Roles for Applications That Run on Amazon EC2 Instances.
-* Delegate by Using Roles Instead of by Sharing Credentials.
-* Rotate Credentials Regularly.
-* Remove Unnecessary Credentials.
-* Use Policy Conditions for Extra Security.
-* Monitor Activity in Your AWS Account.
-* Video Presentation About IAM Best Practices.
+* Utilizar las Políticas definidas por AWS para asignar permisos donde sea posible.
+* Utilizar grupos para asignar permisos a usuarios.
+* Aplicar la regla de permisos mínimos.
+* Configurar políticas de complejidad de claves.
+* Habilitar MFA para usuarios con permisos elevados (root, administrator, etc).
+* Utilizar roles para aplicaciones que corren sobre instancias de EC2.
+* Delegar utilizando roles en lugar de compartir las credenciales.
+* Rotar las credenciales regularmente.
+* Eliminar usuarios y claves sin utilizar.
+* Utilizar el campo "Conditions" cuando definimos _policies_ para mayor seguridad.
+* Monitorear la actividad en nuestro _tenant_ de AWS (CloudTrial, CloudWatch).

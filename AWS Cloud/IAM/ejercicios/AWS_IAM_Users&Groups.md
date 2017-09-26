@@ -106,10 +106,7 @@ aws iam list-attached-user-policies --user-name miriarte3
 aws iam list-groups-for-user --user-name miriarte3
 ```
 
-
-
-
-* Borrar usuario (6 pasos)
+* Borrar usuario (7 pasos)
 
 1. Borramos la/s access key/s (si tiene)
 
@@ -141,7 +138,13 @@ aws iam detach-user-policy --user-name miriarte3 --policy-arn arn:aws:iam::12345
 aws iam remove-user-from-group --user-name miriarte3 --group-name admin
 ```
 
-6. Borramos el usuario
+6. Borramos el perfil
+
+```bash
+aws iam delete-login-profile --user-name miriarte22
+```
+
+7. Borramos el usuario
 
 ```bash
 aws iam delete-user --user-name miriarte3
@@ -224,6 +227,12 @@ aws iam update-group --group-name admin2 --new-group-name admin3
 aws iam add-user-to-group --user-name miriarte1 --group-name admin1
 
 aws iam add-user-to-group --user-name miriarte1 --group-name dev1
+```
+
+* Vemos a que grupos pertenece el usuario miriarte1 
+
+```bash
+aws iam list-groups-for-user --user-name miriarte1
 ```
 
 * Remover un usuario de un grupo.

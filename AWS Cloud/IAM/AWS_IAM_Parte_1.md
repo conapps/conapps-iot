@@ -17,15 +17,15 @@ Insertar indice
 
 ¿Qué es Amazon IAM?
 
-Amazon Identity and Access Management (IAM) es un servicio que nos ayuda a controlar de forma segura el acceso a los servicios y recursos de AWS.
+Amazon _Identity and Access Management_ (IAM) es un servicio que nos ayuda a controlar de forma segura el acceso a los servicios y recursos de AWS.
 
 ### Características
 
-IAM otorga las siguientes características:
+Algunas de las características más importantes que otorga IAM son las siguientes:
 
 - **Acceso compartido**
 
-Podemos conceder permisos a otro usuarios para administrar y utilizar recursos de AWS sin tener que compartir nuestra clave de acceso.
+Podemos conceder permisos a otros usuarios para administrar y utilizar recursos de AWS sin tener que compartir nuestra clave de acceso.
 
 - **Permisos granulares**
 
@@ -33,11 +33,12 @@ Podemos otorgarles distintos tipos de permisos a diferentes usuarios sobre difer
 
 - **Acceso seguro para aplicaciones sobre EC2**
 
-Podemos utilizar las funciones de IAM para otorgar credenciales de acceso a aplicaciones que se ejecutan sobre EC2 y que necesitan acceder a otros recursos de AWS, por ejemplo; buckets de S3, una base RDS o DynamoDB.
+Podemos utilizar las funciones de IAM para otorgar credenciales de acceso a aplicaciones que se ejecutan sobre EC2 y que necesitan acceder a otros recursos de AWS, por ejemplo; buckets de S3, una base RDS o  una base DynamoDB.
 
 - **Multi-factor authentication (MFA)**
 
 Podemos agregar autenticación en 2 pasos para mayor seguridad. Los usuarios no solo deberán otorgar la clave de acceso, sino que también, un código que será enviado a algún dispositivo pre-configurado.
+Dicho dispositivo podrá ser un _token_ específico o un _virtual token_ como lo puede ser un _smartphone_.
 
 - **Federación de identidad**
 
@@ -47,7 +48,7 @@ Podemos darle acceso temporal a otros usuarios (usuarios que tengan cuenta en ot
 
 Si estamos utilizando [AWS CloudTrail](https://aws.amazon.com/es/cloudtrail/) recibiremos logs que incluyen registros de peticiones de acceso a recursos de nuestra cuenta basadas en información de IAM.
 
-- **Payment Card Industry(PCI) & Data Security Standard (DSS)**
+- **_Payment Card Industry_ (PCI) & _Data Security Standard_ (DSS)**
 
 IAM soporta el manejo de información y transacciones asociadas a las tarjetas de crédito.
 
@@ -57,11 +58,11 @@ Es posible integrar las funciones de IAM con otros servicios de AWS. Generalment
 
 - **Eventualmente Consistente**
 
-Al igual que muchos otros servicios de AWS, IAM es eventualmente consistente. Esto quiere decir que pueden existir determinados períodos de tiempo donde la información no esté replicada 100% en las _Availability Zones_ y por lo tanto, existan inconsistencias de información mientras se ejecuta la replicación.
+Al igual que muchos otros servicios de AWS, IAM es eventualmente consistente. Esto quiere decir que pueden existir determinados períodos de tiempo donde la información no esté replicada 100% en las distintas _Availability Zones_ y por lo tanto, podrían existir inconsistencias de información mientras se ejecuta la replicación.
 
 - **Sin cargos extra**
 
-IAM es un servicio que se ofrece sin cargo.
+IAM es uno de los pocos servicios de AWS que se ofrecen sin cargo extra.
 
 
 Refs: Más información sobre el standard de seguridad de los datos [PCI DSS](https://aws.amazon.com/es/compliance/pci-dss-level-1-faqs/).
@@ -73,16 +74,16 @@ Es importante entender la diferencia entre el concepto de _Identity_ y el de _Ac
 
 - **_Identity_**
 
-Cuando nos referimos a _Identity_, estamos hablando de identidad y de **como vamos a identificar a ese usuario**.
+Cuando nos referimos a _Identity_, estamos hablando de identidad y de **como vamos a identificar al usuario**.
 
 - **_Access Management_**
 
- Cuando hablamos de _Access Management_, estamos hablando de **qué es lo que un usuario va a poder hacer dentro de AWS**. Básicamente estamos hablando de qué es lo que el usuario va a poder realizar dentro de AWS.
+ Cuando hablamos de _Access Management_, estamos hablando de **qué es lo que el usuario va a poder hacer dentro de AWS**. Básicamente estamos hablando de qué es lo que el usuario va a poder realizar dentro de AWS.
 
 **Por defecto, los usuarios (salvo root) no tienen permisos para acceder a ningún recurso**, salvo que se indique lo contrario mediante políticas.
 
 ---
-## Tipos de acceso
+## Identificación y Tipos de acceso
 
 Podemos identificar a un usuario de IAM de varias formas.
 
@@ -101,21 +102,30 @@ Podemos identificar a un usuario de IAM de varias formas.
 
 ## _Access Key ID + Secret Access Key_
 
-En el caso que necesitemos que un usuario tenga acceso a los servicios de AWS de forma programática, es necesesario generar un par de llaves llamadas: _access key pair_. 
+En el caso que necesitemos que un usuario tenga acceso a los servicios de AWS de forma programática, es necesesario generar un par de claves llamadas: _access key pair_. 
 
 Una _access key pair_ está integrada por:
 
 - **_Access Key Id_:**
     - _Uppercase String_ alfanumerico de 20 digitos (numeros y letras mayúsculas).
-    - Está activa por defecto (se puede deshabilitar).
+    - Si se crea una, estará activa por defecto (se puede deshabilitar).
     - Se puede generar hasta 2 AKI por usuario (útil para rotación de _keys_).
     - Se pueden borrar (no se pueden recuperar).
-    - Podemos darle permisos al usuario _owner_ de las _keys_ para que se administre sus propias _keys_.
+    - Podemos darle permisos al _owner_ de las _keys_ para que pueda administrar sus propias _keys_.
 
 - **_Secret Access Key_:**
     - _String_ de 40 caracteres de longitud.
     - Solo disponible cuando se crea el usuario. 
     - **Importante** no perderla porque no es posible recuperarla.
+
+
+```bash
+    $ aws configure
+AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
+AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+Default region name [None]: us-east-2
+Default output format [None]: json
+```
 
 ---
 
@@ -123,9 +133,11 @@ Una _access key pair_ está integrada por:
 
 Cuando crearmos por primera vez una cuenta en AWS, por defecto estamos creando una cuenta _root_. Con estas credenciales, podemos acceder a la consola de administración.
 
-Cuando utilizamos la cuenta root, tenemos acceso completo a todos los servicios y recursos de AWS, incluyendo la facturación. **AWS recomienda no utilizar la cuenta _root_** para el trabajo diario, y recomienda crear otros usuarios con los permisos necesarios.
+**Cuando utilizamos la cuenta root, tenemos acceso completo a todos los servicios y recursos de AWS, incluyendo la facturación. AWS recomienda no utilizar la cuenta _root_** para el trabajo diario, y recomienda crear otros usuarios con los permisos necesarios.
 
 ---
+# Tipos de entidades
+
 ## Usuarios
 
 Como vimos anteriormente, el concepto de _Identity_
@@ -151,7 +163,7 @@ Si tenemos un directorio de usuarios compatible con _Security Assertion Markup L
 
 - _Identity Providers_:
 
-Si estamos creando una aplicación para celulares o una web, podemos permitirle al usuario se autentique a travez de un _Identity provider_ como Facebook, Google o cualquier otro proveedor que sea compatible con _OpenID Connect_ (OIDC). AWS recomienda utilizar [Amazon Cognito](https://aws.amazon.com/es/cognito/).
+Si estamos creando una aplicación para celulares o una aplicación web, podemos permitirle al usuario que se autentique a travez de un _Identity provider_ como Facebook, Google o cualquier otro proveedor que sea compatible con [_OpenID Connect_](http://openid.net/connect/) (OIDC). AWS recomienda utilizar [Amazon Cognito](https://aws.amazon.com/es/cognito/).
 
 ---
 ## Grupos
@@ -162,18 +174,16 @@ Todos los usuarios dentro de un grupo tienen los mismos permisos asignados al gr
 
 Por ejemplo: En la figura siguiente tenemos un grupo llamado **Admins**, otro **Developers** y otro **Test**. Los usuarios que estan dentro del grupo Admin, tienen los permisos que se hayan definido para los Administradores. Si un nuevo usuario administrador ingresa a la empresa, bastará con agregarlo al grupo para que tenga los mismos permisos que los otros administradores.
 
-Otros ejemplos comunes: un usuario perteneciente al grupo de Test sea promovido a developer. Por ejemplo; en este caso, agregaremos a Cathy al grupo Developers y la borraremos del grupo Test.
+Otros ejemplos comunes: un usuario perteneciente al grupo de Test es promovido a developer. Por ejemplo; en este caso, agregaremos a Cathy al grupo Developers y la borraremos del grupo Test.
 
 ![IAM Groups](images/IAM_groups1.PNG)
 
-Los permisos son atacheados a los grupos mediante políticas, ya sean predefinidas por AWS o creadas por nosotros.
+Los permisos son atacheados a los grupos mediante políticas, ya sean predefinidas por AWS o creadas por nosotros mismos.
 
 De esta froma, los usuarios dentro del grupo, heredan dichos permisos. Solo basta con modificar la política del grupo para cambiar los permisos sobre todos los usuarios.
 
 - **Máximo de 100 grupos por cuenta de AWS**. En caso de necesitar más, es necesario generar un ticket en AWS.
 - **Un usuario puede ser asociado a un máximo de 10 grupos**.
-
-![IAM Groups](images/IAM_groups_permissions.PNG)
 
 ---
 ## [Ejercicio # 1 y 2](ejercicios/AWS_IAM_Users&Groups.md)
