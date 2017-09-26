@@ -26,6 +26,7 @@ create the DB instance. This example uses the US West (Oregon) region.
 4. Choose Launch DB Instance.
 5. On the Select Engine page, shown following, choose the MySQL DB engine, and then choose Select.  
 ![web1](images/web1.jpg)
+
 6. On the Production page, below Dev/Test, choose MySQL This instance is intended for use outside
 of production, and then choose Next Step.
 7. On the Specify DB Details page, shown following, set these values:
@@ -40,6 +41,7 @@ of production, and then choose Next Step.
 * Confirm Password: Retype the password.
 
 ![web2](images/web2.jpg)
+
 8. Choose Next Step and set the following values in the Configure Advanced Settings page, shown
 following:
 * VPC: Choose an existing VPC, for example tutorial-vpc (vpc-f1b76594)
@@ -50,6 +52,7 @@ following:
 * Database Name: sample  
 
 ![web3](images/web3.jpg)
+
 9. To create your Amazon RDS MySQL DB instance, choose Launch DB Instance.
 10. On the next page, choose View Your DB Instances to view your RDS MySQL DB instance.
 11. Wait for the status of your new DB instance to show as available. Then choose the selection box to
@@ -84,29 +87,38 @@ Tutorial-public | us-west-2a
 * Auto-assign Public IP: Enable  
 
 ![web8](images/web8.jpg)
+
 6. Choose Next: Add Storage.
 7. On the Add Storage page, leave the default values and choose Next: Tag Instance.
 8. On the Tag Instance page, shown following, set Value for the Name tag to tutorial-web-server, and
 then choose Next: Configure Security Group. 
 
 ![web9](images/web9.jpg)
+
 9. On the Configure Security Group page, shown following, choose Select an existing security group,
 and then choose an existing security group, for example: tutorial-securitygroup. The security
 group must include inbound rules for SSH and HTTP access.  
 
 ![web10](images/web10.jpg)
+
 10. Choose Review and Launch
 11. On the Review Instance Launch page, shown following, verify your settings and then choose
 Launch.
+
 ![web11](images/web11.jpg)
+
 12. On the Select an existing key pair or create a new key pair page, shown following, choose Create
 a new key pair and set Key pair name to tutorial-key-pair. Choose Download Key Pair, and
 then save the key pair file on your local machine. You use this key pair file to connect to your EC2
 instance.
+
 ![web12](images/web12.jpg)
+
 13. To launch your EC2 instance, choose Launch Instances. On the Launch Status page, shown
 following, note the identifier for your new EC2 instance, for example: i-7abfcfb8.
+
 ![web13](images/web13.jpg)
+
 14. To find your instance, choose View Instances.
 15. Wait until Instance Status for your instance reads as running before continuing.
 
