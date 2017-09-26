@@ -195,6 +195,10 @@ aws iam create-group --group-name dev1
 
 aws iam create-group --group-name test1
 
+aws iam create-group --group-name ReadOnly-Users
+
+aws iam create-group --group-name Admin-Users
+
 ```
 
 ```bash

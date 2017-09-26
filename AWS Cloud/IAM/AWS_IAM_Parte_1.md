@@ -202,7 +202,7 @@ Una aplicación que corre en una instancia de EC2 necesita acceso a un _bucket_ 
     
 ![IAM Groups](images/IAM_role2.PNG)
 
-- **Forma 2**: Creamos un rol asociando una policie con permisos de _Put_ y _Get_ sobre el _bucket_, por último, asociamos dicho rol a la instancia de EC2
+- **Forma 2**: Creamos un rol asociando una _policie_ con permisos de _Put_ y _Get_ sobre el _bucket_, por último, asociamos dicho rol a la instancia de EC2
 
 
 ![IAM Groups](images/IAM_role3.PNG)
@@ -212,7 +212,7 @@ Una aplicación que corre en una instancia de EC2 necesita acceso a un _bucket_ 
 ---
 ### Tipos de roles
 
-Existen 4 tipos de roles que podemos crear en AWS. continuación un breve explicación de cada uno.
+Existen 4 tipos de roles que podemos crear en AWS. A continuación un breve explicación de cada uno.
 
 - **AWS Service Role**
     - El rol que asume un servicio para ejecutar determinada accion en nuestro nombre se denomina _service role_. (Ej: _replication_policy_for_iot-cloud-bucket-origen_to_iot-cloud-bucket-destino_).
@@ -226,8 +226,8 @@ Existen 4 tipos de roles que podemos crear en AWS. continuación un breve explic
 - **AWS Service-Linked Role**
     - _Service-Linked Role_ es el único tipo de _service role_ que está directamente "linqueado" al servicio.
     - El rol está predefinido por el servicio e incluye todos los permisos que el servicio requiere.
-    - Facilita el _setup_ porque no es neceario configurar los permisos manualmente.
-    - No es posible modificar los permisos asociados a este este tipo de roles.
+    - Facilita el _setup_ porque no es necesario configurar los permisos manualmente.
+    - No es posible modificar los permisos asociados a este este tipo de rol.
 
 
 ![IAM Groups](images/IAM_role4.PNG)
@@ -249,7 +249,7 @@ Existen 4 tipos de roles que podemos crear en AWS. continuación un breve explic
 
 Como vemos en la figura anterior, un desarrollador ejecuta una aplicación sobre una instancia de EC2 la cual requiere acceso a un _bucket_ de S3 llamado _photos_.
 
-Por otro lado, un administrador crea un rol llamado _get-pics_ al cual se le atachea una _policy_ que tiene permisos de lectura sobre el _bucket_, y se le permite al desarrolladaor ejecutar la instancia con dicho rol asociado.
+Por otro lado, un administrador crea un rol llamado _get-pics_ al cual se le "adjunta" una _policy_ que tiene permisos de lectura sobre el _bucket_, y se le permite al desarrolladaor ejecutar la instancia con dicho rol asociado.
 
 Como vemos a continuación, la aplicación que corre sobre la instancia, puede hacer uso de las credenciales temporales que genera el rol para acceder al _bucket_ ejecutando el siguiente comando.
 
@@ -282,7 +282,7 @@ s3Request = CreateAmazonS3Client(tempCredentials);
 
 De esta forma se obtienen la _Access Key Id_ y la _Secret Access Key_ necesarias para poder acceder al _bucket_ de S3 como lo vimos en la [clase de S3](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3.md).
 
-El administrador no tiene que darle permisos al desarrollador para acceder al _bucket_ y tampoco el desarrollador debe compartir ni "hardcodear" sus _keys_ en la instancia o aplicación.
+El administrador no necesita darle permisos al desarrollador para acceder al _bucket_ y tampoco el desarrollador debe compartir ni "hardcodear" sus _keys_ en la instancia o aplicación.
 
 Refs:
 
@@ -310,10 +310,7 @@ Refs:
 
 ## Políticas (Policies)
 
-Las IAM Policies son utilziadas para asignar permisos a recursos y servicios en AWS.
-
-**_Best practice:_** "Atachear" las políticas a grupos y/o roles y no a usuarios individuales.
-
+Las IAM _Policies_ son utilizadas para asignar permisos a recursos y servicios en AWS.
 
 El formato de definición de las políticas es JSON y la estructura base es la siguiente:
 
@@ -417,12 +414,7 @@ Son políticas creadas por el propio usuario y existen 3 formas de hacerlo:
 
 
 ---
-## Ejercicios de _Policies_ y Roles.
-
----
-## [Ejercicio # 3](ejercicios/AWS_IAM_Policies.md)
-
-## [Ejercicio # 4](ejercicios/AWS_IAM_Roles.md)
+## [Ejercicio # 3](ejercicios/AWS_IAM_Policies.md) & [Ejercicio # 4](ejercicios/AWS_IAM_Roles.md)
 ---
 
 [Siguiente AWS_IAM_Parte_2>](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/IAM/AWS_IAM_Parte_2.md)

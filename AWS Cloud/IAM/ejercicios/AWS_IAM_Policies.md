@@ -8,7 +8,7 @@ A continuación vamos a crear políticas para definir permisos. Existen 3 formas
 
 ![IAM Policy](../images/IAM_access.png)
 
-* En el panel de IAM, haga click en *Policies*
+* En el panel de IAM, haga click en *Policies* -> _Create Policy_
 
 ![IAM Policy](../images/IAM_policy4.png)
 
@@ -95,29 +95,41 @@ A continuación vamos a crear políticas para definir permisos. Existen 3 formas
 ---
 ## Manejo de políticas mediante la linea de comandos de AWS (CLI).
 
-* **Descargar el archivo my-custom-policy.json desde el bucket de S3 iot-iam-lab** y guardarlo en el path C:\Program Files\Git
 
-* Crear una política llamada custom-policy-marcelo con el sigiente comando CLI.
-
-```bash
-aws iam create-policy --policy-name custom-policy-marcelo --policy-document file://my-custom-policy.json
-```
+* Listar AWS IAM _policies_.
 
 ```bash
-{
-    "Policy": {
-        "PolicyName": "custom-policy-marcelo",
-        "PolicyId": "AASDFGSFDG344564K",
-        "Arn": "arn:aws:iam::534634566645:policy/custom-policy-marcelo",
-        "Path": "/",
-        "DefaultVersionId": "v1",
-        "AttachmentCount": 0,
-        "IsAttachable": true,
-        "CreateDate": "2017-08-23T20:55:33.232Z",
-        "UpdateDate": "2017-08-23T20:55:33.232Z"
-    }
-}
+aws iam list-policies
 ```
+```bash
+aws iam list-policies --scope Local
+```
+
+* Atachear la _policy_ AdministratorAccess al grupo Admin-Users
+
+```bash
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/AdministratorAccess --group-name Admin-Users
+```
+
+* Atacheamos la _policy_ ReadOnlyAcces al grupo ReadOnly-Users
+
+```bash
+aws iam attach-group-policy --policy-arn arn:aws:iam::aws:policy/ReadOnlyAccess --group-name ReadOnly-Users
+```
+
+* Listar las _policies_ atacheadas al grupo Admin-Users
+
+```bash
+aws iam list-attached-group-policies --group-name Admin-Users
+```
+
+
+[Ejercicio 4 >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/IAM/ejercicios/AWS_IAM_Roles.md)
+
+
+
+
+
 
 ---
 Refs:
@@ -126,4 +138,3 @@ Refs:
 - [AWS IAM User Guide](http://docs.aws.amazon.com/IAM/latest/UserGuide/iam-ug.pdf)
 
 ---
-[< Volver al teorico](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/IAM/AWS_IAM_Parte_1.md)
