@@ -38,6 +38,7 @@ of production, and then choose Next Step.
 * Master Username: tutorial_user
 * Master Password: Choose a password.
 * Confirm Password: Retype the password.
+
 ![web2](images/web2.jpg)
 8. Choose Next Step and set the following values in the Configure Advanced Settings page, shown
 following:
@@ -46,7 +47,8 @@ following:
 * Publicly Accessible: No
 * Availability Zone: No Preference
 * VPC Security Group(s): Choose an existing security group, for example tutorial-dbsecuritygroup
-* Database Name: sample
+* Database Name: sample  
+
 ![web3](images/web3.jpg)
 9. To create your Amazon RDS MySQL DB instance, choose Launch DB Instance.
 10. On the next page, choose View Your DB Instances to view your RDS MySQL DB instance.
@@ -79,16 +81,19 @@ values as their defaults:
 * Network: Choose an existing VPC, for example: vpc-f1b76594 (10.0.0.0/16) | tutorial-vpc
 * Subnet: Choose an existing public subnet, for example: subnet-fe2adba7(10.0.0.0/24)|
 Tutorial-public | us-west-2a
-* Auto-assign Public IP: Enable
+* Auto-assign Public IP: Enable  
+
 ![web8](images/web8.jpg)
 6. Choose Next: Add Storage.
 7. On the Add Storage page, leave the default values and choose Next: Tag Instance.
 8. On the Tag Instance page, shown following, set Value for the Name tag to tutorial-web-server, and
-then choose Next: Configure Security Group.
+then choose Next: Configure Security Group. 
+
 ![web9](images/web9.jpg)
 9. On the Configure Security Group page, shown following, choose Select an existing security group,
 and then choose an existing security group, for example: tutorial-securitygroup. The security
-group must include inbound rules for SSH and HTTP access.
+group must include inbound rules for SSH and HTTP access.  
+
 ![web10](images/web10.jpg)
 10. Choose Review and Launch
 11. On the Review Instance Launch page, shown following, verify your settings and then choose
