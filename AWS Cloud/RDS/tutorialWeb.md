@@ -92,3 +92,97 @@ instance.
 following, note the identifier for your new EC2 instance, for example: i-7abfcfb8.
 14. To find your instance, choose View Instances.
 15. Wait until Instance Status for your instance reads as running before continuing.
+
+## Install an Apache web server with PHP
+A continuación, se conecta a la instancia de EC2 e instala el servidor web.
+Para conectarse a la instancia de EC2 e instalar el servidor web Apache con PHP
+1. Para conectarse a la instancia de EC2 que creó anteriormente, siga los pasos de Conectar a su instancia.
+2. Para obtener las últimas correcciones de errores y actualizaciones de seguridad, actualice el software en su instancia de EC2 utilizando el siguiente comando:  
+Nota  
+La opción -y instala las actualizaciones sin pedir confirmación. Para examinar actualizaciones antes de instalar, omita esta opción.  
+[ec2-user ~]$ sudo yum update –y
+3. Una vez completadas las actualizaciones, instale el servidor web Apache con el paquete de software PHP
+yum install, que instala varios paquetes de software y dependencias relacionadas en el
+Mismo tiempo:  
+[ec2-user ~]$ sudo yum install -y httpd24 php56 php56-mysqlnd
+4. Inicie el servidor web con el comando que se muestra a continuación:  
+[ec2-user ~]$ sudo service httpd start  
+Puede probar que su servidor web está instalado y iniciado correctamente introduciendo el nombre DNS público de la instancia de EC2 en la barra de direcciones de un navegador web, por ejemplo: 
+http: //ec2-42-8-168-21.uswest-1.compute.amazonaws.com.
+ Si su servidor web se está ejecutando, verá la prueba de Apache página. Si no ve la página de prueba de Apache, compruebe que sus reglas de entrada para el VPC grupo de seguridad que creó en Tutorial: Cree un VPC de Amazon para su uso con un Amazon RDS La instancia DB (p. 407) incluye una regla que permite el acceso HTTP (puerto 80) para la dirección IP que utiliza conectarse al servidor web.  
+Nota   
+La página de prueba de Apache aparece sólo cuando no hay contenido en la raíz del documento directorio, / var / www / html. Después de agregar contenido al directorio raíz del documento, el contenido aparece en la dirección DNS pública de su instancia de EC2 en lugar de la prueba de Apache página.
+5. Configure el servidor web para iniciar con cada inicio del sistema utilizando el comando chkconfig:  
+[ec2-user ~]$ sudo chkconfig httpd on  
+Para permitir que el usuario ec2 administre archivos en el directorio raíz por defecto de su servidor web Apache, deberá modifique la propiedad y los permisos del directorio / var / www. En este tutorial, agrega un grupo llamado www a su instancia de EC2, y luego le da esa propiedad de grupo del directorio / var / www y agregue escritura para el grupo. Cualquier miembro de ese grupo puede agregar, eliminar y modificar archivos para el servidor web.
+
+**To set file permissions for the Apache web server**  
+1. Add the www group to your EC2 instance with the following command:  
+[ec2-user ~]$ sudo groupadd www
+2. Add the ec2-user user to the www group:  
+[ec2-user ~]$ sudo usermod -a -G www ec2-user
+3. To refresh your permissions and include the new www group, log out:  
+[ec2-user ~]$ exit
+4. Log back in again and verify that the www group exists with the groups command:  
+[ec2-user ~]$ groups
+ec2-user wheel www
+5. Change the group ownership of the /var/www directory and its contents to the www group:  
+[ec2-user ~]$ sudo chown -R root:www /var/www
+6. Change the directory permissions of /var/www and its subdirectories to add group write permissions
+and set the group ID on subdirectories created in the future:  
+[ec2-user ~]$ sudo chmod 2775 /var/www  
+[ec2-user ~]$ find /var/www -type d -exec sudo chmod 2775 {} +
+7. Recursively change the permissions for files in the /var/www directory and its subdirectories to add
+group write permissions:  
+[ec2-user ~]$ find /var/www -type f -exec sudo chmod 0664 {} +  
+## Connect your Apache web server to your RDS DB instance
+Next, you add content to your Apache web server that connects to your Amazon RDS DB instance.
+To add content to the Apache web server that connects to your RDS DB instance
+1. While still connected to your EC2 instance, change the directory to /var/www and create a new
+subdirectory named inc:    
+[ec2-user ~]$ cd /var/www  
+[ec2-user ~]$ mkdir inc  
+[ec2-user ~]$ cd inc  
+2. Create a new file in the inc directory named dbinfo.inc, and then edit the file by calling nano (or
+the editor of your choice).   
+[ec2-user ~]$ >dbinfo.inc   
+[ec2-user ~]$ nano dbinfo.inc   
+3. Add the following contents to the dbinfo.inc file, where endpoint is the endpoint of your RDS
+MySQL DB instance, without the port, and master password is the master password for your RDS
+MySQL DB instance.  
+Note  
+Placing the user name and password information in a folder that is not part of the
+document root for your web server reduces the possibility of your security information
+being exposed.
+
+*<?php
+define('DB_SERVER', 'endpoint');
+define('DB_USERNAME', 'tutorial_user');
+define('DB_PASSWORD', 'master password');
+define('DB_DATABASE', 'sample');
+?>*
+
+4. Save and close the dbinfo.inc file.
+5. Change the directory to /var/www/html:  
+[ec2-user ~]$ cd /var/www/html
+6. Create a new file in the html directory named SamplePage.php, and then edit the file by calling nano
+(or the editor of your choice).  
+[ec2-user ~]$ >SamplePage.php   
+[ec2-user ~]$ nano SamplePage.php  
+7. Add the following contents to the SamplePage.php file:  
+Note  
+Placing the user name and password information in a folder that is not part of the
+document root for your web server reduces the possibility of your security information
+being exposed.
+
+8. Save and close the SamplePage.php file.
+9. Verify that your web server successfully connects to your RDS MySQL DB instance by opening a web
+browser and browsing to http://EC2 instance endpoint/SamplePage.php, for example: http://
+ec2-55-122-41-31.us-west-2.compute.amazonaws.com/SamplePage.php.
+
+You can use SamplePage.php to add data to your RDS MySQL DB instance. The data that you add is then
+displayed on the page.
+
+To make sure your RDS MySQL DB instance is as secure as possible, verify that sources outside of the VPC
+cannot connect to your RDS MySQL DB instance.
+
