@@ -179,11 +179,11 @@ Notarán que algunos usuarios son usuarios de aplicaciones. Por lo que **un usua
 
 Si un usuario ya cuenta con una forma de autenticación habilitada, es posible federar dichos usuarios dentro de AWS. Otorgando acceso mediante _Management Console_ y mediante API, CLI o SDK. 
 
-## Caso de Uso Usuarios
+## ¿Cuando utilizar usuarios federados?
 
 - Usuarios corporativos: 
 
-Si tenemos un directorio de usuarios compatible con _Security Assertion Markup Language 2.0_ (SAML 2.0), podemos configurar _Single-Sign On_ (SSO) para AWS.
+Si tenemos un directorio de usuarios compatible con _Security Assertion Markup Language 2.0_ [(SAML 2.0)](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_providers_enable-console-saml.html), podemos configurar _Single-Sign On_ (SSO) para que los usuarios de nuestra red empresarial puedan acceder a servicios y recursos de AWS.
 
 - _Identity Providers_:
 
@@ -194,7 +194,7 @@ Si estamos creando una aplicación para celulares o una aplicación web, podemos
 
 Es posible organizar usuarios dentro de grupos IAM. Básicamente, un grupo es una colección de usuarios.
 
-Todos los usuarios dentro de un grupo tienen los mismos permisos asignados al grupo. Es una forma fácil de agrupar usuarios y permisos.
+Todos los usuarios dentro de un grupo tienen los mismos permisos. Es una forma fácil de agrupar usuarios y permisos.
 
 Por ejemplo: En la figura siguiente tenemos un grupo llamado **Admins**, otro **Developers** y otro **Test**. Los usuarios que estan dentro del grupo Admin, tienen los permisos que se hayan definido para los Administradores. Si un nuevo usuario administrador ingresa a la empresa, bastará con agregarlo al grupo para que tenga los mismos permisos que los otros administradores.
 
@@ -231,7 +231,7 @@ Una aplicación que corre en una instancia de EC2 necesita acceso a un _bucket_ 
 
 ![IAM Groups](images/IAM_role3.PNG)
 
-- **Pregunta:** ¿Cuales son las ventajas y desventajas de cada método?
+- **Pregunta:** ¿Cuales son las desventajas de la forma 1 y cuales las ventajas de la forma 2?
 
 ---
 ### Tipos de roles
@@ -305,13 +305,13 @@ tempCredentials = new SessionAWSCredentials(
 s3Request = CreateAmazonS3Client(tempCredentials);
 ```
 
-De esta forma se obtienen la _Access Key Id_ y la _Secret Access Key_ necesarias para poder acceder al _bucket_ de S3 como lo vimos en la [clase de S3](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3.md).
+De esta forma se obtiene la _Access Key Id_ y la _Secret Access Key_ necesarias para poder acceder al _bucket_ de S3 como lo vimos en la [clase de S3](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3.md).
 
 El administrador no necesita darle permisos al desarrollador para acceder al _bucket_ y tampoco el desarrollador debe compartir ni "hardcodear" sus _keys_ en la instancia o aplicación.
 
 Refs:
 
-[Id_roles_use_switch-role-ec2](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html)
+- [Id_roles_use_switch-role-ec2](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html)
 
 
 ---
@@ -335,7 +335,7 @@ Refs:
 
 ## IAM _Policies_
 
-Las IAM _Policies_ son utilizadas para asignar permisos a recursos y servicios en AWS.
+Las IAM _Policies_ son utilizadas para asignar permisos a usuarios, grupos y roles sobre los recursos y servicios de AWS.
 
 El formato de definición de las políticas es JSON y la estructura base es la siguiente:
 
@@ -439,7 +439,7 @@ Son políticas creadas por el propio usuario y existen 3 formas de hacerlo:
 
 
 ---
-## [Ejercicio # 3](ejercicios/AWS_IAM_Policies.md) & [Ejercicio # 4](ejercicios/AWS_IAM_Roles.md)
+## [Ejercicio # 3](ejercicios/AWS_IAM_Policies.md) & [Ejercicio # 4](ejercicios/AWS_IAM_Roles.md) & [Ejercicio Final](ejercicios/AWS_IAM_EjercicioFinal.md)
 ---
 
 
