@@ -1,9 +1,8 @@
-## Ejercicio extra
+## Ejercicio integrador
 
-El siguiente ejercicio tiene como objetivo poner en práctica lo visto en en el curso de IAM, otorgando una guía básica con las tareas a realizar y una ayuda para la utilización de los nombres.
+El siguiente ejercicio tiene como objetivo poner en práctica todos los conceptos de IAM de forma integral, otorgando una guía básica con las tareas a realizar.
 
 ---
-
 ### 1. Loguearse en la consola de AWS.
 ---
 
@@ -21,7 +20,11 @@ El siguiente ejercicio tiene como objetivo poner en práctica lo visto en en el 
 
 ---
 
-### 4. Crear una _customer managed policy_
+### 4. Agregar el usuario al grupo
+
+---
+
+### 5. Crear una _customer managed policy_
 
 - Name: _policy-lab_
 - Effect: _Allow_
@@ -31,14 +34,14 @@ El siguiente ejercicio tiene como objetivo poner en práctica lo visto en en el 
 
 ---
 
-### 5. Adjuntar una política a un usuario
+### 6. Adjuntar una política a un grupo
 
 - Política: AmazonEC2ReadOnlyAccess
-- Usuario: _marce_
+- Grupo: _devops_
 
 ---
 
-### 6. Crear IAM Role
+### 7. Crear IAM Role
 
 - Tipo de rol: _AWS Services Roles_ -> _Amazon EC2_
 - Política: _AmazonS3FullAccess_
@@ -46,14 +49,14 @@ El siguiente ejercicio tiene como objetivo poner en práctica lo visto en en el 
 
 ---
 
-### 7. Iniciar instancia EC2
+### 8. Iniciar instancia EC2
 
 - AMI: _Amazon Linux AMI_
 - Atachear la política: _lab-role_
 
 ---
 
-### 8. Conectarse a la instancia
+### 9. Conectarse a la instancia
 
 
 #### Conectarse usando Linux ssh
@@ -130,7 +133,10 @@ export AWS_SECRET_ACCESS_KEY=secret-key-of-user-created-before
 ```
 
 Now you can use the AWS CLI
-aws ec2 describe-instances --region us-west-2 to list instances in the Oregon region
+
+```bash
+aws ec2 describe-instances 
+```
 
 ```bash
 aws s3 ls

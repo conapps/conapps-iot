@@ -16,7 +16,7 @@ Para crear un rol en AWS:
 
 ![IAM Role](../images/IAM_role9.PNG)
 
-* Seleccionar AmazonRDSFullAccess
+* Seleccionar la _custom managed policy_ creada anteriormente con permisos de EC2 y S3
 
 ![IAM Role](../images/IAM_role10.PNG)
 
