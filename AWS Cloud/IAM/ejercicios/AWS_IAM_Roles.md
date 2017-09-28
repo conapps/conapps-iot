@@ -37,5 +37,5 @@ Refs:
 - [Creating a Role to Delegate Permissions to an AWS Service](http://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-service.html#roles-creatingrole-service-console)
 
 ---
-[< Volver al teorico](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/IAM/AWS_IAM_Parte_1.md)
+[Ejercicio Final >](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/IAM/ejercicios/AWS_IAM_EjercicioFinal.md)
 

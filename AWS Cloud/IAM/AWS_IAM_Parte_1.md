@@ -10,16 +10,38 @@ Amazon Identity & Access Management (Amazon IAM)
 
 ## Indice
 
-Insertar indice
+- [Introducción](#Introduccion)
+- [Características](#Características)
+- [_Identity vs Access Management_](#Identity-vs-Access-Management)
+- [Identificación de usuarios y tipos de acceso](#Identificación-de-usuarios-y-tipos-de-acceso)
+    - [_Access Key ID + Secret Access Key_](#Access-Key-ID-+-Secret-Access-Key)
+- [El usuario root](#El-usuario-root)
+- [Tipos de usuarios](#Tipos-de-usuarios)
+    - [Usuarios IAM](#Usuarios-IAM)
+    - [Usuarios Federados](#Usuarios-Federados)
+    - [Caso de uso](#Caso-de-Uso-Usuarios)
+- [IAM _Groups_](#IAM-Groups)
+- [Ejercicio de Usuarios y Grupos](#Ejercicio-#-1-y-2)
+- [IAM Roles](#Roles)
+    - [Tipos de roles](#Tipos-de-roles)
+    - [Caso de uso](#Caso-de-uso-Roles)
+- [Cuando usar Roles, Grupos y/o Usuarios](#Cuando-usar-Roles,-Grupos-y/o-Usuarios)
+- [IAM _Policies_](#IAM-_Policies_)
+    - [Tipos de Políticas](#Tipos-de-Políticas)
+- [Ejercicio de Políticas y Roles](#Ejercicio-#-3)
+- [Ejercicio Integrador Final](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/IAM/ejercicios/AWS_IAM_EjercicioFinal.md)
+- [IAM Best Practices](#_IAM-Best-Practices_)
+- [Desafío 126 años de gloria]()
+    
 
 ---
-## Introducción
+## Introduccion
 
 ¿Qué es Amazon IAM?
 
 Amazon _Identity and Access Management_ (IAM) es un servicio que nos ayuda a controlar de forma segura el acceso a los servicios y recursos de AWS.
 
-### Características
+## Características
 
 Algunas de las características más importantes que otorga IAM son las siguientes:
 
@@ -83,7 +105,7 @@ Cuando nos referimos a _Identity_, estamos hablando de identidad y de **como vam
 **Por defecto, los usuarios (salvo root) no tienen permisos para acceder a ningún recurso**, salvo que se indique lo contrario mediante políticas.
 
 ---
-## Identificación y Tipos de acceso
+## Identificación de usuarios y tipos de acceso
 
 Podemos identificar a un usuario de IAM de varias formas.
 
@@ -119,8 +141,10 @@ Una _access key pair_ está integrada por:
     - **Importante** no perderla porque no es posible recuperarla.
 
 
+- **_Configuración Inicial_**
 ```bash
-    $ aws configure
+$ aws configure
+
 AWS Access Key ID [None]: AKIAIOSFODNN7EXAMPLE
 AWS Secret Access Key [None]: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
 Default region name [None]: us-east-2
@@ -129,16 +153,16 @@ Default output format [None]: json
 
 ---
 
-## El usuario _root_
+## El usuario root
 
 Cuando crearmos por primera vez una cuenta en AWS, por defecto estamos creando una cuenta _root_. Con estas credenciales, podemos acceder a la consola de administración.
 
 **Cuando utilizamos la cuenta root, tenemos acceso completo a todos los servicios y recursos de AWS, incluyendo la facturación. AWS recomienda no utilizar la cuenta _root_** para el trabajo diario, y recomienda crear otros usuarios con los permisos necesarios.
 
 ---
-# Tipos de entidades
+# Tipos de usuarios
 
-## Usuarios
+## Usuarios IAM
 
 Como vimos anteriormente, el concepto de _Identity_
 nos permite responder la pregunta ¿quien es ese usuario?. En lugar de compartir la clave de _root_, podemos crear otras cuentas IAM que corresponderán a personas físicas en nuestra empresa, y que tendrán sus propias credenciales para acceder a la consola de administración y/o acceso de forma programática.
@@ -155,7 +179,7 @@ Notarán que algunos usuarios son usuarios de aplicaciones. Por lo que **un usua
 
 Si un usuario ya cuenta con una forma de autenticación habilitada, es posible federar dichos usuarios dentro de AWS. Otorgando acceso mediante _Management Console_ y mediante API, CLI o SDK. 
 
-**Casos de Uso**
+## Caso de Uso Usuarios
 
 - Usuarios corporativos: 
 
@@ -166,7 +190,7 @@ Si tenemos un directorio de usuarios compatible con _Security Assertion Markup L
 Si estamos creando una aplicación para celulares o una aplicación web, podemos permitirle al usuario que se autentique a travez de un _Identity provider_ como Facebook, Google o cualquier otro proveedor que sea compatible con [_OpenID Connect_](http://openid.net/connect/) (OIDC). AWS recomienda utilizar [Amazon Cognito](https://aws.amazon.com/es/cognito/).
 
 ---
-## Grupos
+## IAM _Groups_
 
 Es posible organizar usuarios dentro de grupos IAM. Básicamente, un grupo es una colección de usuarios.
 
@@ -235,15 +259,16 @@ Existen 4 tipos de roles que podemos crear en AWS. A continuación un breve expl
 - **Rol for Cross-Account Access**
 
 ![IAM Groups](images/IAM_role6.PNG)
+
 - **Rol for identify Provider Access**
 
 ![IAM Groups](images/IAM_role7.PNG)
 
 
 ---
-## ¿Como utilizamos los roles?
+## Caso de uso Roles
 
-**Caso de uso: EC2 app + S3 _Bucket_**
+**EC2 app + S3 _Bucket_**
 
 ![IAM Groups](images/IAM_role12.png)
 
@@ -290,7 +315,7 @@ Refs:
 
 
 ---
-## ¿Cuando usar qué?
+## Cuando usar Roles, Grupos y/o Usuarios
 
 - Usuario
     - Cuando se crea una cuenta en AWS y solo existe un usuario que va a trabajar en AWS.
@@ -308,7 +333,7 @@ Refs:
 
 ---
 
-## Políticas (Policies)
+## IAM _Policies_
 
 Las IAM _Policies_ son utilizadas para asignar permisos a recursos y servicios en AWS.
 
@@ -389,7 +414,7 @@ Refs:
 
 ---
 
-## Tipos de Políticas (Type of policies)
+## Tipos de Políticas
 
 - **AWS Managed Policies** 
 
@@ -417,4 +442,21 @@ Son políticas creadas por el propio usuario y existen 3 formas de hacerlo:
 ## [Ejercicio # 3](ejercicios/AWS_IAM_Policies.md) & [Ejercicio # 4](ejercicios/AWS_IAM_Roles.md)
 ---
 
-[Siguiente AWS_IAM_Parte_2>](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/IAM/AWS_IAM_Parte_2.md)
+
+## _IAM Best Practices_
+
+AWS recomienda seguir la siguiente guía para mejorar la seguridad sobre los recursos de AWS.
+
+* Eliminar las _Access Keys_ para el usuario root.
+* Crear usuarios individuales.
+* Utilizar las Políticas definidas por AWS para asignar permisos donde sea posible.
+* Utilizar grupos para asignar permisos a usuarios.
+* Aplicar la regla de permisos mínimos.
+* Configurar políticas de complejidad de claves.
+* Habilitar MFA para usuarios con permisos elevados (root, administrator, etc).
+* Utilizar roles para aplicaciones que corren sobre instancias de EC2.
+* Delegar utilizando roles en lugar de compartir las credenciales.
+* Rotar las credenciales regularmente.
+* Eliminar usuarios y claves sin utilizar.
+* Utilizar el campo "Conditions" cuando definimos _policies_ para mayor seguridad.
+* Monitorear la actividad en nuestro _tenant_ de AWS (CloudTrial, CloudWatch).
