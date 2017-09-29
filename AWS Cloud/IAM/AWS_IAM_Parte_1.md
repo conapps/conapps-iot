@@ -64,7 +64,7 @@ Dicho dispositivo podrá ser un _token_ específico o un _virtual token_ como lo
 
 - **Federación de identidad**
 
-Podemos darle acceso temporal a otros usuarios (usuarios que tengan cuenta en otro _tenant_ de AWS o estén autenticados en otros sistemas) y que no pertenezca a nuestra organización.
+Podemos darle acceso a otros usuarios (usuarios que tengan cuenta en otro _tenant_ de AWS o estén autenticados en otros sistemas) y que no pertenezca a nuestra organización.
 
 - **Información de auditoría**
 
