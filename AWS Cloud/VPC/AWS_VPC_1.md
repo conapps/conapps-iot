@@ -1,18 +1,33 @@
-Amazon Simple Storage Service (Amazon S3)
+Amazon Virtual Private Cloud (VPC)
 ===
 
 *Fuentes:*
-- [Documentación oficial](https://aws.amazon.com/es/documentation/s3/)
-- [Página de AWS S3](https://aws.amazon.com/es/s3/)
-- [Precios de AWS S3](http://aws.amazon.com/s3/pricing/)
-- [AWS S3 Master Class](https://youtu.be/VC0k-noNwOU)
-- [AWS re:Invent 2016: Deep Dive on Amazon S3 (STG303)](https://youtu.be/bMhWWkhydFQ)
+- [Documentación Oficial](https://aws.amazon.com/es/documentation/vpc/)
+- [Página de AWS VPC](https://aws.amazon.com/es/vpc/)
+- [Precios de AWS VPC](https://aws.amazon.com/es/vpc/pricing/)
+- [Amazon Virtual Private Cloud (VPC): Tutorial For Beginners Class ](https://youtu.be/fpxDGU2KdkA)
+- [AWS re:Invent 2016: Creating Your Virtual Data Center: VPC Fundamentals and Connectivity (NET201)](https://youtu.be/Ul2NsPNh9Ik)
+- [AWS re:Invent 2016: Extending Datacenters to the Cloud (NET305)](https://youtu.be/F2AWkGem7Sw)
+- [AWS re:Invent 2016: From One to Many: Evolving VPC Design (ARC302)](https://youtu.be/3Gv47NASmU4)
 - Otras fuentes referenciadas a lo largo de los documentos (Ref.)
 
 
 ## Indice
 ---
 - [Introducción](#introduccion)
+- Virtual Private Cloud
+- Public, Private, and Elastic IP Addresses
+- Public and Private Subnets
+- Internet Gateways
+- Route Tables
+- NAT Gateway
+- Security Groups
+- Network ACLs
+- VPC Best Practices
+- Costs
+
+
+
 - [Conceptos Básicos](#conceptos-básicos)
 - [Primeros Pasos](#primeros-pasos)
 - [Linea de Comandos de Amazon S3](#línea-de-comandos-de-amazon-s3)
@@ -44,13 +59,19 @@ Amazon Simple Storage Service (Amazon S3)
 ---
 ## Introducción ##
 ---
-¿Qué es Amazon S3?      
+¿Qué es Amazon Virtual Private Cloud (VPC)?      
 ---
-Amazon S3 es un **almacenamiento de objetos** creado para almacenar y recuperar cualquier cantidad de datos desde cualquier ubicación: sitios web y aplicaciones móviles, aplicaciones corporativas y datos de sensores o dispositivos IoT.
+**Amazon Virtual Private Cloud (VPC)** nos permite aprovisionar recursos de Amazon Web Services (AWS), por ej. instancias de EC2, dentro de una red virtual que nosotros definimos dentro de AWS. Esta red virtual se parece mucho a una red tradicional que operamos en nuestro propio datacenter, pero con los beneficios de utilizar la infraestructura escalable de AWS.
 
-Permite recopilar, almacenar y analizar datos de forma cómoda y sencilla, independientemente de su formato y a escala masiva. Es durable, seguro, y altamente escalable. Puede ser accedido desde la interface web, desde la línea de comando (Amazon CLI) y/o desde APIs. Puede utilizarse en forma aislada como un repositorio de datos, o en forma integrada con otros servicios de AWS.
+Podemos controlar todos los aspectos de la red virtual, incluyendo la selección de nuestro propio rango de direcciones IP, la creación de subredes, la configuración de tablas de ruteo, gateways, seguridad, e incluso si quisiéramos, el acceso a la misma desde nuestro datacenter.
 
-**Características:**
+Podemos personalizar la red virtual, por ej. crear una subred para el acceso público desde internet hacia nuestros servidores web en el frontend, y colocar los sistemas de backend como base de datos o servidores de aplicaciones en una subred privada sin acceso desde internet. Podemos también utilizar varias capas de seguridad, para controlar el acceso a las instancias de EC2 que se encuentren en cada una de las subredes.
+
+Podemos incluso expandir nuestro datacenter privado (on-premise) hacia la nube de AWS, conectándolo a la red virtual VPC por medio de VPN, y viéndolo de esta forma como una extensión de nuestro propio datacenter. Esto nos permite crear un entorno de Hybrid Cloud donde podemos acceder tanto a los recursos de AWS como a los de nuestro propio datacenter.
+
+
+
+**Beneficios de VPC:**
 * Fácil de usar
 * Bajo costo
 * Disponible (cuatro 9s)
@@ -78,59 +99,48 @@ Ref:
 * [Amazon S3](https://aws.amazon.com/es/s3/)
 * [Detalles del producto Amazon S3](https://aws.amazon.com/es/s3/details/)
 
----
-### Object Storage vs Traditional Storage
-
-Existen varias diferencias entre las soluciones de almacenamiento tradicional (Block Storage, File Sotage) y las soluciones de almacenamiento de objetos (Object Storage).
-
-* **Block Storage**: en general son sistemas de almacenamiento independientes, que cuentan con una o varias controladoras y uno o varios cajones con discos. El acceso a los discos es gestionado por las controladoras. El sistema operativo (o firmware) del storage cuenta con capacidades para realizar protección de datos (RAID), proveer servicios adicionales (auto tiering, deduplicacion, compresión, replicación, etc.), además de controlar que servidores acceden a que discos (LUNs, volúmenes, etc.). Típicamente son las soluciones de tipo SAN, que se acceden por FC y/o iSCSI, aunque también puede asociarse esta clase de storage con discos locales (JBOD, RAID). Trabaja a nivel de bloque sobre los discos que controla. Y son los sistemas operativos de los servidores que acceden a sus discos (LUNs), los que tienen la responsabilidad de gestionar el acceso a los datos, esto es por ej., mediante un filesystem que permita una administación jerarquica (directorios, archivos) y que controle el acceso concurrente a los datos (mediante bloqueos), así como el resto de las operaciones (crear, borrar, listar, modificar, etc.)
-
-* **File Storage**: en general son también sistemas independientes, que cuentan o bien con una unidad controladora (o varias), o están conformadas por un servidor con discos internos. A diferencia del anterior, este tipo de storage llega hasta el nivel de control de los datos. Es decir, administra no solo los discos y sus características (RAID, compresión, duplicación, etc.) sino que también hasta el nivel del filesystem y gestiona el acceso a los datos (estructura, bloqueos, crear, borrar, listar, etc.). Los datos son compartidos en general con usuarios (o con otros sistemas), que acceden mediante carpetas compartidas, y maneja también el control de acceso sobre los mismos. Típicamente son las soluciones de NAS, que se acceden por la red CIFS/SMB (carpetas compartidas), NFS y/o eventualmente iSCSI.
-
-* **Object Storage**: almacena objetos con una serie de metadatos que se guardan junto con el objeto (la metadata vive con el propio objeto, no por separado). Son estructuras planas sin la jerarquía utilizada por un filesystem. El sistema operativo no accede directamente a los datos, sino que se interactúa a nivel de aplicación, mediante una API. Son sistemas distribuidos con muy alta resiliencia y muy alta escalabilidad, y bajo costo. Brindan una muy alta durabilidad para los datos. Están diseñados para soportar una capacidad muy grande (del orden de PetaBytes o superior), y el costo por GB es muy bajo (a dicha escala). Se accede a los objetos como una unidad total, es decir, se lee o escribe todo el objeto como una unidad. Son apropiados para accesos del tipo *write once - read many*, donde se almancena diverso tipo de contenido como ser multimedia (fotos, video, audio), respaldos/archives, datos de aplicaciones cloud nativas, contenido web, documentos, etc. No son apropiadas para operaciones de baja latencia o acceso randómico, como ser por ej. base de datos relacionales tradicionales.   
-
-Ref:
-* [Introduction To Object Storage](https://blog.rackspace.com/introduction-to-object-storage)
-* [Object Storage](https://en.wikipedia.org/wiki/Object_storage)
-
----
-### Formas de acceso a S3
-AWS S3, al igual que el resto de los servicios de Amazon, puede accederse y utilizarse de diversas formas.
-
-La **API** de Amazon S3 es intencionalmente simple, con una serie de operaciones comunes que incluyen: crear/borrar un *bucket*, escribir/acceder/eliminar un objeto, listar una *bucket key*.
-
-La interface nativa para Amazon S3 es la **REST API Interface**. Permite utilizar requests HTTP/HTTPS estándar para crear y borrar *buckets*, listar las *keys*, y escribir/acceder los objetos.
-Utiliza las operaciones estándard de REST denominadas CRUD (Create, Read, Update, Delete). Para *Create* utiliza HTTP PUT (o POST), para *Read* es HTTP GET, *Delete* es HTTP DELETE y *Update* es HTTP POST (o a veces PUT).
-
-
-En la mayoría de los casos no se utiliza directamente la interface REST, sino que se interactúa con Amazon S3 utilizando otras interfaces de mas alto nivel:
-
-* **AWS Management Console**: es una consola web provista por Amazon para el acceso a todos sus servicios de AWS. Es muy fácil de usar, que permite aprovechar todas las funcionalidades de S3 (y del resto de los servicios) de modo interactivo. Contiene guías y/o ayudas sobre las diferentes características y servicios lo cual resulta muy útil sobre todo al principio. Utilizaremos la consola activamente durante este documento.
-
-* **AWS CLI**: permite acceder a S3 mediante una consola de línea de comando. Típicamente utilizando comandos construidos como *aws s3 <comando> <opciones>* o *aws s3api <acción> <opciones>*. Utilizaremos la CLI varias veces a lo largo de este documento.
-
-* **AWS Software Development Kits (SDKs)**: provee diversos kit de desarrollo (librerías) para poder acceder a los servicios de AWS desde nuestro propio código que desarrollamos. Están disponibles para iOS, Android, JavaScript, Java, .NET, Node.js, PHP, Python, Ruby, Go, y C++.
-
-
-
-Ref:
-* [Amazon S3 REST API Introduction](http://docs.aws.amazon.com/es_es/AmazonS3/latest/API/Welcome.html)
-* [Consola Web de AWS](https://console.aws.amazon.com/console/home)
-* [AWS Command Line Interfce (CLI)](https://aws.amazon.com/es/cli/)
-* [AWS SDK para Python (Boto3)](https://aws.amazon.com/es/sdk-for-python/)
-* [AWS SDK para Java](https://aws.amazon.com/es/sdk-for-java/)
 
 ---
 ## Conceptos Básicos ##
 ---
 
-### Buckets
-Son los depósitos donde se almacenan los objetos en S3. Representan el nivel mas alto de jerarquía dentro del almacenamiento. Cada objeto encuentra dentro de un *bucket*.
-Se pueden crear y utilizar hasta 100 *buckets* por cada cuenta por defecto, y cada *bucket* puede contener miles de objetos.
+### VPC Subnets
 
-El nombre del *bucket* debe ser único dentro de todos los existentes en Amazon S3 (no solo dentro de mi cuenta). Debe cumplir con una serie de reglas, debe tener entre 3 y 63 caracteres, no puede tener mayúsculas, ni espacios, ni caracteres especiales salvo guiones y puntos, entre otros.  
 
-El nombre del *bucket* será visible en la URL que remite a los objetos almacenados en él. Una vez creado, el nombre no puede ser modificado.
+
+
+
+### Route Table
+
+
+
+
+
+### Elastic IPs
+
+
+
+
+### Internet Gateway
+
+
+
+
+### VPC NAT Gateway
+
+
+
+
+### Network ACLs
+
+
+
+
+### Security Group
+
+
+
+
 
 Ref:
 * [Working with Amazon S3 Buckets](http://docs.aws.amazon.com/es_es/AmazonS3/latest/dev/UsingBucket.html)
