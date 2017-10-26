@@ -146,9 +146,21 @@ Pero para un ambiente de producción, **crear una VPC propia** (o varias) nos pe
 ### Creando una Custom VPC
 
 Veamos como crear una VPC propia, desde la consola de AWS.
+![alt text](./images/create_custom_vpc_01.png)
 
 
+Podemos crear la VPC utilizando el **VPC Wizard**, el cuál nos permite crear la VPC con configuraciones predefinidas por AWS, que se ajustan a diferentes entornos:
+![alt text](./images/create_custom_vpc_02.png)
 
+
+Por ej., una VPC con una única subnet privada, o una VPC con subnets privadas y públicas, etc.
+![alt text](./images/create_custom_vpc_03.png)
+
+
+Pero en nuestro caso **no vamos a usar el VPC Wizard**, para poder ir creando nuestra red virtual paso a paso, y así entender mejor sus componentes.
+
+Para crear la VPC, vayamos a *Your VPCs* sobre el menú izquierdo, y luego a *Create VPC*.
+![alt text](./images/create_custom_vpc_04.png)
 
 
 
