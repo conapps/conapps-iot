@@ -77,7 +77,7 @@ La Default VPC se encuenta preconfigurada y puede comenzar a utilizarse inmediat
 
 La Default VPC incluye una red 172.31.0.0/16, con subnet mask /16, la cual nos provee de hasta 65.536 direcciones IP.  
 
-Una VPC puede expandirse en múltiples *Availability Zones* en una región,
+Una VPC puede expandirse en múltiples *Availability Zones* en una región.
 ![alt text](./images/default_vpc_02.png)
 
 Se debe tener en cuenta que si **eliminamos la Default VPC, no puede ser recuperada en forma sencilla**. Deberemos contactar a AWS Support para que ellos la vuelvan a restaurar.
@@ -148,6 +148,7 @@ A contiunación debemos ingresar:
 ![alt text](./images/create_custom_vpc_05.png)
 
 Una vez creada, podemos ver abajo la información de la VPC.
+
 Podemos ver, por ejemplo, que tiene una **Route Table** predefinida:
 ![alt text](./images/create_custom_vpc_06.png)
 
