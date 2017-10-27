@@ -156,9 +156,8 @@ La cuál por defecto solo admite tráfico local:
 ![alt text](./images/create_custom_vpc_07.png)
 
 
-Y también podemos ver que tienen una **Network ACL**:
+Y también podemos ver que tienen una **Network ACL** predefinida:
 ![alt text](./images/create_custom_vpc_08.png)
-
 
 Que por defecto permite todo el tráfico desde cualquier origen, tanto de entrada (Inbound) como de salida (Outbound).
 ![alt text](./images/create_custom_vpc_09.png)
@@ -170,6 +169,40 @@ Ref:
 * [Getting Started With Amazon VPC](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/getting-started-ipv4.html#getting-started-create-vpc)
 * [Creating a VPC](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/working-with-vpcs.html#Create-VPC)
 * [EC2 Dedicated Instances](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html)
+
+---
+## Direcciones IP Privada, Pública y Elástica
+
+### Private IP Adress
+Las direcciones IP privadas (*Private IPs*) son direcciones que no se pueden acceder desde Internet.
+
+Pueden ser utilizadas para comunicación interna entre las instancias de EC2, dentro de la misma red, es decir, dentro de la misma VPC.
+
+Cuando creamos una instancia de EC2, se le asigna una dirección IP privada, y un nombre de host interno (*Private DNS*) que resuelve esa dirección por DNS en forma interna a nuestra red, no permitiendo el acceso al mismo desde internet.
+
+
+### Public IP Address
+Para acceder a una instancia de EC2 desde internet, necesitamos una dirección IP pública.
+
+Cuando creamos una instancia, se le asigna una dirección IP pública (*IPv4 Public IP*), y un nombre de host externo (*Public DNS (IPv4)*) que resuelve esa dirección por DNS en forma pública, permitiendo así el acceso a la instancia desde Internet.
+
+Las direcciones IP públicas son asociadas a nuestras instancias EC2 desde un pool de direcciones públicas de Amazon. Pero si detenemos (o terminamos) la instancia EC2, esa dirección IP pública es liberada, y cuando iniciamos nuevamente la instancia se le asigna una nueva dirección IP pública nueva, diferente de la anterior.
+
+### Elastic IP Address
+Si queremos que la instancia EC2 retenga la dirección IP pública, necesitamos utilizar una dirección IP pública, denominada *Elastic IP Adrress*.
+
+Esta es una dirección IP pública estática o persistente, que es asignada a la cuenta de AWS, y nosotros podemos asignarla a una instancia según lo necesitemos (o a otros recursos, como vamos a ver mas adelante).
+
+La *Elastic IP* permanece en nuestra cuenta de AWS hasta que nosotros decidamos liberarla.
+Esta dirección IP tiene un costo adicional, solo si la misma no se encuentra asociada a una instancia, es decir, si no la estamos usando.
+
+**Creando una Elastic IP Address**
+Dentro de la sección de VPC, sobre el menú de la izquierda, tenemos la opción de *Elastic IPs*.
+
+![alt text](./images/elastic_ip_01.png)
+
+
+![alt text](./images/elastic_ip_02.png)
 
 
 ### VPC Subnets
