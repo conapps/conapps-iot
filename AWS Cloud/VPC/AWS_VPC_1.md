@@ -28,33 +28,6 @@ Amazon Virtual Private Cloud (VPC)
 
 
 
-- [Conceptos Básicos](#conceptos-básicos)
-- [Primeros Pasos](#primeros-pasos)
-- [Linea de Comandos de Amazon S3](#línea-de-comandos-de-amazon-s3)
-- [Folders](#folders)
-- [Acerca de los Datos](./AWS_S3_Parte_2.md)
-    - [Consistencia de los Datos](./AWS_S3_Parte_2.md#consistencia-de-los-datos)
-    - [Clases de Storage en S3](./AWS_S3_Parte_2.md#s3-storage-classes)
-    - [Metadatos](./S3/AWS_S3_Parte_2.md#object-metadata)
-    - [Tags](./AWS_S3_Parte_2.md#tags)
-    - [Versionado](./AWS_S3_Parte_2.md#versionado)
-- [Gestión de los Datos](./AWS_S3_Parte_3.md#gestión-de-los-datos)
-    - [Lifecycle Policies](./AWS_S3_Parte_3.md#lifecycle-policies)
-    - [Analytics](./AWS_S3_Parte_3.md#analytics)
-    - [Metrics](./AWS_S3_Parte_3.md#metrics)
-    - [Inventory](./AWS_S3_Parte_3.md#S3-inventory)
-- [Páginas Web estáticas](./AWS_S3_Parte_3.md#static-web-pages)
-- [Replicación entre Regiones](./AWS_S3_Parte_3.md#cross-region-replication)
-- [Control de Acceso](./AWS_S3_Parte_3.md#access-control)
-    - [Bucket Policy](./AWS_S3_Parte_3.md#bucket-policy-ejemplo)
-    - [AWS Policy Generator](./AWS_S3_Parte_3.md#policy-generator)
-    - [Audit Logs](./AWS_S3_Parte_3.md#audit-logs)
-- [Protección de los Datos](./AWS_S3_Parte_3.md#protección-de-los-datos)
-    - [Datos en Tránsito](./AWS_S3_Parte_3.md#datos-en-tránsito)
-    - [Server Side Encryption (SSE)](./AWS_S3_Parte_3.md#server-side-encryption-sse)
-    - [Client Side Encryption](./AWS_S3_Parte_3.md#client-side-encryption)
-- [Información adicional](./AWS_S3_Parte_3.md#información-adicional)
-- [Herramientas para AWS S3](./AWS_S3_Parte_3.md#herramientas-para-aws)
 
 ---
 ## Introducción ##
@@ -162,7 +135,40 @@ Pero en nuestro caso **no vamos a usar el VPC Wizard**, para poder ir creando nu
 Para crear la VPC, vayamos a *Your VPCs* sobre el menú izquierdo, y luego a *Create VPC*.
 ![alt text](./images/create_custom_vpc_04.png)
 
+A contiunación debemos ingresar:
+- Nombre de la VPC
+- Rango de direcciones IP y la netmask, la cual debe estar entre /16 y /28. Con /16 obtenemos 65.536 direcciones IP en nuestra red.
+- Si queremos o no asociar direcciones IPv6 provistas por Amazon (no se puede seleccionar el rango).
+- El *Tenancy*, que indica si vamos a correr la instanciasen hardware dedicado o compartido. En general vamos a seleccionar la opciónd e *Default*.
+  - *Default*: las instancias de EC2 que corramos en esta VPC, van a residir de acuerdo a la opción de *tenancy* que seleccionemos al crear la propia instancia de EC2.
+  - *Dedicated* las instancias de EC2 que corramos en esta VPC, van a residir siempre en HW dedicado, sin importar que opción de *tenancy* seleccionemos al crear la instancia de EC2. Esto brinda una gran performance, pero a un costo significativamente superior.
 
+
+.
+![alt text](./images/create_custom_vpc_05.png)
+
+Una vez creada, podemos ver abajo la información de la VPC.
+Podemos ver, por ejemplo, que tiene una **Route Table** predefinida:
+![alt text](./images/create_custom_vpc_06.png)
+
+La cuál por defecto solo admite tráfico local:
+![alt text](./images/create_custom_vpc_07.png)
+
+
+Y también podemos ver que tienen una **Network ACL**:
+![alt text](./images/create_custom_vpc_08.png)
+
+
+Que por defecto permite todo el tráfico desde cualquier origen, tanto de entrada (Inbound) como de salida (Outbound).
+![alt text](./images/create_custom_vpc_09.png)
+
+Vamos a profundizar sobre estos puntos mas adelante.
+
+
+Ref:
+* [Getting Started With Amazon VPC](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/getting-started-ipv4.html#getting-started-create-vpc)
+* [Creating a VPC](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/working-with-vpcs.html#Create-VPC)
+* [EC2 Dedicated Instances](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html)
 
 
 ### VPC Subnets
