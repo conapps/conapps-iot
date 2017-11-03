@@ -213,7 +213,6 @@ Se pueden iniciar recursos de AWS (ej. instancias de EC2) dentro de una determin
 Una VPC abarca todas las *availability zones* de una región, pero una *subnet* siempre está asociada con una única *availability zone* y no puede abarcar otras zonas. Las *availability zones* son ubicaciones diferentes diseñadas para quedar aisladas en caso de error de otras zonas. Por lo cual, al iniciar nuestras instancias en distintas zonas de disponibilidad, podemos proteger nuestras aplicaciones de los errores que se puedan producir en alguna de estas, y brindarles redundancia.
 ![alt text](./images/subnets_01.png)
 
-
 **Private & Public Subnets**
 
 Las **subredes públicas** se utilizan para recursos que deben ser conectados a Internet, por ej.: servidores web.
@@ -248,6 +247,8 @@ Si vemos la *route table* de ambas subredes, podemos ver que permiten la comunic
 
 ![alt text](./images/subnets_07.png)
 
+Ref:
+* [Conceptos básicos de VPC y Subredes](http://docs.aws.amazon.com/es_es/AmazonVPC/latest/UserGuide/VPC_Subnets.html#vpc-subnet-basics)
 
 
 ### Internet Gateway
