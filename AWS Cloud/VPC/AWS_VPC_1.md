@@ -204,17 +204,58 @@ Dentro de la sección de VPC, sobre el menú de la izquierda, tenemos la opción
 
 ![alt text](./images/elastic_ip_02.png)
 
+---
+## VPC Subnets
+Una subred es un rango de direcciones IP dentro de la VPC.
+Se pueden iniciar recursos de AWS (ej. instancias de EC2) dentro de una determinada subred que seleccionemos.
 
-### VPC Subnets
+**Availability Zones**
+Una VPC abarca todas las *availability zones* de una región, pero una *subnet* siempre está asociada con una única *availability zone* y no puede abarcar otras zonas. Las *availability zones* son ubicaciones diferentes diseñadas para quedar aisladas en caso de error de otras zonas. Por lo cual, al iniciar nuestras instancias en distintas zonas de disponibilidad, podemos proteger nuestras aplicaciones de los errores que se puedan producir en alguna de estas, y brindarles redundancia.
+![alt text](./images/subnets_01.png)
+
+
+**Private & Public Subnets**
+
+Las **subredes públicas** se utilizan para recursos que deben ser conectados a Internet, por ej.: servidores web.
+
+Las **subredes privadas** se utilizan para recursos que no requieren acceso a Internet, o que queremos proteger de Internet, por ej.: servidores de bases de datos.
+De todas formas vamos a ver como podemos darle acceso a internet a la subred privada, si así lo necesitamos.
+![alt text](./images/subnets_02.png)
+
+
+### Creando Subredes
+Veamos como crear una subre red pública y una privada, dentro de nuestra *Custom VPC*, en diferentes *availability zones*.
+
+Dentro del VPC Dashboard, seleccionamos *Create Subnet*.
+Colocamos el nombre de la subnet, en este caso para que luego sea fácil identificarla, le pondremos el siguiente nombre: *10.0.1.0_us-east-1b_iot-cloud_PUB*
+
+Este nombre hace referencia al direccionamiento IP, la availability zone, la VPC sobre la cual estoy creando la subred, y el tipo de subred (Public, Private).
+
+Seleccionamos la VPC, la availability zone y el rango de IP (/24 nos brinda 251 direcciones IP dentro de la subred, dado que AWS se reserva algunas).
+![alt text](./images/subnets_03.png)
+
+Y ya tenemos creada la primer subred.
+![alt text](./images/subnets_04.png)
+
+
+Ahora vamos a crear una segunda subred, que será la privada.
+A esta subred la vamos a llamar *10.0.2.0_us-east-1c_iot-cloud_PRV*, va a estar en la AZ *us-east-1c*, con la subred 10.0.2.0/24.
+![alt text](./images/subnets_05.png)
+
+![alt text](./images/subnets_06.png)
+
+Si vemos la *route table* de ambas subredes, podemos ver que permiten la comunicación interna entre ambas subredes, pero no hacia internet. Vamos a ver a continuación como darle acceso a internet a la red pública, mediante un Internet Gateway.
+
+![alt text](./images/subnets_07.png)
 
 
 
-
+### Internet Gateway
 
 ### Route Table
 
 
-
+### VPC NAT Gateway
 
 
 ### Elastic IPs
@@ -222,12 +263,12 @@ Dentro de la sección de VPC, sobre el menú de la izquierda, tenemos la opción
 
 
 
-### Internet Gateway
 
 
 
 
-### VPC NAT Gateway
+
+
 
 
 
