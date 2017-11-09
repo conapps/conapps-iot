@@ -15,8 +15,8 @@ Amazon EC2 Container Service(Amazon ECS)
 - [Definiciones de tareas](#definiciones-de-tareas)
 - [Tareas y programación](#tareas-y-programación)
 - [Clústeres](#clústeres)
-- [Agente de contenedor] (#agente-de-contenedor)
-- [Servicios relacionados] (#servicios-relacionados)
+- [Agente de contenedor](#agente-de-contenedor)
+- [Servicios relacionados](#servicios-relacionados)
 
 
 &nbsp;
