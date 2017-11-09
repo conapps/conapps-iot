@@ -40,6 +40,9 @@ Documentación
 - Autor: Guzmán Monné
 - Fecha: 2017/01/25
 
+- [Clase de HTML & CSS](https://github.com/conapps/conapps-iot/blob/master/Desarrollo/ClaseDeHTMLyCSS/HTML%20y%20CSS.md)
+- Autor: Federico Basso
+- Fecha: 2017/11/07
 
 ### JavaScript
 

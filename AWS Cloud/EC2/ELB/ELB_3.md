@@ -84,17 +84,9 @@ Si todo está correctamente configurado deberíamos ver el siguiente prompt:
 
 ![alt text](https://raw.githubusercontent.com/conapps/conapps-iot/master/AWS%20Cloud/EC2/ELB/images/Tutorial%20Classic%20LB/Paso15.JPG "Paso15")
 
-En los siguientes pasos vamos a editar el archivo ***index.html*** de una de las instancias, para poder diferenciar a cual nos va a estar dirigiendo el **Load Balancer**
+En el siguiente paso vamos a editar el archivo ***index.html*** de una de las instancias, para poder diferenciar a cual nos va a estar dirigiendo el **Load Balancer**
 
-Navegar hasta la carpeta html con el siguiente comando:  `cd /var/www/html`
-
-![alt text](https://raw.githubusercontent.com/conapps/conapps-iot/master/AWS%20Cloud/EC2/ELB/images/Tutorial%20Classic%20LB/Paso16.JPG "Paso16")
-
-Abrir el editor Vi utilizando : `vi index.html`
-
-![alt text](https://raw.githubusercontent.com/conapps/conapps-iot/master/AWS%20Cloud/EC2/ELB/images/Tutorial%20Classic%20LB/Paso17.JPG "Paso17")
-
-Editar el mismo, cambiando de instancia **"1" a "2"**
+Utilizar el siguiente comando para editar el index.html :  `echo "Esta es la instancia 2" > /var/www/html/index.html`
 
 ![alt text](https://raw.githubusercontent.com/conapps/conapps-iot/master/AWS%20Cloud/EC2/ELB/images/Tutorial%20Classic%20LB/Paso18.JPG "Paso18")
 
