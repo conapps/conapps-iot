@@ -11,7 +11,6 @@ Clústeres de Amazon ECS
 ---
 - [Conceptos de clústeres](#conceptos-de-clusteres)
 - [Creación de un clúster](#creación-de-un-clúster)
-- [Contenedores e Imagenes](#contenedores-e-imagenes)
 - [Escalado de un clúster](#escalado-de-un-clúster)
 - [Eliminación de un clúster](#eliminación-de-un-clúster)
 
