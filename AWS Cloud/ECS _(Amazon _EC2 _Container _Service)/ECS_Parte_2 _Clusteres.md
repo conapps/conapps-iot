@@ -21,8 +21,11 @@ Clústeres de Amazon ECS
 ## Conceptos de clústeres ##
 
 *Los clústeres pueden contener varios tipos distintos de instancia de contenedor.
+
 *Los clústeres son específicos de la región.
+
 *Las instancias de contenedor solo pueden ser parte de un clúster a la vez.
+
 *Puede crear políticas de IAM personalizadas para sus clústeres para permitir o limitar el acceso de los usuarios a clústeres específicos.
 
 
