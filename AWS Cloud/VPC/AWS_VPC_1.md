@@ -207,23 +207,32 @@ Dentro de la sección de VPC, sobre el menú de la izquierda, tenemos la opción
 ---
 ## VPC Subnets
 Una subred es un rango de direcciones IP dentro de la VPC.
-Se pueden iniciar recursos de AWS (ej. instancias de EC2) dentro de una determinada subred que seleccionemos.
+
+Se pueden iniciar recursos de AWS (ej. instancias de EC2) dentro de una determinada subred que seleccionemos. No podemos iniciar ningún recurso en nuestra VPC si no tenemos por lo menos una subred definida.
+
+La netmask para la subred por defecto de la *default VPC* de AWS, es /20, lo que provee hasta 4096 direcciones IP por subred (algunas pocas son de uso reservado por AWS).
+
 
 **Availability Zones**
-Una VPC abarca todas las *availability zones* de una región, pero una *subnet* siempre está asociada con una única *availability zone* y no puede abarcar otras zonas. Las *availability zones* son ubicaciones diferentes diseñadas para quedar aisladas en caso de error de otras zonas. Por lo cual, al iniciar nuestras instancias en distintas zonas de disponibilidad, podemos proteger nuestras aplicaciones de los errores que se puedan producir en alguna de estas, y brindarles redundancia.
+Una VPC puede abarcar múltiples *availability zones* de una región, pero una *subnet* siempre está asociada con una única *availability zone* y no puede abarcar otras.
 ![alt text](./images/subnets_01.png)
+
+Las *availability zones* son ubicaciones diferentes diseñadas para quedar aisladas en caso de error de otras zonas. Por lo cual, al iniciar nuestras instancias en distintas zonas de disponibilidad, podemos proteger nuestras aplicaciones de los errores que se puedan producir en alguna de estas, y brindarles redundancia.
+
 
 **Private & Public Subnets**
 
-Las **subredes públicas** se utilizan para recursos que deben ser conectados a Internet, por ej.: servidores web.
+Las **subredes públicas** se utilizan para recursos que necesitan tener acceso a Internet, por ej.: servidores web. Una subred pública se hace pública cuando su *route table* envía al *Internet Gateway* todo el tráfico cuyo destino es Internet (ya veremos esto).
 
-Las **subredes privadas** se utilizan para recursos que no requieren acceso a Internet, o que queremos proteger de Internet, por ej.: servidores de bases de datos.
-De todas formas vamos a ver como podemos darle acceso a internet a la subred privada, si así lo necesitamos.
+Las **subredes privadas** se utilizan para recursos que no requieren acceso a Internet, o que queremos proteger (aislar) de Internet, por ej.: servidores de bases de datos.
+
 ![alt text](./images/subnets_02.png)
+
+De todas formas vamos a ver como podemos darle acceso a internet a la subred privada, si así lo necesitamos.
 
 
 ### Creando Subredes
-Veamos como crear una subre red pública y una privada, dentro de nuestra *Custom VPC*, en diferentes *availability zones*.
+Veamos entonces como crear una subred pública y una privada, dentro de nuestra *Custom VPC*, y en diferentes *availability zones*.
 
 Dentro del VPC Dashboard, seleccionamos *Create Subnet*.
 Colocamos el nombre de la subnet, en este caso para que luego sea fácil identificarla, le pondremos el siguiente nombre: *10.0.1.0_us-east-1b_iot-cloud_PUB*
@@ -237,22 +246,62 @@ Y ya tenemos creada la primer subred.
 ![alt text](./images/subnets_04.png)
 
 
-Ahora vamos a crear una segunda subred, que será la privada.
-A esta subred la vamos a llamar *10.0.2.0_us-east-1c_iot-cloud_PRV*, va a estar en la AZ *us-east-1c*, con la subred 10.0.2.0/24.
+Ahora vamos a crear una segunda subred, la cual será privada. A esta subred la vamos a llamar *10.0.2.0_us-east-1c_iot-cloud_PRV*, va a estar en la AZ *us-east-1c*, con la subred 10.0.2.0/24.
+
 ![alt text](./images/subnets_05.png)
 
 ![alt text](./images/subnets_06.png)
 
-Si vemos la *route table* de ambas subredes, podemos ver que permiten la comunicación interna entre ambas subredes, pero no hacia internet. Vamos a ver a continuación como darle acceso a internet a la red pública, mediante un Internet Gateway.
+Si revisamos la *route table* (en la parte inferior) de ambas subredes, podemos ver que permiten la comunicación interna entre ambas subredes, pero no hacia internet, por lo tanto ambas son privadas todavía. Vamos a ver a continuación como darle acceso a internet a la red pública, mediante un Internet Gateway.
 
 ![alt text](./images/subnets_07.png)
 
 Ref:
 * [Conceptos básicos de VPC y Subredes](http://docs.aws.amazon.com/es_es/AmazonVPC/latest/UserGuide/VPC_Subnets.html#vpc-subnet-basics)
 
+---
+## Networking
+Ahora veremos más en detalle sobre *Internet Gatways*, *Route Tables* y *NAT Devices*, y como crear estos dispositivos en nuestra VPC.
 
 ### Internet Gateway
 
+El *Internet Gateway* es un componente de la VPC que permite la comunicación entre las instancias que corren en la VPC e Internet.
+
+Cumple con dos propósitos:
+- proporcionar un destino en las tablas de ruteo de la VPC para todo el tráfico dirigido a Internet
+- realizar la conversión de las direcciones de red (NAT) para las instancias que tengan asignadas direcciones IPv4 públicas.
+
+El Internet Gateway escala horizontalmente, es redundante y con alta disponibilidad, por lo tanto no plantea riesgos de disponibilidad ni restricciones de ancho de banda para el tráfico de red. Soporta tráfico IPv4 e IPv6.
+
+Para permitir a una VPC que se conecte a Internet, debemos agregarle un Internet Gateway. Solo podemos tener un único Internet Gateway por VPC.
+
+![alt text](./images/internet_gateway_01.png)
+
+Para lograr que las instancias EC2 de nuestra VPC tengan acceso a Internet, necesitamos verificar los siguientes puntos:
+1. Agregar un Internet Gateway a la VPC
+2. Asegurarnos de que las instancias en la subred tengan una dirección IP Pública o una Elastic IP, para que puedan conectarse a Internet
+3. Asegurarnos de que la route table de la subred apunte al Internet Gateway
+4. Asegurarno de que los Network ACLs y Security Groups permitan pasar el tráfico que nosotros queremos hacia y desde Internet (por ej. HTTP, SSH, etc.)
+.
+
+**Creando un Internet Gateway**
+En el VPC Dashbord, sobre el menú izquierdo, seleccionamos la opción de *Internet Gateway*, y luego *Crear Internet Gateway*
+![alt text](./images/internet_gateway_02.png)
+
+Luego le ponemos un nombre, en este caso: *iot-cloud-IGW*
+![alt text](./images/internet_gateway_03.png)
+
+El Internet Gateway se crea, y queda en estado *detached* porque todavía no está asignado a ninguna VPC:
+![alt text](./images/internet_gateway_04.png)
+
+Seleccionamos la opción de *Attach to VPC*, y podemos elegir a cuál de nuestras VPC lo vamos a asignar:
+![alt text](./images/internet_gateway_05.png)
+
+![alt text](./images/internet_gateway_06.png)
+
+Antes de que cualquier instancia de EC2 dentro de nuestra VPC pueda acceder a Internet, debemos asegurarnos que la *route table* de la subred apunte al Internet Gateway. En lugar de cambiar la *route table* principal, vamos a definir una *custom route table* para la subred.
+
+  
 ### Route Table
 
 
