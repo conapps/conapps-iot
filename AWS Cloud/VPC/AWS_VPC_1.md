@@ -87,7 +87,7 @@ Se debe tener en cuenta que si **eliminamos la Default VPC, no puede ser recuper
 ### VPC Peering
 Podemos conectar nuestras propias VPC entre ellas, o con una VPC en otra cuenta de AWS, siempre y cuando se encuentren en la misma AWS Region, y no tengan rangos de IP solapados.
 
-Las instanacias que se encuentren en una VPC "A" no podrán comunicarse con instancias en la VPC "B" o "C" al menos que configuremos una *peering connection*.
+Las instancias que se encuentren en una VPC "A" no podrán comunicarse con instancias en la VPC "B" o "C" al menos que configuremos una *peering connection*.
 
 ![alt text](./images/vpc_peering_01.png)
 
@@ -135,7 +135,7 @@ Pero en nuestro caso **no vamos a usar el VPC Wizard**, para poder ir creando nu
 Para crear la VPC, vayamos a *Your VPCs* sobre el menú izquierdo, y luego a *Create VPC*.
 ![alt text](./images/create_custom_vpc_04.png)
 
-A contiunación debemos ingresar:
+A continuación debemos ingresar:
 - Nombre de la VPC
 - Rango de direcciones IP y la netmask, la cual debe estar entre /16 y /28. Con /16 obtenemos 65.536 direcciones IP en nuestra red.
 - Si queremos o no asociar direcciones IPv6 provistas por Amazon (no se puede seleccionar el rango).
@@ -196,7 +196,7 @@ Esta es una dirección IP pública estática o persistente, que es asignada a la
 La *Elastic IP* permanece en nuestra cuenta de AWS hasta que nosotros decidamos liberarla.
 Esta dirección IP tiene un costo adicional, solo si la misma no se encuentra asociada a una instancia, es decir, si no la estamos usando.
 
-**Creando una Elastic IP Address**
+#### Creando una Elastic IP Address
 Dentro de la sección de VPC, sobre el menú de la izquierda, tenemos la opción de *Elastic IPs*.
 
 ![alt text](./images/elastic_ip_01.png)
@@ -213,14 +213,14 @@ Se pueden iniciar recursos de AWS (ej. instancias de EC2) dentro de una determin
 La netmask para la subred por defecto de la *default VPC* de AWS, es /20, lo que provee hasta 4096 direcciones IP por subred (algunas pocas son de uso reservado por AWS).
 
 
-**Availability Zones**
+### Availability Zones
 Una VPC puede abarcar múltiples *availability zones* de una región, pero una *subnet* siempre está asociada con una única *availability zone* y no puede abarcar otras.
 ![alt text](./images/subnets_01.png)
 
 Las *availability zones* son ubicaciones diferentes diseñadas para quedar aisladas en caso de error de otras zonas. Por lo cual, al iniciar nuestras instancias en distintas zonas de disponibilidad, podemos proteger nuestras aplicaciones de los errores que se puedan producir en alguna de estas, y brindarles redundancia.
 
 
-**Private & Public Subnets**
+### Private & Public Subnets
 
 Las **subredes públicas** se utilizan para recursos que necesitan tener acceso a Internet, por ej.: servidores web. Una subred pública se hace pública cuando su *route table* envía al *Internet Gateway* todo el tráfico cuyo destino es Internet (ya veremos esto).
 
@@ -252,7 +252,7 @@ Ahora vamos a crear una segunda subred, la cual será privada. A esta subred la 
 
 ![alt text](./images/subnets_06.png)
 
-Si revisamos la *route table* (en la parte inferior) de ambas subredes, podemos ver que permiten la comunicación interna entre ambas subredes, pero no hacia internet, por lo tanto ambas son privadas todavía. Vamos a ver a continuación como darle acceso a internet a la red pública, mediante un Internet Gateway.
+Si revisamos la *route table* de ambas subredes (en la parte inferior), podemos ver que permiten la comunicación interna entre ambas subredes, pero no hacia internet, por lo tanto ambas subredes todavía son privadas. Vamos a ver a continuación como darle acceso a internet a la subred pública, mediante la creación de un Internet Gateway.
 
 ![alt text](./images/subnets_07.png)
 
@@ -261,7 +261,8 @@ Ref:
 
 ---
 ## Networking
-Ahora veremos más en detalle sobre *Internet Gatways*, *Route Tables* y *NAT Devices*, y como crear estos dispositivos en nuestra VPC.
+
+Veremos más en detalle sobre *Internet Gatways*, *Route Tables* y *NAT Devices*, y como crear estos dispositivos en nuestra VPC.
 
 ### Internet Gateway
 
@@ -284,7 +285,7 @@ Para lograr que las instancias EC2 de nuestra VPC tengan acceso a Internet, nece
 4. Asegurarno de que los Network ACLs y Security Groups permitan pasar el tráfico que nosotros queremos hacia y desde Internet (por ej. HTTP, SSH, etc.)
 .
 
-**Creando un Internet Gateway**
+#### Creando un Internet Gateway
 En el VPC Dashbord, sobre el menú izquierdo, seleccionamos la opción de *Internet Gateway*, y luego *Crear Internet Gateway*
 ![alt text](./images/internet_gateway_02.png)
 
@@ -299,10 +300,53 @@ Seleccionamos la opción de *Attach to VPC*, y podemos elegir a cuál de nuestra
 
 ![alt text](./images/internet_gateway_06.png)
 
-Antes de que cualquier instancia de EC2 dentro de nuestra VPC pueda acceder a Internet, debemos asegurarnos que la *route table* de la subred apunte al Internet Gateway. En lugar de cambiar la *route table* principal, vamos a definir una *custom route table* para la subred.
+Antes de que cualquier instancia de EC2 dentro de nuestra VPC pueda acceder a Internet, debemos asegurarnos que la *route table* de la subred pública apunte al Internet Gateway. En lugar de cambiar la *route table* principal, vamos a definir una *custom route table* para la subred.
 
-  
+
 ### Route Table
+La *route table* determina hacia donde se dirigirá el tráfico de la subred, por medio de la definición de un conjunto de reglas.
+Cada subred debe estar asociada con una route table. Una subred solo puede estar asociada con una única route table, pero podemos asociar múltiples subredes a la misma route table.
+
+Cada VPC tiene una route table por defecto (*Main Route Table*). Es una buena práctica dejar esta route table en su estado original, y crear una nueva route table (*Custom Route Table*) para poder customizar el routeo del tráfico de nuestra VPC.
+
+La siguiente imagen muestra la *Main Route Table* y nuestra *Custom Route Table*.
+
+![alt text](./images/route_table_01.png)
+
+La *Custom Route Table* le indica al *Internet Gateway* que dirija el tráfico de Internet a la subred pública. Mientras que la subred privada sigue estando asociada a la *Main Route Table* (o tabla por defecto), la cuál no permite tráfico de Internet. Todo el tráfico dentro de la subred privada solo permanece local.
+
+#### Creando una Custom Route Table
+Veamos como crear un *Custom Route Table*, asociarla con el *Internet Gateway* y con nuestra *Public Subnet*.
+
+Desde la consola, en el VPC Dashboard, sobre el menú de la izquierda seleccionamos *Route Tables*. Podemos ver que nuestra VPC *iot-cloud-vpc* solo tiene una route table asociada, que es la que se crea por defecto.
+![alt text](./images/route_table_02.png)
+
+Para crear una nueva, seleccionamos *Create Route Table*.
+Ponemos el nombre para la route table, en este caso *iot-cloud-rtb*, y seleccionamos a cual VPC la vamos a asignar, en nuestro caso *iot-cloud-vpc*.
+![alt text](./images/route_table_03.png)
+
+Ahora ya tenemos nuestra nueva route table definida:
+![alt text](./images/route_table_04.png)
+
+Si vemos las rutas que tiene por defecto, solo tiene el acceso local a nuestra red interna 10.0.0.0/16. Lo que debemos hacer a continuación, es cambiar sus rutas para que apunten al Internet Gateway definido previamente.
+
+Para esto editamos la tabla (*Edit*) y agregamos una nueva ruta, cuyo destino sea internet 0.0.0.0/0 y el target es nuestro Internet Gateway, que nos aparece para poder seleccionarlo.
+
+![alt text](./images/route_table_05.png)
+
+De esta forma, ahora tenemos acceso a Internet por medio de esta route table.
+![alt text](./images/route_table_06.png)
+
+Si vamos a la parte de *Subnet Associations*, podemos ver que todavía no tenemos ninguna subred asociada a nuestra nueva route table. Ambas subredes que habíamos definido antes (PUB y PRV) siguen estando asociadas a la *default route table*, que no tiene acceso a Internet.
+
+Por lo tanto debemos cambiar esto, editando (*Edit*) la configuración, y seleccionando nuestra red PUB para que quede asociada a esta route table:
+![alt text](./images/route_table_07.png)
+
+Ahora podemos ver que nuestra public subnet (PUB) está asociada con esta route table, y esta route table está asociada con el Internet Gateway. Por lo tanto, cualquier instancia que coloquemos en esta public subnet va a tener acceso a Internet.
+
+![alt text](./images/route_table_08.png)
+
+
 
 
 ### VPC NAT Gateway
