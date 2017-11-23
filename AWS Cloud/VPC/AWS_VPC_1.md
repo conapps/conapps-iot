@@ -33,8 +33,7 @@ Amazon Virtual Private Cloud (VPC)
 ## Introducción ##
 ---
 ### ¿Qué es Amazon Virtual Private Cloud (VPC)?      
----
-**Amazon Virtual Private Cloud (VPC)** nos permite aprovisionar recursos de Amazon Web Services (AWS), por ej. instancias de EC2, dentro de una red virtual que nosotros definimos dentro de AWS. Esta red virtual se parece mucho a una red tradicional que operamos en nuestro propio datacenter, pero con los beneficios de utilizar la infraestructura escalable de AWS.
+Amazon Virtual Private Cloud (VPC) nos permite aprovisionar recursos de Amazon Web Services (AWS), por ej. instancias de EC2, dentro de una red virtual que nosotros definimos dentro de AWS. Esta red virtual se parece mucho a una red tradicional que operamos en nuestro propio datacenter, pero con los beneficios de utilizar la infraestructura escalable de AWS.
 
 Podemos controlar todos los aspectos de la red virtual, incluyendo la selección de nuestro propio rango de direcciones IP, la creación de subredes, la configuración de tablas de ruteo, gateways, seguridad, e incluso si quisiéramos, el acceso a la misma desde nuestro datacenter.
 
@@ -83,7 +82,6 @@ Una VPC puede expandirse en múltiples *Availability Zones* en una región.
 Se debe tener en cuenta que si **eliminamos la Default VPC, no puede ser recuperada en forma sencilla**. Deberemos contactar a AWS Support para que ellos la vuelvan a restaurar.
 
 
-
 ### VPC Peering
 Podemos conectar nuestras propias VPC entre ellas, o con una VPC en otra cuenta de AWS, siempre y cuando se encuentren en la misma AWS Region, y no tengan rangos de IP solapados.
 
@@ -105,6 +103,7 @@ Para hacer esto, necesitamos un *Virtual Private Gateway*, el cual es el concent
 
 ---
 ## Custom VPC
+---
 Entonces, por qué no utilizar siempre la Default VPC?
 La Default VPC es muy útil cuando estamos realizando pruebas en AWS.
 
@@ -171,8 +170,8 @@ Ref:
 * [EC2 Dedicated Instances](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html)
 
 ---
-## Direcciones IP Privada, Pública y Elástica
-
+## Direcciones IP Privadas, Públicas y Elásticas
+---
 ### Private IP Adress
 Las direcciones IP privadas (*Private IPs*) son direcciones que no se pueden acceder desde Internet.
 
@@ -198,14 +197,20 @@ Esta dirección IP tiene un costo adicional, solo si la misma no se encuentra as
 
 #### Creando una Elastic IP Address
 Dentro de la sección de VPC, sobre el menú de la izquierda, tenemos la opción de *Elastic IPs*.
-
 ![alt text](./images/elastic_ip_01.png)
 
-
+Seleccionamos *Allocate new address* y luego nuevamente *Allocate*.
+Creamos una nueva Elastic IP, la cual por defecto no queda asociada a ningún servicio.
 ![alt text](./images/elastic_ip_02.png)
+
+
+Debemos tener en cuenta que, **mientras la Elastic IP no se encuentre asociada a un servicio, Amazon nos cobrará el costo de la misma.** Por lo cual, lo ideal es crear la Elastic IP en el momento que la necesitemos (por ej., al crear el NAT Gateway, cosa que veremos más adelante).
+
+![alt text](./images/elastic_ip_03.png)
 
 ---
 ## VPC Subnets
+---
 Una subred es un rango de direcciones IP dentro de la VPC.
 
 Se pueden iniciar recursos de AWS (ej. instancias de EC2) dentro de una determinada subred que seleccionemos. No podemos iniciar ningún recurso en nuestra VPC si no tenemos por lo menos una subred definida.
@@ -221,7 +226,6 @@ Las *availability zones* son ubicaciones diferentes diseñadas para quedar aisla
 
 
 ### Private & Public Subnets
-
 Las **subredes públicas** se utilizan para recursos que necesitan tener acceso a Internet, por ej.: servidores web. Una subred pública se hace pública cuando su *route table* envía al *Internet Gateway* todo el tráfico cuyo destino es Internet (ya veremos esto).
 
 Las **subredes privadas** se utilizan para recursos que no requieren acceso a Internet, o que queremos proteger (aislar) de Internet, por ej.: servidores de bases de datos.
@@ -261,7 +265,7 @@ Ref:
 
 ---
 ## Networking
-
+---
 Veremos más en detalle sobre *Internet Gatways*, *Route Tables* y *NAT Devices*, y como crear estos dispositivos en nuestra VPC.
 
 ### Internet Gateway
@@ -347,24 +351,82 @@ Ahora podemos ver que nuestra public subnet (PUB) está asociada con esta route 
 ![alt text](./images/route_table_08.png)
 
 
+### NAT Device
+Pero que pasa si queremos darle acceso a Internet a nuestra subred Privada?
+Para esto debemos utilizar un *NAT Device*.
+
+Mediante un *NAT Device* podemos permitir que las instancias que corren en una subred privada se conecten hacia Internet, pero no permite que la conexión se inicie desde Internet hacia las instancias.
+![alt text](./images/nat_device_01.png)
+
+Como ya hemos visto, podemos utilizar subredes públicas y privadas para proteger nuestras instancias de forma de que no estén conectadas directamente a Internet. Por ej., nuestros servidores web se ubicarían en la subred pública, mientras que nuestros servidores de bases de datos estarían en la subred privada que no tiene conexión a Internet.
+Pero de todas formas, nuestros servidores de base de datos podrían necesitar acceso a Internet, por ej. para bajar actualizaciones, o quizá para conectarse a otros recursos de AWS a través de Internet. Para estos casos, podemos utilizar un Network Access Translation (NAT) Device.
+
+Este dispositivo reenvía el tráfico de las instancias que se encuentran en nuestra subred privada hacia internet (o hacia otros servicios de AWS), y luego cuando vuelve la respuesta, la toma y la envía de vuelta hacia la instancia correspondiente. Cuando el tráfico va hacia internet, la dirección IP origen de la instancia es reemplazada con la dirección IP del NAT Device, y cuando el tráfico vuelve desde internet el NAT device traduce nuevamente la dirección IP a la dirección IP privada de la instancia.
+
+En nuestro diagrama, agregamos ahora el NAT device, el cual debe ubicarse en la subred pública para poder tener acceso a internet.
+![alt text](./images/nat_device_02.png)
+
+AWS provee dos tipos de NAT Devices:
+* NAT Gateway
+* NAT Instance
+
+AWS recomiendo el uso de NAT Gateway dado que es un servicio autogestionado, que provee una mayor disponibilidad y ancho de banda comparado con un NAT Instance. Cada NAT Gateway es creado en una Availability Zone específica y es implementado con redundancia dentro de esa zona. Al ser un servicio autogestionado, una vez que el servicio es iniciado, nos podemos olvidar de él, dado que no requiere administración.
+
+Un NAT Instance es iniciado desde una NAT AMI (Amazon Machine Image) y se ejecuta como una instancia en la VPC, por lo cual es "un equipo más" que debemos gestionar.
+
+Dado que el NAT Gateway plantea muchas ventajas, además de ser la opción recomendada por AWS, veremos únicamente este dispositivo.
 
 
-### VPC NAT Gateway
+#### Creando un NAT Gateway
+El NAT Gateway debe ubicarse en una subred pública, dado que necesita conectividad a Internet. También requiere contar con una *Elastic IP address* la cual asignaremos al momento de crearlo.
+
+Una vez creado, debemos actualizar la *route table* asociada con nuestra subred privada de forma de apuntar el tráfico a Internet de esta subred a través del NAT Gateway. De esta forma, las instancias en nuestra subred privada podrán comunicarse hacia internet de una manera segura.
+
+![alt text](./images/nat_device_03.png)
+
+Para crear un NAT Gateway, vamos al menú correspondiente sobre la izquierda, en el VPC Dashboard, y seleccionamos *Create NAT Gateway:*
+![alt text](./images/nat_device_04.png)
+
+Luego debemos seleccionar la subred en la cuál vamos a colocar nuestro NAT Gateway. Debe ir necesariamente en la subred pública, para poder tener acceso a Internet. En el cuadro aparecen listadas las diferentes subredes que tenemos, y podemos hacer una busqueda escribiendo el ID o el nombre de la misma.
+![alt text](./images/nat_device_05.png)
+
+Ahora debemos seleccionar la *Elastic IP Address* que vamos a asociar al NAT Gateway. Previamente habíamos creado la Elastic IP, de no ser así, podemos crearla desde acá mismo:
+![alt text](./images/nat_device_06.png)
+
+Una vez que tenemos ambos parámetros configurados, creamos el NAT Gateway:
+![alt text](./images/nat_device_07.png)
+
+![alt text](./images/nat_device_08.png)
+
+Para poder utilizar el NAT Gateway, debemos editar la *route table* para incluir una ruta que tenga como destino este NAT Gateway. Podemos hacer esto desde aquí mismo, mediante el botón *Edit route tables*.
+Esto nos lleva directamente a la sección de Route Tables de nuestra VPC.
+
+Aca podemos filtrar entre todas las route tables colocando el nombre (o parte) de la VPC en el cuadro de search, en este caso "iot".
+
+![alt text](./images/nat_device_09.png)
+
+En la imagen anterior, podemos ver que tenemos dos route tables, la *iot-cloud-rtb* es la tabla personalizada que creamos antes (customized route table), mientras que la que no tiene nombre es la tabla por defecto que AWS crea para la VPC (main rout table). Si queremos, podemos asignarle un nombre para que nos quede mas claro, en este caso la renombré como *iot-cloud-rtb-main*. Esta última es la que debemos configurar para que apunte al NAT Gateway.
+
+Podemos ver que esta route table solo tiene asociada nuestra subred privada:
+![alt text](./images/nat_device_10.png)
 
 
-### Elastic IPs
+Y en sus rutas solo tiene configurado el tráfico local:
+![alt text](./images/nat_device_11.png)
 
 
+Lo que debemos hacer, es agregarle una ruta para que apunte al NAT Gateway para el tráfico a Internet.
+Le damos *Edit* y luego *Add another route*, y le ponemos que todo el tráfico hacia 0.0.0.0/0 sea dirigido a nuestro NAT Gateway.
 
+Ojo que debemos seleccionar como destino nuestro NAT Gateway que definimos recién, y no el Internet Gateway que usamos para nuestra subred pública (en el recuadro aparecen ambos lo cual podría dar lugar a confusión). Luego grabamos la ruta, la cual debería quedar así:
 
+![alt text](./images/nat_device_12.png)
 
+De esta forma, cualquier instancia que ahora creemos en nuestra subred privada va a poder acceder a Internet a través de este NAT Gateway.
 
-
-
-
-
-
-
+---
+## Seguridad
+---
 
 
 ### Network ACLs
