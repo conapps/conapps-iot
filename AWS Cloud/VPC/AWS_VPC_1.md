@@ -82,6 +82,13 @@ Una VPC puede expandirse en múltiples *Availability Zones* en una región.
 Se debe tener en cuenta que si **eliminamos la Default VPC, no puede ser recuperada en forma sencilla**. Deberemos contactar a AWS Support para que ellos la vuelvan a restaurar.
 
 
+*Ref.:*
+[Default VPC and Default Subnets](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/default-vpc.html)
+
+
+
+
+
 ### VPC Peering
 Podemos conectar nuestras propias VPC entre ellas, o con una VPC en otra cuenta de AWS, siempre y cuando se encuentren en la misma AWS Region, y no tengan rangos de IP solapados.
 
@@ -104,8 +111,7 @@ Para hacer esto, necesitamos un *Virtual Private Gateway*, el cual es el concent
 ---
 ## Custom VPC
 ---
-Entonces, por qué no utilizar siempre la Default VPC?
-La Default VPC es muy útil cuando estamos realizando pruebas en AWS.
+Entonces, por qué no utilizar siempre la Default VPC? La Default VPC es muy útil cuando estamos realizando pruebas en AWS.
 
 Pero para un ambiente de producción, **crear una VPC propia** (o varias) nos permite, entre otras cosas:
 * seleccionar nuestro propio rango de IP
@@ -427,22 +433,113 @@ De esta forma, cualquier instancia que ahora creemos en nuestra subred privada v
 ---
 ## Seguridad
 ---
+En esta sección, veremos lo que se refiere a elementos de seguridad dentro de la custom VPC en la cuál venimos trabajando, específicamente *Security Groups* y *Network ACLs*.
+
+### Security Groups
+Un *security group* funciona como un firewall virtual que controla el tráfico de una o varias instancias. En cada grupo de seguridad, agregamos una o varias reglas que permiten controlar el tráfico entrante y/o saliente hacia/desde las instancias EC2 asociadas con el mismo.
+
+Si vemos nuestro diagrama, agregamos los *security groups*, con las instancias de EC2 dentro de estos.
+![alt text](./images/security_groups_01.png)
+
+
+#### Consideraciones para los Security Groups
+Hay algunas reglas que debemos tener en cuenta para los *security groups*:
+* actúan en el ámbito de la instancia, no a nivel de la subred.
+* se pueden asociar hasta 5 *security groups* a una instancia.
+* por defecto permiten todo el tráfico de salida, salvo que nosotros lo restrinjamos.
+* solo admite reglas "permisivas", es decir, no podemos crear reglas que bloqueen accesos (*deny*).
+* son con estado (*stateful*), si enviamos un request desde nuestra instancia el tráfico de retorno a ese request se admite automáticamente, independientemente de las reglas de entrada que tengamos definidas.
+* podemos crear/modificar reglas al security group en cualquier momento y las mismas se aplican inmediatamente.
+
+
+#### Creando Security Groups
+Vamos a configurar dos ejemplos, con dos *security group*, habilitando diferente tipo de tráfico para nuestro servidor web (ubicado en la subred pública) y para el servidor de base de datos (ubicado en la subred privada).
+
+Para la instancia del servidor web, vamos a crear un *security group* que permita el siguiente tráfico:
+| Tipo     | Protocolo     | Puertos    | Origen      |   
+|:--------:|:-------------:|:----------:|:-----------:|
+| HTTP     | TCP           | 80         | 0.0.0.0/0   |
+| HTTPS    | TCP           | 443        | 0.0.0.0/0   |
+| SSH      | TCP           | 22         | 10.0.0.0/32 |
+Al ser una instancia con Linux, vamos a habilitar SSH desde nuestra red interna, además de los puertos de HTTP/HTTPS. El SSH podríamos habilitarlo a todo el mundo si quisieramos, aunque resulta una buena práctica restringirlo a la red desde la cuales voy a acceder al aquipo.
+
+Mientras que para la instancia del servidor de base de datos, vamos a crear otro *seciruty group*, que permita el siguiente tráfico:
+| Tipo     | Protocolo     | Puertos    | Origen      |   
+|:--------:|:-------------:|:----------:|:-----------:|
+| MS SQL   | TCP           | 1433       | 0.0.0.0/0   |
+| RDP      | TCP           | 3389       | 10.0.0.0/32 |
+En este caso al ser una instancia con Windows, habilitamos RDP desde la red interna para poder administrar el equipo con mayor facilidad.
+
+En ambos casos, cualquier otro tráfico debe ser bloqueado.
+
+**Primer Security Group (Web Servers)**
+Vayamos entonces al **VPC Dashboard** y seleccionemos la opción *Security Groups* en el menú de la izquierda. Podemos ver que se listan los que tenemos definidos actualmente, y seleccionamos *Create Security Group*:
+
+![alt text](./images/security_groups_02.png)
+
+Indicamos el nombre del *security group*, en este caso le vamos a poner *iot-cloud-SG-webservers*, una descripción, y seleccionamos la VPC donde lo vamos a crear (*iot-cloud-vpc*):
+![alt text](./images/security_groups_03.png)
+
+
+Una vez creado el security group, si vamos a ***Inbound Rules*** vemos que no hay reglas de entrada definidas, dado que por defecto no se le asigna ninguna:
+![alt text](./images/security_groups_04.png)
+
+Para crear una regla, seleccionamos *Edit*. Podemos o bien dejar seleccionada la opción de *Custom TCP Rule* e indicar nosotros el rango de puertos que queremos utilizar, o podemos directamente seleccionar las que AWS tiene predefinidas, en este caso usaremos la HTTP (80):
+
+![alt text](./images/security_groups_05.png)
+
+Luego debemos especificar el origen del tráfico (*Source*) sobre el cual vamos a aplicar esta regla. Podemos seleccionar otro *security group* como origen, o indicar una dirección IP puntual, o una subred (ej. 192.168.2.0/24).
+
+En nuestro caso como es un web server y queremos darle acceso público a todo el mundo (a estos puertos), pondremos 0.0.0.0/0, lo cual le brinda acceso a cualquier dirección IP de origen.
+
+![alt text](./images/security_groups_06.png)
+
+Hacemos lo mismo para la regla del tráfico HTTPS (443), y para el SSH (22) habilitamos el tráfico desde nuestra red interna (10.0.0.0/32).
+
+Luego grabamos la configuración y las reglas toman efecto.
+![alt text](./images/security_groups_07.png)
+
+
+En cuanto a las reglas de salida, ***Outbound Rules***, por defecto se permite todo el tráfico saliente, proveniente desde nuestra instancia. Lo vamos a dejar sin cambios:
+![alt text](./images/security_groups_08.png)
+
+**Segundo Security Group (Database Servers)**
+De la misma forma creamos el segundo *security group* para nuestra instancia de base de datos.
+
+Seleccionamos el puerto de MS SQL Server (1433). En cuanto al origen (*Source*) podríamos habilitarlo de forma pública para todo el mundo, pero en realidad lo que debemos hacer es permitir el tráfico hacia los database servers que provenga únicamente desde nuestros web servers, lo cuál sería mucho mas seguro. Para hacer esto, ponemos como origen el *security group* que corresponde a nuestros web servers, esto es el *iot-cloud-SG-webservers*.
+
+![alt text](./images/security_groups_09.png)
+
+También agregamos la regla para el tráfico RDP desde nuestra red privada (10.0.0.0/32) para poder administrar el equipo.
+![alt text](./images/security_groups_10.png)
+
+
+
+
+
+
+
+
+
+.
+.
+.
+..
 
 
 ### Network ACLs
+Puede configurar ACL de red con reglas similares a sus grupos de seguridad para añadir una capa de seguridad adicional a su VPC. Para obtener más información acerca de las diferencias entre los grupos de seguridad y las ACL de red, consulte Comparación de grupos de seguridad y ACL de red.
+
+
+
+*Ref:*
+[VPC Security Groups](http://docs.aws.amazon.com/es_es/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html)
+[Comparación de grupos de seguridad y ACL de red](http://docs.aws.amazon.com/es_es/AmazonVPC/latest/UserGuide/VPC_Security.html#VPC_Security_Comparison)
 
 
 
 
-### Security Group
 
-
-
-
-
-
-Ref:
-* [Default VPC and Default Subnets](http://docs.aws.amazon.com/AmazonVPC/latest/UserGuide/default-vpc.html)
 
 
 
