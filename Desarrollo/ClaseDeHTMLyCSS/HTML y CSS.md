@@ -640,6 +640,204 @@ Por ejemplo:
 <h2 id="La foto de un gatito">
 ```
 
+Una vez que definimos "id", podemos aplicarle "Styles" mediante CSS de esta forma:
+
+```html
+<style>
+#La-foto-de-un-gatito {
+  background-color: green;
+}
+</style>
+```
+Como observación, las clases se referencian con un **"."**, pero los id se referencian con un **"#"**.
+&nbsp;
+
+&nbsp;
+
+***
+
+
+## **Padding, Margin, y Border**
+Todos los elementos HTML son esencialmente rectángulos, los cuales tienen propiedades que definen el espacio que los rodea o mejor dicho el espacio que contienen.
+
+Estas propiedades son llamadas "padding", "margin" y "border"
+
+
+
+&nbsp;
+
+* **Padding**
+
+Esta propiedad controla la cantidad de espacio entre el elemento y su borde.
+
+Por ejemplo:
+
+<style>
+  .texto-predefinido {
+    margin-bottom: -25px;
+    text-align: center;
+  }
+
+  .caja {
+    border-style: solid;
+    border-color: black;
+    border-width: 5px;
+    text-align: center;
+  }
+
+  .caja-amarilla {
+    background-color: yellow;
+    padding: 10px;
+  }
+  
+  .caja-roja {
+    background-color: red;
+    padding: 20px;
+  }
+
+  .caja-verde {
+    background-color: green;
+    padding: 10px;
+  }
+</style>
+<h5 class="texto-predefinido">margin</h5>
+
+<div class="caja caja-amarilla">
+  <h5 class="caja caja-roja">padding</h5>
+  <h5 class="caja caja-verde">padding</h5>
+</div>
+
+En esta figura vemos que los recuadros verde y rojo están incluidos dentro del recuadro amarillo. A su vez, el recuadro rojo tiene mayor "padding" que el verde.
+
+**Ejercicio:** Teniendo en cuenta el código para los recuadros mostrados, modificar el "padding" del recuadro verde para que sea igual al recuadro rojo.
+
+```html
+<style>
+  .texto-predefinido {
+    margin-bottom: -25px;
+    text-align: center;
+  }
+
+  .caja {
+    border-style: solid;
+    border-color: black;
+    border-width: 5px;
+    text-align: center;
+  }
+
+  .caja-amarilla {
+    background-color: yellow;
+    padding: 10px;
+  }
+  
+  .caja-roja {
+    background-color: red;
+    padding: 20px;
+  }
+
+  .caja-verde {
+    background-color: green;
+    padding: 10px;
+  }
+</style>
+<h5 class="texto-predefinido">margin</h5>
+
+<div class="caja caja-amarilla">
+  <h5 class="caja caja-roja">padding</h5>
+  <h5 class="caja caja-verde">padding</h5>
+</div>
+```
+
+&nbsp;
+
+También es posible modificar el "padding" de cualquiera de los cuatro lados del elemento: **"padding-top"**, **padding-right**, **padding-bottom** y **padding-left**
+
+**Ejercicio:** Modificar el "padding" de la caja verde, pero únicamente sobre los lados superior e izquierdo. Luego definir valores diferentes para los lados inferior y derecho. Evaluar resultados.
+
+&nbsp;
+
+En lugar de especificar cada lado por eseparado, también es posible definir el "padding" de cada lado en una única sentencia. por ejemplo:
+
+```html
+padding: 10px 20px 10px 20px;
+```
+
+Estos valores corresponden de esta forma: superior, derecha, inferior, izquierda.
+
+&nbsp;
+
+* **Margin**
+
+La propiedad "margin" define la cantidad de espacio entre el borde de un elemento y los elementos que lo rodean.
+
+En esta imagen de ejemplo, podemos ver que la caja roja tiene mas "margin" que la verde:
+
+
+<style>
+  .texto-predefinido {
+    margin-bottom: -25px;
+    text-align: center;
+  }
+
+  .caja {
+    border-style: solid;
+    border-color: black;
+    border-width: 5px;
+    text-align: center;
+  }
+
+  .caja-amarilla {
+    background-color: yellow;
+    padding: 10px;
+  }
+  
+  .caja-roja {
+    background-color: red;
+    padding: 20px;
+    margin: 20px;
+  }
+
+  .caja-verde {
+    background-color: green;
+    padding: 10px;
+    margin: 10px;
+  }
+</style>
+<h5 class="texto-predefinido">margin</h5>
+
+<div class="caja caja-amarilla">
+  <h5 class="caja caja-roja">padding</h5>
+  <h5 class="caja caja-verde">padding</h5>
+</div> 
+
+Si aumentamos el margen de la caja verde, aumenta la distancia entre su borde y los elementos que lo rodean.
+
+&nbsp;
+
+**Ejercicio:** Intenten agregar la propiedad "margin" a las cajas verde y roja para lograr una imagen similar a la de arriba.
+
+Por el contrario, si disminuimos el "margin", la distancia entre los bordes y el resto de los elementos disminuye.
+
+&nbsp;
+
+**Ejercicio:** Intenten definir "margin" negativo para la caja verde y evalúen el resultado.
+
+&nbsp;
+
+***
+## **Body**
+Otro elemento en HTML es el llamado "Body". El mismo representa el cuerpo entero de la página y también cuenta con propiedades modificables. 
+
+Por ejemplo, podemos modificar su color mediante esta sentencia:
+
+```html
+body {
+  background-color: black;
+}
+```
+
+
+
 
 
 
