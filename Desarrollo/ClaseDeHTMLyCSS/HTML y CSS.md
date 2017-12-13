@@ -837,6 +837,202 @@ body {
 ```
 
 
+&nbsp;
+
+***
+
+## **Overrides**
+
+**Ejercicio-1:** Intenten crear ualgunos elementos h1 y h2 con un texto cualquiera, para luego modificar su color y tipo de letra pero agregando propiedades dentro del "body".
+
+**Ejercicio-2:** Luego observemos que ocurre cuando creamos una clase llamada "texto-rosado" que también modifique el color a rosado y se la apliquemos al texto ya creado. 
+
+**Ejercicio-3:** Crear una segunda clase llamada "texto-azul" que modifique el color del texto a azul y aplicarsela al mismo elemento que ya contaba con la clase "texto-rosado". Cual tiene preferencia?
+
+**Ejercicio-4:** Crear un id que tenga como propiedad el color anaranjado y asignarselo a uno de los elementos h1 y h2. Cual tiene preferencia entre todos?
+
+**Ejercicio-5:** Asignar un "in-line style" que defina el color blanco a uno de los elementos h1. Observen la precedencia. Esta es la nomenclatura: 
+
+```html
+<h1 style="color: green">"
+```
+
+&nbsp;
+
+Entonces, en resumen, podríamos afirmar lo siguiente:
+
+- Las clases hacen "override" sobre las propiedades definidas en el body
+
+- Si asignamos dos clases a un mismo elemento, los atributos que se pisen quedarán definidos por la ultima clase declarada en el "style"
+
+- Las propiedades del "id" hacen "override" sobre las propiedades de las clases
+
+- El tipo de style "in-line" hace "override" sobre todas las declaraciones en el "style"
+
+&nbsp;
+
+
+* **Keyword "!important"**
+
+Para los casos en los que nos queremos asegurar que un elemento reciba las propiedades adecuadas, podemos utilizar la palabra "!important" al costado de dicho elemento. Este tomará precedencia frente a cualquier otra propiedad.
+
+Por ejemplo: 
+
+```html
+<style>
+
+  .texto-rosado {
+    color: pink !important;
+  }
+  .texto-azul {
+    color: blue;
+  }
+</style>
+```
+
+
+&nbsp;
+
+***
+
+## **Representación de Colores**
+
+Los colores que venimos utilizando pueden ser definidos de distintas formas. 
+
+Representación hexadecimal:
+
+```html
+<style>
+
+  .texto-negro *
+  {
+    color: #000000;
+  }
+</style>
+```
+En esta representación se utilizan 2 digitos por cada color: rojo, verde y azul.
+
+También se pueden abreviar y en lugar de utilizar 6 digitos, se definen con 3, donde cada color tiene un único digito. En este caso, el rojo pasa de **"#FF0000"** a **"#F00"**
+
+&nbsp;
+
+Representación RGB (red, green, blue):
+
+```html
+<style>
+  body {
+    background-color: rgb(0, 0, 0);
+  }
+</style>
+```
+
+&nbsp;
+
+***
+
+## **Uso de Bootstrap**
+
+Bootstrap es una librería o framework utilizada para el diseño web. 
+
+&nbsp;
+
+**Auto-Ajuste del tamaño de Página**
+
+Entre otras cosas, podemos hacer que la página web ajuste sus medidas de forma automatica dependiendo del tamaño de la pantalla con la que estemos accediendo a la misma.
+
+De esta forma, no requeriremos definir diferentes páginas para diferentes dispositivos de acceso.
+
+Para poder utilizarla, debemos referenciar la librería con el elemento "link" de esta forma:
+
+```html
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+```
+
+Para lograr automatizar el ajuste del tamaño de la página, podemos utilizar la clase "container-fluid", asignandosela a los elementos HTML que contenga la misma.
+
+**Ejercicio-1:** Tomemos el código recientemente credo con las fotos de gatitos, agregemos un "div" que englobe todos los elementos HTML, por ultimo a este div asignarle la clase **"container-fluid"**, la cual viene dentro de la librería "bootstrap".
+
+&nbsp;
+
+**Auto-Ajuste del tamaño de Imagenes**
+
+También es posible automatizar el ajuste del tamaño para las imagenes. Esto se logra definiendo la clase **"img-responsive"** a una imagen. Por ejemplo:
+
+```html
+  <img src="https://bit.ly/fcc-running-cats" class="img-responsive" alt="Tres gatitos re tiernos corriendo ">
+```
+
+&nbsp;
+
+**Centrado de Texto**
+
+Mediante esta librería, tambien es posible centrar texto para que quede mas lindo. Lo único que deberíamos hacer es agregar la clase **"text-center"** a un elemento HTML:
+
+```html
+<h2 class="text-center">texto mucho mas lindo</h2>
+```
+
+&nbsp;
+
+**Botones**
+
+Bootstrap también cuenta con sus propios "styles" para los botones, y que también se ven mucho mas lindos :)
+
+Para esto, simplemente agregamos la clase **"btn"** a uno de nuestros botones:
+
+```html
+<button class="btn"> Botón mucho mas lindo y en este caso largo</button>
+```
+
+Normalmente, el largo del botón definido dependerá del texto que contenga. PEro es posible definirlo pra que tome todo el largo disponible. Para esto, podemos utilizar la clase **"btn-block"**.
+
+Mediante la clase **"btn-primary"**, podemos resaltar el botón, dandole un color predefinido. Como observación, las clases asociadas a los botones pueden también se pueden asociar, entonces podríamos tener un boton definido de esta forma:
+
+```html
+<button class="btn btn-block btn-primary"> Botonaso!</button>
+```
+
+Mediante la clase **"btn-info"**, podemos llamar la atención del usuario a visualizar una acción opcional, por ejemplo un botón de "más información". Esta clase le asignará otro color predefinido, menos llamativo que la clase "btn-primary".
+
+También contamos con la clase **"btn-danger"**, generalmente utilizada para comunicar al usuario que la acción será destructiva, por ejemplo el borrado de una foto.
+
+&nbsp;
+
+**Grids**
+
+Mediante Bootstraps también podemos hacer uso de **"grids"** o cuadriculas. Esto permite colocar elementos ordenados según filas y columnas como en una tabla.
+
+Para utilizar "grids", es necesario utilizar la clase **"row"**, la cual se aplica a los elementos html. A su vez,las filas cuentan con 12 espacios predefinidos, tal como se muestra en la siguiente imagen:
+
+  <a href="#"><img  src="https://i.imgur.com/FaYuui8.png" alt="A cute orange cat lying on its back. "></a>
+
+Luego, es ncesario definir el tamaño de la fila (xs, sm, md,lg) y la cantidad de columnas que utilizará de las 12 preestablecida. Estos parametros se incluyen en el nombre de la clase. Por ejemplo ".col-**xs**-**4**"
+
+Ejemplo con 3 botones:
+
+```html
+  <div class="row">
+
+    <div class="col-xs-4">
+      <button class="btn btn-block btn-primary">Me gusta</button>
+    </div>
+
+    <div class="col-xs-4">
+      <button class="btn btn-block btn-info">Info</button>
+    </div>
+
+    <div class="col-xs-4">
+      <button class="btn btn-block btn-danger">Borrar</button>
+    </div>
+
+  </div>
+```
+
+
+
+
+
+
 
 
 
