@@ -1028,9 +1028,81 @@ Ejemplo con 3 botones:
   </div>
 ```
 
+También es posible aplicar esta clase  a imagenes. Por ejemplo: 
+
+```html
+<div class="container-fluid">
+  <div class="row">
+    
+    <div class="col-xs-8">
+      </br>
+      </br>
+      <h2 class="text-primary text-center">La foto de un gatito</h2>
+    </div>
+    
+    <div class="col-xs-4">
+    <a href="#"><img class="img-responsive thick-green-border" src="https://bit.ly/fcc-relaxing-cat" "></a>
+    </div>
+    
+  </div>
+</div>
+```
+
+Si probamos este código, veremos que la imagen se ajusta al costado del texto en una misma línea.
+
+&nbsp;
+
+**Styles**
+
+Bootstrap cuenta con sus propios "Styles", por lo que es posible aplicarlos a diferentes elementos de nuestra página. 
+
+Por ejemplo, el Style **"text-primary"**
 
 
+&nbsp;
 
+***
+
+## **El tag "span"**
+
+El tag **"span"** es utilizado para crear o dividir elementos dentro de otros elementos (generalmente texto).
+
+De esta forma, es posible definir distintos formatos, colores o estilos a diferentes partes de un mismo elemento.
+
+Por ejemplo:
+
+```html
+<p> Tengo unos ojasos <span style="color:blue">azules</span> </p>
+```
+
+y quedaría de esta forma:
+
+<p>Tengo unos ojasos <span style="color:blue">azules</span> </p>
+
+&nbsp;
+
+***
+
+## **Font-Awesome**
+
+**"Font-Awesome"** es una librería de iconos. Estos iconos se manejan de la misma forma que las "fonts", especificando tamaño en pixels.
+
+Para poder utilizar esta librería, debemos agregar el siguiente código en nuestra página:
+
+```html
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"/>
+```
+
+Luego utilizamos el tag "i" para definir un ícono, asignandole una clase definida en la librería "Font-Awesome". 
+
+Por Ejemplo:
+
+<i class="fa fa-info-circle"></i>
+
+
+**Ejercicio-1:** Insertar una foto. Definirle un botón "Me gusta", y agregarle un ícono de "pulgar para arriba" al costado. OBS: la clase asociada al pulgar para arriba es la llamada "fa-thumbs-up".
+
+**Ejercicio-2:** A la misma foto, definirle un botón "Info" y otro "Borrar", luego agregarle un ícono de "info" y otro de "papelera" respectivamente. OBS: la clase asociada al ícono "info" es la llamada "fa-info-circle". Y "fa-trash" para la papelera.
 
 
 
