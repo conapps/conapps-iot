@@ -1004,7 +1004,7 @@ Mediante Bootstraps también podemos hacer uso de **"grids"** o cuadriculas. Est
 
 Para utilizar "grids", es necesario utilizar la clase **"row"**, la cual se aplica a los elementos html. A su vez,las filas cuentan con 12 espacios predefinidos, tal como se muestra en la siguiente imagen:
 
-  <a href="#"><img  src="https://i.imgur.com/FaYuui8.png" alt="A cute orange cat lying on its back. "></a>
+  <a href="#"><img  src="https://i.imgur.com/FaYuui8.png" ></a>
 
 Luego, es ncesario definir el tamaño de la fila (xs, sm, md,lg) y la cantidad de columnas que utilizará de las 12 preestablecida. Estos parametros se incluyen en el nombre de la clase. Por ejemplo ".col-**xs**-**4**"
 
@@ -1061,6 +1061,32 @@ Por ejemplo, el Style **"text-primary"**
 
 &nbsp;
 
+**Responsively Style Radio Buttons y Checkboxes**
+
+También es posible aplicar "bootstrap" a elementos del tipo "form", por ejemplo a los botones y checkbox. 
+
+**Ejercicio-1**: Dado el código a continuación, agregar un "div" con la clase "row" que englobe todos los elementos. Luego, anidar cada boton en "div" individuales con la clase "col-xs-6" y cada checkbox en "div" individuales con la clase "col-xs-4".
+
+```html
+  <form action="/submit-cat-photo">
+    <label><input type="radio" name="indoor-outdoor"> Indoor</label>
+    <label><input type="radio" name="indoor-outdoor"> Outdoor</label>
+    <label><input type="checkbox" name="personality"> Loving</label>
+    <label><input type="checkbox" name="personality"> Lazy</label>
+    <label><input type="checkbox" name="personality"> Crazy</label>
+    <input type="text" placeholder="cat photo URL" required>
+    <button type="submit">Submit</button>
+  </form>
+```
+
+&nbsp;
+
+
+
+
+
+&nbsp;
+
 ***
 
 ## **El tag "span"**
@@ -1104,10 +1130,56 @@ Por Ejemplo:
 
 **Ejercicio-2:** A la misma foto, definirle un botón "Info" y otro "Borrar", luego agregarle un ícono de "info" y otro de "papelera" respectivamente. OBS: la clase asociada al ícono "info" es la llamada "fa-info-circle". Y "fa-trash" para la papelera.
 
+&nbsp;
 
 
+**Fomr Control con Style Text Input**
+
+Mediante los "style" de Bootstrap, podemos también modificar los botones y el campo de texto asociados al "input". Por ejemplo, agregando el icono "fa-paper-plane" a un botón "enviar".
+
+**Ejercicio-1:**Dado el código a continuación, asignar la clase "form-control" al elemento "input". Luego, al elemento "button", asignarle las clases "btn btn-primary". Por ultimo,anidar el string "enviar" dentro de un elemento i que tenga las clases "fa fa-paper-plane"
+
+```html
+<input type="text" placeholder="Nombre de la foto" required>
+
+<button type="submit">Enviar</button>
+```
+
+&nbsp;
+
+***
+
+## **Bootstrap Wells**
+
+Bootstrap cuenta con una clase llamada "well". Al aplicar esta  clase, se crea la sensación visual de profundidad en las columnas.
+
+**Ejercicio-1:** Dado el código a continuación, a cada "div" con clase "col-xs-6", agregarle otro div y asignarle la clase "well". Evaluar resultado
 
 
+```html
+<div class="container-fluid">
+  <h3 class="text-primary text-center">Jugando con jQuery</h3>
+  <div class="row">
+    <div class="col-xs-6">
+
+    </div>
+    <div class="col-xs-6">
+
+    </div>
+  </div>
+</div>
+```
+
+**Ejercicio-2:** Anidar tres botones dentro de cada elemento "div" con clase "well". Luego, aplicar las clases "btn btn-default" a estos botones.
+
+**Ejercicio-3:** Anidar un "id" a cada elemento "div" que tenga la clase "well". Luego, añadir un "id" a cada botón (por ej. boton1, boton2). Por ultimo, a cada botón agregarle el texto correspondiente a su nombre. 
+
+El contar con "id" para los elementos, nos permitirá modificarlos mas adelante mediante JQuery, sin la necesidad de editarlos en el código HTML.
+
+
+&nbsp;
+
+***
 
 
 
