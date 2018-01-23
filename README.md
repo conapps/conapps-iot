@@ -77,3 +77,4 @@ Contribuidores
 - Guillermo Barboza [gbarboza@conatel.com.uy](mailto://gbarboza@conatel.com.uy).
 - Daniel Cetti [dcetti@conatel.com.uy](mailto://dcetti@conatel.com.uy).
 - Eduardo Paredes [eparedes@conatel.com.uy](mailto://eparedes@conatel.com.uy).
+- Agustin Navcevich [anavcevich@conatel.com.uy](mailto://anavcevich@conatel.com.uy)
