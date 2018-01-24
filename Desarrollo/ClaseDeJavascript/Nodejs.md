@@ -84,7 +84,7 @@ sayHelloInSpanish: function() {
 ```
 Importemos los métodos de `greetings.js` disponibles públicamente a un nuevo archivo llamado `main.js`. Este proceso se puede describir en tres pasos:
 
-a) La palabra clave requerida se usa en `Node.js` para importar módulos. Imagine que así se define la necesidad:
+a) La palabra clave `require` se usa en `Node.js` para importar módulos. Imagine que así se define la necesidad del modulo:
 ```js
 var require = function(path) {
 
@@ -101,7 +101,7 @@ var greetings = require("./greetings.js");
 
 ```
 
-c) Ahora podemos acceder a los métodos de saludos disponibles públicamente. js como propiedad de nuestra variable greetings en main. js.
+c) Ahora podemos acceder a los métodos de `greetings.js` disponibles públicamente como propiedad de nuestra variable greetings en `main.js`.
 
 ```js
 // main.js
@@ -116,7 +116,7 @@ greetings.sayHelloInSpanish();
 ```
 
 #### Puntos importantes
-La palabra clave requiere devolver un objeto, que hace referencia al valor del `module.exports`para un archivo dado. Si un desarrollador vuelve a asignar de forma involuntaria o intencionada el `module.exports` a un objeto diferente o a una estructura de datos diferente, las propiedades añadidas al módulo original no serán accesibles.
+La palabra clave `require` devuelve un objeto, que hace referencia al valor del `module.exports`para un archivo dado. Si un desarrollador vuelve a asignar de forma involuntaria o intencionada el `module.exports` a un objeto diferente o a una estructura de datos diferente, las propiedades añadidas al módulo original no serán accesibles.
 
 Un ejemplo ayudará a elaborar este punto:
 
