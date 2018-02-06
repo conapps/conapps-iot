@@ -326,6 +326,139 @@ function finishedReading(error, movieData) {
 ```
 
 _______
+## Express.js
 
-![GitHub Logo](/flow.png)
+A medida que la mayoría de los proyectos de `node` comienzan, abra su terminal e inicie con la inicialización de `npm` para crear un archivo `package.json`. A continuación, instale Express como una dependencia.
+
+```
+  npm init
+  npm install --save express
+```
+### Hola Mundo
+
+Empezaremos con el ejemplo clásico de "hola mundo", explicaremos eso y luego construiremos a partir de ahí.
+
+
+```js
+const express = require('express');
+const app = express();
+
+app.get('/', (request, response) => {
+  response.send('hello world');
+});
+
+app.listen(3000, () => {
+  console.log('Express intro running on localhost:3000');
+});
+
+```
+
+La primera línea requiere el módulo `Express` que fue instalado vía `npm`, y la segunda línea configura nuestra aplicación `Express`. Con esta aplicación(app), puede configurar y añadir funcionalidad a su servidor.
+
+La función `app.listen()` le indica al servidor que empiece a escuchar las conexiones en un puerto concreto, en este caso el puerto 3000. Cuando el servidor está listo para escuchar las conexiones, se llama la llamada de retorno y los registros `Express` se ejecutan en `localhost:3000` en el terminal.
+
+La última parte es el gestor de rutas:
+
+Esta parte es bastante densa porque `Express` es capaz de dar mucha funcionalidad con muy poco código. `app.get()` crea un gestor de rutas para escuchar las peticiones GET de un cliente. El primer argumento en esta función es el recorrido de la ruta. En este caso, estamos a la escucha de peticiones `GET` en `localhost: 3000/`. Si quisiéramos escuchar una petición POST, entonces usaríamos `app.post()` - paa ua `petición PUT, `app.put()`, y así sucesivamente para cualquier otro método HTTP.
+
+El segundo argumento es una función de devolución de llamada que toma un objeto de solicitud y un objeto de respuesta. El objeto de solicitud contiene información sobre la solicitud procedente del cliente (cabeceras de solicitud, parámetros de consulta, cuerpo de la solicitud, etc.). El objeto de respuesta contiene información que queremos enviar como respuesta al cliente. El objeto de respuesta también tiene funciones que nos permiten enviar una respuesta.
+
+Dentro de `app.get()`, la `response.send(' hello world')envía una respuesta con contenido en el cuerpo de la respuesta. En este caso, el cuerpo contiene el  texto plano. Ahora sabemos cómo configurar una ruta!
+
+
+### Middleware
+
+Cada pieza de middleware es sólo otro manejador de solicitudes. Comienzas mirando al primer gestor de solicitudes, luego miras al siguiente, al siguiente, al siguiente, y así sucesivamente.
+
+![Flow](flow.png)
+
+Así es como se ve el middleware básicamente:
+
+```js
+function myFunMiddleware(request, response, next) {
+   // hacer cosas con request y response.
+   // Cuando terminamos, llamamos next() para pasarle la posta al siguiente middleware.
+   next();
+}
+
+```
+
+Cuando iniciamos un servidor, empezamos en el middleware más alto y nos abrimos camino hasta el fondo. Así que si quisiéramos añadir un simple registro a nuestra aplicación, ¡podríamos hacerlo!
+
+```js
+
+var express = require("express");
+var app = express();
+
+// Logging middleware
+app.use(function(request, response, next) {
+  console.log("In comes a " + request.method + " to " + request.url);
+  next();
+});
+
+// Mandar "hello world"
+app.use(function(request, response) {
+  response.writeHead(200, { "Content-Type": "text/plain" });
+  response.end("Hello world!\n");
+});
+
+http.createServer(app).listen(1337);
+
+```
+
+Es importante notar que cualquier cosa que funcione en Node.js también funciona en middleware. Por ejemplo, si desea inspeccionar con `req.method`, está justo ahí.
+
+### Routing
+
+Estamos en la cima de nuestra montaña de abstracción. 
+
+El enrutamiento es una forma de mapear diferentes peticiones a manejadores específicos. Básicamente haríamos esto con un montón de declaraciones de if normalmente.
+
+Pero Express es más inteligente que eso. Express nos da algo llamado "enrutamiento" que creo que se explica mejor con código que con español:
+
+```js
+var express = require("express");
+var http = require("http");
+var app = express();
+
+app.all("*", function(request, response, next) {
+  response.writeHead(200, { "Content-Type": "text/plain" });
+  next();
+});
+
+app.get("/", function(request, response) {
+  response.end("Welcome to the homepage!");
+});
+
+app.get("/about", function(request, response) {
+  response.end("Welcome to the about page!");
+});
+
+app.get("*", function(request, response) {
+  response.end("404!");
+});
+
+```
+
+Después de los requisitos básicos, decimos "cada petición pasa por esta función" con `app.all`. Y esa función se parece mucho al middleware, ¿no?
+
+Las tres llamadas a `app.get` son el sistema de enrutamiento de Express. También pueden ser `app.post`, que responden a peticiones POST, o PUT, o cualquiera de los verbos HTTP. El primer argumento es un path, como /about o /. El segundo argumento es un manejador de solicitudes similar a lo que hemos visto antes. 
+
+Para citar la documentación de Express:
+
+>[Estos manejadores de solicitudes] se comportan igual que el middleware, con la única excepción de que estas llamadas de retorno pueden invocar la siguiente (' ruta') para pasar por alto la(s) llamada(s) de retorno de ruta restantes. Este mecanismo se puede utilizar para realizar precondiciones en una ruta y luego pasar el control a rutas posteriores cuando no hay razón para proceder con la ruta emparejada.
+
+En resumen: básicamente son middleware como hemos visto antes.
+
+Estas rutas pueden volverse más inteligentes, con cosas como ésta:
+
+
+```js
+
+app.get("/hello/:who", function(req, res) {
+  res.end("Hello, " + req.params.who + ".");
+});
+
+```
+
 ## CONTINUARA
