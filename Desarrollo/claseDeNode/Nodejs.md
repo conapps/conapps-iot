@@ -1,11 +1,15 @@
-#  Node.js
+#  Classes Node & Express
 
 ## Temas
++ Conceptos importantes `Node`
+  * Modularizacion
+  * Callbacks
++ Express
++ Librerias Node
+  * JWT
+  
 
-* Modularizacion
-* Callbacks
-
-## Repaso
+## Introducción
 
 Node.js es un entorno de ejecución para JavaScript construido con el motor de JavaScript V8 de Chrome. Node.js usa un modelo de operaciones E/S sin bloqueo y orientado a eventos, que lo hace liviano y eficiente. 
 
@@ -365,14 +369,20 @@ El segundo argumento es una función de devolución de llamada que toma un objet
 
 Dentro de `app.get()`, la `response.send(' hello world')envía una respuesta con contenido en el cuerpo de la respuesta. En este caso, el cuerpo contiene el  texto plano. Ahora sabemos cómo configurar una ruta!
 
+Ahora agreguemos complejidad para poder ir construyendo nuestra aplicacion. Uno de los conceptos que se introducira es eld e middleware.
 
 ### Middleware
 
 Cada pieza de middleware es sólo otro manejador de solicitudes. Comienzas mirando al primer gestor de solicitudes, luego miras al siguiente, al siguiente, al siguiente, y así sucesivamente.
 
+Como funciona una API HTTP en `Express`:
+![Flow2](https://cdn-images-1.medium.com/max/1000/0*8HIzvtX-DA3C26uv.png)
+
+Otra forma de verlo:
 ![Flow](flow.png)
 
-Así es como se ve el middleware básicamente:
+
+Así es como se ve el middleware básicamente en codigo:
 
 ```js
 function myFunMiddleware(request, response, next) {
@@ -460,5 +470,98 @@ app.get("/hello/:who", function(req, res) {
 });
 
 ```
+Y con esto tenemos los conocimientos basicos para usar express con `Node`
 
+# Librerias
+
+## JWT
+
+#### ¿Qué es JSON Web Token?
+
+JSON Web Token (JWT) es un estándar abierto (RFC 7519) que define una forma compacta y autónoma para la transmisión segura de información entre partes como un objeto JSON. Esta información se puede verificar y confiar porque está firmada digitalmente. Los JWTs pueden ser firmados usando un secreto (con el algoritmo HMAC) o un par de claves públicas/privadas usando RSA.
+
++ Compacto: Debido a su tamaño más pequeño, los JWTs se pueden enviar a través de una URL, parámetro POST o dentro de un encabezado HTTP. Además, el tamaño más pequeño significa que la transmisión es rápida.
+
++ Autónomo: La carga útil contiene toda la información necesaria sobre el usuario, evitando la necesidad de consultar la base de datos más de una vez.
+
+#### ¿Cuándo debería usar JSON Web Tokens?
+
+Éstos son algunos de los escenarios donde JSON Web Tokens son útiles:
+
+Autenticación: Este es el escenario más común para usar JWT. Una vez que el usuario haya iniciado sesión, cada solicitud posterior incluirá el JWT, lo que permitirá al usuario acceder a las rutas, servicios y recursos permitidos con ese testigo. 
+
+Intercambio de Información: Los Web Tokens de JSON son una buena manera de transmitir información entre las partes de forma segura. Debido a que los JWTs pueden ser firmados -por ejemplo, usando pares de claves públicas/privadas- usted puede estar seguro de que los remitentes son quienes dicen ser. Además, como la firma se calcula utilizando el encabezado y la carga útil, también puede verificar que el contenido no ha sido manipulado.
+
+#### ¿Qué es la estructura de JSON Web Token?
+
+Los Web Tokens de JSON consisten en tres partes separadas por puntos (.), que son:
+
+* Cabecera
+* Carga útil
+* Firma
+
+Por lo tanto, un JWT típicamente se parece a lo siguiente.
+
+`xxxxx. yyyyyyy. zzzzzzzzz`
+
+Dividamos las diferentes partes.
+
+##### Cabecera
+El encabezado normalmente consta de dos partes: el tipo token, que es JWT, y el algoritmo de hashing que se está utilizando, como HMAC SHA256 o RSA.
+
+Por ejemplo, por ejemplo:
+
+```JSON
+{
+  "alg":"HS256",
+  "tip":"JWT"
+}
+```
+
+Entonces, este JSON es Base64Url codificado para formar la primera parte del JWT.
+
+##### Carga útil
+La segunda parte del token es la carga útil, que contiene las pretensiones. Las prestensiones son declaraciones sobre una entidad (normalmente, el usuario) y metadatos adicionales. Existen tres tipos de pretensiones: registradas, públicas y privadas.
+
+Prestensiones registradas: Se trata de un conjunto de prestensiones predefinidas que no son obligatorias pero que se recomiendan, para proporcionar un conjunto de prestensiones útiles e interoperables. Algunos de ellos son: iss (emisor), exp (tiempo de expiración), sub (sujeto), aud (audiencia) y otros.
+
+Tenga en cuenta que los nombres de las prestensiones sólo tienen tres caracteres, ya que JWT debe ser compacto.
+
+Prestensiones públicas: Estas pueden ser definidas a voluntad por los usuarios de JWTs. Pero para evitar colisiones deben ser definidos en el Registro Web Token de IANA JSON o ser definidos como URI que contiene un espacio de nombres resistente a colisiones.
+
+prestensiones privadas: Son las prestensiones aduaneras creadas para compartir información entre partes que acuerdan utilizarlas y que no están registradas ni son prestensiones públicas.
+
+Un ejemplo de carga útil podría ser:
+```JSON
+{
+  "sub":"1234567890",
+  "nombre":"Juan Nadie",
+  "admin": true
+}
+```
+
+La carga útil es entonces Base64Url codificada para formar la segunda parte del JSON Web Token.
+
+##### Firma
+Para crear la parte de firma hay que tomar el encabezado codificado, la carga útil codificada, un secreto, el algoritmo especificado en el encabezado y firmarlo.
+
+Por ejemplo, si desea utilizar el algoritmo HMAC SHA256, la firma se creará de la siguiente manera:
+```js
+HMACSHA256(
+  base64UrlEncode (cabecera) + "." +
+  base64UrlEncode (carga de pago),
+  secreto)
+  
+```
+
+La firma se utiliza para verificar que el remitente del JWT es quien dice ser y para asegurarse de que el mensaje no ha cambiado en el camino.
+
+Poniendo todo junto
+La salida es de tres cadenas Base64 separadas por puntos que se pueden pasar fácilmente en entornos HTML y HTTP, mientras que son más compactas en comparación con los estándares basados en XML como SAML.
+
+A continuación se muestra un JWT que tiene el encabezado anterior y la carga útil codificada, y está firmado con un secreto. Codificado JWT
+
+![jwt](https://cdn.auth0.com/content/jwt/encoded-jwt3.png)
+
+_____
 ## CONTINUARA
