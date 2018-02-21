@@ -564,4 +564,4 @@ A continuación se muestra un JWT que tiene el encabezado anterior y la carga ú
 ![jwt](https://cdn.auth0.com/content/jwt/encoded-jwt3.png)
 
 _____
-## CONTINUARA
+
