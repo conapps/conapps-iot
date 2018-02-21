@@ -257,5 +257,4 @@ function bar (callback) {
 }
 ```
 ___
-# Por mas informacion
-[link](Repaso.md)
+# [Mas informacion](Repaso.md)
