@@ -436,23 +436,25 @@ De esta forma, cualquier instancia que ahora creemos en nuestra subred privada v
 En esta sección, veremos lo que se refiere a elementos de seguridad dentro de la custom VPC en la cuál venimos trabajando, específicamente *Security Groups* y *Network ACLs*.
 
 ### Security Groups
-Un *security group* funciona como un firewall virtual que controla el tráfico de una o varias instancias. En cada grupo de seguridad, agregamos una o varias reglas que permiten controlar el tráfico entrante y/o saliente hacia/desde las instancias EC2 asociadas con el mismo.
+Un *security group* funciona como un firewall virtual que controla el tráfico a una o varias instancias. En cada *security group* agregamos reglas que permiten controlar el tráfico entrante y/o saliente hacia/desde una o varias instancias EC2 asociadas.
 
-Si vemos nuestro diagrama, agregamos los *security groups*, con las instancias de EC2 dentro de estos.
+Si vemos nuestro diagrama, los *security groups* tienen dentro a las instancias de EC2, dado que controlan que tráfico fluye hacia/desde las mismas.
 ![alt text](./images/security_groups_01.png)
 
 
 #### Consideraciones para los Security Groups
 Hay algunas reglas que debemos tener en cuenta para los *security groups*:
-* actúan en el ámbito de la instancia, no a nivel de la subred.
-* se pueden asociar hasta 5 *security groups* a una instancia.
-* por defecto permiten todo el tráfico de salida, salvo que nosotros lo restrinjamos.
-* solo admite reglas "permisivas", es decir, no podemos crear reglas que bloqueen accesos (*deny*).
-* son con estado (*stateful*), si enviamos un request desde nuestra instancia el tráfico de retorno a ese request se admite automáticamente, independientemente de las reglas de entrada que tengamos definidas.
-* podemos crear/modificar reglas al security group en cualquier momento y las mismas se aplican inmediatamente.
+* Por defecto permiten todo el tráfico de salida, salvo que nosotros lo restrinjamos.
+* Solo admite reglas "permisivas", es decir, no podemos crear reglas que bloqueen accesos (*deny*).
+* Son de tipo *stateful*, por lo cual ante un tráfico entrante que se encuentra permitido, la respuesta al mismo será permitida en forma automática, independientemente de las reglas de salida que tengamos definidas.
+* Podemos crear/modificar reglas al security group en cualquier momento y las mismas se aplican inmediatamente.
+* Actúan en el ámbito de la instancia EC2, no a nivel de la subred.
+* Se pueden asociar hasta 5 *security groups* a una instancia.
 
 
 #### Creando Security Groups
+Los *security groups* se pueden configurar tanto desde el panel de VPC como en EC2.
+
 Vamos a configurar dos ejemplos, con dos *security group*, habilitando diferente tipo de tráfico para nuestro servidor web (ubicado en la subred pública) y para el servidor de base de datos (ubicado en la subred privada).
 
 Para la instancia del servidor web, vamos a crear un *security group* que permita el siguiente tráfico:
@@ -461,16 +463,17 @@ Para la instancia del servidor web, vamos a crear un *security group* que permit
 | HTTP     | TCP           | 80         | 0.0.0.0/0   |
 | HTTPS    | TCP           | 443        | 0.0.0.0/0   |
 | SSH      | TCP           | 22         | 10.0.0.0/32 |
-Al ser una instancia con Linux, vamos a habilitar SSH desde nuestra red interna, además de los puertos de HTTP/HTTPS. El SSH podríamos habilitarlo a todo el mundo si quisieramos, aunque resulta una buena práctica restringirlo a la red desde la cuales voy a acceder al aquipo.
 
-Mientras que para la instancia del servidor de base de datos, vamos a crear otro *seciruty group*, que permita el siguiente tráfico:
+Vamos a habilitar el tráfico HTTP/HTTPS entrante desde cualquier origen. Y además, al ser una instancia con Linux vamos a habilitar SSH desde nuestra red interna. El SSH podríamos habilitarlo desde cualquier origen si quisiéramos (0.0.0.0/0), pero resulta una buena práctica restringirlo a la red desde la cuál se que voy a acceder al equipo.
+
+Para la instancia del servidor de base de datos, vamos a crear otro *seciruty group*, que permita el siguiente tráfico:
 | Tipo     | Protocolo     | Puertos    | Origen      |   
 |:--------:|:-------------:|:----------:|:-----------:|
 | MS SQL   | TCP           | 1433       | 0.0.0.0/0   |
 | RDP      | TCP           | 3389       | 10.0.0.0/32 |
-En este caso al ser una instancia con Windows, habilitamos RDP desde la red interna para poder administrar el equipo con mayor facilidad.
+En este caso habilitamos el tráfico al puerto de MS-SQL, y al ser una instancia con Windows habilitamos también RDP desde la red interna para poder administrar el equipo con mayor facilidad.
 
-En ambos casos, cualquier otro tráfico debe ser bloqueado.
+En ambos casos, cualquier otro tráfico entrante debe ser bloqueado.
 
 **Primer Security Group (Web Servers)**
 Vayamos entonces al **VPC Dashboard** y seleccionemos la opción *Security Groups* en el menú de la izquierda. Podemos ver que se listan los que tenemos definidos actualmente, y seleccionamos *Create Security Group*:
@@ -479,7 +482,6 @@ Vayamos entonces al **VPC Dashboard** y seleccionemos la opción *Security Group
 
 Indicamos el nombre del *security group*, en este caso le vamos a poner *iot-cloud-SG-webservers*, una descripción, y seleccionamos la VPC donde lo vamos a crear (*iot-cloud-vpc*):
 ![alt text](./images/security_groups_03.png)
-
 
 Una vez creado el security group, si vamos a ***Inbound Rules*** vemos que no hay reglas de entrada definidas, dado que por defecto no se le asigna ninguna:
 ![alt text](./images/security_groups_04.png)
@@ -514,27 +516,89 @@ También agregamos la regla para el tráfico RDP desde nuestra red privada (10.0
 ![alt text](./images/security_groups_10.png)
 
 
+*Ref:*
+[VPC Security Groups](https://docs.aws.amazon.com/es_es/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html)
+[Comparación entre Security Groups y Network ACL](http://docs.aws.amazon.com/es_es/AmazonVPC/latest/UserGuide/VPC_Security.html#VPC_Security_Comparison)
 
 
 
 
+### Network Accsess Control List (ACL)
+Una network ACL es una capa de seguridad adicional para la VPC que actúa como un firewall y permite controlar el tráfico entrante y saliente de una o varias subredes.  Se pueden configurar network ACLs con reglas similares a los security groups, para agregar una capa de seguridad a la VPC.
+
+ Si vemos nuestro diagrama, agregamos los *Network ACLs*:
+ ![alt text](./images/network_acl_01.png)
+
+
+Las ACLs se encuentran entre las *route tables* y las *subnets*:
+![alt text](./images/network_acl_02.png)
+
+Existe una ***default ACL*** la cual se encuentra predefinida, que permite todo el tráfico entrante y saliente hacia las subredes asociadas a una VPC. Tanto las reglas de tráfico de entrada (*Inbound Rules*) como de salida (*Outbound Rules*) se encuentran configuradas por defecto de la siguiente forma:
+  ![alt text](./images/network_acl_03.png)
+
+Toda ACL posee una regla, cuyo número de regla (*Rule #*) es un \*. Esta regla asegura que si un paquete no aplica - *"no machea"* - a ninguna de las reglas anteriores, el paquete es bloqueado. Esta regla no puede ser modificada ni eliminada.
+
+Las reglas se aplican en orden ascendente de acuerdo al número de regla. En el ejemplo anterior, el paquete se compara con la primer regla que es la #100 (que permite todo el tráfico desde cualquier origen) y por tanto esta regla aplica - *"machea"* y el tráfico es permitido. Si por ejemplo esa regla #100 no estuviera, se va a aplicar la siguiente regla que es la \* y el tráfico va a ser bloqueado.  
+
+
+#### Consideraciones para las Network ACLs
+Hay algunas reglas que debemos tener en cuenta para las *network ACLs*:
+* Cada subred de una VPC debe estar necesariamente asociada a una ACL. Si no asociamos una *custom ACL* a la subnet, se va a asociar por defecto la *defualt ACL*.
+* Una subred puede ser asociada únicamente a una ACL.
+* Una ACL puede ser asociada a múltiples subredes.
+* La ACL contiene una lista de reglas numeradas las cuales son evaluadas en orden ascendente, comenzando con la menor.
+* En el momento en que una regla concuerda con el tráfico (*"machea"*) la misma es aplicada y no se evalúan mas reglas, no importa si existe otra regla con un número mayor que contradiga.
+* Las ACLs son *stateless*, por lo cual la respuesta a un tráfico entrante permitido, estará sujeta a las reglas de trafico saliente. Si no tenemos una regla que permita salir esa respuesta, la misma será bloqueada. Esto es una diferencia importante respecto a los *Security Groups* que vimos anteriormente, que por defecto permite salir la respuesta.
 
 
 
-.
-.
-.
-..
+#### Trabajando con Network ACLs
+Las *ACLs* se configuran dentro del panel de VPC.
+
+Seleccionamos la VPC, en este caso *iot-cloud-vpc*, y en la parte inferior podemos ver las reglas de entrada (*Inbound Rules*) y de salida (*Outbound Rules*).
+
+Aquí podemos ver la *default ACL* (tal como lo indica la columna *"Default=Yes"*), con las reglas predefinidas para la VPC:
+  ![alt text](./images/network_acl_04.png)
+
+Podemos **asignarle un nombre a la ACL** para que la misma pueda ser mejor identificada, por ejemplo:
+  ![alt text](./images/network_acl_05.png)
+
+Para agregar una nueva regla, seleccionamos **Edit** y luego **Add another rule**, y configuramos las reglas permitiendo o bloqueando el tráfico que deseamos. Por ejemplo podríamos permitir el tráfico HTTP/HTTPs entrante desde cualquier origen, y bloquear cualquier otro tráfico:
+  ![alt text](./images/network_acl_06.png)
+
+Claro que para que esto funcione como pretendemos, debemos eliminar la regla #100 que por defecto permite todo el tráfico entrante (o podemos directamente modificar dicha regla):
+  ![alt text](./images/network_acl_07.png)
+
+Y si fuera necesario agregar las reglas correspondientes de *Outbound* para permitir las respuestas hacia afuera. En este caso todo el tráfico saliente es permitido por defecto:
+  ![alt text](./images/network_acl_08.png)
 
 
-### Network ACLs
-Puede configurar ACL de red con reglas similares a sus grupos de seguridad para añadir una capa de seguridad adicional a su VPC. Para obtener más información acerca de las diferencias entre los grupos de seguridad y las ACL de red, consulte Comparación de grupos de seguridad y ACL de red.
+También es importante verificar que subredes de la VPC se encuentran asociadas a esta ACL. En este caso, como estamos editando la *default ACL* la misma se encuentra por defecto asociada a las dos subredes que habíamos definido antes en la VPC, esto lo vemos en el tab **Subnet Associations**:
+  ![alt text](./images/network_acl_09.png)
+
+
+Si queremos **crear una nueva ACL** para la VPC, lo hacemos mediante *Create Network ACL*. Indicamos el nombre de la ACL y seleccionamos sobre que VPC va a aplicar:
+  ![alt text](./images/network_acl_10.png)
+
+Una vez creada podemos ver la columna *"Default=No"* dado que obviamente no es la ACL por defecto, y tampoco tiene ninguna subred asociada. Podemos configurar esta ACL tal como lo hicimos con la anterior, y recordar aplicarla a alguna de las subnets para que tenga efecto sobre la misma.
+  ![alt text](./images/network_acl_11.png)
+
 
 
 
 *Ref:*
-[VPC Security Groups](http://docs.aws.amazon.com/es_es/AmazonVPC/latest/UserGuide/VPC_SecurityGroups.html)
-[Comparación de grupos de seguridad y ACL de red](http://docs.aws.amazon.com/es_es/AmazonVPC/latest/UserGuide/VPC_Security.html#VPC_Security_Comparison)
+[VPC Network ACL](https://docs.aws.amazon.com/es_es/AmazonVPC/latest/UserGuide/VPC_ACLs.html)
+[Comparación entre Security Groups y Network ACL](http://docs.aws.amazon.com/es_es/AmazonVPC/latest/UserGuide/VPC_Security.html#VPC_Security_Comparison)
+
+
+
+
+
+
+
+
+
+
 
 
 
