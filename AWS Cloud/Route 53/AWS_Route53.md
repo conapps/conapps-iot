@@ -7,17 +7,41 @@ Amazon Domain Name System: Route 53
 
 
 ## Indice
----
+
 - [Introducción](#introduccion)
 
 ---
-## Introducción ##
----
+## Introducción
+
 ### ¿Qué es Amazon Domain Name System (Route 53)? 
 
-Amazon Route 53 es un servicio DNS (Sistema de nombres de dominio) escalable y de alta disponibilidad en la nube. Está diseñado para ofrecer a los desarrolladores y las empresas un método confiable y rentable para redirigir a los usuarios finales a las aplicaciones en Internet convirtiendo nombres legibles para las personas como www.ejemplo.com en direcciones IP numéricas como 192.0.2.1 que utilizan los equipos para conectarse entre ellos. Amazon Route 53 también es conforme con IPv6.
+Amazon Route 53 es un servicio DNS (Sistema de nombres de dominio)
+escalable y de alta disponibilidad en la nube. Está diseñado para 
+ofrecer a los desarrolladores y las empresas un método confiable y
+rentable para redirigir a los usuarios finales a las aplicaciones en
+Internet convirtiendo nombres legibles para las personas como 
+www.ejemplo.com en direcciones IP numéricas como 192.0.2.1 que 
+utilizan los equipos para conectarse entre ellos. 
+Amazon Route 53 también es compatible con IPv6.
 
+---
+## Costos
 
+Existen cientos de proveedores de dominios en internet, Amazon es uno de
+ellos. Dichos costos van desde los U$S 9 a varios cientos de dolares. 
+Pueden encontrar más información en [Precios Route 53](https://d32ze2gidvkk54.cloudfront.net/Amazon_Route_53_Domain_Registration_Pricing_20140731.pdf).
+Dicho costo no es reembolsable.
+
+Cuando registramos un dominio, automáticamente se crea un hosted zone
+con el mismo nombre que el dominio registrado. Las hosted zones 
+especifican a donde debe ir dirigido el tráfico de nuestro dominio
+
+El costo de cada hosted zone es de U$S 0.50 por mes. 
+Por otro lado, también existen costos asociados para:
+
+- Cantidad de queries.
+- Tipo de queries.
+- Health Checks
 
 ### Beneficios de Route 53
 
@@ -28,17 +52,38 @@ ToDo
 ToDo
 
 ---
-## Conceptos Básicos ##
+## Conceptos Básicos DNS
 
-- Servidor autoritativo vs no-autoritativo
+
+- Top-level domain (TLD)
+
+Es la última parte de un nombre de dominio, por ejemplo .com, .org.
+Podemos consultar la lista disponible de TLD de AWS en [Amazon TLD List](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html).
+
+Existen dos tipos de TLD 
+
+- Generic top-level domains
+
+Generalmente, este tipo de TLDs le da al usuario final una idea básica
+de que encontrará en el sitio. Por ejemplo; un TLD .bike sabemos que 
+vamos a encontrar algo relacionado a bicicletas o motos.
+
+Otro ejemplo puede ser, .xxx ¿Se imaginan que pueden encontrar?
+ 
+  
+- Geographic top-level domains
+
+Este tipo de TLD, está asociado a las ubicaciones geográficas como 
+por ejemplo paises o ciudades. Por ejemplo; .uy .br, etc.
+
 
 ---
-## Hosted Zone ##
+## Hosted Zone
 
 ToDo
 
 ---
-## Tipos de Registros ##
+## Tipos de Registros
 
 ToDo
 
@@ -105,17 +150,6 @@ ToDo
 
 ToDo
 
-
----
-## Precios
-
-ToDo
-
-- Cantidad de Zonas.
-- Cantidad de queries.
-- Tipo de queries.
-- Health Checks
-- Dominios comprados
 
 ---
 ## Service Level Agreement (SLA)
