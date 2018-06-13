@@ -78,7 +78,7 @@ $ aws ecr list-images --repository-name greengrow/mysql-server
 * Finalmente descargo la imagen.
 
 ```
-$ docker pull 805750336955.dkr.ecr.us-east-1.amazonaws.com/greengrow/mysql-server:latest
+$ docker pull 805750336955.dkr.ecr.us-east-1.amazonaws.com/greengrow/mysql-server:develop
 ```
 
 Iniciar el contenedor con MySQL 
@@ -111,7 +111,7 @@ levanta el motor mysql, crea una bbdd llamada testdb y crea un usuario llamado m
 
 De esta forma, nos queda una "Maquina Virtual" con MySQL instalado y 100% funcional. 
 
-##Otros comandos útiles
+### Otros comandos útiles
 
 - Para conectarse al contenedor donde está corriendo mysql
 ```
