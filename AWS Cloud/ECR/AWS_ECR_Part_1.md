@@ -26,7 +26,7 @@ pueden seguir la [siguiente guia](https://github.com/conapps/conapps-iot/blob/ma
 Powered by @Ismael.
 
 * **Instalar Docker-compose**. Si no lo tienen instalado,  
-pueden seguir la [siguiente guia]() paso a paso.
+pueden seguir la [siguiente guia](https://github.com/conapps/conapps-iot/blob/master/Desarrollo/claseDeDocker/20180615-Docker-Compose.md) paso a paso.
 
 
 * **Configurar la CLI de AWS**. Si no la tienen instalada y configurada, 
@@ -42,7 +42,7 @@ Default output format [None]: json
 **Nota:** las credenciales para el tenant de AWS Develop, se las paso por MS Teams.
 
 
-Descargar imagen desde AWS ECR 
+Pull image from AWS ECR 
 ---
 
 * Describir los repositorios de AWS ECR
@@ -51,70 +51,116 @@ Para descargar una imagen, es necesario conocer en que repo se encuentra,
 para eso utilizamos el comando describe-repositories.
 ```
 $ aws ecr describe-repositories
-
 {
     "repositories": [
         {
-            "repositoryName": "greengrow/mysql-server",
             "registryId": "805750336955",
-            "repositoryArn": "arn:aws:ecr:us-east-1:805750336955:repository/greengrow/mysql-server",
+            "repositoryUri": "805750336955.dkr.ecr.us-east-1.amazonaws.com/greengrow/flask-server",
+            "createdAt": 1529081363.0,
+            "repositoryName": "greengrow/flask-server",
+            "repositoryArn": "arn:aws:ecr:us-east-1:805750336955:repository/greengrow/flask-server"
+        },
+        {
+            "registryId": "805750336955",
+            "repositoryUri": "805750336955.dkr.ecr.us-east-1.amazonaws.com/greengrow/mysql-server",
             "createdAt": 1528570539.0,
-            "repositoryUri": "805750336955.dkr.ecr.us-east-1.amazonaws.com/greengrow/mysql-server"
+            "repositoryName": "greengrow/mysql-server",
+            "repositoryArn": "arn:aws:ecr:us-east-1:805750336955:repository/greengrow/mysql-server"
         }
     ]
 }
+
 ```
-* Ver las imagenes
+* Ver las imagenes disponibles con sus respectivos tags
 
 Una vez que tenemos el nombre del repositorio, podemos listar las imagenes
 con sus respectivos tags dentro del repo.
 ```
 $ aws ecr list-images --repository-name greengrow/mysql-server
-
+```
+```
+$ aws ecr list-images --repository-name greengrow/mysql-server
 {
     "imageIds": [
         {
-            "imageTag": "develop",
-            "imageDigest": "sha256:3b2bb5b09edce73b1bc86d4a13a4e06dd19f789bd61b84e0a66e13311d627b0d"
+            "imageDigest": "sha256:<Token>",
+            "imageTag": "latest"
         }
     ]
 }
 ```
+```
+$ aws ecr list-images --repository-name greengrow/flask-server
+{
+    "imageIds": [
+        {
+            "imageDigest": "sha256:<Token>",
+            "imageTag": "latest"
+        }
+    ]
+}
+
+```
+
+
 * Finalmente descargo la imagen.
 
 ```
 $ docker pull 805750336955.dkr.ecr.us-east-1.amazonaws.com/greengrow/mysql-server:develop
 ```
 
-Iniciar el contenedor con MySQL 
+
+Push image to AWS ECR 
 ---
 
-Previo a la inicialización del contenedor llamado mysql-server,
-es necesario crear una custom-network en Docker utilizando el comando 
-siguiente. Si desean pueden investigar un poco mas de como 
-funcionan las redes en docker leyendo este lindo [instructivo](https://github.com/conapps/conapps-iot/blob/master/Desarrollo/claseDeDocker/20170807-Networking.md#networking).
+* Obtener el comando de login para autenticar nuestro cliente Docker en el repositorio AWS ECR.
 
 ```
-$ docker network create --subnet=172.21.0.0/16 greengrow-network
+$ aws ecr get-login --no-include-email --region us-east-1
 ```
 
-Una vez creada la red, podemos levantar el contenedor con mysql.
+El comando devolverá un nuevo comando que debemos ejecutar tal cual sale en pantalla.
 
 ```
-docker run --rm --name mysql-server -d \
---net greengrow-network \
---ip 172.21.0.10 \
---hostname mysql-server \
--e 'DB_NAME=testdb' \
--e 'DB_USER=miriarte' \
--e 'DB_PASS=conatel' \
--e 'DB_NAME=testdb' \
-805750336955.dkr.ecr.us-east-1.amazonaws.com/greengrow/mysql-server:develop
+$ docker login -u AWS -p <TOKEN> https://805750336955.dkr.ecr.us-east-1.amazonaws.com
 ```
-Dicho comando inicia un contenedor utilizando la imagen descargada desde AWS ECR,
-levanta el motor mysql, crea una bbdd llamada testdb y crea un usuario llamado miriarte.
 
-De esta forma, nos queda una "Maquina Virtual" con MySQL instalado y 100% funcional. 
+
+Iniciar entorno de desarrollo
+---
+
+En esta instancia, ya estamos en condiciones de iniciar el ambiente de desarrollo.
+
+* Clono el repositorio 
+```
+$ git clone https://github.com/conapps/conapps-iot.git
+```
+
+* Me paro en la carpeta iot-greengrow
+```
+$ cd /conapps-iot/AWS Cloud/Scripts/iot-greengrow
+```
+
+* Ejecuto el siguiente comando
+```
+$ docker-compose up -d
+```
+
+Este comando ya nos deja iniciados los contenedores mysql-server y flask-server 
+listos para ser utilizados.
+
+* Para detener los contenedores ejecutamos
+```
+$ docker-compose stop
+```
+
+* Para borrar los contendores ejecutamos
+```
+$ docker-compose rm -f
+```
+
+
+
 
 ### Otros comandos útiles
 
@@ -125,10 +171,10 @@ $ docker exec -it mysql-server bash
 
 - Para conectarse a mysql desde dentro del contenedor
 ```
-$ root@mysql-server:/# mysql -u miriarte -p
+$ root@mysql-server:/# mysql -u <user> -p
 ```
 
 - Para conectarse a mysql desde fuera del contenedor
 ```
-mysql -u miriarte -p -h 172.21.0.10
+mysql -u <user> -p -h mysql-server
 ```

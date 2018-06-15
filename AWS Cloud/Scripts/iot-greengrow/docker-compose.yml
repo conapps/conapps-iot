@@ -1,0 +1,10 @@
+version: "2"
+services:
+  db:
+    image: 805750336955.dkr.ecr.us-east-1.amazonaws.com/greengrow/mysql-server:latest
+    container_name: mysql-server
+
+  flask:
+    image: 805750336955.dkr.ecr.us-east-1.amazonaws.com/greengrow/flask-server:latest
+    container_name: flask-server
+
