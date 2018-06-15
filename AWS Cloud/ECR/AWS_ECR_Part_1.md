@@ -12,17 +12,22 @@ Prerrequisitos
 
 
 Para el proyecto GreenGrow, vamos a necesitar tener instalado en 
-nuestro ambiente de desarrollo una BBDD MySQL.
+nuestro ambiente de desarrollo, un entorno de desarrollo pyhton + flask
+y por otro lado vamos a necesitar una BBDD MySQL.
 
 Para una mayor portabilidad y para que todos los desarrolladores
-tengan el mismo ambiente de desarrollo, utilizaremos Docker como
-gestor de contenedores para implementar dicha BBDD.
+tengan el mismo ambiente de desarrollo, utilizaremos Docker y Docker-compose como
+gestor de contenedores para implemenr dicho ambiente.
 
 Para ello, será necesario seguir los pasos que detallo a continuación.
 
 * **Instalar Docker**. Si no lo tienen instalado,  
 pueden seguir la [siguiente guia](https://github.com/conapps/conapps-iot/blob/master/Desarrollo/claseDeDocker/20170801-Docker.md#instalaci%C3%B3n) paso a paso.
 Powered by @Ismael.
+
+* **Instalar Docker-compose**. Si no lo tienen instalado,  
+pueden seguir la [siguiente guia]() paso a paso.
+
 
 * **Configurar la CLI de AWS**. Si no la tienen instalada y configurada, 
 pueden seguir la [siguiente guia](https://github.com/conapps/conapps-iot/blob/master/AWS%20Cloud/S3/AWS_S3.md#l%C3%ADnea-de-comandos-de-amazon-s3) paso a paso.
