@@ -48,16 +48,30 @@ $ git clone https://github.com/conapps/conapps-iot.git
 
 * Me paro en la carpeta iot-greengrow
 ```
-$ cd /conapps-iot/AWS Cloud/Scripts/iot-greengrow
+$ cd conapps-iot/AWS Cloud/Scripts/iot-greengrow
 ```
 
-* Ejecuto el siguiente comando
+* Genero el comando de login para autenticar nuestro cliente Docker en el repositorio AWS ECR.
+
+```
+$ aws ecr get-login --no-include-email --region us-east-1
+```
+
+El comando devolverá un nuevo comando que debemos ejecutar tal cual sale en pantalla.
+
+```
+$ docker login -u AWS -p <TOKEN> https://805750336955.dkr.ecr.us-east-1.amazonaws.com
+```
+
+* Finalmente, inicio el ambiente de desarrollo.
+
 ```
 $ docker-compose up -d
 ```
 
 Este comando ya nos deja iniciados los contenedores mysql-server y flask-server 
 listos para ser utilizados.
+
 
 ## Otros comandos útiles
 
@@ -70,12 +84,6 @@ $ docker-compose stop
 ```
 $ docker-compose rm -f
 ```
-
-
-
-
-
-
 
 #### Pull image from AWS ECR 
 
@@ -137,10 +145,10 @@ $ aws ecr list-images --repository-name greengrow/flask-server
 ```
 
 
-* Finalmente descargo la imagen.
+* Descargar imagen desde AWS ECR
 
 ```
-$ docker pull 805750336955.dkr.ecr.us-east-1.amazonaws.com/greengrow/mysql-server:develop
+$ docker pull 805750336955.dkr.ecr.us-east-1.amazonaws.com/greengrow/mysql-server:latest
 ```
 
 
